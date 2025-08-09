@@ -1,7 +1,7 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 
-@custom-variant dark (&:is(.dark *));
+@custom-variant dark (&:is(.aeiouly-dark *));
 
 @theme inline {
 	--color-background: var(--background);
@@ -79,7 +79,7 @@
 	--sidebar-ring: oklch(0.705 0.015 286.067);
 }
 
-.dark {
+.aeiouly-dark {
 	--primary: oklch(0.705 0.222 41.116);
 	--primary-foreground: oklch(1 0 0);
 	--background: oklch(0.208 0.005 285.823);
@@ -121,5 +121,21 @@
 
 	body {
 		@apply bg-background text-foreground;
+	}
+}
+
+#nprogress .bar {
+	background: linear-gradient(90deg, #f58529, #dd2a7b, #8134af, #515bd4) !important;
+	background-size: 300% 100% !important;
+	animation: rainbowMove 3s linear infinite !important;
+}
+
+@keyframes rainbowMove {
+	0% {
+		background-position: 0% 50%;
+	}
+
+	100% {
+		background-position: 100% 50%;
 	}
 }

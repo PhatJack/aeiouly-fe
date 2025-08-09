@@ -1,5 +1,11 @@
-import RegisterPage from "../_components/RegisterPage";
+import { Metadata } from "next";
+import RegisterForm from "../_components/RegisterForm";
 
-export default function Register() {
-  return <RegisterPage />;
+
+export const metadata: Metadata = {
+  title: "Register",
+};
+
+export default function RegisterPage() {
+  return <RegisterForm />;
 }
