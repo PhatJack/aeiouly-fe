@@ -1,3 +1,4 @@
+import { AuroraBackground } from "@/components/acternity-ui/aurora-background";
 import { GalleryVerticalEnd } from "lucide-react";
 import Link from "next/link";
 
@@ -22,11 +23,13 @@ export default function AuthLayout({
         </div>
       </div>
       <div className="bg-muted relative hidden lg:block">
-        <img
-          src="/placeholder.svg"
-          alt="Image"
-          className="absolute inset-0 h-full w-full object-cover dark:brightness-[0.2] dark:grayscale"
-        />
+        <AuroraBackground>
+          <div className="">
+            <div className="text-3xl md:text-7xl font-bold dark:text-white text-center">
+              Aeiouly
+            </div>
+          </div>
+        </AuroraBackground>
       </div>
     </div>
   );
