@@ -1,7 +1,7 @@
 import axios, { AxiosRequestConfig, AxiosResponse, isAxiosError } from "axios";
-import { refreshTokenApi } from "@/service/(auth)/refresh-token.api";
+import { refreshTokenApi } from "@/services/auth/refresh-token.api";
 const client = axios.create({
-  baseURL: process.env.DJANGO_SERVER_URL,
+  baseURL: process.env.NEXT_PUBLIC_DJANGO_SERVER_URL,
   withCredentials: true,
   headers: {
     "Content-Type": "application/json",

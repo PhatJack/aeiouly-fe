@@ -1,7 +1,3 @@
-import {
-  COOKIE_KEY_ACCESS_TOKEN,
-  COOKIE_KEY_REFRESH_TOKEN,
-} from "@/constants/cookies";
 import { apiClient } from "@/lib/client";
 import { ErrorResponseSchema } from "@/lib/schema/error";
 import { useMutation } from "@tanstack/react-query";
@@ -9,7 +5,7 @@ import z from "zod";
 import { setCookie } from "cookies-next";
 
 export const loginBodySchema = z.object({
-  email: z.email("Invalid email address"),
+  username: z.string(),
   password: z.string(),
 });
 
@@ -24,9 +20,7 @@ export const loginResponseSchema = z.object({
 
 export type LoginResponseSchema = z.infer<typeof loginResponseSchema>;
 
-export async function loginApi(
-  body: LoginBodySchema
-): Promise<LoginResponseSchema> {
+export async function loginApi(body: LoginBodySchema) {
   const response = await apiClient.post<LoginResponseSchema, LoginBodySchema>(
     "/auth/login/",
     body
@@ -40,8 +34,7 @@ export const useLoginMutation = () => {
       mutationKey: ["login"],
       mutationFn: (body) => loginApi(body),
       onSuccess: (data) => {
-        setCookie(COOKIE_KEY_ACCESS_TOKEN, data.access_token);
-        setCookie(COOKIE_KEY_REFRESH_TOKEN, data.refresh_token);
+        setCookie("isLoggedIn", "1");
       },
     }
   );

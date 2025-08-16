@@ -23,7 +23,7 @@ export async function registerApi(
   const response = await apiClient.post<
     RegisterResponseSchema,
     RegisterBodySchema
-  >("/auth/register/", body);
+  >("/auth/register", body);
   return response.data;
 }
 

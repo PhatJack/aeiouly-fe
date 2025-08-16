@@ -1,13 +1,13 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useId, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { cn } from "@/lib/utils";
-import { Eye, EyeOff } from "lucide-react";
+import { cn, toNonAccentVietnamese } from "@/lib/utils";
+import { CheckIcon, Eye, EyeOff, XIcon } from "lucide-react";
 import {
   Form,
   FormControl,
@@ -17,60 +17,98 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import Link from "next/link";
-
-// ✅ Validation schema
-const registerSchema = z
-  .object({
-    name: z.string().min(2, { message: "Name must be at least 2 characters" }),
-    email: z.email({ message: "Please enter a valid email address" }),
-    password: z
-      .string()
-      .min(6, { message: "Password must be at least 6 characters" }),
-    confirmPassword: z.string(),
-  })
-  .refine((data) => data.password === data.confirmPassword, {
-    message: "Passwords do not match",
-    path: ["confirmPassword"],
-  });
-
-type RegisterFormValues = z.infer<typeof registerSchema>;
-
+import {
+  registerBodySchema,
+  RegisterBodySchema,
+  useRegisterMutation,
+} from "@/services/auth/register.api";
+import { toast } from "sonner";
+import { useRouter } from "nextjs-toploader/app";
 const RegisterForm = () => {
-  const form = useForm<RegisterFormValues>({
-    resolver: zodResolver(registerSchema),
+  const id = useId();
+  const router = useRouter();
+  const [isShowPassword, setIsShowPassword] = useState<boolean>(false);
+  const registerForm = useForm<RegisterBodySchema>({
+    resolver: zodResolver(registerBodySchema),
     defaultValues: {
-      name: "",
+      username: "",
+      full_name: "",
       email: "",
       password: "",
-      confirmPassword: "",
     },
   });
 
-  const [isShowPassword, setIsShowPassword] = useState<boolean>(false);
-	const [isShowConfirmPassword, setIsShowConfirmPassword] = useState<boolean>(false);
+  const checkStrength = (pass: string) => {
+    const requirements = [
+      { regex: /.{8,}/, text: "Ít nhất 8 ký tự" },
+      { regex: /[0-9]/, text: "Ít nhất 1 số" },
+      { regex: /[a-z]/, text: "Ít nhất 1 chữ cái thường" },
+      { regex: /[A-Z]/, text: "Ít nhất 1 chữ cái hoa" },
+    ];
 
-  const onSubmit = (data: RegisterFormValues) => {
-    console.log("Register form submitted:", data);
+    return requirements.map((req) => ({
+      met: req.regex.test(pass),
+      text: req.text,
+    }));
+  };
+
+  const strength = checkStrength(registerForm.watch("password"));
+
+  const strengthScore = useMemo(() => {
+    return strength.filter((req) => req.met).length;
+  }, [strength]);
+
+  const getStrengthColor = (score: number) => {
+    if (score === 0) return "bg-border";
+    if (score <= 1) return "bg-red-500";
+    if (score <= 2) return "bg-orange-500";
+    if (score === 3) return "bg-amber-500";
+    return "bg-emerald-500";
+  };
+
+  const registerMutate = useRegisterMutation();
+
+  const onSubmit = (data: RegisterBodySchema) => {
+    const { username, ...rest } = data;
+    registerMutate.mutate(
+      {
+        username: toNonAccentVietnamese(data.full_name),
+        ...rest,
+      },
+      {
+        onSuccess: (data) => {
+          console.log(data);
+          toast.success("Đăng ký thành công!");
+          router.push("/login", {});
+        },
+        onError: (error) => {
+          toast.error((error as any).detail || "Đăng ký thất bại!");
+        },
+      }
+    );
   };
 
   return (
-    <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className={cn("space-y-4")}>
+    <Form {...registerForm}>
+      <form
+        onSubmit={registerForm.handleSubmit(onSubmit)}
+        className={cn("space-y-4")}
+      >
         {/* Header */}
         <div className="flex flex-col items-center gap-2 text-center">
-          <h1 className="text-2xl font-bold">Create an account</h1>
+          <h1 className="text-2xl font-bold">Tạo tài khoản mới</h1>
           <p className="text-muted-foreground text-sm text-balance">
-            Enter your details below to register
+            Nhập thông tin của bạn bên dưới để đăng ký
           </p>
         </div>
 
-        {/* Name */}
+        {/* Confirm Password */}
         <FormField
-          control={form.control}
-          name="name"
+          control={registerForm.control}
+          name="full_name"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Name</FormLabel>
+              <FormLabel>Full Name</FormLabel>
               <FormControl>
                 <Input placeholder="John Doe" {...field} />
               </FormControl>
@@ -81,7 +119,7 @@ const RegisterForm = () => {
 
         {/* Email */}
         <FormField
-          control={form.control}
+          control={registerForm.control}
           name="email"
           render={({ field }) => (
             <FormItem>
@@ -94,9 +132,24 @@ const RegisterForm = () => {
           )}
         />
 
+        {/* Username */}
+        <FormField
+          control={registerForm.control}
+          name="username"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Username</FormLabel>
+              <FormControl>
+                <Input placeholder="johndoe" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
         {/* Password */}
         <FormField
-          control={form.control}
+          control={registerForm.control}
           name="password"
           render={({ field }) => (
             <FormItem>
@@ -109,8 +162,9 @@ const RegisterForm = () => {
                   />
                   <button
                     type="button"
+                    tabIndex={-1}
                     onClick={() => setIsShowPassword((prev) => !prev)}
-                    className="absolute right-2 top-1/2 -translate-y-1/2 text-muted-foreground"
+                    className="absolute right-2 top-[10%] -translate-y-1/2 text-muted-foreground"
                   >
                     {isShowPassword ? (
                       <EyeOff className="h-4 w-4" />
@@ -118,37 +172,59 @@ const RegisterForm = () => {
                       <Eye className="h-4 w-4" />
                     )}
                   </button>
-                </div>
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-
-        {/* Confirm Password */}
-        <FormField
-          control={form.control}
-          name="confirmPassword"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Confirm Password</FormLabel>
-              <FormControl>
-                <div className="relative">
-                  <Input
-                    type={isShowConfirmPassword ? "text" : "password"}
-                    {...field}
-                  />
-                  <button
-                    type="button"
-                    onClick={() => setIsShowConfirmPassword((prev) => !prev)}
-                    className="absolute right-2 top-1/2 -translate-y-1/2 text-muted-foreground"
+                  <div
+                    className="bg-border mt-3 mb-4 h-1 w-full overflow-hidden rounded-full"
+                    role="progressbar"
+                    aria-valuenow={strengthScore}
+                    aria-valuemin={0}
+                    aria-valuemax={4}
+                    aria-label="Password strength"
                   >
-                    {isShowConfirmPassword ? (
-                      <EyeOff className="h-4 w-4" />
-                    ) : (
-                      <Eye className="h-4 w-4" />
-                    )}
-                  </button>
+                    <div
+                      className={`h-full ${getStrengthColor(
+                        strengthScore
+                      )} transition-all duration-500 ease-out`}
+                      style={{ width: `${(strengthScore / 4) * 100}%` }}
+                    ></div>
+                  </div>
+
+                  {/* Password requirements list */}
+                  <ul
+                    className="space-y-1.5"
+                    aria-label="Password requirements"
+                  >
+                    {strength.map((req, index) => (
+                      <li key={index} className="flex items-center gap-2">
+                        {req.met ? (
+                          <CheckIcon
+                            size={16}
+                            className="text-emerald-500"
+                            aria-hidden="true"
+                          />
+                        ) : (
+                          <XIcon
+                            size={16}
+                            className="text-muted-foreground/80"
+                            aria-hidden="true"
+                          />
+                        )}
+                        <span
+                          className={`text-xs ${
+                            req.met
+                              ? "text-emerald-600"
+                              : "text-muted-foreground"
+                          }`}
+                        >
+                          {req.text}
+                          <span className="sr-only">
+                            {req.met
+                              ? " - Requirement met"
+                              : " - Requirement not met"}
+                          </span>
+                        </span>
+                      </li>
+                    ))}
+                  </ul>
                 </div>
               </FormControl>
               <FormMessage />
@@ -158,35 +234,35 @@ const RegisterForm = () => {
 
         {/* Submit */}
         <Button type="submit" className="w-full cursor-pointer">
-          Register
+          Đăng ký
         </Button>
 
         {/* Divider */}
         <div className="after:border-border relative text-center text-sm after:absolute after:inset-0 after:top-1/2 after:z-0 after:flex after:items-center after:border-t">
           <span className="bg-background text-muted-foreground relative z-10 px-2">
-            Or continue with
+            Hoặc tiếp tục với
           </span>
         </div>
 
-        {/* GitHub login */}
+        {/* Google login */}
         <Button variant="outline" className="w-full" type="button">
           <svg
             role="img"
             viewBox="0 0 24 24"
             xmlns="http://www.w3.org/2000/svg"
-            className="size-4"
+            className="size-4 fill-foreground"
           >
             <title>Google</title>
             <path d="M12.48 10.92v3.28h7.84c-.24 1.84-.853 3.187-1.787 4.133-1.147 1.147-2.933 2.4-6.053 2.4-4.827 0-8.6-3.893-8.6-8.72s3.773-8.72 8.6-8.72c2.6 0 4.507 1.027 5.907 2.347l2.307-2.307C18.747 1.44 16.133 0 12.48 0 5.867 0 .307 5.387.307 12s5.56 12 12.173 12c3.573 0 6.267-1.173 8.373-3.36 2.16-2.16 2.84-5.213 2.84-7.667 0-.76-.053-1.467-.173-2.053H12.48z" />
           </svg>
-          Login with Google
+          Tiếp tục với Google
         </Button>
 
         {/* Footer */}
         <div className="text-center text-sm">
-          Already have an account?{" "}
+          Đã có tài khoản?{" "}
           <Link href="/login" className="underline underline-offset-4">
-            Login
+            Đăng nhập
           </Link>
         </div>
       </form>
