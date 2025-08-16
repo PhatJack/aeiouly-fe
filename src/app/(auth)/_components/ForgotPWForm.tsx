@@ -24,7 +24,7 @@ import {
 
 const ForgotPWForm = () => {
   const router = useRouter();
-  const loginForm = useForm<RequestPasswordResetSchema>({
+		const forgotPWForm = useForm<RequestPasswordResetSchema>({
     resolver: zodResolver(requestPasswordResetSchema),
     defaultValues: {
       email: "",
@@ -47,9 +47,9 @@ const ForgotPWForm = () => {
   };
 
   return (
-    <Form {...loginForm}>
+    <Form {...forgotPWForm}>
       <form
-        onSubmit={loginForm.handleSubmit(onSubmit)}
+        onSubmit={forgotPWForm.handleSubmit(onSubmit)}
         className={cn("space-y-6")}
       >
         {/* Header */}
@@ -64,7 +64,7 @@ const ForgotPWForm = () => {
         <div className="grid gap-6">
           {/* Email Field */}
           <FormField
-            control={loginForm.control}
+            control={forgotPWForm.control}
             name="email"
             render={({ field }) => (
               <FormItem>

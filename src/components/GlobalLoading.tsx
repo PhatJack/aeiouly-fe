@@ -12,19 +12,13 @@ const GlobalLoading = () => {
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/30">
       <motion.div
-        className="h-8 w-8 relative"
+        className="size-12 rounded-full bg-gradient-to-tr from-primary to-blue-400"
         animate={{
-          rotate: [0, 360],
-          scale: [1, 1.3, 1],
+          borderRadius: ["50%", "40% 60% 70% 30%", "60% 40% 30% 70%", "50%"],
+          scale: [1, 1.2, 1],
         }}
-        transition={{
-          rotate: { duration: 1.2, repeat: Infinity, ease: "linear" },
-          scale: { duration: 0.6, repeat: Infinity, ease: "easeInOut" },
-        }}
-      >
-        <div className="absolute inset-0 border-2 border-transparent border-l-primary rounded-full" />
-        <div className="absolute inset-0 border-2 border-transparent border-r-primary rounded-full" />
-      </motion.div>
+        transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+      />
     </div>
   );
 };

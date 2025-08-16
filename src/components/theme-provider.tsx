@@ -13,6 +13,7 @@ export function ThemeProvider({
       value={{
         dark: "aeiouly-dark",
       }}
+      storageKey="aeiouly-theme"
       {...props}
     >
       {children}
