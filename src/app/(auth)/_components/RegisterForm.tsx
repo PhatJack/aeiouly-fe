@@ -69,23 +69,15 @@ const RegisterForm = () => {
   const registerMutate = useRegisterMutation();
 
   const onSubmit = (data: RegisterBodySchema) => {
-    const { username, ...rest } = data;
-    registerMutate.mutate(
-      {
-        username: toNonAccentVietnamese(data.full_name),
-        ...rest,
+    registerMutate.mutate(data, {
+      onSuccess: (data) => {
+        toast.success("Đăng ký thành công!");
+        router.push("/login", {});
       },
-      {
-        onSuccess: (data) => {
-          console.log(data);
-          toast.success("Đăng ký thành công!");
-          router.push("/login", {});
-        },
-        onError: (error) => {
-          toast.error((error as any).detail || "Đăng ký thất bại!");
-        },
-      }
-    );
+      onError: (error) => {
+        toast.error((error as any).detail || "Đăng ký thất bại!");
+      },
+    });
   };
 
   return (

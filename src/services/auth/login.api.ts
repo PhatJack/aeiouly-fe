@@ -22,7 +22,7 @@ export type LoginResponseSchema = z.infer<typeof loginResponseSchema>;
 
 export async function loginApi(body: LoginBodySchema) {
   const response = await apiClient.post<LoginResponseSchema, LoginBodySchema>(
-    "/auth/login/",
+    "/auth/login",
     body
   );
   return response.data;
