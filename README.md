@@ -1,5 +1,28 @@
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
+<div align="center">
+  <a href="https://synapse-discussion-forum.vercel.app/" target="_blank">
+    <img
+      src="https://img.shields.io/website?label=Live%20Demo&style=for-the-badge&url=https%3A%2F%2Fsynapse-discussion-forum.vercel.app%2F&up_color=06B6D4"
+      alt="Live Demo"
+    />
+  </a>
+  <img
+    src="https://img.shields.io/github/languages/code-size/PhatJack/aeiouly-fe?style=for-the-badge&color=8B5CF6"
+    alt="Code Size"
+  />
+  <img
+    src="https://img.shields.io/github/last-commit/PhatJack/aeiouly-fe?style=for-the-badge&color=F59E0B"
+    alt="Last Commit"
+  />
+  <a href="https://github.com/dhlananhh/synapse-client/blob/main/LICENSE.md" target="_blank">
+    <img
+      src="https://img.shields.io/github/license/PhatJack/aeiouly-fe?style=for-the-badge&color=EC4899"
+      alt="License"
+    />
+  </a>
+</div>
+
 ## Getting Started
 
 First, run the development server:
