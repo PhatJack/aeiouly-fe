@@ -21,15 +21,15 @@ import {
   ConfirmPasswordResetSchema,
   useConfirmPasswordResetMutation,
 } from "@/services/auth/forgot-password.api";
-import { useParams } from "next/navigation";
+import { useParams, useSearchParams } from "next/navigation";
 
 const PasswordResetForm = () => {
-  const { token } = useParams();
+  const searchParams = useSearchParams();
   const router = useRouter();
   const passwordResetForm = useForm<ConfirmPasswordResetSchema>({
     resolver: zodResolver(confirmPasswordResetSchema),
     defaultValues: {
-      token: (token as string) || "",
+      token: (searchParams.get("token") as string) || "",
       new_password: "",
     },
   });
@@ -86,22 +86,24 @@ const PasswordResetForm = () => {
           <Button type="submit" className="w-full">
             Đặt lại mật khẩu
           </Button>
-          <Button
-            type="button"
-            variant="link"
-            className="w-full"
-            onClick={() => router.push("/forgot-password")}
-          >
-            Trở lại trang quên mật khẩu
-          </Button>
-          <Button
-            type="button"
-            variant="secondary"
-            className="w-full"
-            onClick={() => router.push("/login")}
-          >
-            Trở lại trang đăng nhập
-          </Button>
+          <div className="grid">
+            <Button
+              type="button"
+              variant="link"
+              className="w-full"
+              onClick={() => router.push("/forgot-password")}
+            >
+              Trở lại trang quên mật khẩu
+            </Button>
+            <Button
+              type="button"
+              variant="secondary"
+              className="w-full"
+              onClick={() => router.push("/login")}
+            >
+              Trở lại trang đăng nhập
+            </Button>
+          </div>
         </div>
       </form>
     </Form>

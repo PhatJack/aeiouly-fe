@@ -13,7 +13,7 @@ export type RequestPasswordResetSchema = z.infer<
 
 export const confirmPasswordResetSchema = z.object({
   token: z.string(),
-  new_password: z.string(),
+  new_password: z.string("New password is required").min(8, "Password must be at least 8 characters long"),
 });
 
 export type ConfirmPasswordResetSchema = z.infer<
