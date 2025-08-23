@@ -11,6 +11,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import Sidebar from "@/components/shared/Sidebar";
 import { usePathname } from "next/navigation";
 import { ROUTE } from "@/configs/route";
+import { cn } from "@/lib/utils";
 
 const queryClient = getQueryClient();
 const Providers = ({
@@ -28,7 +29,14 @@ const Providers = ({
         <TooltipProvider>
           <AuthProvider>
             {!excludedPaths.includes(location) ? <Sidebar /> : null}
-            <main className="size-full rounded-l-3xl bg-white border p-3">{children}</main>
+            <main
+              className={cn(
+                "size-full bg-white",
+                !excludedPaths.includes(location) ? "p-3 rounded-l-3xl border" : ""
+              )}
+            >
+              {children}
+            </main>
           </AuthProvider>
         </TooltipProvider>
         <Toaster
