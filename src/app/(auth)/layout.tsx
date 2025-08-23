@@ -1,5 +1,5 @@
 import { AuroraBackground } from "@/components/acternity-ui/aurora-background";
-import { GalleryVerticalEnd } from "lucide-react";
+import { BrainCircuit, GalleryVerticalEnd } from "lucide-react";
 import Link from "next/link";
 
 export default function AuthLayout({
@@ -12,8 +12,8 @@ export default function AuthLayout({
       <div className="flex flex-col gap-4 p-6 md:p-10">
         <div className="flex justify-center gap-2 md:justify-start">
           <Link href="/" className="flex items-center gap-2 font-medium">
-            <div className="bg-primary text-primary-foreground flex size-6 items-center justify-center rounded-md">
-              <GalleryVerticalEnd className="size-4" />
+            <div className="bg-primary text-primary-foreground flex size-10 items-center justify-center rounded-md">
+              <BrainCircuit className="size-5" />
             </div>
             Aeiouly
           </Link>

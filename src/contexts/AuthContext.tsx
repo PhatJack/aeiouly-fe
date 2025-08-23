@@ -11,6 +11,7 @@ import {
   useEffect,
   useContext,
 } from "react";
+import { toast } from "sonner";
 
 interface InitialAuthContextType {
   user: UserSchema | null;
@@ -55,9 +56,14 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   useEffect(() => {
     const getUser = async () => {
-      const res = await getMeApi();
-      if (res) {
-        dispatch({ type: "SET_USER", payload: res });
+      try {
+        const res = await getMeApi();
+        if (res) {
+          dispatch({ type: "SET_USER", payload: res });
+        } else {
+        }
+      } catch (error: any) {
+        toast.error(error.detail || "Có lỗi xảy ra, vui lòng thử lại sau");
       }
     };
     if (getCookie("isLoggedIn") === "1") {
@@ -69,7 +75,10 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
 
-export const useAuthContext = (): [InitialAuthContextType, Dispatch<AuthAction>] => {
+export const useAuthContext = (): [
+  InitialAuthContextType,
+  Dispatch<AuthAction>
+] => {
   const context = useContext(AuthContext);
   if (!context) {
     throw new Error("useAuthContext must be used within an AuthProvider");
