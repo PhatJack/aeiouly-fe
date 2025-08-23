@@ -7,6 +7,10 @@ import { Toaster } from "@/components/ui/sonner";
 import GlobalLoading from "@/components/GlobalLoading";
 import { useTheme } from "next-themes";
 import { AuthProvider } from "@/contexts/AuthContext";
+import { TooltipProvider } from "@/components/ui/tooltip";
+import Sidebar from "@/components/shared/Sidebar";
+import { usePathname } from "next/navigation";
+import { ROUTE } from "@/configs/route";
 
 const queryClient = getQueryClient();
 const Providers = ({
@@ -15,12 +19,18 @@ const Providers = ({
   children: React.ReactNode;
 }>) => {
   const { theme } = useTheme();
-
+  const location = usePathname();
+  const excludedPaths = Object.values(ROUTE.AUTH);
   return (
     <>
       <QueryClientProvider client={queryClient}>
         <NextTopLoader color="hsl(150 30% 45%)" zIndex={9999} />
-        <AuthProvider>{children}</AuthProvider>
+        <TooltipProvider>
+          <AuthProvider>
+            {!excludedPaths.includes(location) ? <Sidebar /> : null}
+            <main className="size-full rounded-l-3xl bg-white border p-3">{children}</main>
+          </AuthProvider>
+        </TooltipProvider>
         <Toaster
           position="top-right"
           toastOptions={{}}

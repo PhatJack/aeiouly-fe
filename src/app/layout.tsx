@@ -5,6 +5,7 @@ import { ThemeProvider } from "@/components/theme-provider";
 import { TransitionLayout } from "@/layouts/TransitionLayout";
 import Providers from "./providers";
 import NextTopLoader from "nextjs-toploader";
+import Sidebar from "@/components/shared/Sidebar";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -32,18 +33,15 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-gray-100 dark:bg-gray-900 flex`}
       >
-        <NextTopLoader showSpinner={false} />
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
           enableSystem
           disableTransitionOnChange
         >
-          <Providers>
-            <TransitionLayout>{children}</TransitionLayout>
-          </Providers>
+          <Providers>{children}</Providers>
         </ThemeProvider>
       </body>
     </html>
