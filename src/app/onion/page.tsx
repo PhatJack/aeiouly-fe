@@ -1,9 +1,9 @@
 import React from 'react'
 
-const OnionPage = () => {
+const Page = () => {
 	return (
-		<div>OnionPage</div>
+		<div>Page</div>
 	)
 }
 
-export default OnionPage
+export default Page

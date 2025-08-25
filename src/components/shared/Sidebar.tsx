@@ -17,6 +17,7 @@ import { cn } from "@/lib/utils";
 import { useAuthContext } from "@/contexts/AuthContext";
 import AvatarCustom from "../custom/AvatarCustom";
 import { Button } from "../ui/button";
+import { fadeInRightVariants } from "@/constants/animations/variants";
 
 const menu = [
   { title: "Học tập", icon: <House />, href: ROUTE.HOME },
@@ -37,7 +38,7 @@ const Sidebar = () => {
 
   if (!isMounted) {
     return (
-      <aside className="h-screen sticky top-0 min-w-20 overflow-hidden p-4 bg-gray-50 flex flex-col gap-4">
+      <aside className="h-screen sticky top-0 min-w-20 overflow-hidden p-4 flex flex-col gap-4">
         <div className="flex items-center space-x-2 p-2">
           <BrainCircuit />
         </div>
@@ -59,38 +60,34 @@ const Sidebar = () => {
   return (
     <motion.aside
       initial={false} // Prevent initial animation to avoid hydration issues
-      animate={{ width: isMounted && hovered ? "14rem" : "4rem" }}
+      animate={{ width: isMounted && hovered ? "16rem" : "4rem" }}
       transition={{ type: "spring", stiffness: 300, damping: 30 }}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
-      className="h-screen sticky top-0 min-w-16 overflow-hidden p-3 bg-gray-50 dark:bg-gray-800 flex flex-col gap-2"
+      className="h-screen sticky top-0 min-w-20 overflow-hidden p-4 flex flex-col gap-2"
     >
       {/* Logo */}
-      <Link href={ROUTE.HOME} className="flex items-center space-x-2 p-2">
+      <Link href={ROUTE.HOME} className="flex items-center space-x-2 p-3">
         <span>
           <BrainCircuit />
         </span>
         {isMounted && hovered && (
-          <motion.span
-            initial={{ opacity: 0, x: -10 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.2 }}
-            className="font-semibold"
-          >
+          <motion.span variants={fadeInRightVariants} className="font-semibold">
             Aeiouly
           </motion.span>
         )}
       </Link>
 
-      <Link href={ROUTE.CREATE} className="flex items-center gap-2 p-2">
+      <Link
+        href={ROUTE.CREATE}
+        className="flex items-center gap-2 p-3 bg-primary text-white hover:bg-primary/80 rounded-full"
+      >
         <span>
           <PlusSquare />
         </span>
         {isMounted && hovered && (
           <motion.span
-            initial={{ opacity: 0, x: -10 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.2 }}
+            variants={fadeInRightVariants}
             className="text-sm font-medium whitespace-nowrap"
           >
             Create Topic
@@ -106,21 +103,20 @@ const Sidebar = () => {
           <motion.li
             key={index}
             onClick={() => setSelectedTab(index)}
-            className="flex items-center gap-2 relative cursor-pointer p-2 rounded-md hover:bg-secondary/20 transition-all"
+            className="flex items-center gap-2 relative cursor-pointer p-3 rounded-full hover:bg-secondary/20 transition-all"
           >
             <Link href={item.href} className="absolute inset-0" />
             <span
               className={cn(
-                index === selectedTab && "text-secondary-foreground whitespace-nowrap"
+                index === selectedTab &&
+                  "text-secondary-foreground whitespace-nowrap"
               )}
             >
               {item.icon}
             </span>
             {isMounted && hovered && (
               <motion.span
-                initial={{ opacity: 0, x: -10 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.2 }}
+                variants={fadeInRightVariants}
                 className={cn(
                   "text-sm font-medium whitespace-nowrap",
                   index === selectedTab && "text-secondary-foreground"
@@ -132,7 +128,7 @@ const Sidebar = () => {
 
             {isMounted && index === selectedTab ? (
               <motion.div
-                className="absolute inset-0 bg-secondary rounded-md -z-10"
+                className="absolute inset-0 bg-secondary rounded-full -z-10"
                 layoutId="background"
                 transition={{ type: "spring", stiffness: 300, damping: 30 }}
               />
@@ -142,10 +138,20 @@ const Sidebar = () => {
       </ul>
       <div className="flex-1 flex flex-col justify-end">
         {state.user ? (
-          <div className="flex gap-2">
-            <AvatarCustom url={state.user.avatar || ""} />
-            <span className="text-sm font-medium">{state.user.full_name}</span>
-          </div>
+          <Link
+            href={ROUTE.PROFILE}
+            className="flex items-center gap-2 overflow-hidden"
+          >
+            <AvatarCustom className="size-10" url={state.user.avatar || ""} />
+            {isMounted && hovered && (
+              <motion.span
+                variants={fadeInRightVariants}
+                className="text-sm font-medium whitespace-nowrap"
+              >
+                {state.user.full_name}
+              </motion.span>
+            )}
+          </Link>
         ) : (
           <Button
             className="has-[>svg]:px-2 py-2 whitespace-nowrap h-10"

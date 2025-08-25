@@ -156,7 +156,7 @@ const RegisterForm = () => {
                     type="button"
                     tabIndex={-1}
                     onClick={() => setIsShowPassword((prev) => !prev)}
-                    className="absolute right-2 top-[10%] -translate-y-1/2 text-muted-foreground"
+                    className="absolute right-4 top-[12%] -translate-y-1/2 text-muted-foreground"
                   >
                     {isShowPassword ? (
                       <EyeOff className="h-4 w-4" />
