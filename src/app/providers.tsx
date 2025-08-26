@@ -5,7 +5,6 @@ import { QueryClientProvider } from "@tanstack/react-query";
 import NextTopLoader from "nextjs-toploader";
 import { Toaster } from "@/components/ui/sonner";
 import GlobalLoading from "@/components/GlobalLoading";
-import { useTheme } from "next-themes";
 import { AuthProvider } from "@/contexts/AuthContext";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import Sidebar from "@/components/shared/Sidebar";
@@ -19,7 +18,6 @@ const Providers = ({
 }: Readonly<{
   children: React.ReactNode;
 }>) => {
-  const { theme } = useTheme();
   const location = usePathname();
   const excludedPaths = Object.values(ROUTE.AUTH);
   return (
@@ -32,7 +30,7 @@ const Providers = ({
             <main
               className={cn(
                 "size-full bg-white",
-                !excludedPaths.includes(location) ? "p-3 rounded-l-3xl border" : ""
+                !excludedPaths.includes(location) ? "px-6 py-5 rounded-l-3xl border" : ""
               )}
             >
               {children}

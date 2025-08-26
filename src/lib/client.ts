@@ -65,7 +65,6 @@ export const apiClient = {
     );
   },
 };
-
 client.interceptors.response.use(
   (response) => {
     return response;
@@ -73,7 +72,7 @@ client.interceptors.response.use(
   async (error: any) => {
     const originalRequest = error.config;
     if (
-      error.response?.data?.code === "token_not_valid" &&
+      error.response?.data?.detail?.code === "token_missing" &&
       !originalRequest?._retry
     ) {
       originalRequest._retry = true;

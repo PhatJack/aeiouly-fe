@@ -8,7 +8,7 @@ export type RefreshTokenResponse = z.infer<typeof refreshTokenResponseSchema>;
 
 export async function refreshTokenApi() {
   const response = await apiClient.post<RefreshTokenResponse>(
-    "/auth/refresh-token",
+    "/auth/refresh",
     {}
   );
   return response.data;

@@ -1,7 +1,6 @@
 "use client";
 import { UserSchema } from "@/lib/schema/user.schema";
-import { getMeApi } from "@/services/auth/get-me.api";
-import { getCookie } from "cookies-next";
+import { useGetMeQuery } from "@/services/auth/get-me.api";
 import {
   Dispatch,
   ReactNode,
@@ -11,16 +10,17 @@ import {
   useEffect,
   useContext,
 } from "react";
-import { toast } from "sonner";
 
 interface InitialAuthContextType {
   user: UserSchema | null;
   logout: () => void;
+  isLoading?: boolean;
 }
 
 const initialState: InitialAuthContextType = {
   user: null,
   logout: () => {},
+  isLoading: false,
 };
 
 export type AuthAction =
@@ -30,6 +30,10 @@ export type AuthAction =
     }
   | {
       type: "LOGOUT";
+    }
+  | {
+      type: "SET_LOADING";
+      payload: boolean;
     };
 
 export const AuthContext = createContext<{
@@ -46,6 +50,8 @@ const reducer = (
       return { ...state, user: action.payload };
     case "LOGOUT":
       return { ...state, user: null };
+    case "SET_LOADING":
+      return { ...state, isLoading: action.payload };
     default:
       return state;
   }
@@ -54,22 +60,21 @@ const reducer = (
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
 
+  const { data, isLoading } = useGetMeQuery();
+
   useEffect(() => {
-    const getUser = async () => {
-      try {
-        const res = await getMeApi();
-        if (res) {
-          dispatch({ type: "SET_USER", payload: res });
-        } else {
-        }
-      } catch (error: any) {
-        toast.error(error.detail || "Có lỗi xảy ra, vui lòng thử lại sau");
-      }
-    };
-    if (getCookie("isLoggedIn") === "1") {
-      getUser();
+    if (data) {
+      dispatch({ type: "SET_USER", payload: data });
     }
-  }, [getCookie("isLoggedIn")]);
+  }, [data]);
+
+  useEffect(() => {
+    if (isLoading) {
+      dispatch({ type: "SET_LOADING", payload: true });
+    } else {
+      dispatch({ type: "SET_LOADING", payload: false });
+    }
+  }, [isLoading]);
 
   const value = useMemo(() => ({ state, dispatch }), [state, dispatch]);
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

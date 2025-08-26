@@ -1,10 +1,9 @@
-import { ModeToggle } from "@/components/mode-toggle";
-
+import Banner from "@/components/Banner";
 
 export default function Home() {
   return (
-    <div className="h-screen">
-			123
+    <div className="min-h-screen">
+      <Banner />
     </div>
   );
 }

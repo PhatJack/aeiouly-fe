@@ -72,7 +72,12 @@ const Sidebar = () => {
           <BrainCircuit />
         </span>
         {isMounted && hovered && (
-          <motion.span variants={fadeInRightVariants} className="font-semibold">
+          <motion.span
+            variants={fadeInRightVariants}
+            initial={"initial"}
+            animate={"animate"}
+            className="font-semibold"
+          >
             Aeiouly
           </motion.span>
         )}
@@ -88,6 +93,8 @@ const Sidebar = () => {
         {isMounted && hovered && (
           <motion.span
             variants={fadeInRightVariants}
+            initial={"initial"}
+            animate={"animate"}
             className="text-sm font-medium whitespace-nowrap"
           >
             Create Topic
@@ -117,6 +124,8 @@ const Sidebar = () => {
             {isMounted && hovered && (
               <motion.span
                 variants={fadeInRightVariants}
+                initial={"initial"}
+                animate={"animate"}
                 className={cn(
                   "text-sm font-medium whitespace-nowrap",
                   index === selectedTab && "text-secondary-foreground"
@@ -142,10 +151,15 @@ const Sidebar = () => {
             href={ROUTE.PROFILE}
             className="flex items-center gap-2 overflow-hidden"
           >
-            <AvatarCustom className="size-10" url={state.user.avatar || ""} />
+            <AvatarCustom
+              className="size-10"
+              url={state.user.avatar || "/avatar.gif"}
+            />
             {isMounted && hovered && (
               <motion.span
                 variants={fadeInRightVariants}
+                initial={"initial"}
+                animate={"animate"}
                 className="text-sm font-medium whitespace-nowrap"
               >
                 {state.user.full_name}
