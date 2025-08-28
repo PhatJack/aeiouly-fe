@@ -1,9 +1,10 @@
 export const ROUTE = {
   HOME: "/",
-  CREATE: "/create",
+  TOPIC: "/topic",
   LEARN: "/learn",
   ONION: "/onion",
   GYM: "/gym",
+	NEWS: "/news",
   USER: (username: string) => `/u/${username}`,
   PROFILE: `/profile`,
   AUTH: {

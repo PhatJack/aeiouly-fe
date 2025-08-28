@@ -7,6 +7,7 @@ import {
   House,
   LogIn,
   Mic,
+  Newspaper,
   PlusSquare,
   User2,
 } from "lucide-react";
@@ -20,10 +21,16 @@ import { Button } from "../ui/button";
 import { fadeInRightVariants } from "@/constants/animations/variants";
 
 const menu = [
-  { title: "Học tập", icon: <House />, href: ROUTE.HOME },
-  { title: "Luyện nói", icon: <Mic />, href: ROUTE.ONION },
-  { title: "Gym", icon: <GraduationCap />, href: ROUTE.GYM },
-  { title: "Profile", icon: <User2 />, href: ROUTE.PROFILE },
+  { title: "Học tập", icon: <House />, href: ROUTE.HOME, id: "home" },
+  { title: "Luyện nói", icon: <Mic />, href: ROUTE.ONION, id: "onion" },
+  { title: "Gym", icon: <GraduationCap />, href: ROUTE.GYM, id: "gym" },
+  { title: "Bảng tin", icon: <Newspaper />, href: ROUTE.NEWS, id: "news" },
+  // {
+  //   title: "Profile",
+  //   icon: <User2 />,
+  //   href: (username: string) => ROUTE.USER(username),
+  //   id: "profile",
+  // },
 ];
 
 const Sidebar = () => {
@@ -84,7 +91,8 @@ const Sidebar = () => {
       </Link>
 
       <Link
-        href={ROUTE.CREATE}
+        href={ROUTE.TOPIC}
+        id="create-topic"
         className="flex items-center gap-2 p-3 bg-primary text-white hover:bg-primary/80 rounded-full"
       >
         <span>
@@ -109,6 +117,7 @@ const Sidebar = () => {
         {menu.map((item, index) => (
           <motion.li
             key={index}
+            id={item.id}
             onClick={() => setSelectedTab(index)}
             className="flex items-center gap-2 relative cursor-pointer p-3 rounded-full hover:bg-secondary/20 transition-all"
           >
@@ -148,11 +157,11 @@ const Sidebar = () => {
       <div className="flex-1 flex flex-col justify-end">
         {state.user ? (
           <Link
-            href={ROUTE.PROFILE}
+            href={`/u/${state.user.username}`}
             className="flex items-center gap-2 overflow-hidden"
           >
             <AvatarCustom
-              className="size-10"
+              className="size-12"
               url={state.user.avatar || "/avatar.gif"}
             />
             {isMounted && hovered && (

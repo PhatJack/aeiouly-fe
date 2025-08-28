@@ -14,5 +14,6 @@ export const useGetMeQuery = () => {
     queryKey: ["me"],
     queryFn: () => getMeApi(),
     enabled: !!getCookie("isLoggedIn"),
+    refetchOnWindowFocus: false
   });
 };
