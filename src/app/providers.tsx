@@ -29,7 +29,7 @@ const Providers = ({
             {!excludedPaths.includes(location) ? <Sidebar /> : null}
             <main
               className={cn(
-                "size-full bg-white",
+                "size-full bg-white min-h-screen",
                 !excludedPaths.includes(location) ? "px-6 py-5 rounded-l-3xl border" : ""
               )}
             >

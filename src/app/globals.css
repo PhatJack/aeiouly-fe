@@ -84,7 +84,7 @@
 	--popover-foreground: oklch(0.2101 0.0318 264.6645);
 	--primary: oklch(71.58% 0.18812 44.639);
 	--primary-foreground: oklch(1.0000 0 0);
-	--secondary:oklch(76.541% 0.14649 169.253);
+	--secondary: oklch(76.541% 0.14649 169.253);
 	--secondary-foreground: oklch(1.0000 0 0);
 	--muted: oklch(0.9670 0.0029 264.5419);
 	--muted-foreground: oklch(0.5510 0.0234 264.3637);
@@ -182,6 +182,20 @@
 	}
 }
 
+@layer utilities {
+	.no-scrollbar::-webkit-scrollbar {
+		display: none;
+	}
+
+	/* Hide scrollbar for IE, Edge and Firefox */
+	.no-scrollbar {
+		-ms-overflow-style: none;
+		/* IE and Edge */
+		scrollbar-width: none;
+		/* Firefox */
+	}
+}
+
 #nprogress .bar {
 	background: linear-gradient(90deg, #f58529, #dd2a7b, #8134af, #515bd4) !important;
 	background-size: 300% 100% !important;
@@ -196,4 +210,42 @@
 	100% {
 		background-position: 100% 50%;
 	}
+}
+
+/* Driver.js Custom Styling */
+/* Overlay background */
+
+.driver-popover * {
+	font-family: "Be Vietnam Pro", sans-serif;
+}
+
+.driver-popover.aeiouly-custom {
+	@apply p-6 max-w-lg rounded-xl
+}
+
+/* Arrow pointing towards the highlighted element */
+.driver-popover.aeiouly-custom .driver-popover-arrow {}
+
+/* Title and description */
+.driver-popover.aeiouly-custom .driver-popover-title {}
+
+.driver-popover.aeiouly-custom .driver-popover-description {}
+
+
+/* Close button displayed on the top right corner */
+.driver-popover.aeiouly-custom .driver-popover-close-btn {}
+
+/* Footer of the popover displaying progress and navigation buttons */
+.driver-popover.aeiouly-custom .driver-popover-footer {}
+
+.driver-popover.aeiouly-custom .driver-popover-progress-text {
+	@apply p-2 rounded-lg text-sm bg-secondary text-secondary-foreground ;
+}
+
+.driver-popover.aeiouly-custom .driver-popover-prev-btn {
+	@apply px-4 py-2 text-sm rounded-lg border border-border bg-card text-foreground hover:bg-accent hover:text-accent-foreground transition-all;
+}
+
+.driver-popover.aeiouly-custom .driver-popover-next-btn {
+	@apply px-4 py-2 text-sm rounded-lg border border-border bg-card text-foreground hover:bg-accent hover:text-accent-foreground transition-all;
 }
