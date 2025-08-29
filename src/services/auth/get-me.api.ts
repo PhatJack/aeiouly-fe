@@ -13,7 +13,7 @@ export const useGetMeQuery = () => {
   return useQuery<UserSchema, ErrorResponseSchema>({
     queryKey: ["me"],
     queryFn: () => getMeApi(),
-    enabled: !!getCookie("isLoggedIn"),
+    // enabled: !!getCookie("isLoggedIn"),
     refetchOnWindowFocus: false
   });
 };

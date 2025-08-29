@@ -13,10 +13,11 @@ export async function middleware(request: NextRequest) {
   const currentPath = request.nextUrl.pathname;
   const token = (await cookies()).get(COOKIE_KEY_ACCESS_TOKEN)?.value;
   const refreshToken = (await cookies()).get(COOKIE_KEY_REFRESH_TOKEN)?.value;
+  const isLoggedIn = (await cookies()).get("isLoggedIn")?.value === "1";
   const isProtected = protectedRoutes.some(
     (route) => currentPath === route || currentPath.startsWith(`${route}/`)
   );
-  if (isProtected && !token && !refreshToken) {
+  if (isProtected && !token && !refreshToken && !isLoggedIn) {
     return NextResponse.redirect(
       new URL("/login", request.nextUrl.origin).toString()
     );
