@@ -21,7 +21,6 @@ const CreatePost = () => {
   const createPostForm = useForm<PostCreateSchema>({
     resolver: zodResolver(postCreateSchema),
     defaultValues: {
-      title: "",
       content: "",
       is_published: true,
     },
@@ -32,7 +31,7 @@ const CreatePost = () => {
     postMutation.mutate(data, {
       onSuccess: () => {
         toast.success("Đăng bài viết thành công");
-        // createPostForm.reset();
+        createPostForm.reset();
       },
     });
   };

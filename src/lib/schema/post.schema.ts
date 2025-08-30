@@ -3,10 +3,6 @@ import { createListResponseSchema } from "./pagination";
 
 // Base schemas
 export const postBaseSchema = z.object({
-  title: z
-    .string()
-    .min(1, "Tiêu đề không được để trống")
-    .max(200, "Tiêu đề quá dài"),
   content: z.string().min(1, "Nội dung không được để trống"),
   is_published: z.boolean(),
 });
@@ -14,11 +10,6 @@ export const postBaseSchema = z.object({
 export const postCreateSchema = postBaseSchema;
 
 export const postUpdateSchema = z.object({
-  title: z
-    .string()
-    .min(1, "Tiêu đề không được để trống")
-    .max(200, "Tiêu đề quá dài")
-    .optional(),
   content: z.string().min(1, "Nội dung không được để trống").optional(),
   is_published: z.boolean().optional(),
 });
@@ -32,12 +23,11 @@ export const authorResponseSchema = z.object({
 
 export const postResponseSchema = z.object({
   id: z.number(),
-  title: z.string(),
   content: z.string(),
   is_published: z.boolean(),
   author: authorResponseSchema, // Nested author object thay vì flat fields
   likes_count: z.number(),
-  is_liked_by_user: z.boolean().nullable().optional(),
+  is_liked_by_user: z.boolean(),
   created_at: z.string().or(z.date()),
   updated_at: z.string().or(z.date()).nullable(),
 });

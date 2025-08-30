@@ -1,15 +1,30 @@
 "use client";
 
 import AvatarCustom from "@/components/custom/AvatarCustom";
-import React, { memo } from "react";
+import React, { memo, useCallback } from "react";
 import LikeButton from "./LikeButton";
+import { PostResponseSchema } from "@/lib/schema/post.schema";
+import { useTogglePostLikeMutation } from "@/services/posts";
+import { formatDistanceToNow } from "date-fns";
+import { vi } from "date-fns/locale";
+interface PostItemProps {
+  post: PostResponseSchema;
+}
 
-interface PostItemProps {}
+const PostItem = ({ post }: PostItemProps) => {
+  const toggleLikeMutation = useTogglePostLikeMutation();
 
-const PostItem = () => {
+  const handleLikeToggle = useCallback(() => {
+    toggleLikeMutation.mutate(post.id, {
+      onSuccess: (data) => {
+        post.is_liked_by_user = data.is_liked;
+        post.likes_count = data.likes_count;
+      },
+    });
+  }, [post.id]);
 
   return (
-    <div className="w-full max-w-2xl mx-auto p-4 transition">
+    <div className="w-full p-4">
       {/* Header */}
       <div className="flex items-start gap-3">
         <AvatarCustom url="/avatar.gif" />
@@ -17,14 +32,22 @@ const PostItem = () => {
           <div className="flex justify-between items-center">
             <div className="flex items-center gap-2">
               <p className="font-semibold text-gray-900 dark:text-gray-100">
-                Author
+                {post?.author.username}
               </p>
               <span className="text-gray-400">•</span>
               <span className="text-sm text-gray-500 dark:text-gray-400">
-                Date
+                {post?.created_at &&
+                  formatDistanceToNow(new Date(post?.created_at), {
+                    addSuffix: true,
+                    locale: vi,
+                  })}
               </span>
             </div>
-            <LikeButton onClick={() => console.log("Liked!")} totalLikes={2} />
+            <LikeButton
+              onClick={handleLikeToggle}
+              totalLikes={post.likes_count}
+              isLikedByUser={post.is_liked_by_user}
+            />
           </div>
         </div>
       </div>
@@ -33,8 +56,7 @@ const PostItem = () => {
       <div
         className="mt-3 text-gray-700 dark:text-gray-300 leading-relaxed text-base"
         dangerouslySetInnerHTML={{
-          __html:
-            "<p>Nan Ngôn là nỗi lòng không thể nói ra của Quỷ Lệ, là bức thư tình Trương Tiểu Phàm dành cho Lục Tuyết Kỳ nhưng chưa bao giờ đến được tay nàng.<br/>Cuộc đời Quỷ Lệ là một chuỗi những tháng ngày giằng xé không ngừng...</p>",
+          __html: post?.content || "",
         }}
       />
     </div>

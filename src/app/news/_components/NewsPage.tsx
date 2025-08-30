@@ -19,14 +19,13 @@ const NewsPage = () => {
       fetchNextPage();
     }
   }, [fetchNextPage, inView]);
-  // console.log(posts.);
   return (
-    <div className="w-full flex">
-      {state.user?.role === "ADMIN" && <CreatePost />}
-      <div ref={ref} className="max-w-3xl mx-auto grid gap-6 divide-y">
-        {posts &&
-          posts.items.length > 0 &&
-          posts.items.map((post) => <PostItem key={post.id} {...post} />)}
+    <div className="w-full grid gap-6 lg:grid-cols-12">
+      <div className="lg:col-span-3">
+        {state.user?.role === "admin" && <CreatePost />}
+      </div>
+      <div ref={ref} className="lg:col-span-5 grid gap-6 divide-y">
+        {posts && posts.items.map((post) => <PostItem key={post.id} post={post} />)}
       </div>
     </div>
   );
