@@ -1,4 +1,5 @@
 "use client";
+import { CountingNumber } from "@/components/animate-ui/counting-number";
 import { IconButton } from "@/components/animate-ui/icon-button";
 import { cn } from "@/lib/utils";
 import { Heart } from "lucide-react";
@@ -26,11 +27,7 @@ const LikeButton: React.FC<LikeButtonProps> = ({
 
   return (
     <div className="flex items-center gap-1">
-      {
-        <span className="text-lg font-medium">
-          {isLiked ? totalLikes + 1 : totalLikes}
-        </span>
-      }
+      <CountingNumber number={isLiked ? totalLikes + 1 : totalLikes} />
       <IconButton
         className={cn(className)}
         icon={Heart}

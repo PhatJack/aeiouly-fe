@@ -1,5 +1,11 @@
 import axios, { AxiosRequestConfig, AxiosResponse, isAxiosError } from "axios";
 import { refreshTokenApi } from "@/services/auth/refresh-token.api";
+import { redirectToLogin } from "./auth-utils";
+import { deleteCookie } from "cookies-next/client";
+import {
+  COOKIE_KEY_ACCESS_TOKEN,
+  COOKIE_KEY_REFRESH_TOKEN,
+} from "@/constants/cookies";
 const client = axios.create({
   baseURL: process.env.NEXT_PUBLIC_DJANGO_SERVER_URL,
   withCredentials: true,
@@ -80,7 +86,12 @@ client.interceptors.response.use(
         await refreshTokenApi();
         return client(originalRequest);
       } catch (error) {
-        window.location.href = "/login";
+        // Clear cookies before redirect to prevent infinite loop
+        // clearAuthCookies();
+        deleteCookie(COOKIE_KEY_ACCESS_TOKEN);
+        deleteCookie(COOKIE_KEY_REFRESH_TOKEN);
+        deleteCookie("isLoggedIn");
+        redirectToLogin();
         return Promise.reject(error);
       }
     }

@@ -1,6 +1,7 @@
 "use client";
 import { UserSchema } from "@/lib/schema/user.schema";
 import { useGetMeQuery } from "@/services/auth/get-me.api";
+import { useQueryClient } from "@tanstack/react-query";
 import {
   Dispatch,
   ReactNode,
@@ -9,6 +10,7 @@ import {
   createContext,
   useEffect,
   useContext,
+  useCallback,
 } from "react";
 
 interface InitialAuthContextType {
@@ -59,14 +61,18 @@ const reducer = (
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
+  const queryClient = useQueryClient();
 
-  const { data, isLoading } = useGetMeQuery();
+  const { data, isLoading, error } = useGetMeQuery();
 
   useEffect(() => {
     if (data) {
       dispatch({ type: "SET_USER", payload: data });
+    } else if (error) {
+      // If there's an error fetching user data, reset user state
+      dispatch({ type: "SET_USER", payload: null });
     }
-  }, [data]);
+  }, [data, error]);
 
   useEffect(() => {
     if (isLoading) {
@@ -76,7 +82,18 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     }
   }, [isLoading]);
 
-  const value = useMemo(() => ({ state, dispatch }), [state, dispatch]);
+  // Enhanced logout function that clears all queries
+  const logout = useCallback(() => {
+    dispatch({ type: "LOGOUT" });
+    queryClient.clear(); // Clear all queries
+    queryClient.invalidateQueries(); // Invalidate all queries
+  }, [queryClient]);
+
+  const value = useMemo(() => ({ 
+    state: { ...state, logout }, 
+    dispatch 
+  }), [state, dispatch, logout]);
+  
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
 

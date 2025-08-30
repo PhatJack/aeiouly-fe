@@ -6,10 +6,10 @@ import {
   GraduationCap,
   House,
   LogIn,
+  LogOut,
   Mic,
   Newspaper,
   PlusSquare,
-  User2,
 } from "lucide-react";
 import { Separator } from "../ui/separator";
 import Link from "next/link";
@@ -19,6 +19,14 @@ import { useAuthContext } from "@/contexts/AuthContext";
 import AvatarCustom from "../custom/AvatarCustom";
 import { Button } from "../ui/button";
 import { fadeInRightVariants } from "@/constants/animations/variants";
+import { useLogoutMutation } from "@/services/auth/logout.api";
+import { useRouter } from "nextjs-toploader/app";
+import { toast } from "sonner";
+import { deleteCookie } from "cookies-next/client";
+import {
+  COOKIE_KEY_ACCESS_TOKEN,
+  COOKIE_KEY_REFRESH_TOKEN,
+} from "@/constants/cookies";
 
 const menu = [
   { title: "Học tập", icon: <House />, href: ROUTE.HOME, id: "home" },
@@ -34,10 +42,34 @@ const menu = [
 ];
 
 const Sidebar = () => {
+  const logoutMutation = useLogoutMutation();
+  const router = useRouter();
   const [state, dispatch] = useAuthContext();
   const [selectedTab, setSelectedTab] = useState(0);
   const [hovered, setHovered] = useState(false);
   const [isMounted, setIsMounted] = useState(false);
+
+  const handleLogout = async () => {
+    logoutMutation.mutate(undefined, {
+      onSuccess: () => {
+        dispatch({ type: "LOGOUT" });
+        deleteCookie(COOKIE_KEY_ACCESS_TOKEN);
+        deleteCookie(COOKIE_KEY_REFRESH_TOKEN);
+        deleteCookie("isLoggedIn");
+        toast.success("Đăng xuất thành công");
+        router.push(ROUTE.AUTH.LOGIN);
+      },
+      onError: () => {
+        // Even if logout API fails, clear local state and cookies
+        dispatch({ type: "LOGOUT" });
+        deleteCookie(COOKIE_KEY_ACCESS_TOKEN);
+        deleteCookie(COOKIE_KEY_REFRESH_TOKEN);
+        deleteCookie("isLoggedIn");
+        toast.success("Đăng xuất thành công");
+        router.push(ROUTE.AUTH.LOGIN);
+      },
+    });
+  };
 
   useEffect(() => {
     setIsMounted(true);
@@ -105,7 +137,7 @@ const Sidebar = () => {
             animate={"animate"}
             className="text-sm font-medium whitespace-nowrap"
           >
-            Create Topic
+            Tạo chủ đề
           </motion.span>
         )}
       </Link>
@@ -154,7 +186,25 @@ const Sidebar = () => {
           </motion.li>
         ))}
       </ul>
-      <div className="flex-1 flex flex-col justify-end">
+      <div className="flex-1 flex flex-col gap-4 justify-end">
+        <div
+          onClick={handleLogout}
+          className="ư-full flex items-center gap-2 cursor-pointer p-3 rounded-full hover:bg-secondary/20 transition-all"
+        >
+          <span>
+            <LogOut />
+          </span>
+          {isMounted && hovered && (
+            <motion.span
+              variants={fadeInRightVariants}
+              initial={"initial"}
+              animate={"animate"}
+              className="text-sm font-medium whitespace-nowrap"
+            >
+              Đăng xuất
+            </motion.span>
+          )}
+        </div>
         {state.user ? (
           <Link
             href={`/u/${state.user.username}`}

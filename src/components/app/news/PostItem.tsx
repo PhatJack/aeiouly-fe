@@ -1,12 +1,13 @@
 "use client";
 
 import AvatarCustom from "@/components/custom/AvatarCustom";
-import React from "react";
+import React, { memo } from "react";
 import LikeButton from "./LikeButton";
 
 interface PostItemProps {}
 
 const PostItem = () => {
+
   return (
     <div className="w-full max-w-2xl mx-auto p-4 transition">
       {/* Header */}
@@ -40,4 +41,4 @@ const PostItem = () => {
   );
 };
 
-export default PostItem;
+export default memo(PostItem);

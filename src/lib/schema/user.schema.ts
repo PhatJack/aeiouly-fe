@@ -7,6 +7,7 @@ export const userSchema = z.object({
   username: z.string().min(3, "At least 3 characters"),
   full_name: z.string().min(6, "At least 6 characters"),
   is_active: z.boolean(),
+	role: z.enum(["USER", "ADMIN"]).default("USER"),
 });
 
 export type UserSchema = z.infer<typeof userSchema>;
