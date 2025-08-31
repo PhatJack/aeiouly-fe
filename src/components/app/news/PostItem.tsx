@@ -7,6 +7,7 @@ import { PostResponseSchema } from "@/lib/schema/post.schema";
 import { useTogglePostLikeMutation } from "@/services/posts";
 import { formatDistanceToNow } from "date-fns";
 import { vi } from "date-fns/locale";
+import { distanceToNowVN } from "@/lib/timezone";
 interface PostItemProps {
   post: PostResponseSchema;
 }
@@ -36,11 +37,7 @@ const PostItem = ({ post }: PostItemProps) => {
               </p>
               <span className="text-gray-400">•</span>
               <span className="text-sm text-gray-500 dark:text-gray-400">
-                {post?.created_at &&
-                  formatDistanceToNow(new Date(post?.created_at), {
-                    addSuffix: true,
-                    locale: vi,
-                  })}
+                {post?.created_at && distanceToNowVN(post?.created_at)}
               </span>
             </div>
             <LikeButton
