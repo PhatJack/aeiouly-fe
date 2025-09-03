@@ -22,84 +22,41 @@ import { fadeInRightVariants } from "@/constants/animations/variants";
 import { useLogoutMutation } from "@/services/auth/logout.api";
 import { useRouter } from "nextjs-toploader/app";
 import { toast } from "sonner";
-import { deleteCookie } from "cookies-next/client";
-import {
-  COOKIE_KEY_ACCESS_TOKEN,
-  COOKIE_KEY_REFRESH_TOKEN,
-} from "@/constants/cookies";
+import { usePathname } from "next/navigation";
 
 const menu = [
   { title: "Học tập", icon: <House />, href: ROUTE.HOME, id: "home" },
   { title: "Luyện nói", icon: <Mic />, href: ROUTE.ONION, id: "onion" },
   { title: "Gym", icon: <GraduationCap />, href: ROUTE.GYM, id: "gym" },
   { title: "Bảng tin", icon: <Newspaper />, href: ROUTE.NEWS, id: "news" },
-  // {
-  //   title: "Profile",
-  //   icon: <User2 />,
-  //   href: (username: string) => ROUTE.USER(username),
-  //   id: "profile",
-  // },
 ];
 
 const Sidebar = () => {
+  const pathname = usePathname();
   const logoutMutation = useLogoutMutation();
   const router = useRouter();
   const [state, dispatch] = useAuthContext();
-  const [selectedTab, setSelectedTab] = useState(0);
   const [hovered, setHovered] = useState(false);
-  const [isMounted, setIsMounted] = useState(false);
 
   const handleLogout = async () => {
     logoutMutation.mutate(undefined, {
       onSuccess: () => {
-        dispatch({ type: "LOGOUT" });
-        deleteCookie(COOKIE_KEY_ACCESS_TOKEN);
-        deleteCookie(COOKIE_KEY_REFRESH_TOKEN);
-        deleteCookie("isLoggedIn");
         toast.success("Đăng xuất thành công");
+        dispatch({ type: "LOGOUT" });
         router.push(ROUTE.AUTH.LOGIN);
       },
       onError: () => {
-        // Even if logout API fails, clear local state and cookies
-        dispatch({ type: "LOGOUT" });
-        deleteCookie(COOKIE_KEY_ACCESS_TOKEN);
-        deleteCookie(COOKIE_KEY_REFRESH_TOKEN);
-        deleteCookie("isLoggedIn");
         toast.success("Đăng xuất thành công");
+        dispatch({ type: "LOGOUT" });
         router.push(ROUTE.AUTH.LOGIN);
       },
     });
   };
 
-  useEffect(() => {
-    setIsMounted(true);
-  }, []);
-
-  if (!isMounted) {
-    return (
-      <aside className="h-screen sticky top-0 min-w-20 overflow-hidden p-4 flex flex-col gap-4">
-        <div className="flex items-center space-x-2 p-2">
-          <BrainCircuit />
-        </div>
-        <Separator />
-        <ul className="flex flex-col gap-2 relative">
-          {menu.map((item, index) => (
-            <li
-              key={index}
-              className="flex items-center gap-2 relative cursor-pointer p-2 rounded-md hover:bg-gray-200"
-            >
-              <span className="aspect-square">{item.icon}</span>
-            </li>
-          ))}
-        </ul>
-      </aside>
-    );
-  }
-
   return (
     <motion.aside
       initial={false} // Prevent initial animation to avoid hydration issues
-      animate={{ width: isMounted && hovered ? "16rem" : "4rem" }}
+      animate={{ width: hovered ? "16rem" : "4rem" }}
       transition={{ type: "spring", stiffness: 300, damping: 30 }}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
@@ -110,7 +67,7 @@ const Sidebar = () => {
         <span>
           <BrainCircuit />
         </span>
-        {isMounted && hovered && (
+        {hovered && (
           <motion.span
             variants={fadeInRightVariants}
             initial={"initial"}
@@ -130,7 +87,7 @@ const Sidebar = () => {
         <span>
           <PlusSquare />
         </span>
-        {isMounted && hovered && (
+        {hovered && (
           <motion.span
             variants={fadeInRightVariants}
             initial={"initial"}
@@ -150,33 +107,36 @@ const Sidebar = () => {
           <motion.li
             key={index}
             id={item.id}
-            onClick={() => setSelectedTab(index)}
-            className="flex items-center gap-2 relative cursor-pointer p-3 rounded-full hover:bg-secondary/20 transition-all"
+            onClick={() => {
+              router.push(item.href);
+            }}
+            className={
+              "flex items-center gap-2 relative cursor-pointer p-3 rounded-full hover:bg-secondary/20 transition-all"
+            }
           >
-            <Link href={item.href} className="absolute inset-0" />
             <span
               className={cn(
-                index === selectedTab &&
+                pathname === item.href &&
                   "text-secondary-foreground whitespace-nowrap"
               )}
             >
               {item.icon}
             </span>
-            {isMounted && hovered && (
+            {hovered && (
               <motion.span
                 variants={fadeInRightVariants}
                 initial={"initial"}
                 animate={"animate"}
                 className={cn(
-                  "text-sm font-medium whitespace-nowrap",
-                  index === selectedTab && "text-secondary-foreground"
+                  "text-sm font-medium whitespace-nowrap text-black",
+                  pathname === item.href && "text-secondary-foreground"
                 )}
               >
                 {item.title}
               </motion.span>
             )}
 
-            {isMounted && index === selectedTab ? (
+            {pathname === item.href ? (
               <motion.div
                 className="absolute inset-0 bg-secondary rounded-full -z-10"
                 layoutId="background"
@@ -194,7 +154,7 @@ const Sidebar = () => {
           <span>
             <LogOut />
           </span>
-          {isMounted && hovered && (
+          {hovered && (
             <motion.span
               variants={fadeInRightVariants}
               initial={"initial"}
@@ -214,7 +174,7 @@ const Sidebar = () => {
               className="size-12"
               url={state.user.avatar || "/avatar.gif"}
             />
-            {isMounted && hovered && (
+            {hovered && (
               <motion.span
                 variants={fadeInRightVariants}
                 initial={"initial"}

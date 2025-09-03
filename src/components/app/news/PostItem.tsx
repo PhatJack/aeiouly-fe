@@ -5,8 +5,6 @@ import React, { memo, useCallback } from "react";
 import LikeButton from "./LikeButton";
 import { PostResponseSchema } from "@/lib/schema/post.schema";
 import { useTogglePostLikeMutation } from "@/services/posts";
-import { formatDistanceToNow } from "date-fns";
-import { vi } from "date-fns/locale";
 import { distanceToNowVN } from "@/lib/timezone";
 interface PostItemProps {
   post: PostResponseSchema;

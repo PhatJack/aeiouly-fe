@@ -1,8 +1,8 @@
 import { toZonedTime } from "date-fns-tz";
-import { formatDistanceToNow } from "date-fns";
+import { formatDistanceToNow, Locale } from "date-fns";
 import { vi } from "date-fns/locale";
 
-export function distanceToNowVN(date: string | Date): string {
+export function distanceToNowVN(date: string | Date, locale: Locale = vi): string {
   const timeZone = "Asia/Ho_Chi_Minh";
 
   let utcDate: Date;
@@ -15,5 +15,5 @@ export function distanceToNowVN(date: string | Date): string {
 
   const vnDate = toZonedTime(utcDate, timeZone);
 
-  return formatDistanceToNow(vnDate, { addSuffix: true, locale: vi });
+  return formatDistanceToNow(vnDate, { addSuffix: true, locale: locale });
 }

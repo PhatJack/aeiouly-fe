@@ -35,7 +35,7 @@ export const useLoginMutation = () => {
       mutationFn: (body) => loginApi(body),
       onSuccess: () => {
         setCookie("isLoggedIn", "1", {
-          expires: new Date(Date.now() + 60 * 60 * 1000 * 24), // 1 day
+          expires: new Date(Date.now() + 60 * 60 * 24 * 7 * 1000), // 7 days
         });
       },
     }
