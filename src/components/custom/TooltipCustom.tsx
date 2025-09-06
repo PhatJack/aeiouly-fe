@@ -1,5 +1,6 @@
-import React from "react";
-import { Tooltip, TooltipContent, TooltipTrigger } from "./ui/tooltip";
+import React from 'react';
+
+import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 
 interface TooltipCustomProps {
   content: React.ReactNode;

@@ -1,11 +1,12 @@
-"use client";
+'use client';
 
-import * as React from "react";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { cn } from "@/lib/utils";
+import * as React from 'react';
+import { useForm } from 'react-hook-form';
+
+import { useSearchParams } from 'next/navigation';
+import { useRouter } from 'nextjs-toploader/app';
+
+import { Button } from '@/components/ui/button';
 import {
   Form,
   FormControl,
@@ -13,15 +14,17 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
-import { toast } from "sonner";
-import { useRouter } from "nextjs-toploader/app";
+} from '@/components/ui/form';
+import { Input } from '@/components/ui/input';
+import { cn } from '@/lib/utils';
 import {
-  confirmPasswordResetSchema,
   ConfirmPasswordResetSchema,
+  confirmPasswordResetSchema,
   useConfirmPasswordResetMutation,
-} from "@/services/auth/forgot-password.api";
-import { useParams, useSearchParams } from "next/navigation";
+} from '@/services/auth/forgot-password.api';
+import { zodResolver } from '@hookform/resolvers/zod';
+
+import { toast } from 'sonner';
 
 const PasswordResetForm = () => {
   const searchParams = useSearchParams();
@@ -29,8 +32,8 @@ const PasswordResetForm = () => {
   const passwordResetForm = useForm<ConfirmPasswordResetSchema>({
     resolver: zodResolver(confirmPasswordResetSchema),
     defaultValues: {
-      token: (searchParams.get("token") as string) || "",
-      new_password: "",
+      token: (searchParams.get('token') as string) || '',
+      new_password: '',
     },
   });
 
@@ -39,21 +42,18 @@ const PasswordResetForm = () => {
   const onSubmit = (data: ConfirmPasswordResetSchema) => {
     confirmPWResetMutate.mutate(data, {
       onSuccess: (data) => {
-        toast.success("Đặt lại mật khẩu thành công!");
-        router.push("/login");
+        toast.success('Đặt lại mật khẩu thành công!');
+        router.push('/login');
       },
       onError: (error) => {
-        toast.error((error as any).detail || "Đặt lại mật khẩu thất bại!");
+        toast.error((error as any).detail || 'Đặt lại mật khẩu thất bại!');
       },
     });
   };
 
   return (
     <Form {...passwordResetForm}>
-      <form
-        onSubmit={passwordResetForm.handleSubmit(onSubmit)}
-        className={cn("space-y-6")}
-      >
+      <form onSubmit={passwordResetForm.handleSubmit(onSubmit)} className={cn('space-y-6')}>
         {/* Header */}
         <div className="flex flex-col items-center gap-2 text-center">
           <h1 className="text-2xl font-bold">Đổi mật khẩu</h1>
@@ -72,11 +72,7 @@ const PasswordResetForm = () => {
               <FormItem>
                 <FormLabel>New Password</FormLabel>
                 <FormControl>
-                  <Input
-                    placeholder="New Password"
-                    type="password"
-                    {...field}
-                  />
+                  <Input placeholder="New Password" type="password" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -91,7 +87,7 @@ const PasswordResetForm = () => {
               type="button"
               variant="link"
               className="w-full"
-              onClick={() => router.push("/forgot-password")}
+              onClick={() => router.push('/forgot-password')}
             >
               Trở lại trang quên mật khẩu
             </Button>
@@ -99,7 +95,7 @@ const PasswordResetForm = () => {
               type="button"
               variant="secondary"
               className="w-full"
-              onClick={() => router.push("/login")}
+              onClick={() => router.push('/login')}
             >
               Trở lại trang đăng nhập
             </Button>
