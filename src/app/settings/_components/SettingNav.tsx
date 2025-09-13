@@ -52,7 +52,7 @@ const SettingNav = () => {
   const pathname = usePathname();
 
   return (
-    <div className="mx-auto w-full max-w-md">
+    <div className="mx-auto w-full lg:max-w-md">
       <div className="overflow-hidden rounded-2xl bg-white">
         <div className="border-b border-gray-50 p-6">
           <h2 className="mb-1 text-xl font-semibold text-gray-900">Cài đặt</h2>

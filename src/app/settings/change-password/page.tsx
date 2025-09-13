@@ -2,7 +2,7 @@ import React from 'react';
 
 import { Metadata } from 'next';
 
-import ChangePasswordPage from './_components/ChangePasswordPage';
+import ChangePasswordPage from '../_components/ChangePasswordPage';
 
 export const metadata: Metadata = {
   title: 'Thay đổi mật khẩu',
