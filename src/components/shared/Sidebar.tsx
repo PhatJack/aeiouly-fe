@@ -1,6 +1,17 @@
-"use client";
-import React, { useState, useEffect } from "react";
-import { motion } from "motion/react";
+'use client';
+
+import React, { useState } from 'react';
+
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
+import { useRouter } from 'nextjs-toploader/app';
+
+import { ROUTE } from '@/configs/route';
+import { fadeInRightVariants } from '@/constants/animations/variants';
+import { useAuthContext } from '@/contexts/AuthContext';
+import { cn } from '@/lib/utils';
+import { useLogoutMutation } from '@/services/auth/logout.api';
+
 import {
   BrainCircuit,
   GraduationCap,
@@ -10,25 +21,21 @@ import {
   Mic,
   Newspaper,
   PlusSquare,
-} from "lucide-react";
-import { Separator } from "../ui/separator";
-import Link from "next/link";
-import { ROUTE } from "@/configs/route";
-import { cn } from "@/lib/utils";
-import { useAuthContext } from "@/contexts/AuthContext";
-import AvatarCustom from "../custom/AvatarCustom";
-import { Button } from "../ui/button";
-import { fadeInRightVariants } from "@/constants/animations/variants";
-import { useLogoutMutation } from "@/services/auth/logout.api";
-import { useRouter } from "nextjs-toploader/app";
-import { toast } from "sonner";
-import { usePathname } from "next/navigation";
+  Settings,
+} from 'lucide-react';
+import { motion } from 'motion/react';
+import { toast } from 'sonner';
+
+import AvatarCustom from '../custom/AvatarCustom';
+import { Button } from '../ui/button';
+import { Separator } from '../ui/separator';
 
 const menu = [
-  { title: "Học tập", icon: <House />, href: ROUTE.HOME, id: "home" },
-  { title: "Luyện nói", icon: <Mic />, href: ROUTE.ONION, id: "onion" },
-  { title: "Gym", icon: <GraduationCap />, href: ROUTE.GYM, id: "gym" },
-  { title: "Bảng tin", icon: <Newspaper />, href: ROUTE.NEWS, id: "news" },
+  { title: 'Học tập', icon: <House />, href: ROUTE.HOME, id: 'home' },
+  { title: 'Luyện nói', icon: <Mic />, href: ROUTE.ONION, id: 'onion' },
+  { title: 'Gym', icon: <GraduationCap />, href: ROUTE.GYM, id: 'gym' },
+  { title: 'Bảng tin', icon: <Newspaper />, href: ROUTE.NEWS, id: 'news' },
+  { title: 'Cài đặt', icon: <Settings />, href: ROUTE.SETTING, id: 'setting' },
 ];
 
 const Sidebar = () => {
@@ -41,13 +48,13 @@ const Sidebar = () => {
   const handleLogout = async () => {
     logoutMutation.mutate(undefined, {
       onSuccess: () => {
-        toast.success("Đăng xuất thành công");
-        dispatch({ type: "LOGOUT" });
+        toast.success('Đăng xuất thành công');
+        dispatch({ type: 'LOGOUT' });
         router.push(ROUTE.AUTH.LOGIN);
       },
       onError: () => {
-        toast.success("Đăng xuất thành công");
-        dispatch({ type: "LOGOUT" });
+        toast.success('Đăng xuất thành công');
+        dispatch({ type: 'LOGOUT' });
         router.push(ROUTE.AUTH.LOGIN);
       },
     });
@@ -56,11 +63,11 @@ const Sidebar = () => {
   return (
     <motion.aside
       initial={false} // Prevent initial animation to avoid hydration issues
-      animate={{ width: hovered ? "16rem" : "4rem" }}
-      transition={{ type: "spring", stiffness: 300, damping: 30 }}
+      animate={{ width: hovered ? '16rem' : '4rem' }}
+      transition={{ type: 'spring', stiffness: 300, damping: 30 }}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
-      className="h-screen sticky top-0 min-w-20 overflow-hidden p-4 flex flex-col gap-2"
+      className="sticky top-0 flex h-screen min-w-20 flex-col gap-2 overflow-hidden p-4"
     >
       {/* Logo */}
       <Link href={ROUTE.HOME} className="flex items-center space-x-2 p-3">
@@ -70,8 +77,8 @@ const Sidebar = () => {
         {hovered && (
           <motion.span
             variants={fadeInRightVariants}
-            initial={"initial"}
-            animate={"animate"}
+            initial={'initial'}
+            animate={'animate'}
             className="font-semibold"
           >
             Aeiouly
@@ -82,7 +89,7 @@ const Sidebar = () => {
       <Link
         href={ROUTE.TOPIC}
         id="create-topic"
-        className="flex items-center gap-2 p-3 bg-primary text-white hover:bg-primary/80 rounded-full"
+        className="bg-primary hover:bg-primary/80 flex items-center gap-2 rounded-full p-3 text-white"
       >
         <span>
           <PlusSquare />
@@ -90,8 +97,8 @@ const Sidebar = () => {
         {hovered && (
           <motion.span
             variants={fadeInRightVariants}
-            initial={"initial"}
-            animate={"animate"}
+            initial={'initial'}
+            animate={'animate'}
             className="text-sm font-medium whitespace-nowrap"
           >
             Tạo chủ đề
@@ -102,22 +109,21 @@ const Sidebar = () => {
       <Separator />
 
       {/* Menu */}
-      <ul className="flex flex-col gap-2 relative">
+      <ul className="relative flex flex-col gap-2">
         {menu.map((item, index) => (
           <motion.li
             key={index}
             id={item.id}
             onClick={() => {
-              router.push(item.href);
+              router.push(typeof item.href === 'string' ? item.href : item.href.INDEX);
             }}
             className={
-              "flex items-center gap-2 relative cursor-pointer p-3 rounded-full hover:bg-secondary/20 transition-all"
+              'hover:bg-secondary/20 relative flex cursor-pointer items-center gap-2 rounded-full p-3 transition-all'
             }
           >
             <span
               className={cn(
-                pathname === item.href &&
-                  "text-secondary-foreground whitespace-nowrap"
+                pathname === item.href && 'text-secondary-foreground whitespace-nowrap'
               )}
             >
               {item.icon}
@@ -125,11 +131,11 @@ const Sidebar = () => {
             {hovered && (
               <motion.span
                 variants={fadeInRightVariants}
-                initial={"initial"}
-                animate={"animate"}
+                initial={'initial'}
+                animate={'animate'}
                 className={cn(
-                  "text-sm font-medium whitespace-nowrap text-black",
-                  pathname === item.href && "text-secondary-foreground"
+                  'text-sm font-medium whitespace-nowrap text-black',
+                  pathname === item.href && 'text-secondary-foreground'
                 )}
               >
                 {item.title}
@@ -138,18 +144,18 @@ const Sidebar = () => {
 
             {pathname === item.href ? (
               <motion.div
-                className="absolute inset-0 bg-secondary rounded-full -z-10"
+                className="bg-secondary absolute inset-0 -z-10 rounded-full"
                 layoutId="background"
-                transition={{ type: "spring", stiffness: 300, damping: 30 }}
+                transition={{ type: 'spring', stiffness: 300, damping: 30 }}
               />
             ) : null}
           </motion.li>
         ))}
       </ul>
-      <div className="flex-1 flex flex-col gap-4 justify-end">
+      <div className="flex flex-1 flex-col justify-end gap-4">
         <div
           onClick={handleLogout}
-          className="ư-full flex items-center gap-2 cursor-pointer p-3 rounded-full hover:bg-secondary/20 transition-all"
+          className="ư-full hover:bg-secondary/20 flex cursor-pointer items-center gap-2 rounded-full p-3 transition-all"
         >
           <span>
             <LogOut />
@@ -157,8 +163,8 @@ const Sidebar = () => {
           {hovered && (
             <motion.span
               variants={fadeInRightVariants}
-              initial={"initial"}
-              animate={"animate"}
+              initial={'initial'}
+              animate={'animate'}
               className="text-sm font-medium whitespace-nowrap"
             >
               Đăng xuất
@@ -166,33 +172,22 @@ const Sidebar = () => {
           )}
         </div>
         {state.user ? (
-          <Link
-            href={`/u/${state.user.username}`}
-            className="flex items-center gap-2 overflow-hidden"
-          >
-            <AvatarCustom
-              className="size-12"
-              url={state.user.avatar || "/avatar.gif"}
-            />
+          <div className="flex items-center gap-2 overflow-hidden">
+            <AvatarCustom className="size-12" url={state.user.avatar || '/avatar.gif'} />
             {hovered && (
               <motion.span
                 variants={fadeInRightVariants}
-                initial={"initial"}
-                animate={"animate"}
+                initial={'initial'}
+                animate={'animate'}
                 className="text-sm font-medium whitespace-nowrap"
               >
                 {state.user.full_name}
               </motion.span>
             )}
-          </Link>
+          </div>
         ) : (
-          <Button
-            className="has-[>svg]:px-2 py-2 whitespace-nowrap h-10"
-            asChild
-          >
-            <Link href={ROUTE.AUTH.LOGIN}>
-              {hovered ? `Đăng nhập` : <LogIn />}
-            </Link>
+          <Button className="h-10 py-2 whitespace-nowrap has-[>svg]:px-2" asChild>
+            <Link href={ROUTE.AUTH.LOGIN}>{hovered ? `Đăng nhập` : <LogIn />}</Link>
           </Button>
         )}
       </div>
