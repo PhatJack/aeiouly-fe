@@ -4,7 +4,7 @@ import React from 'react';
 
 import { useIsFetching, useIsMutating } from '@tanstack/react-query';
 
-import CutoutTextLoader from './Loading';
+import { LoaderPinwheel } from 'lucide-react';
 
 const GlobalLoading = () => {
   const isFetching = useIsFetching();
@@ -14,7 +14,7 @@ const GlobalLoading = () => {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/30">
-      <CutoutTextLoader height="450px" background="white" imgUrl="background.gif" />
+      <LoaderPinwheel className="animate-spin text-white" size={30} />
     </div>
   );
 };
