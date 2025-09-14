@@ -14,12 +14,11 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { cn } from '@/lib/utils';
 import { changePasswordSchema } from '@/services/auth/forgot-password.api';
 import { useChangePasswordMutation } from '@/services/auth/forgot-password.api';
 import { zodResolver } from '@hookform/resolvers/zod';
 
-import { CheckCircle, Eye, EyeOff, KeyRound, Loader2, Lock } from 'lucide-react';
+import { CheckCircle, CheckIcon, Eye, EyeOff, KeyRound, Lock, XIcon } from 'lucide-react';
 import { toast } from 'sonner';
 import { z } from 'zod';
 
@@ -56,6 +55,14 @@ const ChangePasswordPage = () => {
     [form.watch('new_password')]
   );
 
+  const getStrengthColor = (score: number) => {
+    if (score === 0) return 'bg-border';
+    if (score <= 1) return 'bg-red-500';
+    if (score <= 2) return 'bg-orange-500';
+    if (score === 3) return 'bg-amber-500';
+    return 'bg-emerald-500';
+  };
+
   const strengthScore = useMemo(() => {
     return strength.filter((req) => req.met).length;
   }, [strength]);
@@ -86,106 +93,124 @@ const ChangePasswordPage = () => {
         {/* Form Content */}
         <div className="p-6">
           <Form {...form}>
-            {!form.formState.isSubmitted && (
-              <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-                {/* Current Password Field */}
-                <div>
-                  <FormField
-                    control={form.control}
-                    name="current_password"
-                    render={({ field }) => (
-                      <FormItem className="space-y-2">
-                        <FormLabel className="text-foreground flex items-center gap-2 text-sm font-medium">
-                          <Lock size={16} className="text-muted-foreground" />
-                          Mật khẩu hiện tại
-                        </FormLabel>
-                        <FormControl>
-                          <Input
-                            type="password"
-                            placeholder="Nhập mật khẩu hiện tại của bạn"
-                            {...field}
-                            disabled={isPending}
-                            className="border-border focus:border-primary h-12 rounded-xl"
-                          />
-                        </FormControl>
-                        <FormMessage className="text-destructive text-sm" />
-                      </FormItem>
-                    )}
-                  />
-                </div>
-
-                {/* New Password Field */}
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+              {/* Current Password Field */}
+              <div>
                 <FormField
                   control={form.control}
-                  name="new_password"
+                  name="current_password"
                   render={({ field }) => (
                     <FormItem className="space-y-2">
-                      <FormLabel className="text-foreground text-sm font-medium">
-                        Mật khẩu mới
+                      <FormLabel className="text-foreground flex items-center gap-2 text-sm font-medium">
+                        <Lock size={16} className="text-muted-foreground" />
+                        Mật khẩu hiện tại
                       </FormLabel>
                       <FormControl>
-                        <div className="relative">
-                          <Input
-                            type={isShowNewPassword ? 'text' : 'password'}
-                            placeholder="Nhập mật khẩu mới"
-                            {...field}
-                            disabled={isPending}
-                            className="border-border focus:border-primary h-12 rounded-xl"
-                          />
-                          <button
-                            type="button"
-                            tabIndex={-1}
-                            onClick={() => setIsShowNewPassword((prev) => !prev)}
-                            className="text-muted-foreground absolute top-1/2 right-3 -translate-y-1/2"
-                          >
-                            {isShowNewPassword ? (
-                              <EyeOff className="h-4 w-4" />
-                            ) : (
-                              <Eye className="h-4 w-4" />
-                            )}
-                          </button>
-                        </div>
+                        <Input
+                          type="password"
+                          placeholder="Nhập mật khẩu hiện tại của bạn"
+                          {...field}
+                          disabled={isPending}
+                          className="border-border focus:border-primary h-12 rounded-xl"
+                        />
                       </FormControl>
-                      <>
-                        <FormMessage className="text-destructive text-sm" />
-                        <div className="mt-2 space-y-2">
-                          <div className="text-muted-foreground flex justify-between text-xs">
-                            <span>Độ mạnh mật khẩu:</span>
-                            <span>{strengthScore} / 4 yêu cầu</span>
-                          </div>
-                          <div className="space-y-1">
-                            {strength.map((req, i) => (
-                              <div key={i} className="flex items-center gap-2">
-                                <div
-                                  className={cn(
-                                    'h-1.5 w-1.5 rounded-full',
-                                    req.met ? 'bg-emerald-500' : 'bg-border'
-                                  )}
-                                />
-                                <span
-                                  className={cn(
-                                    'text-xs',
-                                    req.met ? 'text-foreground' : 'text-muted-foreground'
-                                  )}
-                                >
-                                  {req.text}
-                                </span>
-                              </div>
-                            ))}
-                          </div>
-                        </div>
-                      </>
+                      <FormMessage className="text-destructive text-sm" />
                     </FormItem>
                   )}
                 />
+              </div>
 
-                {/* Submit Button */}
-                <Button type="submit" disabled={isPending} className="h-12 w-full rounded-xl">
-                  <CheckCircle className="h-5 w-5" />
-                  Cập nhật mật khẩu
-                </Button>
-              </form>
-            )}
+              {/* New Password Field */}
+              <FormField
+                control={form.control}
+                name="new_password"
+                render={({ field }) => (
+                  <FormItem className="space-y-2">
+                    <FormLabel className="text-foreground text-sm font-medium">
+                      Mật khẩu mới
+                    </FormLabel>
+                    <FormControl>
+                      <div className="relative">
+                        <Input
+                          type={isShowNewPassword ? 'text' : 'password'}
+                          placeholder="Nhập mật khẩu mới"
+                          {...field}
+                          disabled={isPending}
+                          className="border-border focus:border-primary h-12 rounded-xl"
+                        />
+                        <button
+                          type="button"
+                          tabIndex={-1}
+                          onClick={() => setIsShowNewPassword((prev) => !prev)}
+                          className="text-muted-foreground absolute top-1/2 right-3 -translate-y-1/2"
+                        >
+                          {isShowNewPassword ? (
+                            <EyeOff className="h-4 w-4" />
+                          ) : (
+                            <Eye className="h-4 w-4" />
+                          )}
+                        </button>
+                      </div>
+                    </FormControl>
+                    <>
+                      <FormMessage className="text-destructive text-sm" />
+                      <div
+                        className="bg-border mt-3 mb-4 h-1 w-full overflow-hidden rounded-full"
+                        role="progressbar"
+                        aria-valuenow={strengthScore}
+                        aria-valuemin={0}
+                        aria-valuemax={4}
+                        aria-label="Password strength"
+                      >
+                        <div
+                          className={`h-full ${getStrengthColor(
+                            strengthScore
+                          )} transition-all duration-500 ease-out`}
+                          style={{ width: `${(strengthScore / 4) * 100}%` }}
+                        ></div>
+                      </div>
+
+                      {/* Password requirements list */}
+                      <ul className="space-y-1.5" aria-label="Password requirements">
+                        {strength.map((req, index) => (
+                          <li key={index} className="flex items-center gap-2">
+                            {req.met ? (
+                              <CheckIcon
+                                size={16}
+                                className="text-emerald-500"
+                                aria-hidden="true"
+                              />
+                            ) : (
+                              <XIcon
+                                size={16}
+                                className="text-muted-foreground/80"
+                                aria-hidden="true"
+                              />
+                            )}
+                            <span
+                              className={`text-xs ${
+                                req.met ? 'text-emerald-600' : 'text-muted-foreground'
+                              }`}
+                            >
+                              {req.text}
+                              <span className="sr-only">
+                                {req.met ? ' - Đạt yêu cầu' : ' - Không đạt yêu cầu'}
+                              </span>
+                            </span>
+                          </li>
+                        ))}
+                      </ul>
+                    </>
+                  </FormItem>
+                )}
+              />
+
+              {/* Submit Button */}
+              <Button type="submit" disabled={isPending} className="h-12 w-full rounded-xl">
+                <CheckCircle className="h-5 w-5" />
+                Cập nhật mật khẩu
+              </Button>
+            </form>
           </Form>
         </div>
       </div>
