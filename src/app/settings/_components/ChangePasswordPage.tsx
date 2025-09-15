@@ -1,9 +1,10 @@
 'use client';
 
-import { useMemo, useState } from 'react';
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 
 import SettingHeader from '@/components/app/settings/SettingHeader';
+import { PasswordStrengthMeter } from '@/components/shared/PasswordStrengthMeter';
 import { Button } from '@/components/ui/button';
 import {
   Form,
@@ -14,21 +15,18 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { changePasswordSchema } from '@/services/auth/forgot-password.api';
+import { ChangePasswordSchema, changePasswordSchema } from '@/services/auth/forgot-password.api';
 import { useChangePasswordMutation } from '@/services/auth/forgot-password.api';
 import { zodResolver } from '@hookform/resolvers/zod';
 
-import { CheckCircle, CheckIcon, Eye, EyeOff, KeyRound, Lock, XIcon } from 'lucide-react';
+import { CheckCircle, Eye, EyeOff, KeyRound, Lock } from 'lucide-react';
 import { toast } from 'sonner';
-import { z } from 'zod';
-
-type FormValues = z.infer<typeof changePasswordSchema>;
 
 const ChangePasswordPage = () => {
   const [isShowNewPassword, setIsShowNewPassword] = useState<boolean>(false);
   const { mutate: changePassword, isPending } = useChangePasswordMutation();
 
-  const form = useForm<FormValues>({
+  const form = useForm<ChangePasswordSchema>({
     resolver: zodResolver(changePasswordSchema),
     defaultValues: {
       current_password: '',
@@ -36,38 +34,7 @@ const ChangePasswordPage = () => {
     },
   });
 
-  const checkStrength = (pass: string) => {
-    const requirements = [
-      { regex: /.{8,}/, text: 'Ít nhất 8 ký tự' },
-      { regex: /[0-9]/, text: 'Ít nhất 1 số' },
-      { regex: /[a-z]/, text: 'Ít nhất 1 chữ cái thường' },
-      { regex: /[A-Z]/, text: 'Ít nhất 1 chữ cái hoa' },
-    ];
-
-    return requirements.map((req) => ({
-      met: req.regex.test(pass),
-      text: req.text,
-    }));
-  };
-
-  const strength = useMemo(
-    () => checkStrength(form.watch('new_password') || ''),
-    [form.watch('new_password')]
-  );
-
-  const getStrengthColor = (score: number) => {
-    if (score === 0) return 'bg-border';
-    if (score <= 1) return 'bg-red-500';
-    if (score <= 2) return 'bg-orange-500';
-    if (score === 3) return 'bg-amber-500';
-    return 'bg-emerald-500';
-  };
-
-  const strengthScore = useMemo(() => {
-    return strength.filter((req) => req.met).length;
-  }, [strength]);
-
-  const onSubmit = (data: FormValues) => {
+  const onSubmit = (data: ChangePasswordSchema) => {
     changePassword(data, {
       onSuccess: () => {
         toast.success('Mật khẩu đã được thay đổi thành công');
@@ -152,55 +119,11 @@ const ChangePasswordPage = () => {
                         </button>
                       </div>
                     </FormControl>
-                    <>
-                      <FormMessage className="text-destructive text-sm" />
-                      <div
-                        className="bg-border mt-3 mb-4 h-1 w-full overflow-hidden rounded-full"
-                        role="progressbar"
-                        aria-valuenow={strengthScore}
-                        aria-valuemin={0}
-                        aria-valuemax={4}
-                        aria-label="Password strength"
-                      >
-                        <div
-                          className={`h-full ${getStrengthColor(
-                            strengthScore
-                          )} transition-all duration-500 ease-out`}
-                          style={{ width: `${(strengthScore / 4) * 100}%` }}
-                        ></div>
-                      </div>
-
-                      {/* Password requirements list */}
-                      <ul className="space-y-1.5" aria-label="Password requirements">
-                        {strength.map((req, index) => (
-                          <li key={index} className="flex items-center gap-2">
-                            {req.met ? (
-                              <CheckIcon
-                                size={16}
-                                className="text-emerald-500"
-                                aria-hidden="true"
-                              />
-                            ) : (
-                              <XIcon
-                                size={16}
-                                className="text-muted-foreground/80"
-                                aria-hidden="true"
-                              />
-                            )}
-                            <span
-                              className={`text-xs ${
-                                req.met ? 'text-emerald-600' : 'text-muted-foreground'
-                              }`}
-                            >
-                              {req.text}
-                              <span className="sr-only">
-                                {req.met ? ' - Đạt yêu cầu' : ' - Không đạt yêu cầu'}
-                              </span>
-                            </span>
-                          </li>
-                        ))}
-                      </ul>
-                    </>
+                    <FormMessage className="text-destructive text-sm" />
+                    <PasswordStrengthMeter
+                      passwordFieldName="new_password"
+                      control={form.control}
+                    />
                   </FormItem>
                 )}
               />
