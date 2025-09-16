@@ -1,6 +1,8 @@
-import React from "react";
-import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
-import { cn } from "@/lib/utils";
+import React from 'react';
+
+import { cn } from '@/lib/utils';
+
+import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
 
 interface AvatarCustomProps {
   url: string;
@@ -9,9 +11,9 @@ interface AvatarCustomProps {
 }
 const AvatarCustom = ({ url, fallback, className }: AvatarCustomProps) => {
   return (
-    <Avatar className={cn(className,"size-10")}>
-      <AvatarImage src={url} alt={fallback || "Avatar"} />
-      <AvatarFallback className="border">{fallback || "AE"}</AvatarFallback>
+    <Avatar className={className}>
+      <AvatarImage src={url} alt={fallback || 'Avatar'} />
+      <AvatarFallback className="border">{fallback || 'AE'}</AvatarFallback>
     </Avatar>
   );
 };
