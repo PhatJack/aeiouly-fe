@@ -2,7 +2,7 @@ import { Suspense } from 'react';
 
 import { Metadata } from 'next';
 
-import CutoutTextLoader from '@/components/Loading';
+import Loading from '@/components/Loading';
 
 import { PasswordResetForm } from '../_components/PasswordResetForm';
 
@@ -12,9 +12,7 @@ export const metadata: Metadata = {
 
 export default function PasswordResetPage() {
   return (
-    <Suspense
-      fallback={<CutoutTextLoader height="450px" background="white" imgUrl="background.gif" />}
-    >
+    <Suspense fallback={<Loading />}>
       <PasswordResetForm />
     </Suspense>
   );

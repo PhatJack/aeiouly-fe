@@ -1,16 +1,20 @@
-"use client";
-import React from "react";
-import { getQueryClient } from "./get-query-client";
-import { QueryClientProvider } from "@tanstack/react-query";
-import NextTopLoader from "nextjs-toploader";
-import { Toaster } from "@/components/ui/sonner";
-import GlobalLoading from "@/components/GlobalLoading";
-import { AuthProvider } from "@/contexts/AuthContext";
-import { TooltipProvider } from "@/components/ui/tooltip";
-import Sidebar from "@/components/shared/Sidebar";
-import { usePathname } from "next/navigation";
-import { ROUTE } from "@/configs/route";
-import { cn } from "@/lib/utils";
+'use client';
+
+import React from 'react';
+
+import { usePathname } from 'next/navigation';
+import NextTopLoader from 'nextjs-toploader';
+
+import GlobalQueryLoading from '@/components/GlobalLoading';
+import Sidebar from '@/components/shared/Sidebar';
+import { Toaster } from '@/components/ui/sonner';
+import { TooltipProvider } from '@/components/ui/tooltip';
+import { ROUTE } from '@/configs/route';
+import { AuthProvider } from '@/contexts/AuthContext';
+import { cn } from '@/lib/utils';
+import { QueryClientProvider } from '@tanstack/react-query';
+
+import { getQueryClient } from './get-query-client';
 
 const queryClient = getQueryClient();
 const Providers = ({
@@ -29,21 +33,16 @@ const Providers = ({
             {!excludedPaths.includes(location) ? <Sidebar /> : null}
             <main
               className={cn(
-                "size-full bg-white min-h-screen",
-                !excludedPaths.includes(location) ? "px-6 py-5 rounded-l-3xl border" : ""
+                'size-full min-h-screen bg-white',
+                !excludedPaths.includes(location) ? 'rounded-l-3xl border px-6 py-5' : ''
               )}
             >
               {children}
             </main>
           </AuthProvider>
         </TooltipProvider>
-        <Toaster
-          position="top-right"
-          toastOptions={{}}
-          theme={"light"}
-          richColors
-        />
-        <GlobalLoading />
+        <Toaster position="top-right" toastOptions={{}} theme={'light'} richColors />
+        <GlobalQueryLoading />
       </QueryClientProvider>
     </>
   );
