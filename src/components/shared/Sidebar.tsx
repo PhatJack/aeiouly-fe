@@ -173,7 +173,7 @@ const Sidebar = () => {
         </div>
         {state.user ? (
           <div className="flex items-center gap-2 overflow-hidden">
-            <AvatarCustom className="size-12" url={state.user.avatar || '/avatar.gif'} />
+            <AvatarCustom className="size-10" url={state.user.avatar || '/avatar.gif'} />
             {hovered && (
               <motion.span
                 variants={fadeInRightVariants}

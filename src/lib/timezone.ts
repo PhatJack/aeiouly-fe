@@ -1,14 +1,14 @@
-import { toZonedTime } from "date-fns-tz";
-import { formatDistanceToNow, Locale } from "date-fns";
-import { vi } from "date-fns/locale";
+import { Locale, formatDistanceToNow } from 'date-fns';
+import { toZonedTime } from 'date-fns-tz';
+import { vi } from 'date-fns/locale';
 
 export function distanceToNowVN(date: string | Date, locale: Locale = vi): string {
-  const timeZone = "Asia/Ho_Chi_Minh";
+  const timeZone = 'Asia/Ho_Chi_Minh';
 
   let utcDate: Date;
-  if (typeof date === "string") {
+  if (typeof date === 'string') {
     // Ensure it's parsed as UTC
-    utcDate = date.endsWith("Z") ? new Date(date) : new Date(date + "Z");
+    utcDate = new Date(date);
   } else {
     utcDate = date;
   }

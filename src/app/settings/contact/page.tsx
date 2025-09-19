@@ -1,3 +1,5 @@
+import { Metadata } from 'next';
+
 import SettingHeader from '@/components/app/settings/SettingHeader';
 import {
   Accordion,
@@ -8,6 +10,11 @@ import {
 import { FAQ } from '@/constants/faq';
 
 import { Mail, MapPin, MessageCircle, Phone } from 'lucide-react';
+
+export const metadata: Metadata = {
+  title: 'Liên hệ hỗ trợ',
+  description: 'Liên hệ hỗ trợ',
+};
 
 export default function ContactPage() {
   return (
