@@ -9,11 +9,13 @@ import { CheckCircle, XIcon } from 'lucide-react';
 type PasswordStrengthMeterProps = {
   passwordFieldName: string;
   control: Control<any>;
+  className?: string;
 };
 
 export const PasswordStrengthMeter = ({
   passwordFieldName,
   control,
+  className,
 }: PasswordStrengthMeterProps) => {
   const password = useWatch({ control, name: passwordFieldName });
 
@@ -45,17 +47,13 @@ export const PasswordStrengthMeter = ({
     return 'bg-emerald-500';
   };
 
-  if (!password) return null;
-
   return (
-    <div className="space-y-2 pt-1">
-      <div className="grid grid-cols-4 gap-1">
-        {[1, 2, 3, 4].map((i) => (
-          <div
-            key={i}
-            className={`h-1.5 rounded-full ${getStrengthColor(strengthScore)} ${i > strengthScore ? 'opacity-30' : ''}`}
-          />
-        ))}
+    <div className={cn('space-y-2 pt-2', className)}>
+      <div className="bg-gray-100">
+        <div
+          style={{ width: `${strengthScore * 25}%` }}
+          className={`h-1.5 rounded-full transition-[width] duration-300 ${getStrengthColor(strengthScore)}`}
+        />
       </div>
       <div className="space-y-1 text-xs">
         {strength.map((req, i) => (

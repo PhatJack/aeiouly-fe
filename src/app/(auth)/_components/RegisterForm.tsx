@@ -125,7 +125,7 @@ const RegisterForm = () => {
                     type="button"
                     tabIndex={-1}
                     onClick={() => setIsShowPassword((prev) => !prev)}
-                    className="text-muted-foreground absolute top-[12%] right-4 -translate-y-1/2"
+                    className="text-muted-foreground absolute top-[14%] right-4 -translate-y-1/2"
                   >
                     {isShowPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
                   </button>
@@ -133,6 +133,7 @@ const RegisterForm = () => {
                   <PasswordStrengthMeter
                     passwordFieldName="password"
                     control={registerForm.control}
+                    className="pt-4"
                   />
                 </div>
               </FormControl>
