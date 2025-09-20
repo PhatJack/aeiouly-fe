@@ -2,6 +2,7 @@ import { apiClient } from '@/lib/client';
 import { ErrorResponseSchema } from '@/lib/schema/error';
 import { useMutation } from '@tanstack/react-query';
 
+import { deleteCookie } from 'cookies-next';
 import { z } from 'zod';
 
 export const deleteAccountResponseSchema = z.object({
@@ -19,5 +20,8 @@ export const useDeleteAccountMutation = () => {
   return useMutation<DeleteAccountResponseSchema, ErrorResponseSchema, void>({
     mutationKey: ['delete-account'],
     mutationFn: () => deleteAccountApi(),
+    onSuccess: () => {
+      deleteCookie('isLoggedIn');
+    },
   });
 };

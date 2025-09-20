@@ -30,7 +30,7 @@ export default function DeleteAccountPage() {
       onSuccess: (data) => {
         toast.success(data?.message || 'Tài khoản của bạn đã được xóa thành công');
         setTimeout(() => {
-          window.location.href = '/';
+          window.location.href = '/login';
         }, 1500);
       },
       onError: (error: any) => {

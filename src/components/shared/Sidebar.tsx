@@ -35,7 +35,7 @@ const menu = [
   { title: 'Luyện nói', icon: <Mic />, href: ROUTE.ONION, id: 'onion' },
   { title: 'Gym', icon: <GraduationCap />, href: ROUTE.GYM, id: 'gym' },
   { title: 'Bảng tin', icon: <Newspaper />, href: ROUTE.NEWS, id: 'news' },
-  { title: 'Cài đặt', icon: <Settings />, href: ROUTE.SETTING, id: 'setting' },
+  { title: 'Cài đặt', icon: <Settings />, href: ROUTE.SETTING.INDEX, id: 'setting' },
 ];
 
 const Sidebar = () => {
@@ -115,7 +115,7 @@ const Sidebar = () => {
             key={index}
             id={item.id}
             onClick={() => {
-              router.push(typeof item.href === 'string' ? item.href : item.href.INDEX);
+              router.push(item.href);
             }}
             className={
               'hover:bg-secondary/20 relative flex cursor-pointer items-center gap-2 rounded-full p-3 transition-all'

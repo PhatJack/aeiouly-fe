@@ -1,29 +1,21 @@
-import {
-  COOKIE_KEY_ACCESS_TOKEN,
-  COOKIE_KEY_REFRESH_TOKEN,
-} from "@/constants/cookies";
-import { apiClient } from "@/lib/client";
-import { useMutation } from "@tanstack/react-query";
-import { deleteCookie } from "cookies-next";
+import { clearCookies } from '@/lib/auth-utils';
+import { apiClient } from '@/lib/client';
+import { useMutation } from '@tanstack/react-query';
 
 export const logoutApi = async () => {
-  const response = await apiClient.post("/auth/logout", {});
+  const response = await apiClient.post('/auth/logout', {});
   return response.data;
 };
 
 export const useLogoutMutation = () => {
   return useMutation({
-    mutationKey: ["logout"],
+    mutationKey: ['logout'],
     mutationFn: () => logoutApi(),
     onSuccess: () => {
-      deleteCookie(COOKIE_KEY_ACCESS_TOKEN);
-      deleteCookie(COOKIE_KEY_REFRESH_TOKEN);
-      deleteCookie("isLoggedIn");
+      clearCookies();
     },
     onError: () => {
-      deleteCookie(COOKIE_KEY_ACCESS_TOKEN);
-      deleteCookie(COOKIE_KEY_REFRESH_TOKEN);
-      deleteCookie("isLoggedIn");
+      clearCookies();
     },
   });
 };
