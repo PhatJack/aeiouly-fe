@@ -1,83 +1,29 @@
 'use client';
 
-import React, { useState } from 'react';
+import React from 'react';
+
+import { useRouter } from 'nextjs-toploader/app';
 
 import { FeatureCard } from '@/components/app/onion/FeatureCard';
-import { PracticePrompt } from '@/components/app/onion/PracticePrompt';
 import { SituationCard } from '@/components/app/onion/SituationCard';
 import { StatCard } from '@/components/app/onion/StatCard';
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
 
 import {
-  ArrowLeft,
   Briefcase,
-  Clock,
   Coffee,
   GraduationCap,
   Heart,
   MessageCircle,
-  Mic,
   Plane,
-  Play,
   ShoppingCart,
   Star,
   Target,
   Users,
 } from 'lucide-react';
 
-// Component: Bảng điều khiển luyện tập
-const PracticeControls = ({ isRecording, onToggleRecording }) => (
-  <div className="bg-background border-border rounded-lg border p-6">
-    <div className="mb-4">
-      <h3 className="text-foreground mb-2 text-xl font-semibold">Phiên luyện tập</h3>
-      <p className="text-muted-foreground">Sử dụng AI Coach để luyện tập tình huống này</p>
-    </div>
-
-    <div className="space-y-4">
-      <Button
-        onClick={onToggleRecording}
-        className={`h-16 w-full text-lg font-medium ${
-          isRecording
-            ? 'bg-red-500 text-white hover:bg-red-600'
-            : 'bg-primary hover:bg-primary/90 text-primary-foreground'
-        }`}
-      >
-        <Mic className="mr-2 h-6 w-6" />
-        {isRecording ? 'Dừng ghi âm' : 'Bắt đầu nói'}
-      </Button>
-
-      <div className="grid gap-3">
-        <Button variant="outline" className="w-full justify-start">
-          <Play className="mr-2 h-4 w-4" />
-          Nghe mẫu hội thoại
-        </Button>
-
-        <Button variant="outline" className="w-full justify-start">
-          <MessageCircle className="mr-2 h-4 w-4" />
-          Trò chuyện với AI Coach
-        </Button>
-      </div>
-
-      <div className="border-border border-t pt-4">
-        <h4 className="text-foreground mb-3 font-medium">Tiến độ của bạn</h4>
-        <div className="text-muted-foreground mb-2 flex items-center gap-2 text-sm">
-          <Star className="h-4 w-4 text-yellow-500" />
-          <span>0/3 gợi ý đã hoàn thành</span>
-        </div>
-        <div className="bg-muted h-3 w-full rounded-full">
-          <div className="bg-primary h-3 w-0 rounded-full transition-all duration-300"></div>
-        </div>
-        <div className="text-muted-foreground mt-1 text-xs">0% hoàn thành</div>
-      </div>
-    </div>
-  </div>
-);
-
 // Component chính
 const OnionPage = () => {
-  const [selectedSituation, setSelectedSituation] = useState(null);
-  const [isRecording, setIsRecording] = useState(false);
+  const router = useRouter();
 
   const situations = [
     {
@@ -210,110 +156,14 @@ const OnionPage = () => {
     },
   ];
 
-  const startPractice = (situation) => {
-    setSelectedSituation(situation);
+  const handleStartPractice = (situationId: number) => {
+    router.push(`/onion/${situationId}`);
   };
 
-  const toggleRecording = () => {
-    setIsRecording(!isRecording);
-  };
-
-  // Trang chi tiết tình huống
-  if (selectedSituation) {
-    return (
-      <div className="size-full">
-        {/* Header */}
-        <div className="mb-8">
-          <Button
-            variant="outline"
-            onClick={() => setSelectedSituation(null)}
-            className="hover:bg-muted mb-6"
-          >
-            <ArrowLeft className="mr-2 h-4 w-4" />
-            Quay lại danh sách tình huống
-          </Button>
-
-          <div className="mb-6 flex items-start gap-6">
-            <div className="bg-primary/10 shrink-0 rounded-xl p-4">{selectedSituation.icon}</div>
-            <div className="flex-1">
-              <h1 className="text-foreground mb-3 text-4xl font-bold">{selectedSituation.title}</h1>
-              <p className="text-muted-foreground mb-4 text-lg leading-relaxed">
-                {selectedSituation.description}
-              </p>
-              <div className="flex flex-wrap gap-3">
-                <Badge
-                  className={
-                    selectedSituation.difficulty === 'Người mới'
-                      ? 'border-green-200 bg-green-100 text-green-800'
-                      : selectedSituation.difficulty === 'Trung bình'
-                        ? 'border-yellow-200 bg-yellow-100 text-yellow-800'
-                        : 'border-red-200 bg-red-100 text-red-800'
-                  }
-                >
-                  {selectedSituation.difficulty}
-                </Badge>
-                <Badge
-                  className={
-                    selectedSituation.category === 'Cuộc sống'
-                      ? 'border-blue-200 bg-blue-100 text-blue-800'
-                      : selectedSituation.category === 'Công việc'
-                        ? 'border-purple-200 bg-purple-100 text-purple-800'
-                        : selectedSituation.category === 'Xã hội'
-                          ? 'border-pink-200 bg-pink-100 text-pink-800'
-                          : selectedSituation.category === 'Học tập'
-                            ? 'border-indigo-200 bg-indigo-100 text-indigo-800'
-                            : selectedSituation.category === 'Du lịch'
-                              ? 'border-orange-200 bg-orange-100 text-orange-800'
-                              : 'border-teal-200 bg-teal-100 text-teal-800'
-                  }
-                >
-                  {selectedSituation.category}
-                </Badge>
-                <Badge variant="outline" className="flex items-center gap-1">
-                  <Clock className="h-3 w-3" />
-                  {selectedSituation.duration}
-                </Badge>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div className="grid grid-cols-1 gap-8 lg:grid-cols-3">
-          {/* Bối cảnh tình huống */}
-          <div className="bg-background border-border rounded-lg border p-6 lg:col-span-2">
-            <div className="mb-6">
-              <h2 className="text-foreground mb-4 flex items-center gap-2 text-2xl font-semibold">
-                <Target className="text-primary h-6 w-6" />
-                Bối cảnh tình huống
-              </h2>
-              <p className="text-foreground bg-muted/30 rounded-lg p-4 text-lg leading-relaxed">
-                {selectedSituation.scenario}
-              </p>
-            </div>
-
-            <div>
-              <h3 className="text-foreground mb-4 text-xl font-semibold">Gợi ý luyện tập:</h3>
-              <div className="space-y-4">
-                {selectedSituation.prompts.map((prompt, index) => (
-                  <PracticePrompt key={index} prompt={prompt} index={index} />
-                ))}
-              </div>
-            </div>
-          </div>
-
-          {/* Điều khiển luyện tập */}
-          <PracticeControls isRecording={isRecording} onToggleRecording={toggleRecording} />
-        </div>
-      </div>
-    );
-  }
-
-  // Trang chính
   return (
     <div className="size-full">
       <div className="">
-        {/* Header */}
-        <div className="mb-12 text-center">
+        <div className="mb-10 text-center">
           <h1 className="text-foreground mb-6 text-5xl font-bold">Luyện Nói Theo Tình Huống</h1>
           <p className="text-muted-foreground mx-auto max-w-4xl text-xl leading-relaxed">
             Nâng cao kỹ năng nói với AI Coach thông qua các tình huống thực tế. Chọn từ những kịch
@@ -321,27 +171,28 @@ const OnionPage = () => {
           </p>
         </div>
 
-        {/* Thống kê */}
-        <div className="mb-16 grid grid-cols-2 gap-6 md:grid-cols-4">
+        <div className="mb-12 grid grid-cols-2 gap-6 md:grid-cols-4">
           <StatCard value="8" label="Tình huống có sẵn" />
           <StatCard value="6" label="Danh mục" />
           <StatCard value="3" label="Cấp độ khó" />
           <StatCard value="AI" label="Huấn luyện viên" />
         </div>
 
-        {/* Lưới tình huống */}
         <div className="mb-16">
           <h2 className="text-foreground mb-8 text-center text-3xl font-bold">
             Chọn tình huống luyện tập
           </h2>
           <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
             {situations.map((situation) => (
-              <SituationCard key={situation.id} situation={situation} onStart={startPractice} />
+              <SituationCard
+                key={situation.id}
+                situation={situation}
+                onStart={() => handleStartPractice(situation.id)}
+              />
             ))}
           </div>
         </div>
 
-        {/* Phần tính năng */}
         <div className="text-center">
           <h2 className="text-foreground mb-12 text-3xl font-bold">
             Tại sao luyện tập với AI Coach?
