@@ -37,18 +37,18 @@ export const SituationCard = ({ situation, onStart }: SituationCardProps) => {
         <div className="bg-primary/10 group-hover:bg-primary/20 rounded-lg p-3 transition-colors">
           {situation.icon}
         </div>
-        <Badge className={difficultyColors[situation.difficulty]} variant="outline">
+        {/* <Badge className={difficultyColors[situation.difficulty]} variant="outline">
           {situation.difficulty}
-        </Badge>
+        </Badge> */}
       </div>
 
       <h3 className="text-foreground mb-2 text-xl font-semibold">{situation.title}</h3>
       <p className="text-muted-foreground mb-4 leading-relaxed">{situation.description}</p>
 
       <div className="mb-4 flex items-center justify-between text-sm">
-        <Badge className={categoryColors[situation.category]} variant="outline">
+        {/* <Badge className={categoryColors[situation.category]} variant="outline">
           {situation.category}
-        </Badge>
+        </Badge> */}
         <span className="text-muted-foreground flex items-center gap-1">
           <Clock className="h-4 w-4" />
           {situation.duration}

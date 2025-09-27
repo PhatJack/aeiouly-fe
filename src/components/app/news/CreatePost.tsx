@@ -1,57 +1,88 @@
-"use client";
-import React from "react";
-import { motion } from "motion/react";
-import { useForm } from "react-hook-form";
-import { Button } from "@/components/ui/button";
-import { useCreatePostMutation } from "@/services/posts";
-import { postCreateSchema, PostCreateSchema } from "@/lib/schema/post.schema";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { toast } from "sonner";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormMessage,
-} from "@/components/ui/form";
-import { Textarea } from "@/components/ui/textarea";
+'use client';
+
+import React from 'react';
+import { useForm } from 'react-hook-form';
+
+import { ImageUpload } from '@/components/ImageUpload';
+import { Button } from '@/components/ui/button';
+import { Form, FormControl, FormField, FormItem, FormMessage } from '@/components/ui/form';
+import { Textarea } from '@/components/ui/textarea';
+import { PostCreateSchema, postCreateSchema } from '@/lib/schema/post.schema';
+import { useCreatePostMutation } from '@/services/posts';
+import { useCreatePostImageMutation } from '@/services/posts/create-post-image.api';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useQueryClient } from '@tanstack/react-query';
+
+import { motion } from 'motion/react';
+import { toast } from 'sonner';
 
 const CreatePost = () => {
+  const queryClient = useQueryClient();
   const postMutation = useCreatePostMutation();
+  const postImageMutation = useCreatePostImageMutation();
   const createPostForm = useForm<PostCreateSchema>({
     resolver: zodResolver(postCreateSchema),
     defaultValues: {
-      content: "",
+      content: '',
       is_published: true,
     },
-    mode: "onSubmit",
+    mode: 'onSubmit',
   });
-
   const onSubmit = (data: PostCreateSchema) => {
-    postMutation.mutate(data, {
-      onSuccess: () => {
-        toast.success("Đăng bài viết thành công");
-        createPostForm.reset();
+    const { image, ...rest } = data;
+    postMutation.mutate(rest, {
+      onSuccess: (res) => {
+        postImageMutation.mutate(
+          {
+            post_id: res.id,
+            body: {
+              image: data.image,
+            },
+          },
+          {
+            onSuccess: () => {
+              toast.success('Đăng bài viết thành công');
+              queryClient.invalidateQueries({ queryKey: ['posts'] });
+              createPostForm.reset();
+            },
+            onError: (error) => {
+              toast.error(error.detail || 'Lỗi khi đăng bài viết');
+              console.error('Post creation error:', error);
+            },
+          }
+        );
+      },
+      onError: (error) => {
+        toast.error('Lỗi khi đăng bài viết');
+        console.error('Post creation error:', error);
       },
     });
   };
 
   return (
-    <div className="w-full relative flex flex-col items-center">
+    <div className="relative flex w-full flex-col items-center">
       <motion.div
         key="create-form"
         className="w-full"
         initial={{ height: 0, opacity: 0 }}
-        animate={{ height: "auto", opacity: 1 }}
+        animate={{ height: 'auto', opacity: 1 }}
         exit={{ height: 0, opacity: 0 }}
         transition={{ duration: 0.3 }}
       >
         <div>
           <Form {...createPostForm}>
-            <form
-              onSubmit={createPostForm.handleSubmit(onSubmit)}
-              className="space-y-6"
-            >
+            <form onSubmit={createPostForm.handleSubmit(onSubmit)} className="space-y-6">
+              <FormField
+                control={createPostForm.control}
+                name="image"
+                render={() => (
+                  <FormItem>
+                    <ImageUpload control={createPostForm.control} name="image" />
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
               <FormField
                 control={createPostForm.control}
                 name="content"

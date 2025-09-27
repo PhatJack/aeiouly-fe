@@ -1,11 +1,13 @@
-"use client";
-import CreatePost from "@/components/app/news/CreatePost";
-import PostItem from "@/components/app/news/PostItem";
-import { useAuthContext } from "@/contexts/AuthContext";
-import { useInfiniteGetAllPostsQuery } from "@/services/posts";
-import { useInfiniteQuery } from "@tanstack/react-query";
-import React, { useEffect } from "react";
-import { useInView } from "react-intersection-observer";
+'use client';
+
+import React, { useEffect } from 'react';
+import { useInView } from 'react-intersection-observer';
+
+import CreatePost from '@/components/app/news/CreatePost';
+import PostItem from '@/components/app/news/PostItem';
+import { useAuthContext } from '@/contexts/AuthContext';
+import { useInfiniteGetAllPostsQuery } from '@/services/posts';
+import { useInfiniteQuery } from '@tanstack/react-query';
 
 const NewsPage = () => {
   const [state, dispatch] = useAuthContext();
@@ -20,11 +22,9 @@ const NewsPage = () => {
     }
   }, [fetchNextPage, inView]);
   return (
-    <div className="w-full grid gap-6 lg:grid-cols-12">
-      <div className="lg:col-span-3">
-        {state.user?.role === "admin" && <CreatePost />}
-      </div>
-      <div ref={ref} className="lg:col-span-5 grid gap-6 divide-y">
+    <div className="grid w-full gap-6 lg:grid-cols-12">
+      <div className="lg:col-span-3">{state.user?.role === 'admin' && <CreatePost />}</div>
+      <div ref={ref} className="flex h-auto flex-col divide-y lg:col-span-5">
         {posts && posts.items.map((post) => <PostItem key={post.id} post={post} />)}
       </div>
     </div>
