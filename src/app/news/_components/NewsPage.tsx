@@ -23,7 +23,9 @@ const NewsPage = () => {
   }, [fetchNextPage, inView]);
   return (
     <div className="grid w-full gap-6 lg:grid-cols-12">
-      <div className="lg:col-span-3">{state.user?.role === 'admin' && <CreatePost />}</div>
+      <div className="lg:col-span-3">
+        <div className="sticky top-5">{state.user?.role === 'admin' && <CreatePost />}</div>
+      </div>
       <div ref={ref} className="flex h-auto flex-col divide-y lg:col-span-5">
         {posts && posts.items.map((post) => <PostItem key={post.id} post={post} />)}
       </div>
