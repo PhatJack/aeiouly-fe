@@ -162,58 +162,41 @@ const OnionPage = () => {
 
   return (
     <div className="size-full">
-      <div className="">
-        <div className="mb-10 text-center">
-          <h1 className="text-foreground mb-6 text-5xl font-bold">Luyện Nói Theo Tình Huống</h1>
-          <p className="text-muted-foreground mx-auto max-w-4xl text-xl leading-relaxed">
-            Nâng cao kỹ năng nói với AI Coach thông qua các tình huống thực tế. Chọn từ những kịch
-            bản đời thường và nhận phản hồi tức thì từ huấn luyện viên ảo của bạn.
-          </p>
-        </div>
-
-        <div className="mb-12 grid grid-cols-2 gap-6 md:grid-cols-4">
-          <StatCard value="8" label="Tình huống có sẵn" />
-          <StatCard value="6" label="Danh mục" />
-          <StatCard value="3" label="Cấp độ khó" />
-          <StatCard value="AI" label="Huấn luyện viên" />
-        </div>
-
-        <div className="mb-16">
-          <h2 className="text-foreground mb-8 text-center text-3xl font-bold">
-            Chọn tình huống luyện tập
-          </h2>
-          <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-            {situations.map((situation) => (
-              <SituationCard
-                key={situation.id}
-                situation={situation}
-                onStart={() => handleStartPractice(situation.id)}
-              />
-            ))}
-          </div>
-        </div>
-
-        <div className="text-center">
-          <h2 className="text-foreground mb-12 text-3xl font-bold">
-            Tại sao luyện tập với AI Coach?
-          </h2>
-          <div className="grid grid-cols-1 gap-12 md:grid-cols-3">
-            <FeatureCard
-              icon={<MessageCircle className="text-primary h-8 w-8" />}
-              title="Phản hồi thời gian thực"
-              description="Nhận phản hồi tức thì về cách phát âm, độ trôi chảy và kỹ năng hội thoại của bạn."
+      <div className="mb-16">
+        <h2 className="text-foreground mb-8 text-lg font-bold md:text-2xl">
+          Các tình huống cá nhân hoá được yêu thích nhất
+        </h2>
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+          {situations.map((situation) => (
+            <SituationCard
+              key={situation.id}
+              situation={situation}
+              onStart={() => handleStartPractice(situation.id)}
             />
-            <FeatureCard
-              icon={<Target className="text-primary h-8 w-8" />}
-              title="Luyện tập cá nhân hóa"
-              description="Các tình huống thích ứng điều chỉnh theo trình độ kỹ năng và tốc độ học của bạn."
-            />
-            <FeatureCard
-              icon={<Star className="text-primary h-8 w-8" />}
-              title="Theo dõi tiến độ"
-              description="Giám sát sự cải thiện của bạn qua các tình huống và kỹ năng khác nhau."
-            />
-          </div>
+          ))}
+        </div>
+      </div>
+
+      <div className="text-center">
+        <h2 className="text-foreground mb-12 text-3xl font-bold">
+          Tại sao luyện tập với AI Coach?
+        </h2>
+        <div className="grid grid-cols-1 gap-12 md:grid-cols-3">
+          <FeatureCard
+            icon={<MessageCircle className="text-primary h-8 w-8" />}
+            title="Phản hồi thời gian thực"
+            description="Nhận phản hồi tức thì về cách phát âm, độ trôi chảy và kỹ năng hội thoại của bạn."
+          />
+          <FeatureCard
+            icon={<Target className="text-primary h-8 w-8" />}
+            title="Luyện tập cá nhân hóa"
+            description="Các tình huống thích ứng điều chỉnh theo trình độ kỹ năng và tốc độ học của bạn."
+          />
+          <FeatureCard
+            icon={<Star className="text-primary h-8 w-8" />}
+            title="Theo dõi tiến độ"
+            description="Giám sát sự cải thiện của bạn qua các tình huống và kỹ năng khác nhau."
+          />
         </div>
       </div>
     </div>
