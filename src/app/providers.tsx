@@ -1,7 +1,8 @@
 'use client';
 
-import React from 'react';
+import React, { use, useEffect } from 'react';
 
+import { useTheme } from 'next-themes';
 import { usePathname } from 'next/navigation';
 import NextTopLoader from 'nextjs-toploader';
 
@@ -22,8 +23,17 @@ const Providers = ({
 }: Readonly<{
   children: React.ReactNode;
 }>) => {
+  const { setTheme } = useTheme();
   const location = usePathname();
   const excludedPaths = Object.values(ROUTE.AUTH);
+
+  useEffect(() => {
+    const theme = localStorage.getItem('aeiouly-theme');
+    if (!theme) {
+      setTheme('light');
+    }
+  }, []);
+
   return (
     <>
       <QueryClientProvider client={queryClient}>
