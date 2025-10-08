@@ -121,3 +121,9 @@ export function parseDefinitions(raw: string) {
 
   return { phonetics, sections, idioms };
 }
+
+export const blobToAudio = (blob?: Blob) => {
+  if (!blob) return;
+  const url = URL.createObjectURL(blob);
+  return url;
+};

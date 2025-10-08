@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 
-export type RecorderState = 'not_started' | 'paused' | 'recording';
+export type RecorderState = 'not_started' | 'recording';
 
 export const useRecorderState = (isRecording: boolean) => {
   const hasStartedRef = useRef<boolean>(false);
@@ -11,10 +11,6 @@ export const useRecorderState = (isRecording: boolean) => {
       if (isRecording) {
         hasStartedRef.current = true;
         return 'recording';
-      }
-
-      if (!isRecording && hasStartedRef.current) {
-        return 'paused';
       }
 
       return prevState;

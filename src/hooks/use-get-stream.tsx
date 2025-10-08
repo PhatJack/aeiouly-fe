@@ -12,9 +12,12 @@ export const useGetStream = (deviceId: string | null) => {
       return newStream;
     } catch (error) {
       console.error('Error accessing media devices:', error);
-      toast('Không thể truy cập thiết bị âm thanh. Vui lòng kiểm tra quyền truy cập của bạn.', {
-        description: 'Đảm bảo rằng trình duyệt có quyền truy cập vào microphone.',
-      });
+      toast.error(
+        'Không thể truy cập thiết bị âm thanh. Vui lòng kiểm tra quyền truy cập của bạn.',
+        {
+          description: 'Đảm bảo rằng trình duyệt có quyền truy cập vào microphone.',
+        }
+      );
     }
   };
 
