@@ -16,8 +16,6 @@ export const useGetDevice = () => {
         (device) => device.kind === 'audioinput'
       );
 
-      console.log('Available audio input devices:', devices);
-
       if (devices.length === 0) {
         console.error('No audio input devices found.');
         return;

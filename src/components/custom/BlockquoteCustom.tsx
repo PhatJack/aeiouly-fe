@@ -1,8 +1,6 @@
-import React from 'react';
+import React, { memo } from 'react';
 
 import { cn } from '@/lib/utils';
-
-import { cva } from 'class-variance-authority';
 
 import { Label } from '../ui/label';
 
@@ -67,4 +65,4 @@ const BlockquoteCustom = ({ variants = 'primary', title, content }: BlockquoteCu
   );
 };
 
-export default BlockquoteCustom;
+export default memo(BlockquoteCustom);

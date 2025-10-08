@@ -1,6 +1,10 @@
+'use client';
+
 import React from 'react';
 
 import { cn } from '@/lib/utils';
+
+import MessageItem from './MessageItem';
 
 interface MessageContainerProps {
   messages: string[];
@@ -17,17 +21,12 @@ const MessageContainer = ({ messages, className }: MessageContainerProps) => {
       )}
     >
       {messages.map((message, index) => (
-        <div
+        <MessageItem
           key={index}
-          className={cn(
-            'max-w-sm rounded-lg p-3 break-words',
-            index % 2 === 0
-              ? 'bg-primary/85 ml-auto self-end text-white'
-              : 'mr-auto self-start bg-gray-200 text-gray-800'
-          )}
-        >
-          {message}
-        </div>
+          index={index}
+          content={message}
+          senderId={index % 2 === 0 ? 1 : 2}
+        />
       ))}
     </div>
   );

@@ -27,8 +27,6 @@ const PostItem = ({ post }: PostItemProps) => {
     });
   }, [post.id]);
 
-  console.log('post render', post.image_url);
-
   return (
     <div className="w-full p-4">
       {/* Header */}
