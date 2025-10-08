@@ -1,28 +1,36 @@
 'use client';
 
-import React, { ReactNode, useEffect, useState } from 'react';
+import React from 'react';
 
-import TooltipCustom from '@/components/custom/TooltipCustom';
+import BlockquoteCustom from '@/components/custom/BlockquoteCustom';
 import MessageContainer from '@/components/shared/chat/MessageContainer';
-import MessageInput from '@/components/shared/chat/MessageInput';
 import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
 import { useRecorder } from '@/hooks/use-recorder';
-import { RecorderState } from '@/hooks/use-recorder-state';
-import { blobToAudio, cn } from '@/lib/utils';
+import { cn } from '@/lib/utils';
 
-import { Mic, Pause } from 'lucide-react';
+import { MessageCircleWarning, Mic, Pause } from 'lucide-react';
 
 const OnionDetailPage = () => {
   const {
     stream,
     startRecording,
     stopRecording,
-    recorderRef,
-    recorderState,
     isRecording,
     resetRecorder,
     resetStream,
     audioBlob,
+    devices,
+    selectedDeviceId,
+    setSelectedDeviceId,
   } = useRecorder();
 
   const handleStart = () => {
@@ -35,6 +43,12 @@ const OnionDetailPage = () => {
     resetRecorder();
     resetStream();
   };
+
+  const audioTrack = stream?.getAudioTracks()[0];
+  const settings = audioTrack?.getSettings();
+
+  const deviceOptions = devices.filter((device) => !!device.id);
+
   return (
     <div className="flex h-[calc(100vh-3rem)] w-full gap-6">
       <div className="relative flex size-full flex-col lg:w-3/5">
@@ -55,7 +69,7 @@ const OnionDetailPage = () => {
             'Stay positive 🌈',
             'Let’s make today amazing!',
             'Never give up 🚀',
-            'Be kind to yourself 💖',
+            'Be kind to yourself. And remember to take breaks!. Also, drink water!.It’s draining!. Focus on your goals and dreams!. You can achieve anything you set your mind to!. Believe in yourself!. You are capable of amazing things!. And remember to be grateful!. Gratitude brings happiness!. So count your blessings every day!. Life is a gift, cherish it!. Make the most of every moment!. Live, love, laugh! 💖',
             'Be kind to yourself 💖',
             'Keep pushing forward 💪',
             'You’ve got this!',
@@ -80,12 +94,49 @@ const OnionDetailPage = () => {
         </div>
       </div>
       <div className="flex w-full flex-col rounded-xl border bg-gray-50 p-4 lg:w-2/5">
-        <div className="mb-4">
-          <h3 className="mb-2 text-lg font-semibold">Recording Status</h3>
-          <p className="text-sm text-gray-600">
-            {isRecording ? '🔴 Recording...' : '⭕ Not recording'}
-          </p>
-          {audioBlob && <audio controls src={blobToAudio(audioBlob)} loop />}
+        {/* {audioBlob && <audio controls src={blobToAudio(audioBlob)} loop />} */}
+        <div className="flex w-full items-center justify-between gap-2 border-b pb-4">
+          {deviceOptions.length < 1 ? null : (
+            <div className="invisible w-1/2 space-y-4 border-r pr-4 md:visible">
+              <Label className="text-foreground">Thiết bị đầu vào</Label>
+              <Select
+                onValueChange={(e) => setSelectedDeviceId(e)}
+                value={selectedDeviceId || settings?.deviceId || 'preferred'}
+              >
+                <SelectTrigger className="w-full">
+                  <SelectValue />
+                </SelectTrigger>
+
+                <SelectContent>
+                  <SelectItem value="preferred">Thiết bị mặc định</SelectItem>
+                  {deviceOptions.map((device) => (
+                    <SelectItem key={device.id} value={device.id}>
+                      {device.label}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+          )}
+          <div className="invisible w-1/2 space-y-4 border-r pl-4 md:visible">
+            <Label className="text-foreground">Có lỗi xảy ra?</Label>
+            <Button type="button" variant={'destructive'} className="w-full py-1">
+              <MessageCircleWarning />
+              Gửi báo cáo
+            </Button>
+          </div>
+        </div>
+        <div className="flex flex-col gap-4 pt-4">
+          <BlockquoteCustom
+            variants="info"
+            title="Tình huống"
+            content="Bạn là một nhân viên chăm sóc khách hàng. Hãy giúp khách hàng giải quyết các vấn đề về sản phẩm và dịch vụ của công ty một cách nhanh chóng và hiệu quả."
+          />
+          <BlockquoteCustom
+            variants="primary"
+            title="Nhiệm vụ"
+            content="Bạn là một nhân viên chăm sóc khách hàng. Hãy giúp khách hàng giải quyết các vấn đề về sản phẩm và dịch vụ của công ty một cách nhanh chóng và hiệu quả."
+          />
         </div>
       </div>
     </div>
