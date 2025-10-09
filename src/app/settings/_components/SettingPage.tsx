@@ -97,24 +97,24 @@ const SettingPage = () => {
           </div>
         </div>
       </div>
-      <div className="grid w-fit gap-6 lg:grid-cols-2">
+      <div className="grid w-full gap-6 lg:grid-cols-2">
         <div className="relative min-h-44 w-full overflow-hidden rounded-xl border p-4 font-semibold">
           <p className="text-lg">
             Tôi <span className="text-primary">sắp nói được tiếng anh</span> vì đã mở miệng được
           </p>
-          <p className="mt-2 text-3xl">
+          <p className="mt-2 text-3xl font-bold">
             <span className="text-primary">1</span> / 100 giờ
           </p>
-          <WaveAnimation color="#ff8b7b" className="h-full max-h-12" speed={20} />
+          <WaveAnimation color="#ff7429" className="h-full max-h-12" speed={20} />
         </div>
         <div className="relative min-h-44 w-full overflow-hidden rounded-xl border p-4 font-semibold">
           <p className="text-lg">
-            Tôi <span className="text-primary">đã vượt qua cơn lười học</span> của bản thân được
+            Tôi <span className="text-secondary">đã vượt qua cơn lười học</span> của bản thân được
           </p>
-          <p className="mt-2 text-3xl">
-            <span className="text-primary">1</span> ngày
+          <p className="mt-2 text-3xl font-bold">
+            <span className="text-secondary">1</span> ngày
           </p>
-          <WaveAnimation color="#67c7ff" className="h-full max-h-12" speed={10} />
+          <WaveAnimation color="#24d0a3" className="h-full max-h-12" speed={10} />
         </div>
       </div>
     </div>
