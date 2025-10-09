@@ -1,20 +1,25 @@
-````markdown
-# Next.js 15 with pnpm
-
-This project is built with **Next.js 15** and uses **pnpm** as the package manager.  
-
-## 📦 Prerequisites
-
-Make sure you have the following installed:
-
-- [Node.js](https://nodejs.org/) `>=18.18` or `>=20.x`
-- [pnpm](https://pnpm.io/) `>=9.x`
-
-Check versions:
-```bash
-node -v
-pnpm -v
-````
+<div align="center">
+  <a href="https://synapse-discussion-forum.vercel.app/" target="_blank">
+    <img
+      src="https://img.shields.io/website?label=Live%20Demo&style=for-the-badge&url=https%3A%2F%2Fsynapse-discussion-forum.vercel.app%2F&up_color=06B6D4"
+      alt="Live Demo"
+    />
+  </a>
+  <img
+    src="https://img.shields.io/github/languages/code-size/PhatJack/aeiouly-fe?style=for-the-badge&color=8B5CF6"
+    alt="Code Size"
+  />
+  <img
+    src="https://img.shields.io/github/last-commit/PhatJack/aeiouly-fe?style=for-the-badge&color=F59E0B"
+    alt="Last Commit"
+  />
+  <a href="https://github.com/dhlananhh/synapse-client/blob/main/LICENSE.md" target="_blank">
+    <img
+      src="https://img.shields.io/github/license/PhatJack/aeiouly-fe?style=for-the-badge&color=EC4899"
+      alt="License"
+    />
+  </a>
+</div>
 
 ## ⚡ Getting Started
 
