@@ -2,6 +2,7 @@
 
 import React, { useCallback, useMemo } from 'react';
 
+import IndicatorLoading from '@/components/IndicatorLoading';
 import { Button } from '@/components/ui/button';
 import { useSpeechContext } from '@/contexts/SpeechContext';
 import { cn } from '@/lib/utils';
@@ -12,9 +13,15 @@ interface MessageItemProps {
   content: string;
   senderId?: number;
   index?: number;
+  isLoading?: boolean;
 }
 
-const MessageItem: React.FC<MessageItemProps> = ({ content, senderId, index }) => {
+const MessageItem: React.FC<MessageItemProps> = ({
+  content,
+  senderId,
+  index,
+  isLoading = false,
+}) => {
   const { selectedVoice, voices, speaking, speak, cancel, speakingMessageId } = useSpeechContext();
 
   const messageId = `message-${index}`;
@@ -52,9 +59,9 @@ const MessageItem: React.FC<MessageItemProps> = ({ content, senderId, index }) =
             : 'self-start bg-gray-200 text-gray-800'
         )}
       >
-        {content}
+        <span>{isLoading ? <IndicatorLoading text={'Thinking'} /> : content}</span>
       </div>
-      {senderId === 2 && (
+      {senderId === 2 && !isLoading && (
         <>
           <Button
             onClick={handleSpeakClick}

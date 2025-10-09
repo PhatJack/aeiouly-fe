@@ -11,6 +11,8 @@ interface SpeechContextType {
   voices: SpeechSynthesisVoice[];
   selectedVoice: string | undefined;
   setSelectedVoice: (voice: string) => void;
+  rate: number;
+  setRate: (rate: number) => void;
 }
 
 const SpeechContext = createContext<SpeechContextType | undefined>(undefined);
@@ -18,8 +20,9 @@ const SpeechContext = createContext<SpeechContextType | undefined>(undefined);
 export const SpeechProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const { voices, speaking, speak: originalSpeak, cancel: originalCancel } = useSpeechSynthesis();
   const [selectedVoice, setSelectedVoice] = useState<string | undefined>(
-    'Microsoft David - English (United States)'
+    'Microsoft Mark - English (United States)'
   );
+  const [rate, setRate] = useState(1);
   const [speakingMessageId, setSpeakingMessageId] = useState<string | null>(null);
 
   const availableVoices = useMemo(
@@ -32,6 +35,7 @@ export const SpeechProvider: React.FC<{ children: React.ReactNode }> = ({ childr
       setSpeakingMessageId(options.messageId || null);
       originalSpeak({
         ...options,
+        rate,
       });
     },
     [originalSpeak]
@@ -52,6 +56,8 @@ export const SpeechProvider: React.FC<{ children: React.ReactNode }> = ({ childr
         voices: availableVoices,
         selectedVoice,
         setSelectedVoice,
+        rate,
+        setRate,
       }}
     >
       {children}

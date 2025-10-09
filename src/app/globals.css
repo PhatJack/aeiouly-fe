@@ -98,6 +98,19 @@
 		}
 
 	}
+
+	--animate-shine: shine 5s linear infinite;
+
+	@keyframes shine {
+		0% {
+			background-position: 100%;
+		}
+
+		100% {
+			background-position: -100%;
+		}
+
+	}
 }
 
 :root {
@@ -269,7 +282,7 @@
 
 
 .parallax>use {
-	animation: move-forever var(--move-forever-duration,25s) cubic-bezier(.55, .5, .45, .5) infinite;
+	animation: move-forever var(--move-forever-duration, 25s) cubic-bezier(.55, .5, .45, .5) infinite;
 }
 
 .parallax>use:nth-child(1) {

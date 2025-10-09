@@ -1,36 +1,83 @@
 'use client';
 
 import React, { useState } from 'react';
+import { useSpeechRecognition, useSpeechSynthesis } from 'react-speech-kit';
 
 import StarRating from '@/components/app/topic/StarRating';
+import MessageItem from '@/components/shared/chat/MessageItem';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { cn } from '@/lib/utils';
 
-import { Send } from 'lucide-react';
+import { Mic, Send } from 'lucide-react';
 
 interface Message {
   id: number;
   text: string;
   isUser: boolean;
   timestamp: Date;
+  isLoading?: boolean;
 }
 
-interface DetailPageProps {
+interface TopicDetailPageProps {
   slug: string;
 }
 
-const DetailPage = ({ slug }: DetailPageProps) => {
+const TopicDetailPage = ({ slug }: TopicDetailPageProps) => {
+  const { speak } = useSpeechSynthesis();
+  const { listen, listening, stop, supported } = useSpeechRecognition({
+    onResult: (result) => {
+      console.log(result);
+      // setNewMessage(result.item?.[0]);
+    },
+  });
   const [messages, setMessages] = useState<Message[]>([
     {
       id: 1,
-      text: 'Xin chào! Tôi có thể giúp gì cho bạn hôm nay?',
+      text: 'Hello, how can I assist you with the topic today?',
       isUser: false,
+      timestamp: new Date(Date.now() - 1000 * 60 * 5), // 5 min ago
+    },
+    {
+      id: 2,
+      text: 'Hi! Can you explain what React hooks are?',
+      isUser: true,
+      timestamp: new Date(Date.now() - 1000 * 60 * 4),
+    },
+    {
+      id: 3,
+      text: 'Sure! React hooks are functions that let you use state and other React features without writing a class. The most common ones are useState and useEffect.',
+      isUser: false,
+      timestamp: new Date(Date.now() - 1000 * 60 * 3),
+    },
+    {
+      id: 4,
+      text: 'Oh nice. Can I use multiple useEffects in one component?',
+      isUser: true,
+      timestamp: new Date(Date.now() - 1000 * 60 * 2),
+    },
+    {
+      id: 5,
+      text: 'Yes, absolutely! You can use as many useEffects as you need. Each one can handle different side effects separately.',
+      isUser: false,
+      timestamp: new Date(Date.now() - 1000 * 60 * 1),
+    },
+    {
+      id: 6,
+      text: 'Cool, thanks! That clears things up. 😊',
+      isUser: true,
       timestamp: new Date(),
     },
+    {
+      id: 7,
+      text: '',
+      isUser: false,
+      timestamp: new Date(),
+      isLoading: true, // 👈 then replace later
+    },
   ]);
+
   const [newMessage, setNewMessage] = useState('');
-  const [isMuted, setIsMuted] = useState(false);
 
   const handleSendMessage = (e: React.FormEvent) => {
     e.preventDefault();
@@ -50,7 +97,7 @@ const DetailPage = ({ slug }: DetailPageProps) => {
     setTimeout(() => {
       const botResponse: Message = {
         id: messages.length + 2,
-        text: `Tôi đã nhận được tin nhắn của bạn về chủ đề "${decodeURIComponent(slug)}". Tôi sẽ giúp bạn tìm hiểu thêm về chủ đề này.`,
+        text: `I have received your message about the topic "${decodeURIComponent(slug)}". I will help you learn more about this topic.`,
         isUser: false,
         timestamp: new Date(),
       };
@@ -69,14 +116,12 @@ const DetailPage = ({ slug }: DetailPageProps) => {
                 key={message.id}
                 className={cn('flex', message.isUser ? 'justify-end' : 'justify-start')}
               >
-                <div
-                  className={cn(
-                    'max-w-[80%] rounded-lg bg-white px-4 py-2 transition-all duration-200',
-                    message.isUser ? 'bg-primary/10 text-primary' : ''
-                  )}
-                >
-                  <p className="leading-relaxed">{message.text}</p>
-                </div>
+                <MessageItem
+                  content={message.text}
+                  senderId={message.isUser ? 1 : 2}
+                  index={message.id - 1}
+                  isLoading={message.isLoading}
+                />
               </div>
             ))}
           </div>
@@ -87,13 +132,30 @@ const DetailPage = ({ slug }: DetailPageProps) => {
                 value={newMessage}
                 onChange={(e) => setNewMessage(e.target.value)}
                 placeholder="Nhập tin nhắn..."
-                className="border-border/50 focus-visible:ring-primary/50 border-2 bg-white py-5 pr-12 pl-4 text-base transition-all focus-visible:border-transparent focus-visible:ring-2"
+                className="border-border/50 focus-visible:ring-primary/50 h-14 border-2 bg-white px-14 py-5 text-base transition-all focus-visible:border-transparent focus-visible:ring-2"
               />
+              <Button
+                type="button"
+                size={'icon'}
+                variant="ghost"
+                onClick={() => {
+                  if (listening) {
+                    listen({
+                      lang: 'vi-VN',
+                    });
+                  } else {
+                    stop();
+                  }
+                }}
+                className="absolute top-1/2 left-3 -translate-y-1/2"
+              >
+                <Mic size={18} className="h-5 w-5" />
+              </Button>
               <Button
                 type="submit"
                 size="icon"
-                variant={'ghost'}
-                className="absolute top-1/2 right-1 -translate-y-1/2"
+                variant={'default'}
+                className="absolute top-1/2 right-3 -translate-y-1/2"
               >
                 <Send size={18} className="-translate-x-0.5 transform" />
               </Button>
@@ -132,4 +194,4 @@ const DetailPage = ({ slug }: DetailPageProps) => {
   );
 };
 
-export default DetailPage;
+export default TopicDetailPage;

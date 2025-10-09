@@ -2,7 +2,7 @@ import React from 'react';
 
 import { Metadata } from 'next';
 
-import DetailPage from '../_components/DetailPage';
+import TopicDetailPage from '../_components/TopicDetailPage';
 
 export const metadata: Metadata = {
   title: 'Topic',
@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 
 const Page = async ({ params }: { params: Promise<{ slug: string }> }) => {
   const { slug } = await params;
-  return <DetailPage slug={slug} />;
+  return <TopicDetailPage slug={slug} />;
 };
 
 export default Page;
