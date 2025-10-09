@@ -1,5 +1,5 @@
 import { Locale, formatDistanceToNow } from 'date-fns';
-import { toZonedTime } from 'date-fns-tz';
+import { formatInTimeZone, toZonedTime } from 'date-fns-tz';
 import { vi } from 'date-fns/locale';
 
 export function distanceToNowVN(date: string | Date, locale: Locale = vi): string {
@@ -17,3 +17,9 @@ export function distanceToNowVN(date: string | Date, locale: Locale = vi): strin
 
   return formatDistanceToNow(vnDate, { addSuffix: true, locale: locale });
 }
+
+export const formatTimezoneVN = (date?: string) => {
+  if (!date) return '';
+
+  return formatInTimeZone(date, 'Asia/Ho_Chi_Minh', 'dd/MM/yyyy', { locale: vi });
+};

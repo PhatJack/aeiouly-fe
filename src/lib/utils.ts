@@ -127,3 +127,13 @@ export const blobToAudio = (blob?: Blob) => {
   const url = URL.createObjectURL(blob);
   return url;
 };
+
+export const getFallbackInitials = (name: string) => {
+  if (!name) return 'AE';
+  const words = name.trim().split(/\s+/);
+  if (words.length === 1) {
+    return words[0].charAt(0).toUpperCase();
+  } else {
+    return (words[0].charAt(0) + words[words.length - 1].charAt(0)).toUpperCase();
+  }
+};

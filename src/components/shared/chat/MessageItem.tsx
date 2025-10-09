@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button';
 import { useSpeechContext } from '@/contexts/SpeechContext';
 import { cn } from '@/lib/utils';
 
-import { StopCircle, Volume2 } from 'lucide-react';
+import { Languages, StopCircle, Volume2 } from 'lucide-react';
 
 interface MessageItemProps {
   content: string;
@@ -55,15 +55,26 @@ const MessageItem: React.FC<MessageItemProps> = ({ content, senderId, index }) =
         {content}
       </div>
       {senderId === 2 && (
-        <Button
-          onClick={handleSpeakClick}
-          type="button"
-          size={'icon'}
-          className={`size-6 rounded-full ${isThisMessageSpeaking ? 'bg-red-500 hover:bg-red-600' : ''}`}
-          variant={'secondary'}
-        >
-          {isThisMessageSpeaking ? <StopCircle /> : <Volume2 />}
-        </Button>
+        <>
+          <Button
+            onClick={handleSpeakClick}
+            type="button"
+            size={'icon'}
+            className={`size-7 rounded-full ${isThisMessageSpeaking ? 'bg-red-500 hover:bg-red-600' : ''}`}
+            variant={'secondary'}
+          >
+            {isThisMessageSpeaking ? <StopCircle /> : <Volume2 />}
+          </Button>
+          <Button
+            // onClick={handleSpeakClick}
+            type="button"
+            size={'icon'}
+            className={`size-7 rounded-full`}
+            variant={'error'}
+          >
+            <Languages />
+          </Button>
+        </>
       )}
     </div>
   );
