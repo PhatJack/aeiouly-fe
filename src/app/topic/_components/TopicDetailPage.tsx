@@ -4,12 +4,13 @@ import React, { useState } from 'react';
 import { useSpeechRecognition, useSpeechSynthesis } from 'react-speech-kit';
 
 import StarRating from '@/components/app/topic/StarRating';
+import BlockquoteCustom from '@/components/custom/BlockquoteCustom';
 import MessageItem from '@/components/shared/chat/MessageItem';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { cn } from '@/lib/utils';
 
-import { Mic, Send } from 'lucide-react';
+import { ArrowUp, Mic, Send } from 'lucide-react';
 
 interface Message {
   id: number;
@@ -24,11 +25,11 @@ interface TopicDetailPageProps {
 }
 
 const TopicDetailPage = ({ slug }: TopicDetailPageProps) => {
-  const { speak } = useSpeechSynthesis();
   const { listen, listening, stop, supported } = useSpeechRecognition({
     onResult: (result) => {
       console.log(result);
-      // setNewMessage(result.item?.[0]);
+      setNewMessage((prev) => prev + ' ' + result);
+      // setNewMessage(typeof result === 'string' ? (prev) => prev + " " + result : '');
     },
   });
   const [messages, setMessages] = useState<Message[]>([
@@ -132,32 +133,32 @@ const TopicDetailPage = ({ slug }: TopicDetailPageProps) => {
                 value={newMessage}
                 onChange={(e) => setNewMessage(e.target.value)}
                 placeholder="Nhập tin nhắn..."
-                className="border-border/50 focus-visible:ring-primary/50 h-14 border-2 bg-white px-14 py-5 text-base transition-all focus-visible:border-transparent focus-visible:ring-2"
+                className="border-border/50 focus-visible:ring-primary/50 h-14 rounded-full border-2 bg-white py-5 pr-14 pl-5 text-base shadow-none transition-all focus-visible:border-transparent focus-visible:ring-2"
               />
               <Button
                 type="button"
                 size={'icon'}
-                variant="ghost"
+                variant={listening ? 'destructive' : 'ghost'}
                 onClick={() => {
-                  if (listening) {
+                  if (!listening) {
                     listen({
-                      lang: 'vi-VN',
+                      lang: 'en-US',
                     });
                   } else {
                     stop();
                   }
                 }}
-                className="absolute top-1/2 left-3 -translate-y-1/2"
+                className="absolute top-1/2 right-14 size-10 -translate-y-1/2 rounded-full [&_svg:not([class*='size-'])]:size-5"
               >
-                <Mic size={18} className="h-5 w-5" />
+                <Mic />
               </Button>
               <Button
                 type="submit"
                 size="icon"
                 variant={'default'}
-                className="absolute top-1/2 right-3 -translate-y-1/2"
+                className="absolute top-1/2 right-3 size-10 -translate-y-1/2 rounded-full [&_svg:not([class*='size-'])]:size-5"
               >
-                <Send size={18} className="-translate-x-0.5 transform" />
+                <ArrowUp size={20} />
               </Button>
             </div>
           </form>
@@ -170,23 +171,18 @@ const TopicDetailPage = ({ slug }: TopicDetailPageProps) => {
           </h2>
 
           <div className="mb-6 space-y-6">
-            <div className="from-primary/20 to-secondary/20 border-border/30 rounded-xl border bg-gradient-to-br p-4">
-              <h3 className="text-muted-foreground mb-1 text-xs font-medium">Chủ đề</h3>
-              <p className="text-foreground text-lg font-semibold">{decodeURIComponent(slug)}</p>
-            </div>
-
-            <div className="from-primary/20 to-secondary/20 border-border/30 rounded-xl border bg-gradient-to-br p-4">
-              <h3 className="text-muted-foreground mb-2 text-xs font-medium">Độ khó</h3>
-              <div className="flex items-center gap-3">
-                <StarRating rating={3} />
-                <span className="text-foreground text-sm font-medium">Trung bình</span>
-              </div>
-            </div>
-
-            <div className="from-primary/20 to-secondary/20 border-border/30 rounded-xl border bg-gradient-to-br p-4">
-              <h3 className="text-muted-foreground mb-1 text-xs font-medium">Thời lượng</h3>
-              <p className="text-foreground text-lg font-semibold">15 phút</p>
-            </div>
+            <BlockquoteCustom title="Chủ đề" content={decodeURIComponent(slug)} />
+            <BlockquoteCustom
+              title="Độ khó"
+              variants="info"
+              content={
+                <div className="flex items-center gap-3">
+                  <StarRating rating={3} />
+                  <span className="text-foreground text-sm font-medium">Trung bình</span>
+                </div>
+              }
+            />
+            <BlockquoteCustom title="Mô tả" content="15 phút" variants="warning" />
           </div>
         </div>
       </div>

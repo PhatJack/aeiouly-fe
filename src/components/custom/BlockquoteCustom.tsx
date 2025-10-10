@@ -5,9 +5,9 @@ import { cn } from '@/lib/utils';
 import { Label } from '../ui/label';
 
 interface BlockquoteCustomProps {
-  variants: 'primary' | 'secondary' | 'muted' | 'success' | 'warning' | 'error' | 'info';
+  variants?: 'primary' | 'secondary' | 'muted' | 'success' | 'warning' | 'error' | 'info';
   title?: string;
-  content: string;
+  content: React.ReactNode;
 }
 
 const variantStyles = {
@@ -59,7 +59,7 @@ const BlockquoteCustom = ({ variants = 'primary', title, content }: BlockquoteCu
       <div
         className={cn('rounded-lg border-l-4 p-4', styles.borderColor, styles.backgroundColorLight)}
       >
-        <p className="leading-relaxed text-gray-700">{content}</p>
+        <div className="leading-relaxed text-gray-700">{content}</div>
       </div>
     </div>
   );

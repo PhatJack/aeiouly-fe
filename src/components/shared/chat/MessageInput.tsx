@@ -6,7 +6,7 @@ import { Form, FormControl, FormField, FormItem } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { ChatBodySchema } from '@/lib/schema/chat';
 
-import { Send } from 'lucide-react';
+import { ArrowUp } from 'lucide-react';
 
 const MessageInput = () => {
   const messageForm = useForm<ChatBodySchema>();
@@ -42,7 +42,7 @@ const MessageInput = () => {
           variant={'ghost'}
           className="absolute top-1/2 right-1 -translate-y-1/2"
         >
-          <Send size={18} className="-translate-x-0.5 transform" />
+          <ArrowUp size={18} className="-translate-x-0.5 transform" />
         </Button>
       </form>
     </Form>
