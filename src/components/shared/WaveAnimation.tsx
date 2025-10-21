@@ -8,15 +8,20 @@ interface WaveAnimationProps {
   /** Base color of the wave (default: white) */
   color?: string;
   speed?: number;
+  props?: React.HTMLAttributes<HTMLDivElement>;
 }
 
 export const WaveAnimation: React.FC<WaveAnimationProps> = ({
   className,
   color = '#ffffff',
   speed = 25,
+  props,
 }) => {
   return (
-    <div className={cn('absolute bottom-0 left-0 h-3/4 w-full overflow-hidden', className)}>
+    <div
+      className={cn('absolute bottom-0 left-0 h-full w-full overflow-hidden', className)}
+      {...props}
+    >
       <svg
         className="h-full w-full"
         xmlns="http://www.w3.org/2000/svg"

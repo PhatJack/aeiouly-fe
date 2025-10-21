@@ -97,6 +97,15 @@ const SettingPage = () => {
           </div>
         </div>
       </div>
+      <div className="flex w-full flex-col items-center justify-center gap-3 rounded-xl border p-4">
+        <p className="font-semibold">
+          Tôi đã <span className="text-primary">mở miệng nói tiếng Anh</span> được
+        </p>
+        <div className="flex aspect-square size-20 items-center justify-center rounded-full border border-gray-100 bg-gray-50 p-4">
+          <p className="text-primary text-5xl font-bold">7</p>
+        </div>
+        <p className="font-semibold">lần</p>
+      </div>
       <div className="grid w-full gap-6 lg:grid-cols-2">
         <div className="relative min-h-44 w-full overflow-hidden rounded-xl border p-4 font-semibold">
           <p className="text-lg">
@@ -105,7 +114,7 @@ const SettingPage = () => {
           <p className="mt-2 text-3xl font-bold">
             <span className="text-primary">1</span> / 100 giờ
           </p>
-          <WaveAnimation color="#ff7429" className="h-full max-h-12" speed={20} />
+          <WaveAnimation color="#ff7429" className="max-h-5" speed={20} />
         </div>
         <div className="relative min-h-44 w-full overflow-hidden rounded-xl border p-4 font-semibold">
           <p className="text-lg">

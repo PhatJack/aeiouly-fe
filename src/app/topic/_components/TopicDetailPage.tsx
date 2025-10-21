@@ -59,7 +59,7 @@ const TopicDetailPage = ({ slug }: TopicDetailPageProps) => {
     },
     {
       id: 5,
-      text: 'Yes, absolutely! You can use as many useEffects as you need. Each one can handle different side effects separately.',
+      text: "Let's see. The bus picks us up at 8:30 am,",
       isUser: false,
       timestamp: new Date(Date.now() - 1000 * 60 * 1),
     },
@@ -110,7 +110,7 @@ const TopicDetailPage = ({ slug }: TopicDetailPageProps) => {
     <div className="flex h-[calc(100vh-3rem)] flex-col gap-6">
       <div className="flex min-h-0 flex-1 gap-6">
         {/* Left side - Chat */}
-        <div className="bg-background/80 border-border/50 flex flex-1 flex-col rounded-2xl border p-6">
+        <div className="border-border/50 flex flex-1 flex-col rounded-2xl border bg-gray-50 p-6">
           <div className="scrollbar-thin scrollbar-thumb-border/50 scrollbar-track-transparent mb-6 flex-1 space-y-4 overflow-y-auto pr-2">
             {messages.map((message) => (
               <div
@@ -165,7 +165,7 @@ const TopicDetailPage = ({ slug }: TopicDetailPageProps) => {
         </div>
 
         {/* Right side - Topic Details */}
-        <div className="bg-background/80 border-border/50 flex w-md flex-col rounded-2xl border p-6 backdrop-blur-sm">
+        <div className="border-border/50 flex w-md flex-col rounded-2xl border bg-gray-50 p-6 backdrop-blur-sm">
           <h2 className="from-secondary to-primary mb-6 bg-gradient-to-r bg-clip-text text-2xl font-bold text-transparent">
             Thông tin chủ đề
           </h2>

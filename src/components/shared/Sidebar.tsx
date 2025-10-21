@@ -155,7 +155,7 @@ const Sidebar = () => {
       <div className="flex flex-1 flex-col justify-end gap-4">
         <div
           onClick={handleLogout}
-          className="ư-full hover:bg-secondary/20 flex cursor-pointer items-center gap-2 rounded-full p-3 transition-all"
+          className="hover:bg-destructive/80 flex w-full cursor-pointer items-center gap-2 rounded-full p-3 transition-all hover:text-white"
         >
           <span>
             <LogOut />

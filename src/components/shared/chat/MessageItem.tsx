@@ -14,6 +14,7 @@ interface MessageItemProps {
   senderId?: number;
   index?: number;
   isLoading?: boolean;
+  translationAvailable?: boolean;
 }
 
 const MessageItem: React.FC<MessageItemProps> = ({
@@ -21,6 +22,7 @@ const MessageItem: React.FC<MessageItemProps> = ({
   senderId,
   index,
   isLoading = false,
+  translationAvailable = true,
 }) => {
   const { selectedVoice, voices, speaking, speak, cancel, speakingMessageId } = useSpeechContext();
 
@@ -72,15 +74,17 @@ const MessageItem: React.FC<MessageItemProps> = ({
           >
             {isThisMessageSpeaking ? <StopCircle /> : <Volume2 />}
           </Button>
-          <Button
-            // onClick={handleSpeakClick}
-            type="button"
-            size={'icon'}
-            className={`size-7 rounded-full`}
-            variant={'error'}
-          >
-            <Languages />
-          </Button>
+          {translationAvailable && (
+            <Button
+              // onClick={handleSpeakClick}
+              type="button"
+              size={'icon'}
+              className={`size-7 rounded-full`}
+              variant={'error'}
+            >
+              <Languages />
+            </Button>
+          )}
         </>
       )}
     </div>
