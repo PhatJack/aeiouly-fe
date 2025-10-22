@@ -50,12 +50,12 @@ const Sidebar = () => {
       onSuccess: () => {
         toast.success('Đăng xuất thành công');
         dispatch({ type: 'LOGOUT' });
-        router.push(ROUTE.AUTH.LOGIN);
+        router.refresh();
       },
       onError: () => {
         toast.success('Đăng xuất thành công');
         dispatch({ type: 'LOGOUT' });
-        router.push(ROUTE.AUTH.LOGIN);
+        router.refresh();
       },
     });
   };

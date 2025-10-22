@@ -1,6 +1,6 @@
 'use client';
 
-import React, { use, useEffect } from 'react';
+import React, { useEffect } from 'react';
 
 import { useTheme } from 'next-themes';
 import { usePathname } from 'next/navigation';
