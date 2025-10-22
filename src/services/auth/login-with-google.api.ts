@@ -4,11 +4,7 @@ import { useMutation } from '@tanstack/react-query';
 import { setCookie } from 'cookies-next';
 
 export async function loginWithGoogleApi(token: string) {
-  const response = await apiClient.post('/auth/google', {
-    data: {
-      id_token: token,
-    },
-  });
+  const response = await apiClient.post('/auth/google', JSON.stringify({ id_token: token }));
   return response.data;
 }
 

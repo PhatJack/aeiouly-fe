@@ -6,6 +6,7 @@ import { useForm } from 'react-hook-form';
 import Link from 'next/link';
 import { useRouter } from 'nextjs-toploader/app';
 
+import { LoginWithGoogleButton } from '@/components/app/auth/LoginWithGoogleButton';
 import { Button } from '@/components/ui/button';
 import {
   Form,
@@ -16,8 +17,8 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
+import { ROUTE } from '@/configs/route';
 import { cn } from '@/lib/utils';
-import { useLoginWithGoogleMutation } from '@/services/auth/login-with-google.api';
 import { LoginBodySchema, loginBodySchema, useLoginMutation } from '@/services/auth/login.api';
 import { zodResolver } from '@hookform/resolvers/zod';
 
@@ -27,7 +28,6 @@ import { toast } from 'sonner';
 const LoginForm = () => {
   const router = useRouter();
   const [isShowPassword, setIsShowPassword] = React.useState<boolean>(false);
-  const googleBtnRef = React.useRef<HTMLDivElement | null>(null);
   const loginForm = useForm<LoginBodySchema>({
     resolver: zodResolver(loginBodySchema),
     defaultValues: {
@@ -37,7 +37,6 @@ const LoginForm = () => {
   });
 
   const loginMutation = useLoginMutation();
-  const loginWithGoogleMutation = useLoginWithGoogleMutation();
 
   const onSubmit = (data: LoginBodySchema) => {
     loginMutation.mutate(data, {
@@ -49,58 +48,6 @@ const LoginForm = () => {
         toast.error((error as any).detail || 'Đăng nhập thất bại!');
       },
     });
-  };
-
-  React.useEffect(() => {
-    const id = 'google-identity';
-    if (document.getElementById(id)) {
-      initGoogle();
-      return;
-    }
-    const s = document.createElement('script');
-    s.src = 'https://accounts.google.com/gsi/client';
-    s.async = true;
-    s.defer = true;
-    s.id = id;
-    s.onload = initGoogle;
-    document.head.appendChild(s);
-  }, []);
-
-  function initGoogle() {
-    if (!window.google) return;
-    const clientId = process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID || '';
-    window.google.accounts.id.initialize({
-      client_id: clientId,
-      callback: handleGoogleCredential,
-    });
-    if (googleBtnRef.current) {
-      window.google.accounts.id.renderButton(googleBtnRef.current, {
-        theme: 'outline',
-        size: 'large',
-        text: 'signin_with',
-        shape: 'pill',
-        logo_alignment: 'center',
-        type: 'standard',
-      });
-    }
-  }
-
-  const handleGoogleCredential = async (resp: { credential: string }) => {
-    try {
-      toast.loading('Đang đăng nhập với Google...', {
-        position: 'top-center',
-      });
-      loginWithGoogleMutation.mutate(resp.credential, {
-        onSuccess: () => {
-          toast.success('Đăng nhập thành công!');
-          router.push('/', { scroll: false });
-        },
-        onError: (error) => {
-          toast.error((error as any).detail || 'Đăng nhập với Google thất bại!');
-        },
-      });
-      window.dispatchEvent(new CustomEvent('auth:changed', { detail: { status: 'logged_in' } }));
-    } catch (e: any) {}
   };
 
   return (
@@ -178,7 +125,7 @@ const LoginForm = () => {
               Hoặc tiếp tục với
             </span>
           </div>
-          <div ref={googleBtnRef} />
+          <LoginWithGoogleButton onSuccess={() => router.push(ROUTE.HOME)} />
         </div>
 
         {/* Footer */}

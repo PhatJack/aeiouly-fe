@@ -83,7 +83,7 @@ const TopicPage = () => {
       </div>
 
       <div className="relative">
-        <div className="relative">
+        {/* <div className="relative">
           <Search className="text-muted-foreground absolute top-1/2 left-4 h-5 w-5 -translate-y-1/2 transform" />
           <Input
             type="text"
@@ -102,7 +102,7 @@ const TopicPage = () => {
           >
             {isSearching ? 'Đang tìm...' : 'Tìm kiếm'}
           </Button>
-        </div>
+        </div> */}
 
         <div className="mt-8">
           <div className="mb-4 flex items-center">
@@ -113,7 +113,7 @@ const TopicPage = () => {
             <div className="bg-border h-px flex-1"></div>
           </div>
 
-          <div className="flex flex-wrap justify-center gap-3">
+          {/* <div className="flex flex-wrap justify-center gap-3">
             {suggestions.map((suggestion, index) => (
               <Button
                 key={index}
@@ -125,7 +125,7 @@ const TopicPage = () => {
                 {suggestion}
               </Button>
             ))}
-          </div>
+          </div> */}
         </div>
       </div>
     </div>
