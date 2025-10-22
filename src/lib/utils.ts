@@ -137,3 +137,9 @@ export const getFallbackInitials = (name: string) => {
     return (words[0].charAt(0) + words[words.length - 1].charAt(0)).toUpperCase();
   }
 };
+
+export const getCEFRLevelRandom = () => {
+  const levels = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'];
+  const randomIndex = Math.floor(Math.random() * levels.length);
+  return levels[randomIndex];
+};
