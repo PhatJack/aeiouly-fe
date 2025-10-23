@@ -6,8 +6,7 @@ import MessageInput from '@/components/shared/chat/MessageInput';
 import MessageItem from '@/components/shared/chat/MessageItem';
 import { ChatMessageResponseSchema } from '@/lib/schema/writing-session.schema';
 import { cn } from '@/lib/utils';
-import { sendChatMessageApi, useSendChatMessageMutation } from '@/services/writing-session';
-import { useQueryClient } from '@tanstack/react-query';
+import { sendChatMessageApi } from '@/services/writing-session';
 
 interface ChatSectionProps {
   sessionId: number;
@@ -64,19 +63,13 @@ const ChatSection = ({ sessionId, messages, className }: ChatSectionProps) => {
             className={cn('flex', message.role === 'user' ? 'justify-end' : 'justify-start')}
           >
             <MessageItem
-              content={message.content}
+              content={isLoadingResponse ? 'Thinking...' : message.content}
               senderId={message.role === 'user' ? 1 : 2}
               index={message.id}
+              isLoading={isLoadingResponse}
             />
           </div>
         ))}
-
-        {/* Loading indicator for assistant response */}
-        {isLoadingResponse && (
-          <div className="flex justify-start">
-            <MessageItem content="Thinking..." senderId={2} index={-1} isLoading={true} />
-          </div>
-        )}
 
         <div ref={messagesEndRef} />
       </div>

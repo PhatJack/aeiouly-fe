@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useCallback, useMemo } from 'react';
+import Markdown from 'react-markdown';
 
 import IndicatorLoading from '@/components/IndicatorLoading';
 import { Button } from '@/components/ui/button';
@@ -8,6 +9,8 @@ import { useSpeechContext } from '@/contexts/SpeechContext';
 import { cn } from '@/lib/utils';
 
 import { Languages, StopCircle, Volume2 } from 'lucide-react';
+
+import MarkdownRender from '../MarkdownRender';
 
 interface MessageItemProps {
   content: string;
@@ -61,7 +64,13 @@ const MessageItem: React.FC<MessageItemProps> = ({
             : 'self-start bg-gray-200 text-gray-800'
         )}
       >
-        <span>{isLoading ? <IndicatorLoading text={'Thinking'} /> : content}</span>
+        <div>
+          {isLoading ? (
+            <IndicatorLoading text={'Thinking'} />
+          ) : (
+            <MarkdownRender>{content}</MarkdownRender>
+          )}
+        </div>
       </div>
       {senderId === 2 && !isLoading && (
         <>
