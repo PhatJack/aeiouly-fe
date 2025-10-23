@@ -8,6 +8,7 @@ interface BlockquoteCustomProps {
   variants?: 'primary' | 'secondary' | 'muted' | 'success' | 'warning' | 'error' | 'info';
   title?: string;
   content: React.ReactNode;
+  contentClassName?: string;
 }
 
 const variantStyles = {
@@ -47,7 +48,12 @@ const variantStyles = {
     borderColor: 'border-info',
   },
 };
-const BlockquoteCustom = ({ variants = 'primary', title, content }: BlockquoteCustomProps) => {
+const BlockquoteCustom = ({
+  variants = 'primary',
+  title,
+  content,
+  contentClassName,
+}: BlockquoteCustomProps) => {
   const styles = variantStyles[variants];
 
   return (
@@ -59,7 +65,12 @@ const BlockquoteCustom = ({ variants = 'primary', title, content }: BlockquoteCu
         </div>
       )}
       <div
-        className={cn('rounded-lg border-l-4 p-4', styles.borderColor, styles.backgroundColorLight)}
+        className={cn(
+          'rounded-lg border-l-4 p-4',
+          styles.borderColor,
+          styles.backgroundColorLight,
+          contentClassName
+        )}
       >
         <div className="leading-relaxed text-gray-700">{content}</div>
       </div>

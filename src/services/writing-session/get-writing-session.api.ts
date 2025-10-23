@@ -1,7 +1,7 @@
 import { apiClient } from '@/lib/client';
 import { ErrorResponseSchema } from '@/lib/schema/error';
 import { WritingSessionResponseSchema } from '@/lib/schema/writing-session.schema';
-import { QueryOptions, UseQueryOptions, useQuery } from '@tanstack/react-query';
+import { UseQueryOptions, useQuery } from '@tanstack/react-query';
 
 export async function getWritingSessionApi(sessionId: number) {
   const response = await apiClient.get<WritingSessionResponseSchema>(

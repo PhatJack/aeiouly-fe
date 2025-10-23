@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactMarkdown from 'react-markdown';
+import ReactMarkdownTyper from 'react-markdown-typer';
 
 import remarkBreaks from 'remark-breaks';
 import remarkGfm from 'remark-gfm';
@@ -9,7 +10,17 @@ interface MarkdownRenderProps {
 }
 
 const MarkdownRender: React.FC<MarkdownRenderProps> = ({ children }) => {
-  return <ReactMarkdown remarkPlugins={[remarkGfm, remarkBreaks]}>{children}</ReactMarkdown>;
+  return (
+    <ReactMarkdownTyper
+      reactMarkdownProps={{
+        remarkPlugins: [remarkGfm, remarkBreaks],
+      }}
+      autoStartTyping={true}
+      interval={30}
+    >
+      {children}
+    </ReactMarkdownTyper>
+  );
 };
 
 export default MarkdownRender;

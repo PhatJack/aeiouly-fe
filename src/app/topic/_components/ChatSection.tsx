@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState ,memo} from 'react';
 
 import MessageInput from '@/components/shared/chat/MessageInput';
 import MessageItem from '@/components/shared/chat/MessageItem';
@@ -48,7 +48,11 @@ const ChatSection = ({ sessionId, messages, className }: ChatSectionProps) => {
     setIsLoadingResponse(true);
 
     // Send message to API
-    await sendChatMessageApi(sessionId, { content: content.trim() });
+    const res = await sendChatMessageApi(sessionId, { content: content.trim() });
+    if (res) {
+      setLocalMessages((prev) => [...prev, res]);
+      setIsLoadingResponse(false);
+    }
   };
 
   return (
@@ -62,14 +66,12 @@ const ChatSection = ({ sessionId, messages, className }: ChatSectionProps) => {
             key={message.id}
             className={cn('flex', message.role === 'user' ? 'justify-end' : 'justify-start')}
           >
-            <MessageItem
-              content={isLoadingResponse ? 'Thinking...' : message.content}
-              senderId={message.role === 'user' ? 1 : 2}
-              index={message.id}
-              isLoading={isLoadingResponse}
-            />
+            <MessageItem content={message.content} senderRole={message.role} index={message.id} translationAvailable={false}/>
           </div>
         ))}
+        {isLoadingResponse && (
+          <MessageItem content="Thinking..." senderRole="assistant" index={-1} isLoading={true} translationAvailable={false}/>
+        )}
 
         <div ref={messagesEndRef} />
       </div>
@@ -80,4 +82,4 @@ const ChatSection = ({ sessionId, messages, className }: ChatSectionProps) => {
   );
 };
 
-export default ChatSection;
+export default memo(ChatSection);

@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 
+import Loading from '@/components/Loading';
 import { ChatMessageResponseSchema } from '@/lib/schema/writing-session.schema';
 import { useGetChatHistoryQuery, useGetWritingSessionQuery } from '@/services/writing-session';
 
@@ -31,8 +32,8 @@ const TopicDetailPage = ({ id }: TopicDetailPageProps) => {
 
   if (!writingSession) {
     return (
-      <div className="flex h-[calc(100vh-3rem)] items-center justify-center">
-        <p className="text-muted-foreground">Đang tải...</p>
+      <div className="size-full relative">
+        <Loading />
       </div>
     );
   }

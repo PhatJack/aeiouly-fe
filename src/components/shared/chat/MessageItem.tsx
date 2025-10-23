@@ -1,7 +1,6 @@
 'use client';
 
 import React, { useCallback, useMemo } from 'react';
-import Markdown from 'react-markdown';
 
 import IndicatorLoading from '@/components/IndicatorLoading';
 import { Button } from '@/components/ui/button';
@@ -14,7 +13,7 @@ import MarkdownRender from '../MarkdownRender';
 
 interface MessageItemProps {
   content: string;
-  senderId?: number;
+  senderRole?: 'user' | 'assistant';
   index?: number;
   isLoading?: boolean;
   translationAvailable?: boolean;
@@ -22,7 +21,7 @@ interface MessageItemProps {
 
 const MessageItem: React.FC<MessageItemProps> = ({
   content,
-  senderId,
+  senderRole,
   index,
   isLoading = false,
   translationAvailable = true,
@@ -53,13 +52,13 @@ const MessageItem: React.FC<MessageItemProps> = ({
     <div
       className={cn(
         'flex w-full items-center gap-2',
-        senderId === 1 ? 'justify-end' : 'justify-start'
+        senderRole === 'user' ? 'justify-end' : 'justify-start'
       )}
     >
       <div
         className={cn(
           'w-fit max-w-sm rounded-lg p-3 break-words',
-          senderId === 1
+          senderRole === 'user'
             ? 'bg-primary/85 self-end text-white'
             : 'self-start bg-gray-200 text-gray-800'
         )}
@@ -72,7 +71,7 @@ const MessageItem: React.FC<MessageItemProps> = ({
           )}
         </div>
       </div>
-      {senderId === 2 && !isLoading && (
+      {senderRole === 'assistant' && !isLoading && (
         <>
           <Button
             onClick={handleSpeakClick}

@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React,{memo} from 'react';
 
 import BlockquoteCustom from '@/components/custom/BlockquoteCustom';
 import { WritingSessionResponseSchema } from '@/lib/schema/writing-session.schema';
@@ -85,4 +85,4 @@ const TopicInfoSection = ({ writingSession }: TopicInfoSectionProps) => {
   );
 };
 
-export default TopicInfoSection;
+export default memo(TopicInfoSection);
