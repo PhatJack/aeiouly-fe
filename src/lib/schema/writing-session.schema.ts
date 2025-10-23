@@ -53,7 +53,7 @@ export const chatMessageResponseSchema = z.object({
   session_id: z.number(),
   role: MessageRoleSchema,
   content: z.string(),
-  sentence_index: z.number().nullable().optional(),
+  sentence_index: z.number().nullable(),
   status: SessionStatusSchema,
   created_at: z.string().or(z.date()),
 });

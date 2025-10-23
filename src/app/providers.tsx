@@ -13,6 +13,7 @@ import { TooltipProvider } from '@/components/ui/tooltip';
 import { ROUTE } from '@/configs/route';
 import { AuthProvider } from '@/contexts/AuthContext';
 import { SpeechProvider } from '@/contexts/SpeechContext';
+import { WritingSessionProvider } from '@/contexts/WritingSessionContext';
 import { cn } from '@/lib/utils';
 import { QueryClientProvider } from '@tanstack/react-query';
 
@@ -41,17 +42,19 @@ const Providers = ({
         <NextTopLoader color="hsl(150 30% 45%)" zIndex={9999} />
         <TooltipProvider>
           <AuthProvider>
-            <SpeechProvider>
-              {!excludedPaths.includes(location) ? <Sidebar /> : null}
-              <main
-                className={cn(
-                  'size-full min-h-screen bg-white',
-                  !excludedPaths.includes(location) ? 'rounded-l-3xl border px-6 py-5' : ''
-                )}
-              >
-                {children}
-              </main>
-            </SpeechProvider>
+            <WritingSessionProvider>
+              <SpeechProvider>
+                {!excludedPaths.includes(location) ? <Sidebar /> : null}
+                <main
+                  className={cn(
+                    'size-full min-h-screen bg-white',
+                    !excludedPaths.includes(location) ? 'rounded-l-3xl border px-6 py-5' : ''
+                  )}
+                >
+                  {children}
+                </main>
+              </SpeechProvider>
+            </WritingSessionProvider>
           </AuthProvider>
         </TooltipProvider>
         <Toaster position="top-right" toastOptions={{}} theme={'light'} richColors />

@@ -17,6 +17,7 @@ interface MessageItemProps {
   index?: number;
   isLoading?: boolean;
   translationAvailable?: boolean;
+  disableTyping?: boolean;
 }
 
 const MessageItem: React.FC<MessageItemProps> = ({
@@ -25,6 +26,7 @@ const MessageItem: React.FC<MessageItemProps> = ({
   index,
   isLoading = false,
   translationAvailable = true,
+  disableTyping = false,
 }) => {
   const { selectedVoice, voices, speaking, speak, cancel, speakingMessageId } = useSpeechContext();
 
@@ -66,8 +68,10 @@ const MessageItem: React.FC<MessageItemProps> = ({
         <div>
           {isLoading ? (
             <IndicatorLoading text={'Thinking'} />
+          ) : senderRole === 'user' ? (
+            content
           ) : (
-            <MarkdownRender>{content}</MarkdownRender>
+            <MarkdownRender disableTyping={disableTyping}>{content}</MarkdownRender>
           )}
         </div>
       </div>
