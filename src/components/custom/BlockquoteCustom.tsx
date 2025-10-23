@@ -1,4 +1,4 @@
-import React, { memo } from 'react';
+import React, { HTMLAttributes, memo } from 'react';
 
 import { cn } from '@/lib/utils';
 
@@ -8,7 +8,7 @@ interface BlockquoteCustomProps {
   variants?: 'primary' | 'secondary' | 'muted' | 'success' | 'warning' | 'error' | 'info';
   title?: string;
   content: React.ReactNode;
-  contentClassName?: string;
+  contentClassName?: HTMLAttributes<HTMLDivElement>['className'];
 }
 
 const variantStyles = {

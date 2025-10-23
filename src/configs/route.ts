@@ -5,6 +5,7 @@ export const ROUTE = {
   ONION: '/onion',
   GYM: '/gym',
   NEWS: '/news',
+  READING: '/reading',
   USER: (username: string) => `/u/${username}`,
   SETTING: {
     INDEX: '/settings',

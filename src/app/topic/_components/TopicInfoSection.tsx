@@ -3,6 +3,7 @@
 import React, { memo } from 'react';
 
 import EndSessionButton from '@/components/app/topic/EndSessionButton';
+import HintButton from '@/components/app/topic/HintButton';
 import BlockquoteCustom from '@/components/custom/BlockquoteCustom';
 import { Button } from '@/components/ui/button';
 import { WritingSessionContext } from '@/contexts/WritingSessionContext';
@@ -31,49 +32,51 @@ const TopicInfoSection = ({ writingSession }: TopicInfoSectionProps) => {
       : text;
 
   return (
-    <div className="border-border/50 flex w-md flex-col rounded-2xl border bg-gray-50 p-6 backdrop-blur-sm">
-      <div className="flex flex-col items-center justify-between">
-        <div className="space-y-6">
+    <div className="border-border/50 relative flex w-1/2 flex-col overflow-hidden rounded-2xl border bg-gray-50">
+      <div className="flex h-full flex-col items-center justify-between pb-16">
+        <div className="overflow-y-auto">
           {/* Stats Grid */}
-          <div className="grid grid-cols-3 gap-2 divide-x rounded-lg border p-4">
-            <div className="space-y-2">
-              <span className="text-muted-foreground text-sm">Chủ đề</span>
-              <p className="text-success text-lg font-medium">{writingSession.topic}</p>
+          <div className="grid grid-cols-3 gap-2 divide-x border-b bg-white">
+            <div className="flex items-center space-x-1 p-4">
+              <span className="text-muted-foreground">Chủ đề:</span>
+              <p className="text-success font-medium">{writingSession.topic}</p>
             </div>
-            <div className="space-y-2">
-              <span className="text-muted-foreground text-sm">Độ khó</span>
-              <p className="text-error text-lg font-medium">{writingSession.difficulty}</p>
+            <div className="flex items-center space-x-1 p-4">
+              <span className="text-muted-foreground">Độ khó:</span>
+              <p className="text-error font-medium">{writingSession.difficulty}</p>
             </div>
-            <div className="space-y-2">
-              <span className="text-muted-foreground text-sm">Tổng số câu</span>
-              <p className="text-info text-lg font-medium">{writingSession.total_sentences}</p>
+            <div className="flex items-center space-x-1 p-4">
+              <span className="text-muted-foreground">Tổng số câu:</span>
+              <p className="text-info font-medium">{writingSession.total_sentences}</p>
             </div>
           </div>
+          <div className="space-y-4 px-4 pt-2 pb-4">
+            {/* Full Text */}
+            <BlockquoteCustom
+              title="Đoạn văn"
+              content={
+                <div
+                  className="text-base leading-relaxed"
+                  dangerouslySetInnerHTML={{ __html: highlighted || '' }}
+                />
+              }
+              variants="info"
+            />
 
-          {/* Full Text */}
-          <BlockquoteCustom
-            title="Đoạn văn"
-            content={
-              <div
-                className="text-base leading-relaxed"
-                dangerouslySetInnerHTML={{ __html: highlighted || '' }}
-              />
-            }
-            variants="info"
-          />
-
-          {/* Current Sentence */}
-          <BlockquoteCustom
-            title="Câu hiện tại"
-            content={
-              <div className="text-base leading-relaxed">
-                {writingSession.vietnamese_sentences[currentSentenceIndex]}
-              </div>
-            }
-            variants="success"
-          />
+            {/* Current Sentence */}
+            <BlockquoteCustom
+              title="Câu hiện tại"
+              content={
+                <div className="text-base leading-relaxed">
+                  {writingSession.vietnamese_sentences[currentSentenceIndex]}
+                </div>
+              }
+              variants="success"
+            />
+            <HintButton id={writingSession.id} />
+          </div>
         </div>
-        <div>
+        <div className="absolute bottom-0 z-[99] w-full border-t bg-gray-50 p-4">
           <EndSessionButton id={writingSession.id} />
         </div>
       </div>

@@ -15,6 +15,7 @@ import { useLogoutMutation } from '@/services/auth/logout.api';
 import {
   BrainCircuit,
   GraduationCap,
+  Headphones,
   House,
   LogIn,
   LogOut,
@@ -33,7 +34,8 @@ import { Separator } from '../ui/separator';
 const menu = [
   { title: 'Học tập', icon: <House />, href: ROUTE.HOME, id: 'home' },
   { title: 'Luyện nói', icon: <Mic />, href: ROUTE.ONION, id: 'onion' },
-  { title: 'Gym', icon: <GraduationCap />, href: ROUTE.GYM, id: 'gym' },
+  { title: 'Gym', icon: <Headphones />, href: ROUTE.GYM, id: 'gym' },
+  { title: 'Luyện viết', icon: <GraduationCap />, href: ROUTE.READING, id: 'reading' },
   { title: 'Bảng tin', icon: <Newspaper />, href: ROUTE.NEWS, id: 'news' },
   { title: 'Cài đặt', icon: <Settings />, href: ROUTE.SETTING.INDEX, id: 'setting' },
 ];

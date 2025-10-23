@@ -3,7 +3,7 @@
 import React, { memo, useEffect } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 
-import { useRouter } from 'next/navigation';
+import { useRouter } from 'nextjs-toploader/app';
 
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardFooter } from '@/components/ui/card';

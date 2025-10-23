@@ -29,7 +29,21 @@ const ChatSection = ({ sessionId, messages, className }: ChatSectionProps) => {
 
   // Update local messages when messages prop changes
   useEffect(() => {
-    setLocalMessages(messages);
+    setLocalMessages(
+      messages.length > 0
+        ? messages
+        : [
+            {
+              id: Date.now(), // Temporary ID
+              session_id: sessionId,
+              role: 'assistant',
+              content: 'Hãy thử dịch câu đầu tiên ',
+              sentence_index: 0,
+              status: 'active',
+              created_at: new Date().toISOString(),
+            },
+          ]
+    );
     // Track the IDs of messages from chat history (disable typing for these)
     setHistoryMessageIds(new Set(messages.map((m) => m.id)));
   }, [messages]);
