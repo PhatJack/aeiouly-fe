@@ -24,6 +24,8 @@ import {
 import { useCreateWritingSessionMutation } from '@/services/writing-session';
 import { zodResolver } from '@hookform/resolvers/zod';
 
+import { toast } from 'sonner';
+
 interface TopicInsertFormProps {
   values?: WritingSessionCreateSchema;
 }
@@ -63,6 +65,9 @@ const TopicInsertForm = ({ values }: TopicInsertFormProps) => {
     createWritingSessionMutation.mutate(data, {
       onSuccess: (data) => {
         router.push(`/topic/${data.id}`);
+      },
+      onError: (error) => {
+        toast.error('Đã có lỗi xảy ra khi tạo phiên viết. Vui lòng thử lại.');
       },
     });
   };

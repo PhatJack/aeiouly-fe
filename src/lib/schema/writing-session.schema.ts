@@ -4,7 +4,7 @@ import { createListResponseSchema } from './pagination';
 
 // Enums
 export const CEFRLevelSchema = z.enum(['A1', 'A2', 'B1', 'B2', 'C1', 'C2']);
-export const SessionStatusSchema = z.enum(['in_progress', 'completed']);
+export const SessionStatusSchema = z.enum(['active', 'completed']);
 export const MessageRoleSchema = z.enum(['user', 'assistant']);
 
 // Create schemas

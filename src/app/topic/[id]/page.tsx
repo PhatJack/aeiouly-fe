@@ -8,9 +8,9 @@ export const metadata: Metadata = {
   title: 'Topic',
 };
 
-const Page = async ({ params }: { params: Promise<{ slug: string }> }) => {
-  const { slug } = await params;
-  return <TopicDetailPage slug={slug} />;
+const Page = async ({ params }: { params: Promise<{ id: string }> }) => {
+  const { id } = await params;
+  return <TopicDetailPage id={id} />;
 };
 
 export default Page;

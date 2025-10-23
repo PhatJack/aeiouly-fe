@@ -4,16 +4,39 @@ import { useForm } from 'react-hook-form';
 import { Button } from '@/components/ui/button';
 import { Form, FormControl, FormField, FormItem } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { ChatBodySchema } from '@/lib/schema/chat';
 
 import { ArrowUp } from 'lucide-react';
 
-const MessageInput = () => {
-  const messageForm = useForm<ChatBodySchema>();
+interface MessageInputProps {
+  onSendMessage: (message: string) => void;
+  disabled?: boolean;
+  placeholder?: string;
+}
 
-  const onSubmit = useCallback((data: ChatBodySchema) => {
-    console.log(data);
-  }, []);
+interface MessageFormData {
+  message: string;
+}
+
+const MessageInput = ({
+  onSendMessage,
+  disabled = false,
+  placeholder = 'Nhập tin nhắn...',
+}: MessageInputProps) => {
+  const messageForm = useForm<MessageFormData>({
+    defaultValues: {
+      message: '',
+    },
+  });
+
+  const onSubmit = useCallback(
+    (data: MessageFormData) => {
+      if (data.message.trim() && !disabled) {
+        onSendMessage(data.message);
+        messageForm.reset();
+      }
+    },
+    [onSendMessage, disabled, messageForm]
+  );
 
   return (
     <Form {...messageForm}>
@@ -29,20 +52,24 @@ const MessageInput = () => {
               <FormControl className="w-full">
                 <Input
                   {...field}
-                  placeholder="Nhập tin nhắn..."
-                  className="border-border/50 focus-visible:ring-primary/50 border-2 bg-white py-5 pr-12 pl-4 text-base transition-all focus-visible:border-transparent focus-visible:ring-2"
+                  placeholder={placeholder}
+                  disabled={disabled}
+                  className="border-border/50 focus-visible:ring-primary/50 h-14 rounded-full border-2 bg-white py-5 pr-14 pl-5 text-base shadow-none transition-all focus-visible:border-transparent focus-visible:ring-2"
                 />
               </FormControl>
             </FormItem>
           )}
         />
+
+        {/* Send Button */}
         <Button
           type="submit"
           size="icon"
-          variant={'ghost'}
-          className="absolute top-1/2 right-1 -translate-y-1/2"
+          variant="default"
+          disabled={disabled || !messageForm.watch('message')?.trim()}
+          className="absolute top-1/2 right-2 size-10 -translate-y-1/2 rounded-full [&_svg:not([class*='size-'])]:size-5"
         >
-          <ArrowUp size={18} className="-translate-x-0.5 transform" />
+          <ArrowUp />
         </Button>
       </form>
     </Form>

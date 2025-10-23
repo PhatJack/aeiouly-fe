@@ -52,10 +52,12 @@ const BlockquoteCustom = ({ variants = 'primary', title, content }: BlockquoteCu
 
   return (
     <div className="space-y-4">
-      <div className="flex items-center gap-2">
-        <div className={cn('h-6 w-1 rounded-full', styles.backgroundColor)}></div>
-        <Label className="text-lg font-semibold text-gray-800">{title}</Label>
-      </div>
+      {title && (
+        <div className="flex items-center gap-2">
+          <div className={cn('h-6 w-1 rounded-full', styles.backgroundColor)}></div>
+          <Label className="text-lg font-semibold text-gray-800">{title}</Label>
+        </div>
+      )}
       <div
         className={cn('rounded-lg border-l-4 p-4', styles.borderColor, styles.backgroundColorLight)}
       >

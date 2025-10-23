@@ -23,7 +23,6 @@ export async function middleware(request: NextRequest) {
   }
 
   if (isProtected && !token && !refreshToken && !isLoggedIn) {
-    (await cookies()).delete('isLoggedIn');
     return NextResponse.redirect(new URL('/login', request.nextUrl.origin).toString());
   }
   return NextResponse.next();

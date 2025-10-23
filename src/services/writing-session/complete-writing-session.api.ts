@@ -1,6 +1,6 @@
 import { apiClient } from '@/lib/client';
 import { ErrorResponseSchema } from '@/lib/schema/error';
-import { useMutation } from '@tanstack/react-query';
+import { UseMutationOptions, useMutation } from '@tanstack/react-query';
 
 interface CompleteSessionResponse {
   message: string;
@@ -14,9 +14,15 @@ export async function completeWritingSessionApi(sessionId: number) {
   return response.data;
 }
 
-export const useCompleteWritingSessionMutation = () => {
+export const useCompleteWritingSessionMutation = (
+  options?: Omit<
+    UseMutationOptions<CompleteSessionResponse, ErrorResponseSchema, number>,
+    'mutationKey' | 'mutationFn'
+  >
+) => {
   return useMutation<CompleteSessionResponse, ErrorResponseSchema, number>({
     mutationKey: ['completeWritingSession'],
     mutationFn: (sessionId) => completeWritingSessionApi(sessionId),
+    ...options,
   });
 };

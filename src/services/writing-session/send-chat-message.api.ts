@@ -4,7 +4,7 @@ import {
   ChatMessageCreateSchema,
   ChatMessageResponseSchema,
 } from '@/lib/schema/writing-session.schema';
-import { useMutation } from '@tanstack/react-query';
+import { UseMutationOptions, useMutation } from '@tanstack/react-query';
 
 interface SendChatMessageParams {
   sessionId: number;
@@ -19,9 +19,15 @@ export async function sendChatMessageApi(sessionId: number, body: ChatMessageCre
   return response.data;
 }
 
-export const useSendChatMessageMutation = () => {
+export const useSendChatMessageMutation = (
+  options?: Omit<
+    UseMutationOptions<ChatMessageResponseSchema, ErrorResponseSchema, SendChatMessageParams>,
+    'mutationKey' | 'mutationFn'
+  >
+) => {
   return useMutation<ChatMessageResponseSchema, ErrorResponseSchema, SendChatMessageParams>({
     mutationKey: ['sendChatMessage'],
     mutationFn: ({ sessionId, message }) => sendChatMessageApi(sessionId, message),
+    ...options,
   });
 };
