@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 
-import { useRouter } from 'next/navigation';
+import { useRouter } from 'nextjs-toploader/app';
 
 import ListeningLessonCard from '@/components/app/gym/ListeningLessonCard';
 import { Button } from '@/components/ui/button';
