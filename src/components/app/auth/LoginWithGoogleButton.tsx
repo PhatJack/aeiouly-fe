@@ -54,7 +54,6 @@ export function LoginWithGoogleButton({
       }),
 
       {
-        position: 'top-center',
         loading: 'Đang đăng nhập với Google...',
         success: 'Đăng nhập với Google thành công!',
         error: (e: any) => e?.detail || 'Đăng nhập với Google thất bại!',

@@ -52,6 +52,7 @@ export const sessionCreateSchema = z.object({
 export const sessionResponseSchema = z.object({
   id: z.number(),
   user_id: z.number(),
+  lesson: lessonResponseSchema,
   lesson_id: z.number(),
   current_sentence_index: z.number(),
   status: SessionStatusSchema,

@@ -57,7 +57,7 @@ const Providers = ({
             </WritingSessionProvider>
           </AuthProvider>
         </TooltipProvider>
-        <Toaster position="top-right" toastOptions={{}} theme={'light'} richColors />
+        <Toaster position="top-center" toastOptions={{}} theme={'light'} richColors />
         <GlobalQueryLoading />
       </QueryClientProvider>
     </>

@@ -41,7 +41,7 @@ const GymPage = () => {
     toast.promise(createListeningSessionMutation.mutateAsync({ lesson_id: lessonId }), {
       loading: 'Đang tạo phiên luyện nghe...',
       success: (data) => {
-        router.push(`/gym/session/${data.id}`);
+        router.push(`/gym/${data.id}`);
         return 'Phiên luyện nghe đã được tạo!';
       },
       error: 'Đã có lỗi xảy ra. Vui lòng thử lại.',
@@ -63,7 +63,7 @@ const GymPage = () => {
 
               {/* Title and Description */}
               <div className="flex-1 space-y-2">
-                <h1 className="from-foreground to-foreground/70 bg-gradient-to-r bg-clip-text text-4xl font-bold tracking-tight text-transparent">
+                <h1 className="from-foreground to-foreground/70 bg-gradient-to-r bg-clip-text text-4xl leading-snug font-bold tracking-tight text-transparent">
                   Luyện Nghe
                 </h1>
                 <p className="text-muted-foreground max-w-2xl text-base leading-relaxed">

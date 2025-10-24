@@ -28,40 +28,32 @@ const GymDetailPage = ({ id }: GymDetailPageProps) => {
   const lessonId = Number(id);
 
   const {
-    data: lesson,
+    data: listeningSession,
     isLoading,
     isError,
-  } = useGetLessonDetailQuery(lessonId, {
-    refetchOnWindowFocus: false,
-    staleTime: 30 * 60 * 1000, // 30 minutes
-  });
-  const { data: listeningSession } = useGetListeningSessionQuery(lessonId, {
+  } = useGetListeningSessionQuery(lessonId, {
     refetchOnWindowFocus: false,
     staleTime: 30 * 60 * 1000, // 30 minutes
   });
   const [currentSentenceIndex, setCurrentSentenceIndex] = useState(0);
   const [userInput, setUserInput] = useState('');
-  const [showVideo, setShowVideo] = useState(false);
+  const [showVideo, setShowVideo] = useState(true);
   const [showTranslation, setShowTranslation] = useState(false);
 
   // Mutations
 
   const getNextSentenceMutation = useGetNextSentenceMutation();
 
-  const currentSentence = lesson?.sentences[currentSentenceIndex];
-
   // Memoized handlers
   const handleCheck = useCallback(() => {
-    if (!currentSentence) return;
-
-    const userText = userInput.trim().toLowerCase();
-    const correctText = currentSentence.original_text.trim().toLowerCase();
-  }, [currentSentence, userInput]);
+    // const userText = userInput.trim().toLowerCase();
+    // const correctText = listeningSession.lesson.sentences[currentSentenceIndex].original_text.trim().toLowerCase();
+  }, [userInput]);
 
   const handleNext = useCallback(() => {
-    if (!lesson || !id) return;
+    if (!listeningSession || !id) return;
 
-    if (currentSentenceIndex < lesson.sentences.length - 1) {
+    if (currentSentenceIndex < listeningSession.lesson.total_sentences - 1) {
       getNextSentenceMutation.mutate(Number(id), {
         onSuccess: (data) => {
           setCurrentSentenceIndex(data.current_sentence_index);
@@ -73,7 +65,7 @@ const GymDetailPage = ({ id }: GymDetailPageProps) => {
       toast.success('Hoàn thành bài học! 🎊');
       router.push('/gym');
     }
-  }, [lesson, id, currentSentenceIndex, getNextSentenceMutation, router]);
+  }, [listeningSession, id, currentSentenceIndex, getNextSentenceMutation, router]);
 
   const handleSkip = useCallback(() => {
     handleNext();
@@ -105,7 +97,7 @@ const GymDetailPage = ({ id }: GymDetailPageProps) => {
 
   if (isLoading) {
     return (
-      <div className="container mx-auto px-4 py-8">
+      <div>
         <div className="grid gap-6 lg:grid-cols-2">
           <Skeleton className="h-[500px] rounded-xl" />
           <Skeleton className="h-[500px] rounded-xl" />
@@ -114,9 +106,9 @@ const GymDetailPage = ({ id }: GymDetailPageProps) => {
     );
   }
 
-  if (isError || !lesson) {
+  if (isError || !listeningSession) {
     return (
-      <div className="container mx-auto py-6">
+      <div>
         <div className="text-center">
           <h2 className="mb-4 text-2xl font-bold">Không tìm thấy bài học</h2>
           <Button onClick={handleBack}>Quay lại</Button>
@@ -128,11 +120,15 @@ const GymDetailPage = ({ id }: GymDetailPageProps) => {
   return (
     <div>
       {/* Main Content */}
-      <div className="py-6">
+      <div>
         <div className="grid gap-6 lg:grid-cols-2">
           {/* Left Side - Video Section */}
           <div className="space-y-4">
-            <VideoPlayer lesson={lesson} showVideo={showVideo} onToggleVideo={handleToggleVideo} />
+            <VideoPlayer
+              session={listeningSession}
+              showVideo={showVideo}
+              onToggleVideo={handleToggleVideo}
+            />
 
             <VideoControls showVideo={showVideo} onToggleVideo={handleToggleVideo} />
           </div>
@@ -141,7 +137,7 @@ const GymDetailPage = ({ id }: GymDetailPageProps) => {
           <div className="space-y-4">
             <ProgressNavigation
               currentIndex={currentSentenceIndex}
-              totalSentences={lesson.sentences.length}
+              totalSentences={listeningSession.lesson.total_sentences}
               onPrevious={handlePrevious}
               onNext={handleNext}
             />
@@ -154,9 +150,9 @@ const GymDetailPage = ({ id }: GymDetailPageProps) => {
             />
 
             {/* Translation */}
-            {currentSentence && (
+            {listeningSession.current_sentence && (
               <TranslationCard
-                translation={currentSentence.vietnamese_translation}
+                translation={listeningSession.current_sentence?.vietnamese_translation || ''}
                 showTranslation={showTranslation}
                 onToggle={handleToggleTranslation}
               />
