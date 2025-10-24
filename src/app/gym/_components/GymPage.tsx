@@ -15,9 +15,13 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { Skeleton } from '@/components/ui/skeleton';
-import { useGetLessonsQuery } from '@/services/listening-session';
+import {
+  useCreateListeningSessionMutation,
+  useGetLessonsQuery,
+} from '@/services/listening-session';
 
 import { Filter, Headphones, Search, Sparkles } from 'lucide-react';
+import { toast } from 'sonner';
 
 const GymPage = () => {
   const router = useRouter();
@@ -25,6 +29,7 @@ const GymPage = () => {
   const [level, setLevel] = useState<string>('all');
   const [page, setPage] = useState(1);
 
+  const createListeningSessionMutation = useCreateListeningSessionMutation();
   const { data, isLoading, isError, refetch } = useGetLessonsQuery({
     page,
     size: 10,
@@ -33,7 +38,14 @@ const GymPage = () => {
   });
 
   const handleLessonClick = (lessonId: number) => {
-    router.push(`/gym/${lessonId}`);
+    toast.promise(createListeningSessionMutation.mutateAsync({ lesson_id: lessonId }), {
+      loading: 'Đang tạo phiên luyện nghe...',
+      success: (data) => {
+        router.push(`/gym/session/${data.id}`);
+        return 'Phiên luyện nghe đã được tạo!';
+      },
+      error: 'Đã có lỗi xảy ra. Vui lòng thử lại.',
+    });
   };
 
   return (
@@ -115,7 +127,7 @@ const GymPage = () => {
       <div className="relative py-6">
         {/* Loading State */}
         {isLoading && (
-          <div className="grid space-y-4 lg:col-span-2 lg:grid-cols-2">
+          <div className="grid gap-6 lg:col-span-2 lg:grid-cols-2">
             {[1, 2, 3, 4, 5].map((i) => (
               <div key={i} className="rounded-xl border p-5">
                 <div className="flex gap-4">
