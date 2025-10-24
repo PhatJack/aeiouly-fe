@@ -47,7 +47,7 @@ export default function DeleteAccountPage() {
       <SettingHeader
         title="Xóa tài khoản"
         description="Hành động này không thể hoàn tác"
-        Icon={Trash2}
+        src={'/settingIcon/trash-bin.png'}
         className="text-destructive"
       />
 

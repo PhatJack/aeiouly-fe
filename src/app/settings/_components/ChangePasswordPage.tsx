@@ -54,7 +54,7 @@ const ChangePasswordPage = () => {
         <SettingHeader
           title="Thay đổi mật khẩu"
           description="Cập nhật mật khẩu để bảo mật tài khoản"
-          Icon={KeyRound}
+          src={'/settingIcon/lock.png'}
         />
 
         {/* Form Content */}

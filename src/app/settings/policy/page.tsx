@@ -15,7 +15,7 @@ export default function PolicyPage() {
       <SettingHeader
         title="Chính sách bảo mật"
         description="Cập nhật lần cuối: 13/09/2024"
-        Icon={ShieldCheck}
+        src={'/settingIcon/security.png'}
       />
 
       <div className="space-y-6">

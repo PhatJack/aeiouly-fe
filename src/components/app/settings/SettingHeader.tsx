@@ -1,22 +1,24 @@
 import React from 'react';
 
-import { cn } from '@/lib/utils';
+import Image from 'next/image';
 
-import { LucideIcon } from 'lucide-react';
+import { cn } from '@/lib/utils';
 
 interface SettingHeaderProps {
   title: string;
   description: string;
-  Icon: LucideIcon;
+  src: string;
   className?: string;
 }
 
-const SettingHeader = ({ title, description, Icon, className }: SettingHeaderProps) => {
+const SettingHeader = ({ title, description, src, className }: SettingHeaderProps) => {
   return (
     <div className={cn('border-border border-b p-6', className)}>
       <div className="flex items-center gap-3">
         <div className="bg-primary/10 text-primary flex h-12 w-12 items-center justify-center rounded-xl">
-          {<Icon size={20} />}
+          <div className="relative size-5">
+            <Image src={src} alt={title} fill quality={100} />
+          </div>
         </div>
         <div>
           <h2 className="text-foreground text-xl font-semibold">{title}</h2>

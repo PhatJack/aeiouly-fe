@@ -13,18 +13,7 @@ import { useAuthContext } from '@/contexts/AuthContext';
 import { cn } from '@/lib/utils';
 import { useLogoutMutation } from '@/services/auth/logout.api';
 
-import {
-  BrainCircuit,
-  GraduationCap,
-  Headphones,
-  House,
-  LogIn,
-  LogOut,
-  Mic,
-  Newspaper,
-  PlusSquare,
-  Settings,
-} from 'lucide-react';
+import { BrainCircuit, LogIn } from 'lucide-react';
 import { motion } from 'motion/react';
 import { toast } from 'sonner';
 
@@ -36,7 +25,7 @@ const menuWithImg = [
   { title: 'Học tập', icon: '/sidebarIcon/home.png', href: ROUTE.HOME, id: 'home' },
   { title: 'Luyện nói', icon: '/sidebarIcon/microphone.png', href: ROUTE.ONION, id: 'onion' },
   { title: 'Gym', icon: '/sidebarIcon/headphone.png', href: ROUTE.GYM, id: 'gym' },
-  { title: 'Luyện viết', icon: '/sidebarIcon/reading.png', href: ROUTE.READING, id: 'reading' },
+  { title: 'Luyện đọc', icon: '/sidebarIcon/reading.png', href: ROUTE.READING, id: 'reading' },
   { title: 'Bảng tin', icon: '/sidebarIcon/newspaper.png', href: ROUTE.NEWS, id: 'news' },
   { title: 'Cài đặt', icon: '/sidebarIcon/cogwheel.png', href: ROUTE.SETTING.INDEX, id: 'setting' },
 ];

@@ -21,7 +21,7 @@ const SettingPage = () => {
       {/* Header */}
       <SettingHeader
         title="Hồ sơ cá nhân"
-        Icon={User}
+        src={'/settingIcon/account.png'}
         description="Quản lý và chỉnh sửa thông tin tài khoản của bạn"
       />
 

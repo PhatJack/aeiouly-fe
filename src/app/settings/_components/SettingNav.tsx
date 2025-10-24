@@ -2,47 +2,48 @@
 
 import React from 'react';
 
+import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
-import { ChevronRight, FileText, Lock, MessageCircle, Shield, Trash2, User } from 'lucide-react';
+import { ChevronRight } from 'lucide-react';
 import { motion } from 'motion/react';
 
 const menu = [
   {
     title: 'Thông tin cá nhân',
     href: '/settings',
-    icon: User,
+    icon: '/settingIcon/account.png',
     description: 'Quản lý hồ sơ và thông tin cá nhân',
   },
   {
     title: 'Thay đổi mật khẩu',
     href: '/settings/change-password',
-    icon: Lock,
+    icon: '/settingIcon/lock.png',
     description: 'Cập nhật mật khẩu bảo mật',
   },
   {
     title: 'Chính sách bảo mật',
     href: '/settings/policy',
-    icon: Shield,
+    icon: '/settingIcon/security.png',
     description: 'Chính sách bảo mật và quyền riêng tư',
   },
   {
     title: 'Điều khoản dịch vụ',
     href: '/settings/terms',
-    icon: FileText,
+    icon: '/settingIcon/paper.png',
     description: 'Điều khoản và điều kiện sử dụng',
   },
   {
     title: 'Liên hệ',
     href: '/settings/contact',
-    icon: MessageCircle,
+    icon: '/settingIcon/chat.png',
     description: 'Hỗ trợ khách hàng và phản hồi',
   },
   {
     title: 'Xoá tài khoản',
     href: '/settings/delete-account',
-    icon: Trash2,
+    icon: '/settingIcon/trash-bin.png',
     description: 'Xoá vĩnh viễn tài khoản của bạn',
     danger: true,
   },
@@ -60,18 +61,11 @@ const SettingNav = () => {
         </div>
 
         <div className="flex flex-col gap-2 p-2">
-          {menu.map((item, index) => {
+          {menu.map((item) => {
             const isActive = pathname === item.href;
-            const Icon = item.icon;
 
             return (
-              <motion.div
-                key={item.title}
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: index * 0.05 }}
-                className="relative"
-              >
+              <motion.div key={item.title} className="relative">
                 <Link
                   href={item.href}
                   className={`group relative flex items-center gap-3 rounded-xl p-3 transition-all duration-200 ${
@@ -91,7 +85,9 @@ const SettingNav = () => {
                         : 'bg-gray-100 text-gray-500 group-hover:bg-gray-100/50'
                     } ${item.danger && !isActive ? 'group-hover:bg-red-100 group-hover:text-red-500' : ''} `}
                   >
-                    <Icon size={18} />
+                    <div className="relative size-5">
+                      <Image src={item.icon} alt={item.title} fill quality={100} />
+                    </div>
                   </div>
 
                   <div className="min-w-0 flex-1">
