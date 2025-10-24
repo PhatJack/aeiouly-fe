@@ -22,9 +22,9 @@ import { Button } from '../ui/button';
 import { Separator } from '../ui/separator';
 
 const menuWithImg = [
-  { title: 'Học tập', icon: '/sidebarIcon/home.png', href: ROUTE.HOME, id: 'home' },
+  { title: 'Trang chủ', icon: '/sidebarIcon/home.png', href: ROUTE.HOME, id: 'home' },
   { title: 'Luyện nói', icon: '/sidebarIcon/microphone.png', href: ROUTE.ONION, id: 'onion' },
-  { title: 'Gym', icon: '/sidebarIcon/headphone.png', href: ROUTE.GYM, id: 'gym' },
+  { title: 'Luyện nghe', icon: '/sidebarIcon/headphone.png', href: ROUTE.GYM, id: 'gym' },
   { title: 'Luyện đọc', icon: '/sidebarIcon/reading.png', href: ROUTE.READING, id: 'reading' },
   { title: 'Bảng tin', icon: '/sidebarIcon/newspaper.png', href: ROUTE.NEWS, id: 'news' },
   { title: 'Cài đặt', icon: '/sidebarIcon/cogwheel.png', href: ROUTE.SETTING.INDEX, id: 'setting' },

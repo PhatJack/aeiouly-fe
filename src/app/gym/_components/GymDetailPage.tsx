@@ -1,8 +1,8 @@
 'use client';
 
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 
-import { useRouter } from 'next/navigation';
+import { useRouter } from 'nextjs-toploader/app';
 
 import PracticeInput from '@/components/app/gym/detail/PracticeInput';
 import ProgressNavigation from '@/components/app/gym/detail/ProgressNavigation';
@@ -11,7 +11,11 @@ import VideoControls from '@/components/app/gym/detail/VideoControls';
 import VideoPlayer from '@/components/app/gym/detail/VideoPlayer';
 import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
-import { useGetLessonDetailQuery, useGetNextSentenceMutation } from '@/services/listening-session';
+import {
+  useGetLessonDetailQuery,
+  useGetListeningSessionQuery,
+  useGetNextSentenceMutation,
+} from '@/services/listening-session';
 
 import { toast } from 'sonner';
 
@@ -23,13 +27,17 @@ const GymDetailPage = ({ id }: GymDetailPageProps) => {
   const router = useRouter();
   const lessonId = Number(id);
 
-  // Fetch lesson details
   const {
     data: lesson,
     isLoading,
     isError,
   } = useGetLessonDetailQuery(lessonId, {
     refetchOnWindowFocus: false,
+    staleTime: 30 * 60 * 1000, // 30 minutes
+  });
+  const { data: listeningSession } = useGetListeningSessionQuery(lessonId, {
+    refetchOnWindowFocus: false,
+    staleTime: 30 * 60 * 1000, // 30 minutes
   });
   const [currentSentenceIndex, setCurrentSentenceIndex] = useState(0);
   const [userInput, setUserInput] = useState('');
@@ -48,13 +56,6 @@ const GymDetailPage = ({ id }: GymDetailPageProps) => {
 
     const userText = userInput.trim().toLowerCase();
     const correctText = currentSentence.original_text.trim().toLowerCase();
-
-    if (userText === correctText) {
-      toast.success('Chính xác! 🎉');
-      handleNext();
-    } else {
-      toast.error('Chưa đúng, hãy thử lại!');
-    }
   }, [currentSentence, userInput]);
 
   const handleNext = useCallback(() => {
@@ -105,10 +106,9 @@ const GymDetailPage = ({ id }: GymDetailPageProps) => {
   if (isLoading) {
     return (
       <div className="container mx-auto px-4 py-8">
-        <Skeleton className="mb-4 h-12 w-48" />
         <div className="grid gap-6 lg:grid-cols-2">
-          <Skeleton className="h-[400px] rounded-xl" />
-          <Skeleton className="h-[400px] rounded-xl" />
+          <Skeleton className="h-[500px] rounded-xl" />
+          <Skeleton className="h-[500px] rounded-xl" />
         </div>
       </div>
     );
@@ -116,7 +116,7 @@ const GymDetailPage = ({ id }: GymDetailPageProps) => {
 
   if (isError || !lesson) {
     return (
-      <div className="container mx-auto px-4 py-8">
+      <div className="container mx-auto py-6">
         <div className="text-center">
           <h2 className="mb-4 text-2xl font-bold">Không tìm thấy bài học</h2>
           <Button onClick={handleBack}>Quay lại</Button>
