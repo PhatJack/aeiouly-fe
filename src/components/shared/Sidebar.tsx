@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 
+import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useRouter } from 'nextjs-toploader/app';
@@ -31,13 +32,13 @@ import AvatarCustom from '../custom/AvatarCustom';
 import { Button } from '../ui/button';
 import { Separator } from '../ui/separator';
 
-const menu = [
-  { title: 'Học tập', icon: <House />, href: ROUTE.HOME, id: 'home' },
-  { title: 'Luyện nói', icon: <Mic />, href: ROUTE.ONION, id: 'onion' },
-  { title: 'Gym', icon: <Headphones />, href: ROUTE.GYM, id: 'gym' },
-  { title: 'Luyện viết', icon: <GraduationCap />, href: ROUTE.READING, id: 'reading' },
-  { title: 'Bảng tin', icon: <Newspaper />, href: ROUTE.NEWS, id: 'news' },
-  { title: 'Cài đặt', icon: <Settings />, href: ROUTE.SETTING.INDEX, id: 'setting' },
+const menuWithImg = [
+  { title: 'Học tập', icon: '/sidebarIcon/home.png', href: ROUTE.HOME, id: 'home' },
+  { title: 'Luyện nói', icon: '/sidebarIcon/microphone.png', href: ROUTE.ONION, id: 'onion' },
+  { title: 'Gym', icon: '/sidebarIcon/headphone.png', href: ROUTE.GYM, id: 'gym' },
+  { title: 'Luyện viết', icon: '/sidebarIcon/reading.png', href: ROUTE.READING, id: 'reading' },
+  { title: 'Bảng tin', icon: '/sidebarIcon/newspaper.png', href: ROUTE.NEWS, id: 'news' },
+  { title: 'Cài đặt', icon: '/sidebarIcon/cogwheel.png', href: ROUTE.SETTING.INDEX, id: 'setting' },
 ];
 
 const Sidebar = () => {
@@ -93,99 +94,97 @@ const Sidebar = () => {
         id="create-topic"
         className="bg-primary hover:bg-primary/80 flex items-center gap-2 rounded-full p-3 text-white"
       >
-        <span>
-          <PlusSquare />
-        </span>
-        {hovered && (
-          <motion.span
-            variants={fadeInRightVariants}
-            initial={'initial'}
-            animate={'animate'}
-            className="text-sm font-medium whitespace-nowrap"
-          >
-            Tạo chủ đề
-          </motion.span>
-        )}
+        <div className="relative size-6 min-w-6">
+          <Image fill quality={100} src={'/sidebarIcon/plus.png'} alt={'Plus icon'} />
+        </div>
+        <motion.span
+          initial={false}
+          animate={{
+            opacity: hovered ? 1 : 0,
+            x: hovered ? 0 : -10,
+            pointerEvents: hovered ? 'auto' : 'none',
+          }}
+          className={cn('text-sm font-medium whitespace-nowrap')}
+        >
+          Tạo chủ đề
+        </motion.span>
       </Link>
 
       <Separator />
 
       {/* Menu */}
       <ul className="relative flex flex-col gap-2">
-        {menu.map((item, index) => (
+        {menuWithImg.map((item) => (
           <motion.li
-            key={index}
+            key={item.id}
             id={item.id}
-            onClick={() => {
-              router.push(item.href);
-            }}
-            className={
-              'hover:bg-secondary/20 relative flex cursor-pointer items-center gap-2 rounded-full p-3 transition-all'
-            }
+            onClick={() => router.push(item.href)}
+            className="hover:bg-secondary/20 relative flex cursor-pointer items-center gap-2 rounded-full p-3 transition-all"
           >
-            <span
+            <div className="relative size-6 min-w-6">
+              <Image fill quality={100} src={item.icon} alt={item.title} />
+            </div>
+
+            <motion.span
+              initial={false}
+              animate={{
+                opacity: hovered ? 1 : 0,
+                x: hovered ? 0 : -10,
+                pointerEvents: hovered ? 'auto' : 'none',
+              }}
               className={cn(
-                pathname === item.href && 'text-secondary-foreground whitespace-nowrap'
+                'text-sm font-medium whitespace-nowrap text-black',
+                pathname === item.href && 'text-secondary-foreground'
               )}
             >
-              {item.icon}
-            </span>
-            {hovered && (
-              <motion.span
-                variants={fadeInRightVariants}
-                initial={'initial'}
-                animate={'animate'}
-                className={cn(
-                  'text-sm font-medium whitespace-nowrap text-black',
-                  pathname === item.href && 'text-secondary-foreground'
-                )}
-              >
-                {item.title}
-              </motion.span>
-            )}
+              {item.title}
+            </motion.span>
 
-            {pathname === item.href ? (
+            {pathname === item.href && (
               <motion.div
                 className="bg-secondary absolute inset-0 -z-10 rounded-full"
                 layoutId="background"
                 transition={{ type: 'spring', stiffness: 300, damping: 30 }}
               />
-            ) : null}
+            )}
           </motion.li>
         ))}
       </ul>
+
       <div className="flex flex-1 flex-col justify-end gap-4">
         <div
           onClick={handleLogout}
           className="hover:bg-destructive/80 flex w-full cursor-pointer items-center gap-2 rounded-full p-3 transition-all hover:text-white"
         >
-          <span>
-            <LogOut />
-          </span>
-          {hovered && (
-            <motion.span
-              variants={fadeInRightVariants}
-              initial={'initial'}
-              animate={'animate'}
-              className="text-sm font-medium whitespace-nowrap"
-            >
-              Đăng xuất
-            </motion.span>
-          )}
+          <div className="relative size-6 min-w-6">
+            <Image fill quality={100} src={'/sidebarIcon/exit.png'} alt={'Exit icon'} />
+          </div>
+          <motion.span
+            initial={false}
+            animate={{
+              opacity: hovered ? 1 : 0,
+              x: hovered ? 0 : -10,
+              pointerEvents: hovered ? 'auto' : 'none',
+            }}
+            className={cn('text-sm font-medium whitespace-nowrap')}
+          >
+            Đăng xuất
+          </motion.span>
         </div>
         {state.user ? (
           <div className="flex items-center gap-2 overflow-hidden">
             <AvatarCustom className="size-10" url={state.user.avatar_url || '/avatar.gif'} />
-            {hovered && (
-              <motion.span
-                variants={fadeInRightVariants}
-                initial={'initial'}
-                animate={'animate'}
-                className="text-sm font-medium whitespace-nowrap"
-              >
-                {state.user.full_name}
-              </motion.span>
-            )}
+            <motion.span
+              initial={false}
+              animate={{
+                opacity: hovered ? 1 : 0,
+                x: hovered ? 0 : -10,
+                pointerEvents: hovered ? 'auto' : 'none',
+              }}
+              className={cn('text-sm font-medium whitespace-nowrap')}
+            >
+              {state.user.full_name}
+            </motion.span>
           </div>
         ) : (
           <Button className="h-10 py-2 whitespace-nowrap has-[>svg]:px-2" asChild>
