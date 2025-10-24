@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 
+import Image from 'next/image';
 import { useRouter } from 'nextjs-toploader/app';
 
 import ListeningLessonCard from '@/components/app/gym/ListeningLessonCard';
@@ -55,9 +56,15 @@ const GymPage = () => {
           <div className="mb-6 flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
             <div className="flex items-start gap-5">
               <div className="group relative">
-                <div className="from-primary/10 to-primary/5 ring-primary/10 group-hover:ring-primary/20 relative flex h-20 w-20 items-center justify-center rounded-2xl bg-gradient-to-br shadow-lg ring-2 transition-all duration-300 group-hover:scale-110 group-hover:shadow-xl">
-                  <Headphones className="text-primary h-10 w-10 transition-transform duration-300 group-hover:scale-110" />
-                  <Sparkles className="text-primary absolute -top-2 -right-2 h-5 w-5" />
+                <div className="relative flex h-20 w-20 items-center justify-center rounded-2xl ring-2 ring-blue-600">
+                  <div className="relative size-10">
+                    <Image
+                      src={'/sidebarIcon/headphone.png'}
+                      alt="Headphone icon"
+                      fill
+                      quality={100}
+                    />
+                  </div>
                 </div>
               </div>
 
