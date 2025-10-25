@@ -9,7 +9,6 @@ import { useRouter } from 'nextjs-toploader/app';
 
 import { ROUTE } from '@/configs/route';
 import { useAuthContext } from '@/contexts/AuthContext';
-import { cn } from '@/lib/utils';
 import { useLogoutMutation } from '@/services/auth/logout.api';
 
 import { BrainCircuit, LogIn } from 'lucide-react';
@@ -22,12 +21,66 @@ import { Button } from '../ui/button';
 import { Separator } from '../ui/separator';
 
 const menuWithImg = [
-  { title: 'Trang chủ', icon: '/sidebarIcon/home.png', href: ROUTE.HOME, id: 'home' },
-  { title: 'Luyện nói', icon: '/sidebarIcon/microphone.png', href: ROUTE.ONION, id: 'onion' },
-  { title: 'Luyện nghe', icon: '/sidebarIcon/headphone.png', href: ROUTE.GYM, id: 'gym' },
-  { title: 'Luyện đọc', icon: '/sidebarIcon/reading.png', href: ROUTE.READING, id: 'reading' },
-  { title: 'Bảng tin', icon: '/sidebarIcon/newspaper.png', href: ROUTE.NEWS, id: 'news' },
-  { title: 'Cài đặt', icon: '/sidebarIcon/cogwheel.png', href: ROUTE.SETTING.INDEX, id: 'setting' },
+  { title: 'Trang chủ', icon: '/sidebarIcon/home.png', href: ROUTE.HOME, id: 'home', role: 'user' },
+  {
+    title: 'Luyện nói',
+    icon: '/sidebarIcon/microphone.png',
+    href: ROUTE.ONION,
+    id: 'onion',
+    role: 'user',
+  },
+  {
+    title: 'Luyện nghe',
+    icon: '/sidebarIcon/headphone.png',
+    href: ROUTE.GYM,
+    id: 'gym',
+    role: 'user',
+  },
+  {
+    title: 'Luyện đọc',
+    icon: '/sidebarIcon/reading.png',
+    href: ROUTE.READING,
+    id: 'reading',
+    role: 'user',
+  },
+  {
+    title: 'Bảng tin',
+    icon: '/sidebarIcon/newspaper.png',
+    href: ROUTE.NEWS,
+    id: 'news',
+    role: 'user',
+  },
+  {
+    title: 'Cài đặt',
+    icon: '/sidebarIcon/cogwheel.png',
+    href: ROUTE.SETTING.INDEX,
+    id: 'setting',
+    role: 'user',
+  },
+  {
+    title: 'Quản lý người dùng',
+    icon: '/sidebarIcon/user.png',
+    href: ROUTE.ADMIN.USER_MANAGEMENT,
+    role: 'admin',
+  },
+  {
+    title: 'Quản lý bài viết',
+    icon: '/sidebarIcon/post.png',
+    href: ROUTE.ADMIN.POST_MANAGEMENT,
+    role: 'admin',
+  },
+  {
+    title: 'Quản lý bài học nghe',
+    icon: '/sidebarIcon/checklist.png',
+    href: ROUTE.ADMIN.LISTENING_SESSION_MANAGEMENT,
+    role: 'admin',
+  },
+  {
+    title: 'Quản lý không gian tự học',
+    icon: '/sidebarIcon/space.png',
+    href: ROUTE.ADMIN.SOLO_SPACE_MANAGEMENT,
+    role: 'admin',
+  },
 ];
 
 const Sidebar = () => {
@@ -52,7 +105,7 @@ const Sidebar = () => {
   };
 
   return (
-    <aside className="sticky top-0 flex h-screen min-w-20 flex-col gap-2 p-4">
+    <aside className="sticky top-0 flex h-screen max-w-20 min-w-20 flex-col gap-2 p-4">
       {/* Logo */}
       <TooltipCustom content="Aeiouly">
         <Link href={ROUTE.HOME} className="flex items-center justify-center p-3">
@@ -76,27 +129,31 @@ const Sidebar = () => {
 
       {/* Menu */}
       <ul className="relative flex flex-col gap-2">
-        {menuWithImg.map((item) => (
-          <TooltipCustom key={item.id} content={item.title}>
-            <motion.li
-              id={item.id}
-              onClick={() => router.push(item.href)}
-              className="hover:bg-secondary/20 relative flex cursor-pointer items-center justify-center rounded-full p-3 transition-all"
-            >
-              <div className="relative size-6 min-w-6">
-                <Image fill quality={100} src={item.icon} alt={item.title} />
-              </div>
+        {menuWithImg.map(
+          (item) =>
+            state.user &&
+            (item.role === 'user' || (item.role === 'admin' && state.user.role === 'admin')) && (
+              <TooltipCustom key={item.id} content={item.title}>
+                <motion.li
+                  id={item.id}
+                  onClick={() => router.push(item.href)}
+                  className="hover:bg-secondary/20 relative flex cursor-pointer items-center justify-center rounded-full p-3 transition-all"
+                >
+                  <div className="relative size-6 min-w-6">
+                    <Image fill quality={100} src={item.icon} alt={item.title} />
+                  </div>
 
-              {pathname === item.href && (
-                <motion.div
-                  className="bg-secondary absolute inset-0 -z-10 rounded-full"
-                  layoutId="background"
-                  transition={{ type: 'spring', stiffness: 300, damping: 30 }}
-                />
-              )}
-            </motion.li>
-          </TooltipCustom>
-        ))}
+                  {pathname === item.href && (
+                    <motion.div
+                      className="bg-secondary absolute inset-0 -z-10 rounded-full"
+                      layoutId="background"
+                      transition={{ type: 'spring', stiffness: 300, damping: 30 }}
+                    />
+                  )}
+                </motion.li>
+              </TooltipCustom>
+            )
+        )}
       </ul>
 
       <div className="flex flex-1 flex-col justify-end gap-4">

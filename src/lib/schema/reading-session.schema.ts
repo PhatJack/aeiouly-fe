@@ -25,7 +25,7 @@ export const readingSessionCreateSchema = z.object({
   topic: z.string().max(200).optional(),
 
   // Custom text field
-  custom_text: z.string().min(100).max(5000).optional(),
+  custom_text: z.string().optional(),
 });
 
 export const summarySubmissionSchema = z.object({

@@ -7,6 +7,13 @@ export const ROUTE = {
   NEWS: '/news',
   READING: '/reading',
   USER: (username: string) => `/u/${username}`,
+  ADMIN: {
+    INDEX: '/admin',
+    USER_MANAGEMENT: '/admin/users',
+    POST_MANAGEMENT: '/admin/posts',
+    LISTENING_SESSION_MANAGEMENT: '/admin/listening-session',
+    SOLO_SPACE_MANAGEMENT: '/admin/solo-space',
+  },
   SETTING: {
     INDEX: '/settings',
     CHANGE_PASSWORD: '/settings/change-password',

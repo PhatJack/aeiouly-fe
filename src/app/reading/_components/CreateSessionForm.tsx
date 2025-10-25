@@ -53,27 +53,9 @@ const CreateSessionForm = memo(({ onSuccess }: CreateSessionFormProps) => {
 
   const onSubmit = useCallback(
     (data: ReadingSessionCreateSchema) => {
-      // Validate based on tab
-      if (activeTab === 'ai') {
-        if (!data.level || !data.genre) {
-          toast.error('Vui lòng chọn cấp độ và thể loại');
-          return;
-        }
-        // Clear custom_text for AI generation
-        data.custom_text = undefined;
-      } else {
-        if (!data.custom_text || data.custom_text.length < 100) {
-          toast.error('Văn bản phải có ít nhất 100 ký tự');
-          return;
-        }
-        // Clear AI fields for custom text
-        data.level = undefined;
-        data.genre = undefined;
-        data.word_count = undefined;
-        data.topic = undefined;
-      }
+      const { custom_text, ...rest } = data;
 
-      createSessionMutation.mutate(data, {
+      createSessionMutation.mutate(activeTab === 'ai' ? rest : { custom_text }, {
         onSuccess: (session) => {
           toast.success('Tạo phiên đọc thành công!');
           form.reset();
@@ -87,6 +69,10 @@ const CreateSessionForm = memo(({ onSuccess }: CreateSessionFormProps) => {
     },
     [activeTab, createSessionMutation, form, onSuccess, router]
   );
+
+  const onError = (error: any) => {
+    console.log(error);
+  };
 
   const handleTabChange = useCallback((value: string) => {
     setActiveTab(value as 'ai' | 'custom');
@@ -107,7 +93,7 @@ const CreateSessionForm = memo(({ onSuccess }: CreateSessionFormProps) => {
             <TabsTrigger value="custom">Văn bản tự chọn</TabsTrigger>
           </TabsList>
 
-          <form onSubmit={form.handleSubmit(onSubmit)} className="mt-4 space-y-4">
+          <form onSubmit={form.handleSubmit(onSubmit, onError)} className="mt-4 space-y-4">
             <TabsContent value="ai" className="mt-0">
               <FieldGroup className="gap-4">
                 <Controller

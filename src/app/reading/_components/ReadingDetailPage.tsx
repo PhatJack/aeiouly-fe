@@ -6,6 +6,7 @@ import ReactMarkdown from 'react-markdown';
 
 import { useRouter } from 'next/navigation';
 
+import BlockquoteCustom from '@/components/custom/BlockquoteCustom';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -60,7 +61,13 @@ const ReadingDetailPage = ({ id }: ReadingDetailPageProps) => {
   const [quiz, setQuiz] = useState<QuizQuestionSchema[] | null>(null);
   const [selectedAnswers, setSelectedAnswers] = useState<Record<string, string>>({});
 
-  const { data: session, isLoading, isError } = useGetReadingSessionDetailQuery(sessionId);
+  const {
+    data: session,
+    isLoading,
+    isError,
+  } = useGetReadingSessionDetailQuery(sessionId, {
+    refetchOnWindowFocus: false,
+  });
   const submitSummaryMutation = useSubmitSummaryMutation();
   const generateQuizMutation = useGenerateQuizMutation();
 
@@ -138,7 +145,7 @@ const ReadingDetailPage = ({ id }: ReadingDetailPageProps) => {
 
   if (isError || !session) {
     return (
-      <div className="container mx-auto max-w-4xl px-4 py-8">
+      <div>
         <Card>
           <CardContent className="py-12 text-center">
             <h2 className="mb-4 text-2xl font-bold">Không tìm thấy phiên đọc</h2>
@@ -150,7 +157,7 @@ const ReadingDetailPage = ({ id }: ReadingDetailPageProps) => {
   }
 
   return (
-    <div className="from-background via-background to-primary/5 min-h-screen bg-gradient-to-br">
+    <div className="min-h-screen">
       {/* Header */}
       <div className="bg-card/50 sticky top-0 z-10 border-b backdrop-blur-sm">
         <div className="container mx-auto max-w-4xl px-4 py-4">
@@ -193,16 +200,16 @@ const ReadingDetailPage = ({ id }: ReadingDetailPageProps) => {
       <div className="container mx-auto max-w-4xl space-y-8 px-4 py-8">
         {/* Reading Content */}
         <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <BookOpen className="h-5 w-5" />
-              Nội dung bài đọc
-            </CardTitle>
-          </CardHeader>
           <CardContent>
-            <div className="prose prose-slate max-w-none">
-              <ReactMarkdown>{session.content}</ReactMarkdown>
-            </div>
+            <BlockquoteCustom
+              variants="primary"
+              title="Nội dung bài đọc"
+              content={
+                <div className="max-w-none">
+                  <ReactMarkdown>{session.content}</ReactMarkdown>
+                </div>
+              }
+            />
           </CardContent>
         </Card>
 

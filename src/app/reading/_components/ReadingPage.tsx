@@ -115,12 +115,13 @@ const ReadingPage = () => {
             <>
               {data.items.length > 0 ? (
                 <div className="space-y-4">
-                  {data.items.map((session) => (
-                    <ReadingSessionCard
-                      key={session.session_id}
-                      session={session}
-                      onClick={() => handleCardClick(session.session_id)}
-                    />
+                  {data.items.map((session, index) => (
+                    <div key={`session-${index}`} className="size-full">
+                      <ReadingSessionCard
+                        session={session}
+                        onClick={() => handleCardClick(session.session_id)}
+                      />
+                    </div>
                   ))}
                 </div>
               ) : (
@@ -154,7 +155,7 @@ const ReadingPage = () => {
 
         {/* Right - Create Session Form */}
         <div className="lg:sticky lg:top-4 lg:h-fit">
-          <CreateSessionForm onSuccess={handleSessionSuccess} />
+          <CreateSessionForm onSuccess={() => {}} />
         </div>
       </div>
     </div>

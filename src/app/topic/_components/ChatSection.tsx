@@ -24,28 +24,14 @@ const ChatSection = ({ sessionId, messages, className }: ChatSectionProps) => {
   );
   const [localMessages, setLocalMessages] = useState<ChatMessageResponseSchema[]>(messages);
   const [isLoadingResponse, setIsLoadingResponse] = useState(false);
-  const [historyMessageIds, setHistoryMessageIds] = useState<Set<number>>(new Set());
+  const [historyMessageIds, setHistoryMessageIds] = useState<Set<string>>(new Set());
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   // Update local messages when messages prop changes
   useEffect(() => {
-    setLocalMessages(
-      messages.length > 0
-        ? messages
-        : [
-            {
-              id: Date.now(), // Temporary ID
-              session_id: sessionId,
-              role: 'assistant',
-              content: 'Hãy thử dịch câu đầu tiên ',
-              sentence_index: 0,
-              status: 'active',
-              created_at: new Date().toISOString(),
-            },
-          ]
-    );
+    setLocalMessages(messages);
     // Track the IDs of messages from chat history (disable typing for these)
-    setHistoryMessageIds(new Set(messages.map((m) => m.id)));
+    setHistoryMessageIds(new Set(messages.map((m) => `${m.session_id}_${m.role}_${m.id}`)));
   }, [messages]);
 
   // Auto scroll to bottom when new messages arrive
@@ -96,7 +82,9 @@ const ChatSection = ({ sessionId, messages, className }: ChatSectionProps) => {
               senderRole={message.role}
               index={message.id}
               translationAvailable={false}
-              disableTyping={historyMessageIds.has(message.id)}
+              disableTyping={historyMessageIds.has(
+                `${message.session_id}_${message.role}_${message.id}`
+              )}
             />
           </div>
         ))}

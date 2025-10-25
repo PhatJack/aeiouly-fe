@@ -64,6 +64,7 @@ const TopicInsertForm = ({ values }: TopicInsertFormProps) => {
   const onSubmit = (data: WritingSessionCreateSchema) => {
     createWritingSessionMutation.mutate(data, {
       onSuccess: (data) => {
+        toast.success('Tạo phiên viết thành công!');
         router.push(`/topic/${data.id}`);
       },
       onError: (error) => {
