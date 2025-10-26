@@ -130,29 +130,30 @@ const Sidebar = () => {
       {/* Menu */}
       <ul className="relative flex flex-col gap-2">
         {menuWithImg.map(
-          (item) =>
-            state.user &&
-            (item.role === 'user' || (item.role === 'admin' && state.user.role === 'admin')) && (
-              <TooltipCustom key={item.id} content={item.title}>
-                <motion.li
-                  id={item.id}
-                  onClick={() => router.push(item.href)}
-                  className="hover:bg-secondary/20 relative flex cursor-pointer items-center justify-center rounded-full p-3 transition-all"
-                >
-                  <div className="relative size-6 min-w-6">
-                    <Image fill quality={100} src={item.icon} alt={item.title} />
-                  </div>
+          (item, index) => (
+            // state.user &&
+            // (item.role === 'user' || (item.role === 'admin' && state.user.role === 'admin')) && (
+            <TooltipCustom key={`sidebar-${index}`} content={item.title}>
+              <motion.li
+                id={item.id}
+                onClick={() => router.push(item.href)}
+                className="hover:bg-secondary/20 relative flex cursor-pointer items-center justify-center rounded-full p-3 transition-all"
+              >
+                <div className="relative size-6 min-w-6">
+                  <Image fill quality={100} src={item.icon} alt={item.title} />
+                </div>
 
-                  {pathname === item.href && (
-                    <motion.div
-                      className="bg-secondary absolute inset-0 -z-10 rounded-full"
-                      layoutId="background"
-                      transition={{ type: 'spring', stiffness: 300, damping: 30 }}
-                    />
-                  )}
-                </motion.li>
-              </TooltipCustom>
-            )
+                {pathname === item.href && (
+                  <motion.div
+                    className="bg-secondary absolute inset-0 -z-10 rounded-full"
+                    layoutId="background"
+                    transition={{ type: 'spring', stiffness: 300, damping: 30 }}
+                  />
+                )}
+              </motion.li>
+            </TooltipCustom>
+          )
+          // )
         )}
       </ul>
 

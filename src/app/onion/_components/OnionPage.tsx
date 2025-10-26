@@ -2,6 +2,7 @@
 
 import React from 'react';
 
+import Image from 'next/image';
 import { useRouter } from 'nextjs-toploader/app';
 
 import { FeatureCard } from '@/components/app/onion/FeatureCard';
@@ -161,42 +162,93 @@ const OnionPage = () => {
   };
 
   return (
-    <div className="size-full">
-      <div className="mb-16">
-        <h2 className="text-foreground mb-8 text-lg font-bold md:text-2xl">
-          Các tình huống cá nhân hoá được yêu thích nhất
-        </h2>
-        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-          {situations.map((situation) => (
-            <SituationCard
-              key={situation.id}
-              situation={situation}
-              onStart={() => handleStartPractice(situation.id)}
-            />
-          ))}
+    <div className="min-h-screen">
+      {/* Header */}
+      <div className="border-b">
+        <div className="py-6">
+          <div className="mb-6 flex items-start gap-5">
+            <div className="group relative">
+              <div className="relative flex h-20 w-20 items-center justify-center rounded-2xl ring-2 ring-purple-600">
+                <div className="relative size-10">
+                  <Image
+                    src={'/sidebarIcon/microphone.png'}
+                    alt="Microphone icon"
+                    fill
+                    quality={100}
+                  />
+                </div>
+              </div>
+            </div>
+
+            <div className="flex-1 space-y-2">
+              <h1 className="from-foreground to-foreground/70 bg-gradient-to-r bg-clip-text text-4xl leading-snug font-bold tracking-tight text-transparent">
+                Luyện Nói
+              </h1>
+              <p className="text-muted-foreground max-w-2xl text-base leading-relaxed">
+                Thực hành giao tiếp tiếng Anh trong các tình huống thực tế với AI Coach thông minh
+              </p>
+
+              <div className="flex flex-wrap items-center gap-4 pt-2 text-sm">
+                <div className="flex items-center gap-2">
+                  <div className="h-2 w-2 animate-pulse rounded-full bg-green-500" />
+                  <span className="text-muted-foreground">
+                    <span className="text-foreground font-semibold">{situations.length}</span> tình
+                    huống
+                  </span>
+                </div>
+                <div className="bg-border h-4 w-px" />
+                <div className="flex items-center gap-2">
+                  <span className="text-muted-foreground">
+                    Cấp độ{' '}
+                    <span className="text-foreground font-semibold">Người mới - Nâng cao</span>
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 
-      <div className="text-center">
-        <h2 className="text-foreground mb-12 text-3xl font-bold">
-          Tại sao luyện tập với AI Coach?
-        </h2>
-        <div className="grid grid-cols-1 gap-12 md:grid-cols-3">
-          <FeatureCard
-            icon={<MessageCircle className="text-primary h-8 w-8" />}
-            title="Phản hồi thời gian thực"
-            description="Nhận phản hồi tức thì về cách phát âm, độ trôi chảy và kỹ năng hội thoại của bạn."
-          />
-          <FeatureCard
-            icon={<Target className="text-primary h-8 w-8" />}
-            title="Luyện tập cá nhân hóa"
-            description="Các tình huống thích ứng điều chỉnh theo trình độ kỹ năng và tốc độ học của bạn."
-          />
-          <FeatureCard
-            icon={<Star className="text-primary h-8 w-8" />}
-            title="Theo dõi tiến độ"
-            description="Giám sát sự cải thiện của bạn qua các tình huống và kỹ năng khác nhau."
-          />
+      {/* Content */}
+      <div className="space-y-16 py-8">
+        {/* Situations Grid */}
+        <div>
+          <h2 className="text-foreground mb-6 text-2xl font-bold">
+            Các tình huống luyện tập phổ biến
+          </h2>
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+            {situations.map((situation) => (
+              <SituationCard
+                key={situation.id}
+                situation={situation}
+                onStart={() => handleStartPractice(situation.id)}
+              />
+            ))}
+          </div>
+        </div>
+
+        {/* Features Section */}
+        <div>
+          <h2 className="text-foreground mb-8 text-center text-2xl font-bold md:text-3xl">
+            Tại sao luyện tập với AI Coach?
+          </h2>
+          <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
+            <FeatureCard
+              icon={<MessageCircle className="text-primary h-8 w-8" />}
+              title="Phản hồi thời gian thực"
+              description="Nhận phản hồi tức thì về cách phát âm, độ trôi chảy và kỹ năng hội thoại của bạn."
+            />
+            <FeatureCard
+              icon={<Target className="text-primary h-8 w-8" />}
+              title="Luyện tập cá nhân hóa"
+              description="Các tình huống thích ứng điều chỉnh theo trình độ kỹ năng và tốc độ học của bạn."
+            />
+            <FeatureCard
+              icon={<Star className="text-primary h-8 w-8" />}
+              title="Theo dõi tiến độ"
+              description="Giám sát sự cải thiện của bạn qua các tình huống và kỹ năng khác nhau."
+            />
+          </div>
         </div>
       </div>
     </div>
