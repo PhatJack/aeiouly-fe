@@ -1,0 +1,27 @@
+import { apiClient } from '@/lib/client';
+import { ErrorResponseSchema } from '@/lib/schema/error';
+import {
+  VocabularySetCreateSchema,
+  VocabularySetResponseSchema,
+} from '@/lib/schema/vocabulary.schema';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+
+export async function createVocabularySetApi(body: VocabularySetCreateSchema) {
+  const response = await apiClient.post<VocabularySetResponseSchema, VocabularySetCreateSchema>(
+    '/vocabulary/sets',
+    body
+  );
+  return response.data;
+}
+
+export const useCreateVocabularySetMutation = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation<VocabularySetResponseSchema, ErrorResponseSchema, VocabularySetCreateSchema>({
+    mutationKey: ['createVocabularySet'],
+    mutationFn: (body) => createVocabularySetApi(body),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['vocabulary-sets'] });
+    },
+  });
+};
