@@ -10,7 +10,7 @@ export const MessageRoleSchema = z.enum(['user', 'assistant']);
 // Create schemas
 export const writingSessionCreateSchema = z.object({
   topic: z.string().min(1, 'Chủ đề không được để trống').max(255),
-  difficulty: CEFRLevelSchema,
+  level: CEFRLevelSchema,
   total_sentences: z.number().int().min(1).max(20),
 });
 
@@ -27,7 +27,7 @@ export const writingSessionResponseSchema = z.object({
   id: z.number(),
   user_id: z.number(),
   topic: z.string(),
-  difficulty: CEFRLevelSchema,
+  level: CEFRLevelSchema,
   total_sentences: z.number(),
   current_sentence_index: z.number(),
   status: SessionStatusSchema,
@@ -41,7 +41,7 @@ export const writingSessionResponseSchema = z.object({
 export const writingSessionListItemSchema = z.object({
   id: z.number(),
   topic: z.string(),
-  difficulty: CEFRLevelSchema,
+  level: CEFRLevelSchema,
   total_sentences: z.number(),
   current_sentence_index: z.number(),
   status: SessionStatusSchema,
