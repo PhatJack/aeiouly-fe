@@ -1,7 +1,7 @@
 import { apiClient } from '@/lib/client';
 import { ErrorResponseSchema } from '@/lib/schema/error';
 import { PostCreateImageSchema, PostResponseSchema } from '@/lib/schema/post.schema';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 export async function createPostImageApi(post_id: number, body: PostCreateImageSchema) {
   const response = await apiClient.post<PostResponseSchema, PostCreateImageSchema>(
@@ -17,6 +17,8 @@ export async function createPostImageApi(post_id: number, body: PostCreateImageS
 }
 
 export const useCreatePostImageMutation = () => {
+  const queryClient = useQueryClient();
+
   return useMutation<
     PostResponseSchema,
     ErrorResponseSchema,
@@ -24,5 +26,10 @@ export const useCreatePostImageMutation = () => {
   >({
     mutationKey: ['createPostImage'],
     mutationFn: ({ post_id, body }) => createPostImageApi(post_id, body),
+    onSuccess: (data) => {
+      queryClient.setQueryData(['posts'], (oldData: PostResponseSchema[] | undefined) => {
+        return [...(oldData || []), data];
+      });
+    },
   });
 };

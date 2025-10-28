@@ -11,13 +11,11 @@ import { PostCreateSchema, postCreateSchema } from '@/lib/schema/post.schema';
 import { useCreatePostMutation } from '@/services/posts';
 import { useCreatePostImageMutation } from '@/services/posts/create-post-image.api';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useQueryClient } from '@tanstack/react-query';
 
 import { motion } from 'motion/react';
 import { toast } from 'sonner';
 
 const CreatePost = () => {
-  const queryClient = useQueryClient();
   const postMutation = useCreatePostMutation();
   const postImageMutation = useCreatePostImageMutation();
   const createPostForm = useForm<PostCreateSchema>({
@@ -42,7 +40,6 @@ const CreatePost = () => {
           {
             onSuccess: () => {
               toast.success('Đăng bài viết thành công');
-              queryClient.invalidateQueries({ queryKey: ['posts'] });
               createPostForm.reset();
             },
             onError: (error) => {

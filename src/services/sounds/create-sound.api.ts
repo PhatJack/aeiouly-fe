@@ -14,8 +14,10 @@ export const useCreateSoundMutation = () => {
   return useMutation<SoundResponseSchema, ErrorResponseSchema, SoundCreateSchema>({
     mutationKey: ['createSound'],
     mutationFn: (body) => createSoundApi(body),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['sounds'] });
+    onSuccess: (data) => {
+      queryClient.setQueryData(['sounds'], (oldData: SoundResponseSchema[] | undefined) => {
+        return [...(oldData || []), data];
+      });
     },
   });
 };

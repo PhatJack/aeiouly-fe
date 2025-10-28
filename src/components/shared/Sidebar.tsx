@@ -112,68 +112,70 @@ const Sidebar = () => {
           <BrainCircuit />
         </Link>
       </TooltipCustom>
-
-      <TooltipCustom content="Tạo chủ đề">
-        <Link
-          href={ROUTE.TOPIC}
-          id="create-topic"
-          className="bg-primary hover:bg-primary/80 flex items-center justify-center rounded-full p-3 text-white"
-        >
-          <div className="relative size-6 min-w-6">
-            <Image fill quality={100} src={'/sidebarIcon/plus.png'} alt={'Plus icon'} />
-          </div>
-        </Link>
-      </TooltipCustom>
+      {state.user && state.user.role === 'user' && (
+        <TooltipCustom content="Tạo chủ đề">
+          <Link
+            href={ROUTE.TOPIC}
+            id="create-topic"
+            className="bg-primary hover:bg-primary/80 flex items-center justify-center rounded-full p-3 text-white"
+          >
+            <div className="relative size-6 min-w-6">
+              <Image fill quality={100} src={'/sidebarIcon/plus.png'} alt={'Plus icon'} />
+            </div>
+          </Link>
+        </TooltipCustom>
+      )}
 
       <Separator />
 
       {/* Menu */}
       <ul className="relative flex flex-col gap-2">
         {menuWithImg.map(
-          (item, index) => (
-            // state.user &&
-            // (item.role === 'user' || (item.role === 'admin' && state.user.role === 'admin')) && (
-            <TooltipCustom key={`sidebar-${index}`} content={item.title}>
-              <motion.li
-                id={item.id}
-                onClick={() => router.push(item.href)}
-                className="hover:bg-secondary/20 relative flex cursor-pointer items-center justify-center rounded-full p-3 transition-all"
-              >
-                <div className="relative size-6 min-w-6">
-                  <Image fill quality={100} src={item.icon} alt={item.title} />
-                </div>
+          (item, index) =>
+            state.user &&
+            (item.role === 'user' || (item.role === 'admin' && state.user.role === 'admin')) && (
+              <TooltipCustom key={`sidebar-${index}`} content={item.title}>
+                <motion.li
+                  id={item.id}
+                  onClick={() => router.push(item.href)}
+                  className="hover:bg-secondary/20 relative flex cursor-pointer items-center justify-center rounded-full p-3 transition-all"
+                >
+                  <div className="relative size-6 min-w-6">
+                    <Image fill quality={100} src={item.icon} alt={item.title} />
+                  </div>
 
-                {pathname === item.href && (
-                  <motion.div
-                    className="bg-secondary absolute inset-0 -z-10 rounded-full"
-                    layoutId="background"
-                    transition={{ type: 'spring', stiffness: 300, damping: 30 }}
-                  />
-                )}
-              </motion.li>
-            </TooltipCustom>
-          )
-          // )
+                  {pathname === item.href && (
+                    <motion.div
+                      className="bg-secondary absolute inset-0 -z-10 rounded-full"
+                      layoutId="background"
+                      transition={{ type: 'spring', stiffness: 300, damping: 30 }}
+                    />
+                  )}
+                </motion.li>
+              </TooltipCustom>
+            )
         )}
       </ul>
 
       <div className="flex flex-1 flex-col justify-end gap-4">
-        <TooltipCustom content="Đăng xuất">
-          <div
-            onClick={handleLogout}
-            className="hover:bg-destructive/80 flex w-full cursor-pointer items-center justify-center rounded-full p-3 transition-all hover:text-white"
-          >
-            <div className="relative size-6 min-w-6">
-              <Image fill quality={100} src={'/sidebarIcon/exit.png'} alt={'Exit icon'} />
-            </div>
-          </div>
-        </TooltipCustom>
         {state.user ? (
-          <TooltipCustom content={state.user.full_name}>
-            <div className="flex items-center justify-center">
-              <AvatarCustom className="size-10" url={state.user.avatar_url || '/avatar.gif'} />
-            </div>
-          </TooltipCustom>
+          <>
+            <TooltipCustom content="Đăng xuất">
+              <div
+                onClick={handleLogout}
+                className="hover:bg-destructive/80 flex w-full cursor-pointer items-center justify-center rounded-full p-3 transition-all hover:text-white"
+              >
+                <div className="relative size-6 min-w-6">
+                  <Image fill quality={100} src={'/sidebarIcon/exit.png'} alt={'Exit icon'} />
+                </div>
+              </div>
+            </TooltipCustom>
+            <TooltipCustom content={state.user.full_name}>
+              <div className="flex items-center justify-center">
+                <AvatarCustom className="size-10" url={state.user.avatar_url || '/avatar.gif'} />
+              </div>
+            </TooltipCustom>
+          </>
         ) : (
           <TooltipCustom content="Đăng nhập">
             <Button className="h-10 p-2" asChild>

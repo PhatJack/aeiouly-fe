@@ -12,6 +12,9 @@ export const userBaseSchema = z.object({
   full_name: z.string().optional(),
   role: userRoleSchema.default('user'),
   is_active: z.boolean().default(true),
+  avatar_url: z.url().optional(),
+  created_at: z.string().optional(),
+  updated_at: z.string().optional(),
 });
 
 // User create schema
@@ -44,8 +47,9 @@ export const userResponseSchema = z.object({
   full_name: z.string().nullable().optional(),
   role: userRoleSchema,
   is_active: z.boolean(),
-  created_at: z.string().or(z.date()),
-  updated_at: z.string().or(z.date()),
+  avatar_url: z.url().optional(),
+  created_at: z.string().optional(),
+  updated_at: z.string().optional(),
 });
 
 // User list response schema

@@ -2,6 +2,7 @@
 
 import React, { memo, useEffect, useRef, useState } from 'react';
 
+import MessageContainer from '@/components/shared/chat/MessageContainer';
 import MessageInput from '@/components/shared/chat/MessageInput';
 import MessageItem from '@/components/shared/chat/MessageItem';
 import { WritingSessionContext } from '@/contexts/WritingSessionContext';
@@ -71,23 +72,11 @@ const ChatSection = ({ sessionId, messages, className }: ChatSectionProps) => {
       className={cn('border-border/50 flex flex-col rounded-2xl border bg-gray-50 p-6', className)}
     >
       {/* Messages Container */}
-      <div className="scrollbar-thin scrollbar-thumb-border/50 scrollbar-track-transparent mb-6 flex-1 space-y-4 overflow-y-auto pr-2">
-        {localMessages.map((message) => (
-          <div
-            key={message.id}
-            className={cn('flex', message.role === 'user' ? 'justify-end' : 'justify-start')}
-          >
-            <MessageItem
-              content={message.content}
-              senderRole={message.role}
-              index={message.id}
-              translationAvailable={false}
-              disableTyping={historyMessageIds.has(
-                `${message.session_id}_${message.role}_${message.id}`
-              )}
-            />
-          </div>
-        ))}
+      <MessageContainer
+        messages={localMessages}
+        historyMessageIds={historyMessageIds}
+        className="mb-6 flex-1"
+      >
         {isLoadingResponse && (
           <MessageItem
             content="Thinking..."
@@ -97,9 +86,8 @@ const ChatSection = ({ sessionId, messages, className }: ChatSectionProps) => {
             translationAvailable={false}
           />
         )}
-
         <div ref={messagesEndRef} />
-      </div>
+      </MessageContainer>
 
       {/* Message Input */}
       <MessageInput onSendMessage={handleSendMessage} disabled={isLoadingResponse} />
