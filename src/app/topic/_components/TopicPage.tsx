@@ -6,7 +6,7 @@ import Image from 'next/image';
 
 import TopicInsertForm from '@/components/app/topic/TopicInsertForm';
 import { WritingSessionCreateSchema } from '@/lib/schema/writing-session.schema';
-import { difficulties, imagesForTopics, topics } from '@/lib/topic';
+import { imagesForTopics, levels, topics } from '@/lib/topic';
 import { cn } from '@/lib/utils';
 
 const TopicPage = () => {
@@ -18,7 +18,7 @@ const TopicPage = () => {
   const handleTopicClick = useCallback((topic: WritingSessionCreateSchema) => {
     setSelectedTopic({
       topic: topic.topic,
-      difficulty: topic.difficulty as WritingSessionCreateSchema['difficulty'],
+      level: topic.level as WritingSessionCreateSchema['level'],
       total_sentences: topic.total_sentences,
     });
   }, []);
@@ -26,9 +26,9 @@ const TopicPage = () => {
   useEffect(() => {
     const data = Array.from({ length: 25 }, (_, i) => ({
       topic: topics[i],
-      difficulty: difficulties[
-        Math.floor(Math.random() * difficulties.length)
-      ] as WritingSessionCreateSchema['difficulty'],
+      level: levels[
+        Math.floor(Math.random() * levels.length)
+      ] as WritingSessionCreateSchema['level'],
       total_sentences: Math.floor(Math.random() * 25) + 1,
       image: imagesForTopics[i],
     }));
@@ -77,7 +77,7 @@ const TopicPage = () => {
               <div className="flex flex-col">
                 <h3 className="mb-2 text-lg font-semibold">{item.topic}</h3>
                 <p className="text-muted-foreground text-sm">
-                  Độ khó: <span className="text-primary font-medium">{item.difficulty}</span> <br />
+                  Độ khó: <span className="text-primary font-medium">{item.level}</span> <br />
                   Tổng số câu: <span className="font-medium">{item.total_sentences}</span>
                 </p>
               </div>

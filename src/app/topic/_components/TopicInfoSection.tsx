@@ -43,7 +43,7 @@ const TopicInfoSection = ({ writingSession }: TopicInfoSectionProps) => {
             </div>
             <div className="flex items-center space-x-1 p-4">
               <span className="text-muted-foreground">Độ khó:</span>
-              <p className="text-error font-medium">{writingSession.difficulty}</p>
+              <p className="text-error font-medium">{writingSession.level}</p>
             </div>
             <div className="flex items-center space-x-1 p-4">
               <span className="text-muted-foreground">Tổng số câu:</span>

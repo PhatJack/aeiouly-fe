@@ -18,7 +18,7 @@ export const generateMetadata = async ({
     console.log('res.id:', res?.id); // ✅ safe
     return {
       title: `Chủ đề ${res.topic}`,
-      description: `Tham gia phiên viết về chủ đề "${res.topic}" với độ khó ${res.difficulty} trên Aeiouly.`,
+      description: `Tham gia phiên viết về chủ đề "${res.topic}" với độ khó ${res.level} trên Aeiouly.`,
     };
   } catch (error: any) {
     console.error('API Error:', error);

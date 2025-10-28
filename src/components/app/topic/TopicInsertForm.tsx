@@ -38,7 +38,7 @@ const TopicInsertForm = ({ values }: TopicInsertFormProps) => {
   const form = useForm<WritingSessionCreateSchema>({
     defaultValues: {
       topic: values?.topic || '',
-      difficulty: values?.difficulty || 'A1',
+      level: values?.level || 'A1',
       total_sentences: values?.total_sentences || 5,
     },
     resolver: zodResolver(writingSessionCreateSchema),
@@ -49,7 +49,7 @@ const TopicInsertForm = ({ values }: TopicInsertFormProps) => {
     if (values) {
       form.reset({
         topic: values.topic,
-        difficulty: values.difficulty,
+        level: values.level,
         total_sentences: values.total_sentences,
       });
 
@@ -96,7 +96,7 @@ const TopicInsertForm = ({ values }: TopicInsertFormProps) => {
             />
             <Controller
               control={form.control}
-              name="difficulty"
+              name="level"
               render={({ field, fieldState }) => (
                 <Field orientation="responsive" data-invalid={fieldState.invalid}>
                   <FieldLabel>Độ khó</FieldLabel>
