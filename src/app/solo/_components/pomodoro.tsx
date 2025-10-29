@@ -31,7 +31,7 @@ const Pomodoro: React.FC = () => {
   const { hours, minutes, seconds } = formatTime(remainingTime);
 
   return (
-    <div className="bg-background flex w-full flex-col space-y-3 rounded-md p-5 shadow-lg">
+    <div className="bg-background flex w-full flex-col space-y-3 rounded-md p-4 shadow-lg">
       <div className="flex items-center justify-between">
         <span className="inline-flex items-center gap-1 text-xs">
           <Clock size={14} />

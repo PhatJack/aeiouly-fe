@@ -5,6 +5,7 @@ import React, { useState } from 'react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 
+import CreatePost from '@/components/app/news/CreatePost';
 import {
   AlertDialog,
   AlertDialogAction,
@@ -17,6 +18,13 @@ import {
 } from '@/components/ui/alert-dialog';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from '@/components/ui/dialog';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Separator } from '@/components/ui/separator';
 import {
@@ -31,7 +39,7 @@ import { useDeletePostMutation, useUpdatePostMutation } from '@/services/posts';
 
 import { format } from 'date-fns';
 import { vi } from 'date-fns/locale';
-import { Calendar, Eye, EyeOff, Heart, Image as ImageIcon, Trash2, User } from 'lucide-react';
+import { Calendar, Eye, EyeOff, Heart, Image as ImageIcon, Plus, Trash2, User } from 'lucide-react';
 import { toast } from 'sonner';
 
 import { createColumns } from './columns';
@@ -45,6 +53,7 @@ const PostsTable = ({ initialData }: PostsTableProps) => {
   const router = useRouter();
   const [selectedPost, setSelectedPost] = useState<PostResponseSchema | null>(null);
   const [isSheetOpen, setIsSheetOpen] = useState(false);
+  const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false);
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [postToDelete, setPostToDelete] = useState<PostResponseSchema | null>(null);
 
@@ -113,6 +122,17 @@ const PostsTable = ({ initialData }: PostsTableProps) => {
 
   return (
     <>
+      <div className="mb-4 flex items-center justify-between">
+        <div>
+          <h2 className="text-2xl font-bold">Quản lý bài viết</h2>
+          <p className="text-muted-foreground text-sm">Xem và quản lý tất cả bài viết</p>
+        </div>
+        <Button onClick={() => setIsCreateDialogOpen(true)}>
+          <Plus className="mr-2 h-4 w-4" />
+          Tạo bài viết mới
+        </Button>
+      </div>
+
       <DataTable columns={columns} data={initialData} onRowClick={handleRowClick} />
 
       {/* Detail Sheet */}
@@ -252,6 +272,24 @@ const PostsTable = ({ initialData }: PostsTableProps) => {
           )}
         </SheetContent>
       </Sheet>
+
+      {/* Create Post Dialog */}
+      <Dialog open={isCreateDialogOpen} onOpenChange={setIsCreateDialogOpen}>
+        <DialogContent className="max-w-2xl">
+          <DialogHeader>
+            <DialogTitle>Tạo bài viết mới</DialogTitle>
+            <DialogDescription>Tạo bài viết mới và chia sẻ với cộng đồng</DialogDescription>
+          </DialogHeader>
+          <div className="py-4">
+            <CreatePost
+              onSuccess={() => {
+                setIsCreateDialogOpen(false);
+                router.refresh();
+              }}
+            />
+          </div>
+        </DialogContent>
+      </Dialog>
 
       {/* Delete Confirmation Dialog */}
       <AlertDialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>

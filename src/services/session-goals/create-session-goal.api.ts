@@ -21,7 +21,17 @@ export const useCreateSessionGoalMutation = () => {
     mutationKey: ['createSessionGoal'],
     mutationFn: (body) => createSessionGoalApi(body),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['session-goals'] });
+      queryClient.setQueryData(['session-goals-infinite'], (oldData: any) => {
+        if (!oldData) return oldData;
+        const newItem = oldData.pages[0].items[0];
+        return {
+          ...oldData,
+          pages: oldData.pages.map((page: any, index: number) =>
+            index === 0 ? { ...page, items: [newItem, ...page.items] } : page
+          ),
+        };
+      });
+      // queryClient.invalidateQueries({ queryKey: ['session-goals'] });
     },
   });
 };

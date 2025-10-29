@@ -39,7 +39,7 @@ const BackgroundTypesList = ({ activeTab, setActiveTab }: Props) => {
             type="button"
             size={'sm'}
             variant={activeTab === backgroundType.id ? 'default' : 'outline'}
-            className="h-5 rounded-full px-1.5 shadow-md"
+            className="h-6 rounded-full border px-1.5 shadow-md"
             key={backgroundType.id}
             onClick={() => setActiveTab(backgroundType.id)}
           >

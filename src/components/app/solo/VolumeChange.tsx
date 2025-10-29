@@ -20,7 +20,7 @@ const VolumeChange = ({
   volume,
   minValue = 0,
   maxValue = 100,
-  step = 1,
+  step = 5,
 }: Props) => {
   return (
     <div className="flex gap-1">
@@ -38,6 +38,7 @@ const VolumeChange = ({
         step={step}
         min={minValue}
         max={maxValue}
+        className=""
         value={[volume]}
         onValueChange={(value) => debouncedSetVolume(value)}
       />

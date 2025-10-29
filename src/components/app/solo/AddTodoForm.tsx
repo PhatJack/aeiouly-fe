@@ -57,7 +57,7 @@ const AddTodoForm = ({ user, isDisplayIcon = true, className }: Props) => {
             <div
               className={cn(
                 `bg-background border-primary relative h-auto flex-1 rounded-xl border-2 py-2 pr-2`,
-                isDisplayIcon ? 'pl-9' : 'pl-2',
+                isDisplayIcon ? 'pl-9' : '',
                 className
               )}
             >
@@ -69,7 +69,7 @@ const AddTodoForm = ({ user, isDisplayIcon = true, className }: Props) => {
               <Input
                 {...field}
                 disabled={createGoalMutation.isPending}
-                className="h-6 border-none bg-transparent shadow-none focus-visible:ring-0"
+                className="h-6 border-none bg-transparent px-2 shadow-none focus-visible:ring-0 dark:bg-transparent"
                 placeholder="Type a goal..."
               />
             </div>

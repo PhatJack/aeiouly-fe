@@ -17,7 +17,7 @@ const BackgroundList = () => {
     setActiveTab(value as 'default' | 'favorite');
   };
   return (
-    <div className="bg-background flex w-full flex-col space-y-4 rounded-md p-5 shadow-lg">
+    <div className="bg-background flex w-full flex-col space-y-4 rounded-md p-4 shadow-lg">
       <Tabs value={activeTab} onValueChange={onTabChange} defaultValue="default" className="w-full">
         <TabsList className="bg-background mb-3 h-auto w-full -space-x-px p-0 shadow-xs rtl:space-x-reverse">
           <TabsTrigger

@@ -5,14 +5,18 @@ import { useInView } from 'react-intersection-observer';
 
 import CreatePost from '@/components/app/news/CreatePost';
 import PostItem from '@/components/app/news/PostItem';
-import { useAuthContext } from '@/contexts/AuthContext';
+import { useAuthStore } from '@/contexts/AuthContext';
 import { useInfiniteGetAllPostsQuery } from '@/services/posts';
 import { useInfiniteQuery } from '@tanstack/react-query';
 
 const NewsPage = () => {
-  const [state, dispatch] = useAuthContext();
+  const user = useAuthStore((state) => state.user);
   const { ref, inView } = useInView();
-  const { data: posts, fetchNextPage } = useInfiniteQuery({
+  const {
+    data: posts,
+    fetchNextPage,
+    isFetchingNextPage,
+  } = useInfiniteQuery({
     ...useInfiniteGetAllPostsQuery(),
   });
 
@@ -24,7 +28,7 @@ const NewsPage = () => {
   return (
     <div className="grid w-full gap-6 lg:grid-cols-12">
       <div className="lg:col-span-3">
-        {state.user?.role === 'admin' && (
+        {user?.role === 'admin' && (
           <div className="sticky top-5">
             <CreatePost />
           </div>

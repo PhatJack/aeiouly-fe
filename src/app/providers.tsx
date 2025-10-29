@@ -49,8 +49,10 @@ const Providers = ({
                   {!excludedPaths.includes(location) ? <Sidebar /> : null}
                   <main
                     className={cn(
-                      'size-full min-h-screen bg-white',
-                      !excludedPaths.includes(location) ? 'rounded-l-3xl border px-6 py-5' : ''
+                      'relative size-full min-h-screen bg-white',
+                      !excludedPaths.includes(location)
+                        ? 'overflow-hidden rounded-l-3xl border px-6 py-5'
+                        : ''
                     )}
                   >
                     {children}

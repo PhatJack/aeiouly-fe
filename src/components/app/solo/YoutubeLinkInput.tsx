@@ -86,7 +86,7 @@ const YoutubeLinkInput = () => {
           value={inputValue}
           onChange={handleChangeBackground}
           placeholder="Paste the youtube link here"
-          className="border-muted"
+          className="border-muted bg-white"
         />
         {errorLink && (
           <p className="border-destructive flex items-center gap-2 rounded-md border p-2">

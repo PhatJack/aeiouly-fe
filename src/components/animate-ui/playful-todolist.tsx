@@ -44,7 +44,7 @@ function PlayfulTodolist({ list, className, onStatusChange }: PlayfulTodolistPro
     <div className={cn('space-y-6 rounded-2xl bg-neutral-100 p-6 dark:bg-neutral-900', className)}>
       {list.map((item, idx) => (
         <div key={item.id} className="space-y-4">
-          <div className="flex items-center space-x-2">
+          <div className="flex items-center space-x-2 py-2">
             <Checkbox
               checked={item.status === 'COMPLETED'}
               onCheckedChange={(val) => {
@@ -54,7 +54,12 @@ function PlayfulTodolist({ list, className, onStatusChange }: PlayfulTodolistPro
               id={`checkbox-${item.id}`}
             />
             <div className="relative inline-block">
-              <Label htmlFor={`checkbox-${item.id}`}>{item.label}</Label>
+              <Label
+                htmlFor={`checkbox-${item.id}`}
+                className={cn(item.status === 'COMPLETED' ? 'text-muted-foreground' : '')}
+              >
+                {item.label}
+              </Label>
               <motion.svg
                 width="340"
                 height="32"

@@ -8,7 +8,7 @@ import AddTodoForm from '@/components/app/solo/AddTodoForm';
 import TooltipCustom from '@/components/custom/TooltipCustom';
 import { useAuthStore } from '@/contexts/AuthContext';
 import { useSoloStore } from '@/hooks/use-solo-store';
-import { SessionGoalBaseSchema, SessionGoalsStatusSchema } from '@/lib/schema/session-goal.schema';
+import { SessionGoalsStatusSchema } from '@/lib/schema/session-goal.schema';
 import { useGetAllSessionGoalsInfiniteQuery } from '@/services/session-goals';
 import { useUpdateSessionGoalMutation } from '@/services/session-goals';
 
@@ -62,7 +62,7 @@ const SessionGoal = () => {
   };
 
   return (
-    <div className="bg-background text-foreground flex h-fit w-full flex-col space-y-4 rounded-md p-5 shadow-lg">
+    <div className="bg-background text-foreground flex h-fit w-full flex-col space-y-4 rounded-md p-4 shadow-lg">
       <div className="flex items-center justify-between">
         <span className="inline-flex items-center gap-1 text-xs">
           <Target size={14} />
@@ -89,7 +89,7 @@ const SessionGoal = () => {
       <div className="flex flex-col space-y-2">
         <AddTodoForm user={user} isDisplayIcon={false} className="border p-2" />
         <div className="flex flex-col overflow-hidden">
-          <div className="flex max-h-[250px] flex-col gap-1 overflow-y-auto pe-2">
+          <div className="flex max-h-[250px] flex-col gap-1 overflow-y-auto pr-1">
             <PlayfulTodolist
               list={[
                 ...(data?.items.map((goal) => ({

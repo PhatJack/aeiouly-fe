@@ -14,9 +14,9 @@ const SoloPage = () => {
   usePomodoroTimer();
 
   return (
-    <>
+    <div className="h-full">
       <BackgroundIframe />
-      <div className="relative">
+      <div className="relative z-10">
         <div className="relative mb-6 flex size-full h-12 items-center justify-between">
           <StickyMenu />
         </div>
@@ -25,7 +25,7 @@ const SoloPage = () => {
           {/* <QuoteDisplay /> */}
         </div>
       </div>
-    </>
+    </div>
   );
 };
 

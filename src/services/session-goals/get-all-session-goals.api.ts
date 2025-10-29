@@ -62,5 +62,6 @@ export const useGetAllSessionGoalsInfiniteQuery = (params: GetInfiniteSessionGoa
       items: data.pages.flatMap((page) => page.items),
     }),
     throwOnError: isAxiosError,
+    refetchOnWindowFocus: false,
   });
 };

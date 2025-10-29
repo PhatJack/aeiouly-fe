@@ -15,7 +15,11 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { motion } from 'motion/react';
 import { toast } from 'sonner';
 
-const CreatePost = () => {
+interface CreatePostProps {
+  onSuccess?: () => void;
+}
+
+const CreatePost = ({ onSuccess }: CreatePostProps = {}) => {
   const postMutation = useCreatePostMutation();
   const postImageMutation = useCreatePostImageMutation();
   const createPostForm = useForm<PostCreateSchema>({
@@ -41,6 +45,7 @@ const CreatePost = () => {
             onSuccess: () => {
               toast.success('Đăng bài viết thành công');
               createPostForm.reset();
+              onSuccess?.();
             },
             onError: (error) => {
               toast.error(error.detail || 'Lỗi khi đăng bài viết');

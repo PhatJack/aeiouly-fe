@@ -90,7 +90,7 @@ const StickyMenu = () => {
       {/* Menu Buttons */}
       <div className="flex w-full justify-between gap-4 md:w-auto md:justify-start md:gap-6">
         {menuButton.map((item, index) => (
-          <TooltipCustom content={item.label} key={index}>
+          <TooltipCustom side="bottom" content={item.label} key={index}>
             <Button
               type="button"
               onClick={() => handleClick(item.variable)}

@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import Image from 'next/image';
 import Link from 'next/link';
@@ -9,6 +9,7 @@ import { useRouter } from 'nextjs-toploader/app';
 
 import { ROUTE } from '@/configs/route';
 import { useAuthStore } from '@/contexts/AuthContext';
+import { cn } from '@/lib/utils';
 import { useLogoutMutation } from '@/services/auth/logout.api';
 
 import { BrainCircuit, LogIn } from 'lucide-react';
@@ -113,7 +114,7 @@ const Sidebar = () => {
   };
 
   return (
-    <aside className="sticky top-0 flex h-screen max-w-20 min-w-20 flex-col gap-2 p-4">
+    <aside className={cn('sticky top-0 flex h-screen max-w-20 min-w-20 flex-col gap-2 p-4')}>
       {/* Logo */}
       <TooltipCustom content="Aeiouly">
         <Link href={ROUTE.HOME} className="flex items-center justify-center p-3">

@@ -148,10 +148,10 @@ function BackgroundIframe() {
   }, [volume, isPlayerReady, handleVolumeChange]);
 
   return (
-    <div>
+    <div className="pointer-events-none absolute inset-0 overflow-hidden">
       {videoError && backgroundURL && (
         <div className="absolute top-1/2 left-1/2 z-10 -translate-x-1/2 -translate-y-1/2 rounded-md bg-black/50 p-4 text-white">
-          Video unavailable. Please try another background.
+          Video không khả dụng. Vui lòng thử video khác.
         </div>
       )}
       <div

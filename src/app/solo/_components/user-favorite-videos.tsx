@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import toast from 'react-hot-toast';
 import { useInView } from 'react-intersection-observer';
 
 import Image from 'next/image';
@@ -17,6 +16,7 @@ import { useInfiniteListUserFavoriteVideo } from '@/service/(user-favorite-video
 import { useInfiniteQuery } from '@tanstack/react-query';
 
 import { Check, Loader2, Plus, Trash2 } from 'lucide-react';
+import { toast } from 'sonner';
 
 const UserFavoriteVideos = () => {
   const { ref, inView } = useInView();
@@ -55,7 +55,7 @@ const UserFavoriteVideos = () => {
   const handleDelete = (videoId: number) => {
     deleteVideoMutation.mutate(videoId, {
       onSuccess: () => {
-        toast.success('Video removed from favorites.');
+        toast.success('Video yêu thích đã được xóa thành công!');
       },
     });
   };

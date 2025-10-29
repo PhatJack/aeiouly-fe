@@ -33,7 +33,7 @@ const OnionDetailPage = () => {
   return (
     <div className="flex h-[calc(100vh-3rem)] w-full gap-6">
       <div className="relative flex size-full flex-col lg:w-3/5">
-        <MessageContainer
+        {/* <MessageContainer
           messages={[
             'Hello there 👋',
             'How’s it going?',
@@ -60,7 +60,7 @@ const OnionDetailPage = () => {
             'Be kind to yourself 💖',
           ]}
           className="border pb-20"
-        />
+        /> */}
         <div className="absolute -bottom-9 left-1/2 z-50 flex w-full -translate-x-1/2 -translate-y-1/2 items-center justify-center gap-4 rounded-b-xl border-t bg-gray-50 py-2">
           <button
             type="button"
