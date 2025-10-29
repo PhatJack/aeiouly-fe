@@ -8,7 +8,7 @@ import { usePathname } from 'next/navigation';
 import { useRouter } from 'nextjs-toploader/app';
 
 import { ROUTE } from '@/configs/route';
-import { useAuthContext } from '@/contexts/AuthContext';
+import { useAuthStore } from '@/contexts/AuthContext';
 import { useLogoutMutation } from '@/services/auth/logout.api';
 
 import { BrainCircuit, LogIn } from 'lucide-react';
@@ -22,6 +22,13 @@ import { Separator } from '../ui/separator';
 
 const menuWithImg = [
   { title: 'Trang chủ', icon: '/sidebarIcon/home.png', href: ROUTE.HOME, id: 'home', role: 'user' },
+  {
+    title: 'Không gian tự học',
+    icon: '/sidebarIcon/space.png',
+    href: ROUTE.SPACE,
+    id: 'space',
+    role: 'user',
+  },
   {
     title: 'Luyện nói',
     icon: '/sidebarIcon/microphone.png',
@@ -77,7 +84,7 @@ const menuWithImg = [
   },
   {
     title: 'Quản lý không gian tự học',
-    icon: '/sidebarIcon/space.png',
+    icon: '/sidebarIcon/management.png',
     href: ROUTE.ADMIN.SOLO_SPACE_MANAGEMENT,
     role: 'admin',
   },
@@ -87,18 +94,19 @@ const Sidebar = () => {
   const pathname = usePathname();
   const logoutMutation = useLogoutMutation();
   const router = useRouter();
-  const [state, dispatch] = useAuthContext();
+  const user = useAuthStore((state) => state.user);
+  const logout = useAuthStore((state) => state.logout);
 
   const handleLogout = async () => {
     logoutMutation.mutate(undefined, {
       onSuccess: () => {
         toast.success('Đăng xuất thành công');
-        dispatch({ type: 'LOGOUT' });
+        logout();
         router.refresh();
       },
       onError: () => {
         toast.success('Đăng xuất thành công');
-        dispatch({ type: 'LOGOUT' });
+        logout();
         router.refresh();
       },
     });
@@ -112,7 +120,7 @@ const Sidebar = () => {
           <BrainCircuit />
         </Link>
       </TooltipCustom>
-      {state.user && state.user.role === 'user' && (
+      {user && user.role === 'user' && (
         <TooltipCustom content="Tạo chủ đề">
           <Link
             href={ROUTE.TOPIC}
@@ -132,8 +140,8 @@ const Sidebar = () => {
       <ul className="relative flex flex-col gap-2">
         {menuWithImg.map(
           (item, index) =>
-            state.user &&
-            (item.role === 'user' || (item.role === 'admin' && state.user.role === 'admin')) && (
+            user &&
+            (item.role === 'user' || (item.role === 'admin' && user.role === 'admin')) && (
               <TooltipCustom key={`sidebar-${index}`} content={item.title}>
                 <motion.li
                   id={item.id}
@@ -158,7 +166,7 @@ const Sidebar = () => {
       </ul>
 
       <div className="flex flex-1 flex-col justify-end gap-4">
-        {state.user ? (
+        {user ? (
           <>
             <TooltipCustom content="Đăng xuất">
               <div
@@ -170,9 +178,9 @@ const Sidebar = () => {
                 </div>
               </div>
             </TooltipCustom>
-            <TooltipCustom content={state.user.full_name}>
+            <TooltipCustom content={user.full_name}>
               <div className="flex items-center justify-center">
-                <AvatarCustom className="size-10" url={state.user.avatar_url || '/avatar.gif'} />
+                <AvatarCustom className="size-10" url={user.avatar_url || '/avatar.gif'} />
               </div>
             </TooltipCustom>
           </>

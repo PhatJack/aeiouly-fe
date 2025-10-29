@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>Pomodoro | Ztudy</title>
+	<link rel="icon" type="image/x-icon" href="https://ztudy.io.vn/favicon.ico">
+	<style>
+		@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+
+		body {
+			margin: 0;
+			font-family: 'Poppins', sans-serif;
+			background: #000;
+			color: #fff;
+			min-width: 533px;
+			min-height: 296px;
+			overflow: hidden;
+		}
+
+		.container {
+			display: flex;
+			flex-direction: column;
+			height: 100vh;
+			position: relative;
+		}
+
+		#player {
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			z-index: 1;
+		}
+
+		.overlay {
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			background: rgba(0, 0, 0, 0.3);
+			z-index: 2;
+			backdrop-filter: blur(2px);
+		}
+
+		.controls {
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			transform: translate(-50%, -50%);
+			z-index: 3;
+			text-align: center;
+			width: 100%;
+		}
+
+		.timer-container {
+			display: inline-block;
+			background: rgba(30, 30, 30, 0.6);
+			border-radius: 24px;
+			padding: 20px 40px;
+			box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+			backdrop-filter: blur(4px);
+			border: 1px solid rgba(255, 255, 255, 0.1);
+			margin-bottom: 30px;
+		}
+
+		.timer {
+			font-size: 80px;
+			font-weight: 600;
+			letter-spacing: 2px;
+			text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+			margin: 0;
+			color: #ffffff;
+		}
+
+		.button-container {
+			display: flex;
+			justify-content: center;
+			gap: 20px;
+		}
+
+		button {
+			padding: 12px 30px;
+			font-family: 'Poppins', sans-serif;
+			font-size: 16px;
+			font-weight: 500;
+			cursor: pointer;
+			border: none;
+			border-radius: 50px;
+			transition: all 0.3s ease;
+			box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+			letter-spacing: 1px;
+		}
+
+		#toggle {
+			background: linear-gradient(135deg, #4CAF50, #2E7D32);
+			color: white;
+		}
+
+		#toggle:hover {
+			background: linear-gradient(135deg, #43A047, #2E7D32);
+			transform: translateY(-2px);
+			box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
+		}
+
+		#reset {
+			background: linear-gradient(135deg, #424242, #212121);
+			color: white;
+		}
+
+		#reset:hover {
+			background: linear-gradient(135deg, #383838, #212121);
+			transform: translateY(-2px);
+			box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
+		}
+
+		.title {
+			font-size: 24px;
+			font-weight: 300;
+			margin-bottom: 40px;
+			letter-spacing: 4px;
+			text-transform: uppercase;
+			text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+		}
+
+		@media (max-width: 768px) {
+			.timer {
+				font-size: 60px;
+			}
+
+			.timer-container {
+				padding: 15px 30px;
+			}
+
+			button {
+				padding: 10px 24px;
+				font-size: 14px;
+			}
+		}
+	</style>
+</head>
+
+<body>
+	
+	<div class="container">
+		<div id="player"></div>
+		<div class="overlay"></div>
+		<div class="controls">
+			<h1 class="title">Pomodoro Timer</h1>
+			<div class="timer-container">
+				<div class="timer" id="timer">25:00</div>
+			</div>
+			<div class="button-container">
+				<button id="toggle">Start</button>
+				<button id="reset">Reset</button>
+			</div>
+		</div>
+	</div>
+
+	<script>
+		// Timer functionality
+		let countdown;
+		let totalSeconds = 25 * 60; // 25 minutes
+		let isRunning = false;
+
+		function updateTimerDisplay() {
+			const minutes = Math.floor(totalSeconds / 60);
+			const seconds = totalSeconds % 60;
+			document.getElementById('timer').textContent =
+				`${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+		}
+
+		function startTimer() {
+			if (!isRunning) {
+				isRunning = true;
+				document.getElementById('toggle').textContent = 'Pause';
+
+				countdown = setInterval(() => {
+					totalSeconds--;
+					updateTimerDisplay();
+
+					if (totalSeconds <= 0) {
+						clearInterval(countdown);
+						isRunning = false;
+						document.getElementById('toggle').textContent = 'Start';
+						alert('Time is up!');
+					}
+				}, 1000);
+			} else {
+				clearInterval(countdown);
+				isRunning = false;
+				document.getElementById('toggle').textContent = 'Start';
+			}
+		}
+
+		function resetTimer() {
+			clearInterval(countdown);
+			isRunning = false;
+			totalSeconds = 25 * 60;
+			updateTimerDisplay();
+			document.getElementById('toggle').textContent = 'Start';
+		}
+
+		document.getElementById('toggle').addEventListener('click', startTimer);
+		document.getElementById('reset').addEventListener('click', resetTimer);
+
+		// YouTube API
+		const tag = document.createElement("script");
+		tag.src = "https://www.youtube.com/iframe_api";
+		const firstScriptTag = document.getElementsByTagName("script")[0];
+		firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+		let player;
+		function onYouTubeIframeAPIReady() {
+			player = new YT.Player('player', {
+				width: '100%',
+				height: '100%',
+				videoId: 'jfKfPfyJRdk', // Lofi hip hop radio stream
+				playerVars: {
+					playsinline: 1,
+					enablejsapi: 1,
+					autoplay: 1,
+					controls: 0,
+					showinfo: 0,
+					mute: 0,
+					rel: 0,
+					loop: 1,
+					playlist: 'jfKfPfyJRdk'
+				},
+				events: {
+					onReady: function (event) {
+						event.target.playVideo();
+						console.log("YouTube player ready");
+					},
+					onStateChange: function (event) {
+						if (event.data === YT.PlayerState.ENDED) {
+							player.playVideo();
+						}
+					},
+					onError: function (event) {
+						console.error("YouTube player error:", event.data);
+						if (player && player.getVideoData().video_id === 'jfKfPfyJRdk') {
+							player.loadVideoById('5qap5aO4i9A'); // Fallback lofi stream
+						} else {
+							document.getElementById('player').innerHTML =
+								'<div style="padding:20px;text-align:center;">Error loading video. Please try again later.</div>';
+						}
+					}
+				}
+			});
+		}
+
+		// Initialize timer display
+		updateTimerDisplay();
+	</script>
+</body>
+
+</html>

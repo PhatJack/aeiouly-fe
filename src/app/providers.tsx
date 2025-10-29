@@ -14,6 +14,7 @@ import { ROUTE } from '@/configs/route';
 import { AuthProvider } from '@/contexts/AuthContext';
 import { SpeechProvider } from '@/contexts/SpeechContext';
 import { WritingSessionProvider } from '@/contexts/WritingSessionContext';
+import { SoloSoundProvider } from '@/hooks/use-solo-sound-store';
 import { cn } from '@/lib/utils';
 import { QueryClientProvider } from '@tanstack/react-query';
 
@@ -44,15 +45,17 @@ const Providers = ({
           <AuthProvider>
             <WritingSessionProvider>
               <SpeechProvider>
-                {!excludedPaths.includes(location) ? <Sidebar /> : null}
-                <main
-                  className={cn(
-                    'size-full min-h-screen bg-white',
-                    !excludedPaths.includes(location) ? 'rounded-l-3xl border px-6 py-5' : ''
-                  )}
-                >
-                  {children}
-                </main>
+                <SoloSoundProvider>
+                  {!excludedPaths.includes(location) ? <Sidebar /> : null}
+                  <main
+                    className={cn(
+                      'size-full min-h-screen bg-white',
+                      !excludedPaths.includes(location) ? 'rounded-l-3xl border px-6 py-5' : ''
+                    )}
+                  >
+                    {children}
+                  </main>
+                </SoloSoundProvider>
               </SpeechProvider>
             </WritingSessionProvider>
           </AuthProvider>

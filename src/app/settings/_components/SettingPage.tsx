@@ -7,14 +7,14 @@ import { WaveAnimation } from '@/components/shared/WaveAnimation';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { useAuthContext } from '@/contexts/AuthContext';
+import { useAuthStore } from '@/contexts/AuthContext';
 import { formatTimezoneVN } from '@/lib/timezone';
 import { getFallbackInitials } from '@/lib/utils';
 
-import { Calendar, Mail, Pencil, User } from 'lucide-react';
+import { Calendar, Mail, Pencil } from 'lucide-react';
 
 const SettingPage = () => {
-  const [state, dispatch] = useAuthContext();
+  const user = useAuthStore((state) => state.user);
 
   return (
     <div className="space-y-6 p-4">
@@ -31,9 +31,9 @@ const SettingPage = () => {
           {/* Avatar */}
           <div className="flex flex-col items-center gap-3">
             <AvatarCustom
-              url={state.user?.avatar_url || ''}
+              url={user?.avatar_url || ''}
               className="size-20 border border-slate-200 dark:border-slate-700"
-              fallback={getFallbackInitials(state.user?.full_name || '')}
+              fallback={getFallbackInitials(user?.full_name || '')}
             />
           </div>
 
@@ -44,7 +44,7 @@ const SettingPage = () => {
               <div className="space-y-2">
                 <Label htmlFor="name">Họ và tên</Label>
                 <div className="flex h-10 items-center rounded-md border border-slate-200 bg-white px-3 text-sm dark:border-slate-700 dark:bg-slate-800">
-                  {state.user?.full_name}
+                  {user?.full_name}
                 </div>
               </div>
 
@@ -53,7 +53,7 @@ const SettingPage = () => {
                 <Label htmlFor="email">Email</Label>
                 <div className="flex items-center gap-2">
                   <div className="flex h-10 flex-1 items-center rounded-md border border-slate-200 bg-white px-3 text-sm dark:border-slate-700 dark:bg-slate-800">
-                    {state.user?.email}
+                    {user?.email}
                   </div>
                   <Button variant="outline" size="icon" disabled>
                     <Mail className="h-4 w-4" />
@@ -67,7 +67,7 @@ const SettingPage = () => {
               <div className="space-y-2">
                 <Label htmlFor="username">Tên đăng nhập</Label>
                 <div className="flex h-10 items-center rounded-md border border-slate-200 bg-white px-3 text-sm dark:border-slate-700 dark:bg-slate-800">
-                  {state.user?.username}
+                  {user?.username}
                 </div>
               </div>
 
@@ -79,7 +79,7 @@ const SettingPage = () => {
                   <Input
                     className="w-full border-0 bg-transparent p-0 text-sm shadow-none focus-visible:ring-0 focus-visible:ring-offset-0"
                     // readOnly
-                    value={formatTimezoneVN(state.user?.created_at || '')}
+                    value={formatTimezoneVN(user?.created_at || '')}
                   />
                 </div>
               </div>

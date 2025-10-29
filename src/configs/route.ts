@@ -6,6 +6,7 @@ export const ROUTE = {
   GYM: '/gym',
   NEWS: '/news',
   READING: '/reading',
+  SPACE: '/solo',
   USER: (username: string) => `/u/${username}`,
   ADMIN: {
     INDEX: '/admin',
