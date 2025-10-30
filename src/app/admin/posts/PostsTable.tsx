@@ -35,7 +35,11 @@ import {
   SheetTitle,
 } from '@/components/ui/sheet';
 import { PostResponseSchema } from '@/lib/schema/post.schema';
-import { useDeletePostMutation, useUpdatePostMutation } from '@/services/posts';
+import {
+  useDeletePostMutation,
+  useGetAllPostsQuery,
+  useUpdatePostMutation,
+} from '@/services/posts';
 
 import { format } from 'date-fns';
 import { vi } from 'date-fns/locale';
@@ -45,17 +49,14 @@ import { toast } from 'sonner';
 import { createColumns } from './columns';
 import { DataTable } from './data-table';
 
-interface PostsTableProps {
-  initialData: PostResponseSchema[];
-}
-
-const PostsTable = ({ initialData }: PostsTableProps) => {
+const PostsTable = () => {
   const router = useRouter();
   const [selectedPost, setSelectedPost] = useState<PostResponseSchema | null>(null);
   const [isSheetOpen, setIsSheetOpen] = useState(false);
   const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false);
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [postToDelete, setPostToDelete] = useState<PostResponseSchema | null>(null);
+  const { data } = useGetAllPostsQuery({ page: 1, size: 100 });
 
   const deletePostMutation = useDeletePostMutation();
   const updatePostMutation = useUpdatePostMutation();
@@ -133,7 +134,7 @@ const PostsTable = ({ initialData }: PostsTableProps) => {
         </Button>
       </div>
 
-      <DataTable columns={columns} data={initialData} onRowClick={handleRowClick} />
+      <DataTable columns={columns} data={data?.items || []} onRowClick={handleRowClick} />
 
       {/* Detail Sheet */}
       <Sheet open={isSheetOpen} onOpenChange={setIsSheetOpen}>

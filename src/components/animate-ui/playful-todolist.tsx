@@ -50,6 +50,7 @@ function PlayfulTodolist({ list, className, onStatusChange }: PlayfulTodolistPro
               const newStatus = val === true ? 'COMPLETED' : 'OPEN';
               onStatusChange?.(item.id, newStatus);
             }}
+            className="bg-white"
             id={`checkbox-${item.id}`}
           />
           <div className="relative inline-block">

@@ -107,7 +107,7 @@ const StickyMenu = () => {
             </Button>
           </TooltipCustom>
         ))}
-        <TooltipCustom content={'Full screen'}>
+        <TooltipCustom side="bottom" content={'Full screen'}>
           <Button
             type="button"
             onClick={toggleFullscreenHandler}

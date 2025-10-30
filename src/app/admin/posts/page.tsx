@@ -6,8 +6,6 @@ import { getAllPostsApi } from '@/services/posts';
 import PostsTable from './PostsTable';
 
 const Page = async () => {
-  const data = await getAllPostsApi({ page: 1, size: 100 });
-
   return (
     <>
       <Card>
@@ -18,7 +16,7 @@ const Page = async () => {
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <PostsTable initialData={data.items} />
+          <PostsTable />
         </CardContent>
       </Card>
     </>

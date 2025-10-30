@@ -51,16 +51,19 @@ const SessionGoal = () => {
     // Update via API
     await updateSessionGoalApi(id, { status })
       .then((data) => {
-        // queryClient.setQueryData(['session-goals-infinite'], (oldData: any) => {
-        //   if (!oldData) return oldData;
-        //   return {
-        //     ...oldData,
-        //     pages: oldData.pages.map((page: any) => ({
-        //       ...page,
-        //       items: page.items.filter((item: any) => item.id !== id),
-        //     })),
-        //   };
-        // });
+        queryClient.setQueryData(
+          ['session-goals-infinite', { user: user?.id, status: 'OPEN' }],
+          (oldData: any) => {
+            if (!oldData) return oldData;
+            return {
+              ...oldData,
+              pages: oldData.pages.map((page: any) => ({
+                ...page,
+                items: page.items.filter((item: any) => item.id !== id),
+              })),
+            };
+          }
+        );
       })
       .catch(() => {
         toast.error('Tạo mục tiêu không thành công. Vui lòng thử lại.');
@@ -77,8 +80,9 @@ const SessionGoal = () => {
         <div className="flex items-center gap-2">
           <TooltipCustom
             content={
-              'Supercharge your focus by setting clear, bite-sized goals for each work session. Instead of “finish project,” try “draft 500 words” or “review 3 pages.” Pair it with a timer (like 25 minutes) to keep momentum. Small wins stack up—define your target, crush it, and watch progress soar!'
+              'Tăng cường tập trung bằng cách đặt mục tiêu nhỏ, rõ ràng cho mỗi buổi làm việc. Thay vì “hoàn thành dự án”, hãy thử “viết 500 từ” hay “xem lại 3 trang”. Dùng hẹn giờ 25 phút để duy trì nhịp độ — những bước nhỏ sẽ tạo nên tiến bộ lớn!'
             }
+            className="max-w-48"
           >
             <span className="cursor-pointer">
               <OctagonAlert size={16} />

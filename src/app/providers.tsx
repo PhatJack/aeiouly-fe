@@ -62,7 +62,8 @@ const Providers = ({
                   <main
                     className={cn(
                       'relative size-full min-h-screen bg-white',
-                      !excludedPaths.includes(location) ? 'rounded-l-3xl border px-6 py-5' : ''
+                      !excludedPaths.includes(location) ? 'rounded-l-3xl px-6 py-5' : '',
+                      location !== ROUTE.SPACE ? 'border' : ''
                     )}
                   >
                     {children}
