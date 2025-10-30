@@ -1,7 +1,6 @@
 'use client';
 
-// import YoutubeLinkInput from "@/components/solo/background-list/youtube-link-input";
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 
 import YoutubeLinkInput from '@/components/app/solo/YoutubeLinkInput';
 import BackgroundContainer from '@/components/app/solo/background-list/background-container';
@@ -13,9 +12,9 @@ import UserFavoriteVideos from './user-favorite-videos';
 
 const BackgroundList = () => {
   const [activeTab, setActiveTab] = useState<'default' | 'favorite'>('default');
-  const onTabChange = (value: string) => {
+  const onTabChange = useCallback((value: string) => {
     setActiveTab(value as 'default' | 'favorite');
-  };
+  }, []);
   return (
     <div className="bg-background flex w-full flex-col space-y-4 rounded-md p-4 shadow-lg">
       <Tabs value={activeTab} onValueChange={onTabChange} defaultValue="default" className="w-full">
@@ -25,17 +24,15 @@ const BackgroundList = () => {
             className="data-[state=active]:bg-muted data-[state=active]:after:bg-primary relative w-full gap-2 overflow-hidden rounded-none border py-2 after:pointer-events-none after:absolute after:inset-x-0 after:bottom-0 after:h-0.5 first:rounded-s last:rounded-e"
           >
             <FolderOpenDot
-              size={20}
-              className="dark:stroke-background fill-amber-400 stroke-gray-200"
+              size={24}
+              className="dark:stroke-background fill-amber-400 stroke-white"
             />
-            {/* Default */}
           </TabsTrigger>
           <TabsTrigger
             value="favorite"
             className="data-[state=active]:bg-muted data-[state=active]:after:bg-primary relative w-full gap-2 overflow-hidden rounded-none border py-2 after:pointer-events-none after:absolute after:inset-x-0 after:bottom-0 after:h-0.5 first:rounded-s last:rounded-e"
           >
-            <Heart className="dark:stroke-background fill-rose-600 stroke-gray-200" size={20} />
-            {/* Favorite */}
+            <Heart className="dark:stroke-background fill-rose-600 stroke-white" size={24} />
           </TabsTrigger>
         </TabsList>
         <TabsContent value="default" className="mt-0 flex flex-col gap-3">

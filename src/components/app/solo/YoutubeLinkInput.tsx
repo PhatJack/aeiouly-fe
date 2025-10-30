@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { memo, useCallback, useEffect, useState } from 'react';
 
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -8,23 +8,13 @@ import { UrlToEmbeded } from '@/lib/utils';
 import debounce from 'lodash.debounce';
 import { Info } from 'lucide-react';
 
-import VolumeChange from './VolumeChange';
+import OriginalVideoSound from './OriginalVideoSound';
 
 const YoutubeLinkInput = () => {
   const [errorLink, setErrorLink] = useState<boolean>(false);
-  const { setVolume, volume, backgroundURL, setBackground } = useSoloStore();
+  const backgroundURL = useSoloStore((state) => state.backgroundURL);
+  const setBackground = useSoloStore((state) => state.setBackground);
   const [inputValue, setInputValue] = useState(backgroundURL || '');
-
-  const debouncedSetVolume = useCallback(
-    (val: number[]) => {
-      setVolume(val[0]);
-    },
-    [setVolume]
-  );
-
-  const handleMute = useCallback(() => {
-    setVolume(volume > 0 ? 0 : 100);
-  }, [volume, setVolume]);
 
   // Create a debounced function to validate and update the background
   const debouncedUpdateBackground = useCallback(
@@ -91,24 +81,13 @@ const YoutubeLinkInput = () => {
         {errorLink && (
           <p className="border-destructive flex items-center gap-2 rounded-md border p-2">
             <Info size={16} className="text-destructive" />
-            <span className="text-destructive text-sm">Invalid Youtube link</span>
+            <span className="text-destructive text-sm">Link youtube không hợp lệ</span>
           </p>
         )}
       </div>
-      <div className="flex flex-col gap-2">
-        <Label htmlFor="volume" className="flex items-center gap-1">
-          <span>
-            <strong>Original Video Sound</strong>
-          </span>
-        </Label>
-        <VolumeChange
-          debouncedSetVolume={debouncedSetVolume}
-          handleMute={handleMute}
-          volume={volume}
-        />
-      </div>
+      <OriginalVideoSound />
     </>
   );
 };
 
-export default YoutubeLinkInput;
+export default memo(YoutubeLinkInput);

@@ -64,4 +64,4 @@ const DeleteFavoriteVideo = ({
   );
 };
 
-export default DeleteFavoriteVideo;
+export default React.memo(DeleteFavoriteVideo);

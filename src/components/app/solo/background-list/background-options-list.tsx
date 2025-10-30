@@ -77,4 +77,4 @@ const BackgroundOptionsList = ({ activeTab }: Props) => {
   );
 };
 
-export default BackgroundOptionsList;
+export default React.memo(BackgroundOptionsList);

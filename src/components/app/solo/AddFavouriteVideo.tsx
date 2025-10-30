@@ -154,4 +154,4 @@ const AddFavoriteVideoModal = ({ children }: { children: React.ReactNode }) => {
   );
 };
 
-export default AddFavoriteVideoModal;
+export default React.memo(AddFavoriteVideoModal);

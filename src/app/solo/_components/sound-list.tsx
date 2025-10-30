@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect } from 'react';
 
+import OriginalVideoSound from '@/components/app/solo/OriginalVideoSound';
 import VolumeChange from '@/components/app/solo/VolumeChange';
 import { Label } from '@/components/ui/label';
 import { useSoloSoundStore } from '@/hooks/use-solo-sound-store';
@@ -7,7 +8,8 @@ import { useSoloStore } from '@/hooks/use-solo-store';
 import { useGetAllSoundsQuery } from '@/services/sounds';
 
 const SoundList = () => {
-  const { activeSounds, saveActiveSounds, volume, setVolume } = useSoloStore();
+  const activeSounds = useSoloStore((state) => state.activeSounds);
+  const saveActiveSounds = useSoloStore((state) => state.saveActiveSounds);
   const sounds = useSoloSoundStore((state) => state.sounds);
   const setSounds = useSoloSoundStore((state) => state.setSounds);
   const updateVolume = useSoloSoundStore((state) => state.updateVolume);
@@ -70,7 +72,8 @@ const SoundList = () => {
 
   return (
     <div className="bg-background flex w-full flex-col space-y-2 rounded-md p-4 shadow-lg">
-      <div className="flex flex-col">
+      <OriginalVideoSound />
+      {/* <div className="flex flex-col">
         <Label htmlFor="volume" className="flex items-center gap-1 text-xs">
           <span>
             <strong>Original Video Sound</strong>
@@ -81,7 +84,7 @@ const SoundList = () => {
           volume={volume}
           handleMute={() => setVolume(volume > 0 ? 0 : 100)}
         />
-      </div>
+      </div> */}
       {sounds?.map((sound, index) => (
         <div key={index} className="flex flex-col">
           <Label htmlFor="volume" className="flex items-center gap-1 text-xs">

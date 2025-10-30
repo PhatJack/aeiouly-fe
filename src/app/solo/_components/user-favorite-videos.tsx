@@ -148,4 +148,4 @@ const UserFavoriteVideos = () => {
   );
 };
 
-export default UserFavoriteVideos;
+export default React.memo(UserFavoriteVideos);
