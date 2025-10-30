@@ -43,9 +43,9 @@ const BackgroundList = () => {
         </TabsContent>
         <TabsContent value="favorite" className="mt-0">
           <p className="text-muted-foreground mb-3 text-xs italic">
-            You can add your favorite video here.
+            Bạn có thể thêm video yêu thích của mình để dễ dàng truy cập sau này.
           </p>
-          {/* <UserFavoriteVideos /> */}
+          <UserFavoriteVideos />
         </TabsContent>
       </Tabs>
       <YoutubeLinkInput />

@@ -1,8 +1,9 @@
-import { apiClient } from "@/lib/client";
-import { ErrorResponseSchema } from "@/lib/schema/error";
-import { useMutation } from "@tanstack/react-query";
-import z from "zod";
-import { setCookie } from "cookies-next";
+import { apiClient } from '@/lib/client';
+import { ErrorResponseSchema } from '@/lib/schema/error';
+import { useMutation } from '@tanstack/react-query';
+
+import { setCookie } from 'cookies-next';
+import z from 'zod';
 
 export const loginBodySchema = z.object({
   username: z.string(),
@@ -21,23 +22,20 @@ export const loginResponseSchema = z.object({
 export type LoginResponseSchema = z.infer<typeof loginResponseSchema>;
 
 export async function loginApi(body: LoginBodySchema) {
-  const response = await apiClient.post<LoginResponseSchema, LoginBodySchema>(
-    "/auth/login",
-    body
-  );
+  const response = await apiClient.post<LoginResponseSchema, LoginBodySchema>('/auth/login', body);
   return response.data;
 }
 
 export const useLoginMutation = () => {
-  return useMutation<LoginResponseSchema, ErrorResponseSchema, LoginBodySchema>(
-    {
-      mutationKey: ["login"],
-      mutationFn: (body) => loginApi(body),
-      onSuccess: () => {
-        setCookie("isLoggedIn", "1", {
-          expires: new Date(Date.now() + 60 * 60 * 24 * 7 * 1000), // 7 days
-        });
-      },
-    }
-  );
+  return useMutation<LoginResponseSchema, ErrorResponseSchema, LoginBodySchema>({
+    mutationKey: ['login'],
+    mutationFn: (body) => loginApi(body),
+    onSuccess: () => {
+      setCookie('isLoggedIn', '1', {
+        path: '/',
+        expires: new Date(Date.now() + 60 * 60 * 24 * 7 * 1000), // 7 days
+        sameSite: 'lax',
+      });
+    },
+  });
 };

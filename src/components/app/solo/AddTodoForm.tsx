@@ -1,18 +1,19 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 
 import { Button } from '@/components/ui/button';
 import { Field } from '@/components/ui/field';
 import { Input } from '@/components/ui/input';
-import { SessionGoalCreateSchema, sessionGoalCreateSchema } from '@/lib/schema/session-goal.schema';
+import { useAuthStore } from '@/contexts/AuthContext';
+import { SessionGoalCreateSchema } from '@/lib/schema/session-goal.schema';
 import { UserResponseSchema } from '@/lib/schema/user.schema';
 import { cn } from '@/lib/utils';
-import { useCreateSessionGoalMutation } from '@/services/session-goals';
-import { zodResolver } from '@hookform/resolvers/zod';
+import { createSessionGoalApi } from '@/services/session-goals';
+import { useQueryClient } from '@tanstack/react-query';
 
-import { Plus, Target } from 'lucide-react';
+import { Loader, Plus, Target } from 'lucide-react';
 import { toast } from 'sonner';
 
 interface Props {
@@ -21,27 +22,42 @@ interface Props {
   className?: string;
 }
 
-const AddTodoForm = ({ user, isDisplayIcon = true, className }: Props) => {
-  const createGoalMutation = useCreateSessionGoalMutation();
+const AddTodoForm = ({ isDisplayIcon = true, className }: Props) => {
+  const user = useAuthStore((state) => state.user);
+  const queryClient = useQueryClient();
+  const [isLoading, setIsLoading] = useState(false);
   const createGoalForm = useForm<SessionGoalCreateSchema>({
     defaultValues: {
       goal: '',
       status: 'OPEN',
     },
-    resolver: zodResolver(sessionGoalCreateSchema),
   });
 
-  const onSubmit = (data: SessionGoalCreateSchema) => {
-    createGoalMutation.mutate(data, {
-      onSuccess() {
-        toast.success('Goal created successfully!');
+  const onSubmit = async (data: SessionGoalCreateSchema) => {
+    setIsLoading(true);
+    await createSessionGoalApi(data)
+      .then((data) => {
+        queryClient.setQueryData(
+          ['session-goals-infinite', { user: user?.id, status: 'OPEN' }],
+          (oldData: any) => {
+            console.log(oldData);
+            if (!oldData) return oldData;
+            return {
+              ...oldData,
+              pages: oldData.pages.map((page: any, index: number) =>
+                index === 0 ? { ...page, items: [data, ...page.items] } : page
+              ),
+            };
+          }
+        );
+        toast.success('Tạo mục tiêu thành công!');
         createGoalForm.reset();
-      },
-      onError(error) {
-        console.log(error);
-        toast.error('Failed to create goal!');
-      },
-    });
+        setIsLoading(false);
+      })
+      .catch(() => {
+        toast.error('Failed to create goal. Please try again.');
+        setIsLoading(false);
+      });
   };
 
   return (
@@ -68,7 +84,7 @@ const AddTodoForm = ({ user, isDisplayIcon = true, className }: Props) => {
               )}
               <Input
                 {...field}
-                disabled={createGoalMutation.isPending}
+                disabled={isLoading}
                 className="h-6 border-none bg-transparent px-2 shadow-none focus-visible:ring-0 dark:bg-transparent"
                 placeholder="Type a goal..."
               />
@@ -77,7 +93,7 @@ const AddTodoForm = ({ user, isDisplayIcon = true, className }: Props) => {
         )}
       />
       <Button size={'icon'} className="h-10 w-10" disabled={!createGoalForm.watch('goal')}>
-        <Plus />
+        {isLoading ? <Loader className="animate-spin" /> : <Plus />}
       </Button>
     </form>
   );

@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 
 import { useTheme } from 'next-themes';
 import { usePathname } from 'next/navigation';
@@ -18,6 +18,9 @@ import { SoloSoundProvider } from '@/hooks/use-solo-sound-store';
 import { cn } from '@/lib/utils';
 import { QueryClientProvider } from '@tanstack/react-query';
 
+import { OverlayScrollbars } from 'overlayscrollbars';
+import 'overlayscrollbars/overlayscrollbars.css';
+
 import { getQueryClient } from './get-query-client';
 
 const queryClient = getQueryClient();
@@ -29,18 +32,27 @@ const Providers = ({
   const { setTheme } = useTheme();
   const location = usePathname();
   const excludedPaths = Object.values(ROUTE.AUTH);
-
   useEffect(() => {
     const theme = localStorage.getItem('aeiouly-theme');
     if (!theme) {
       setTheme('light');
     }
-  }, []);
+    if (typeof window !== 'undefined') {
+      OverlayScrollbars(window.document.body, {
+        scrollbars: {
+          theme: 'scrollbar-base scrollbar-auto py-1',
+          autoHide: 'move',
+          autoHideDelay: 500,
+          autoHideSuspend: false,
+        },
+      });
+    }
+  }, [setTheme]);
 
   return (
     <>
       <QueryClientProvider client={queryClient}>
-        <NextTopLoader color="hsl(150 30% 45%)" zIndex={9999} />
+        <NextTopLoader color="hsl(150 30% 45%)" zIndex={9999} showSpinner={false} />
         <TooltipProvider>
           <AuthProvider>
             <WritingSessionProvider>
@@ -50,9 +62,7 @@ const Providers = ({
                   <main
                     className={cn(
                       'relative size-full min-h-screen bg-white',
-                      !excludedPaths.includes(location)
-                        ? 'overflow-hidden rounded-l-3xl border px-6 py-5'
-                        : ''
+                      !excludedPaths.includes(location) ? 'rounded-l-3xl border px-6 py-5' : ''
                     )}
                   >
                     {children}

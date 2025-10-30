@@ -36,6 +36,16 @@ export default function DriverOnboarding() {
           },
         },
         {
+          element: '#home',
+          popover: {
+            title: '🏠 Trang chủ',
+            description:
+              'Điểm khởi đầu của bạn! Xem tổng quan về các hoạt động và khám phá nội dung mới nhất trên Aeiouly.',
+            side: 'right',
+            align: 'start',
+          },
+        },
+        {
           element: '#create-topic',
           popover: {
             title: '📝 Tạo chủ đề mới',
@@ -46,23 +56,33 @@ export default function DriverOnboarding() {
           },
         },
         {
+          element: '#space',
+          popover: {
+            title: '🌌 Không gian tự học',
+            description:
+              'Không gian học tập cá nhân của bạn với video nền thư giãn, âm thanh tập trung, bộ đếm thời gian Pomodoro và nhiều công cụ hữu ích khác giúp bạn tối ưu hiệu quả học tập.',
+            side: 'right',
+            align: 'start',
+          },
+        },
+        {
           element: '#onion',
           popover: {
             title: '🎙️ Onion luyện nói',
             description:
               'Môi trường luyện nói trực tuyến với AI giúp bạn cải thiện kỹ năng giao tiếp và tự tin hơn trong các tình huống thực tế, với hơn 100+ tình huống nhập vai.',
-            side: 'top',
-            align: 'center',
+            side: 'right',
+            align: 'start',
           },
         },
         {
           element: '#gym',
           popover: {
-            title: '🎓 Gym',
+            title: '� Gym luyện nghe',
             description:
               'Tham gia luyện nghe, ngữ âm, tra cứu từ điển phát âm, và vô vàn hoạt động thú vị khác để nâng cao kỹ năng tiếng Anh của bạn.',
-            side: 'top',
-            align: 'center',
+            side: 'right',
+            align: 'start',
           },
         },
         {
@@ -71,8 +91,8 @@ export default function DriverOnboarding() {
             title: '📚 Luyện đọc',
             description:
               'Khám phá kho bài đọc đa dạng với các chủ đề hấp dẫn, giúp bạn nâng cao kỹ năng đọc hiểu và mở rộng vốn từ vựng một cách hiệu quả.',
-            side: 'top',
-            align: 'center',
+            side: 'right',
+            align: 'start',
           },
         },
         {
@@ -80,7 +100,7 @@ export default function DriverOnboarding() {
           popover: {
             title: '📰 Bảng tin',
             description:
-              'Cập nhật những tin tức mới nhất và các bài viết thú vị từ cộng đồng Aeiouly.',
+              'Cập nhật những tin tức mới nhất và các bài viết thú vị từ cộng đồng Aeiouly. Kết nối và chia sẻ với những người học cùng đam mê.',
             side: 'left',
             align: 'start',
           },
@@ -90,7 +110,7 @@ export default function DriverOnboarding() {
           popover: {
             title: '⚙️ Cài đặt',
             description:
-              'Tại đây bạn có thể điều chỉnh các cài đặt cá nhân, bao gồm thông báo, quyền riêng tư và nhiều tùy chọn khác.',
+              'Tại đây bạn có thể điều chỉnh các cài đặt cá nhân, bao gồm thông tin tài khoản, thông báo, quyền riêng tư và nhiều tùy chọn khác.',
             side: 'left',
             align: 'start',
           },

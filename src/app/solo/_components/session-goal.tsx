@@ -9,17 +9,17 @@ import TooltipCustom from '@/components/custom/TooltipCustom';
 import { useAuthStore } from '@/contexts/AuthContext';
 import { useSoloStore } from '@/hooks/use-solo-store';
 import { SessionGoalsStatusSchema } from '@/lib/schema/session-goal.schema';
-import { useGetAllSessionGoalsInfiniteQuery } from '@/services/session-goals';
-import { useUpdateSessionGoalMutation } from '@/services/session-goals';
+import { updateSessionGoalApi, useGetAllSessionGoalsInfiniteQuery } from '@/services/session-goals';
+import { useQueryClient } from '@tanstack/react-query';
 
 import { OctagonAlert, Target, X } from 'lucide-react';
 import { toast } from 'sonner';
 
 const SessionGoal = () => {
+  const queryClient = useQueryClient();
   const { ref, inView } = useInView();
   const { completedGoals, saveCompletedGoal, saveOpenGoals } = useSoloStore();
   const user = useAuthStore((state) => state.user);
-  const updateGoalMutation = useUpdateSessionGoalMutation();
 
   const { data, fetchNextPage, isFetchingNextPage } = useGetAllSessionGoalsInfiniteQuery({
     user: user?.id,
@@ -33,12 +33,11 @@ const SessionGoal = () => {
     }
   }, [fetchNextPage, inView, data?.items.length, saveOpenGoals]);
 
-  // Calculate and save total goals whenever open or completed goals change
   useEffect(() => {
     saveOpenGoals(data?.items.length ?? 0);
   }, [data?.items.length, saveOpenGoals]);
 
-  const handleStatusChange = (id: number, status: SessionGoalsStatusSchema) => {
+  const handleStatusChange = async (id: number, status: SessionGoalsStatusSchema) => {
     // Find the goal from data
     const goal = data?.items.find((g) => g.id === id);
 
@@ -50,15 +49,22 @@ const SessionGoal = () => {
     }
 
     // Update via API
-    updateGoalMutation.mutate(
-      { goalId: id, data: { status } },
-      {
-        onError: (error) => {
-          toast.error('Failed to update goal status');
-          console.error(error);
-        },
-      }
-    );
+    await updateSessionGoalApi(id, { status })
+      .then((data) => {
+        // queryClient.setQueryData(['session-goals-infinite'], (oldData: any) => {
+        //   if (!oldData) return oldData;
+        //   return {
+        //     ...oldData,
+        //     pages: oldData.pages.map((page: any) => ({
+        //       ...page,
+        //       items: page.items.filter((item: any) => item.id !== id),
+        //     })),
+        //   };
+        // });
+      })
+      .catch(() => {
+        toast.error('Tạo mục tiêu không thành công. Vui lòng thử lại.');
+      });
   };
 
   return (
@@ -89,7 +95,7 @@ const SessionGoal = () => {
       <div className="flex flex-col space-y-2">
         <AddTodoForm user={user} isDisplayIcon={false} className="border p-2" />
         <div className="flex flex-col overflow-hidden">
-          <div className="flex max-h-[250px] flex-col gap-1 overflow-y-auto pr-1">
+          <div className="flex max-h-[300px] flex-col gap-1 overflow-y-auto">
             <PlayfulTodolist
               list={[
                 ...(data?.items.map((goal) => ({

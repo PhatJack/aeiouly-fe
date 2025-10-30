@@ -41,49 +41,44 @@ function PlayfulTodolist({ list, className, onStatusChange }: PlayfulTodolistPro
   }
 
   return (
-    <div className={cn('space-y-6 rounded-2xl bg-neutral-100 p-6 dark:bg-neutral-900', className)}>
+    <div className={cn('divide-y rounded-2xl bg-neutral-100 p-6 dark:bg-neutral-900', className)}>
       {list.map((item, idx) => (
-        <div key={item.id} className="space-y-4">
-          <div className="flex items-center space-x-2 py-2">
-            <Checkbox
-              checked={item.status === 'COMPLETED'}
-              onCheckedChange={(val) => {
-                const newStatus = val === true ? 'COMPLETED' : 'OPEN';
-                onStatusChange?.(item.id, newStatus);
-              }}
-              id={`checkbox-${item.id}`}
-            />
-            <div className="relative inline-block">
-              <Label
-                htmlFor={`checkbox-${item.id}`}
-                className={cn(item.status === 'COMPLETED' ? 'text-muted-foreground' : '')}
-              >
-                {item.label}
-              </Label>
-              <motion.svg
-                width="340"
-                height="32"
-                viewBox="0 0 340 32"
-                className="pointer-events-none absolute top-1/2 left-0 z-20 h-10 w-full -translate-y-1/2"
-              >
-                <motion.path
-                  d="M 10 16.91 s 79.8 -11.36 98.1 -11.34 c 22.2 0.02 -47.82 14.25 -33.39 22.02 c 12.61 6.77 124.18 -27.98 133.31 -17.28 c 7.52 8.38 -26.8 20.02 4.61 22.05 c 24.55 1.93 113.37 -20.36 113.37 -20.36"
-                  vectorEffect="non-scaling-stroke"
-                  strokeWidth={2}
-                  strokeLinecap="round"
-                  strokeMiterlimit={10}
-                  fill="none"
-                  initial={false}
-                  animate={getPathAnimate(item.status === 'COMPLETED')}
-                  transition={getPathTransition(item.status === 'COMPLETED')}
-                  className="stroke-neutral-900 dark:stroke-neutral-100"
-                />
-              </motion.svg>
-            </div>
+        <div key={item.id} className="flex items-center space-x-2 py-2">
+          <Checkbox
+            checked={item.status === 'COMPLETED'}
+            onCheckedChange={(val) => {
+              const newStatus = val === true ? 'COMPLETED' : 'OPEN';
+              onStatusChange?.(item.id, newStatus);
+            }}
+            id={`checkbox-${item.id}`}
+          />
+          <div className="relative inline-block">
+            <Label
+              htmlFor={`checkbox-${item.id}`}
+              className={cn(item.status === 'COMPLETED' ? 'text-muted-foreground' : '')}
+            >
+              {item.label}
+            </Label>
+            <motion.svg
+              width="340"
+              height="32"
+              viewBox="0 0 340 32"
+              className="pointer-events-none absolute top-1/2 left-0 z-20 h-10 w-full -translate-y-1/2"
+            >
+              <motion.path
+                d="M 10 16.91 s 79.8 -11.36 98.1 -11.34 c 22.2 0.02 -47.82 14.25 -33.39 22.02 c 12.61 6.77 124.18 -27.98 133.31 -17.28 c 7.52 8.38 -26.8 20.02 4.61 22.05 c 24.55 1.93 113.37 -20.36 113.37 -20.36"
+                vectorEffect="non-scaling-stroke"
+                strokeWidth={2}
+                strokeLinecap="round"
+                strokeMiterlimit={10}
+                fill="none"
+                initial={false}
+                animate={getPathAnimate(item.status === 'COMPLETED')}
+                transition={getPathTransition(item.status === 'COMPLETED')}
+                className="stroke-neutral-900 dark:stroke-neutral-100"
+              />
+            </motion.svg>
           </div>
-          {idx !== list.length - 1 && (
-            <div className="border-t border-neutral-300 dark:border-neutral-700" />
-          )}
         </div>
       ))}
     </div>

@@ -1,0 +1,35 @@
+import { apiClient } from '@/lib/client';
+import { ErrorResponseSchema } from '@/lib/schema/error';
+import {
+  UserFavoriteVideoResponseSchema,
+  UserFavoriteVideoUpdateSchema,
+} from '@/lib/schema/user-favorite-video.schema';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+
+export async function updateUserFavoriteVideoApi(
+  videoId: number,
+  body: UserFavoriteVideoUpdateSchema
+) {
+  const response = await apiClient.put<
+    UserFavoriteVideoResponseSchema,
+    UserFavoriteVideoUpdateSchema
+  >(`/user-favorite-videos/${videoId}`, body);
+  return response.data;
+}
+
+export const useUpdateUserFavoriteVideoMutation = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation<
+    UserFavoriteVideoResponseSchema,
+    ErrorResponseSchema,
+    { videoId: number; body: UserFavoriteVideoUpdateSchema }
+  >({
+    mutationKey: ['updateUserFavoriteVideo'],
+    mutationFn: ({ videoId, body }) => updateUserFavoriteVideoApi(videoId, body),
+    onSuccess: (_, { videoId }) => {
+      queryClient.invalidateQueries({ queryKey: ['userFavoriteVideo', videoId] });
+      queryClient.invalidateQueries({ queryKey: ['userFavoriteVideos'] });
+    },
+  });
+};
