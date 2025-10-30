@@ -42,10 +42,24 @@ interface PomodoroStore extends PomodoroState {
   handleTimeChange: (params: { type: 'focus' | 'break'; operation: 'add' | 'subtract' }) => void;
 
   // Utility actions
-  formatTime: (seconds: number) => { hours: string; minutes: string; seconds: string };
   tick: () => void;
   completeSession: () => void;
 }
+
+// Utility function outside the store to avoid re-render issues
+export const formatTime = (
+  seconds: number
+): { hours: string; minutes: string; seconds: string } => {
+  const hrs = Math.floor(seconds / 3600);
+  const mins = Math.floor((seconds % 3600) / 60);
+  const secs = seconds % 60;
+
+  return {
+    hours: hrs.toString().padStart(2, '0'),
+    minutes: mins.toString().padStart(2, '0'),
+    seconds: secs.toString().padStart(2, '0'),
+  };
+};
 
 const INITIAL_FOCUS_TIME = 25 * 60; // 25 minutes
 const INITIAL_BREAK_TIME = 5 * 60; // 5 minutes
@@ -156,19 +170,6 @@ export const usePomodoroStore = create<PomodoroStore>()((set, get) => ({
         };
       }
     }),
-
-  // Utility functions
-  formatTime: (seconds) => {
-    const hrs = Math.floor(seconds / 3600);
-    const mins = Math.floor((seconds % 3600) / 60);
-    const secs = seconds % 60;
-
-    return {
-      hours: hrs.toString().padStart(2, '0'),
-      minutes: mins.toString().padStart(2, '0'),
-      seconds: secs.toString().padStart(2, '0'),
-    };
-  },
 
   // Timer tick (called every second)
   tick: () => {

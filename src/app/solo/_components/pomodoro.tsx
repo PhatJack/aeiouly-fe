@@ -4,7 +4,7 @@ import TooltipCustom from '@/components/custom/TooltipCustom';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { Switch } from '@/components/ui/switch';
-import { usePomodoroStore } from '@/hooks/use-pomodoro-store';
+import { formatTime, usePomodoroStore } from '@/hooks/use-pomodoro-store';
 import { useSoloStore } from '@/hooks/use-solo-store';
 
 import { Clock, Minus, OctagonAlert, Plus, X } from 'lucide-react';
@@ -20,7 +20,6 @@ const Pomodoro: React.FC = () => {
     remainingTime,
     isLoopMode,
     isPaused,
-    formatTime,
     handleTimeChange,
     toggleTimer,
     resetTimer,

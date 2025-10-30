@@ -5,7 +5,7 @@ import React, { useCallback } from 'react';
 import TooltipCustom from '@/components/custom/TooltipCustom';
 import { Button } from '@/components/ui/button';
 import { menuButton } from '@/constants/solo-button-menu';
-import { usePomodoroStore } from '@/hooks/use-pomodoro-store';
+import { formatTime, usePomodoroStore } from '@/hooks/use-pomodoro-store';
 import { PanelType } from '@/hooks/use-solo-store';
 import { useSoloStore } from '@/hooks/use-solo-store';
 import { cn } from '@/lib/utils';
@@ -13,7 +13,7 @@ import { cn } from '@/lib/utils';
 import { Clock, Expand, Minimize, Target } from 'lucide-react';
 
 const StickyMenu = () => {
-  const { formatTime, remainingTime } = usePomodoroStore();
+  const { remainingTime } = usePomodoroStore();
   const { hours, minutes, seconds } = formatTime(remainingTime);
   const {
     activePanel,

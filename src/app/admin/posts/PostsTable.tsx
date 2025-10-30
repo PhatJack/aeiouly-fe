@@ -18,13 +18,7 @@ import {
 } from '@/components/ui/alert-dialog';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-} from '@/components/ui/dialog';
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Separator } from '@/components/ui/separator';
 import {
@@ -151,8 +145,8 @@ const PostsTable = () => {
                 <SheetDescription>Xem và quản lý thông tin chi tiết của bài viết</SheetDescription>
               </SheetHeader>
 
-              <ScrollArea className="h-[calc(100vh-180px)] pr-4">
-                <div className="space-y-6 py-6">
+              <ScrollArea className="h-auto overflow-y-auto pb-4">
+                <div className="space-y-4 px-4">
                   {/* Author Info */}
                   <div>
                     <h3 className="mb-3 flex items-center gap-2 text-sm font-semibold">
@@ -279,7 +273,6 @@ const PostsTable = () => {
         <DialogContent className="max-w-2xl">
           <DialogHeader>
             <DialogTitle>Tạo bài viết mới</DialogTitle>
-            <DialogDescription>Tạo bài viết mới và chia sẻ với cộng đồng</DialogDescription>
           </DialogHeader>
           <div className="py-4">
             <CreatePost

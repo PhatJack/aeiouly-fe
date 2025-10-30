@@ -4,7 +4,7 @@ import React, { useEffect, useRef, useState } from 'react';
 
 import TooltipCustom from '@/components/custom/TooltipCustom';
 import { Button } from '@/components/ui/button';
-import { usePomodoroStore } from '@/hooks/use-pomodoro-store';
+import { formatTime, usePomodoroStore } from '@/hooks/use-pomodoro-store';
 import { useSoloStore } from '@/hooks/use-solo-store';
 import { UrlToEmbeded } from '@/lib/utils';
 
@@ -12,8 +12,7 @@ import { PictureInPicture } from 'lucide-react';
 
 const PomodoroTimer: React.FC = () => {
   const { backgroundURL } = useSoloStore();
-  const { isFocusMode, remainingTime, formatTime, isRunning, toggleTimer, resetTimer } =
-    usePomodoroStore();
+  const { isFocusMode, remainingTime, isRunning, toggleTimer, resetTimer } = usePomodoroStore();
 
   const [isPip, setIsPip] = useState(false);
   const pipWindowRef = useRef<Window | null>(null);

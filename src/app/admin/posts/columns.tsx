@@ -40,11 +40,14 @@ export const createColumns = ({
       />
     ),
     cell: ({ row }) => (
-      <Checkbox
-        checked={row.getIsSelected()}
-        onCheckedChange={(value) => row.toggleSelected(!!value)}
-        aria-label="Select row"
-      />
+      <div onClick={(e) => e.stopPropagation()}>
+        <Checkbox
+          checked={row.getIsSelected()}
+          onCheckedChange={(value) => row.toggleSelected(!!value)}
+          aria-label="Select row"
+          className="z-50"
+        />
+      </div>
     ),
     enableSorting: false,
     enableHiding: false,
@@ -56,18 +59,18 @@ export const createColumns = ({
     },
     cell: ({ row }) => <div className="font-medium">{row.getValue('id')}</div>,
   },
-  {
-    accessorKey: 'content',
-    header: 'Nội dung',
-    cell: ({ row }) => {
-      const content = row.getValue('content') as string;
-      return (
-        <div className="max-w-[500px]">
-          <p className="line-clamp-2 text-sm">{content}</p>
-        </div>
-      );
-    },
-  },
+  // {
+  //   accessorKey: 'content',
+  //   header: 'Nội dung',
+  //   cell: ({ row }) => {
+  //     const content = row.getValue('content') as string;
+  //     return (
+  //       <div className="max-w-[500px]">
+  //         <p className="line-clamp-2 text-sm">{content}</p>
+  //       </div>
+  //     );
+  //   },
+  // },
   {
     accessorKey: 'author',
     header: ({ column }) => {
@@ -107,7 +110,7 @@ export const createColumns = ({
     },
     cell: ({ row }) => {
       const likes = row.getValue('likes_count') as number;
-      return <div className="text-center font-medium">{likes}</div>;
+      return <div className="font-medium">{likes}</div>;
     },
   },
   {
@@ -118,7 +121,7 @@ export const createColumns = ({
     cell: ({ row }) => {
       const imageUrl = row.getValue('image_url') as string | undefined;
       return (
-        <div className="flex items-center justify-center">
+        <div className="flex">
           {imageUrl ? (
             <Badge variant="outline" className="bg-green-50 text-green-700">
               Có
@@ -150,38 +153,40 @@ export const createColumns = ({
     cell: ({ row }) => {
       const post = row.original;
       return (
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="ghost" className="h-8 w-8 p-0">
-              <span className="sr-only">Open menu</span>
-              <MoreHorizontal className="h-4 w-4" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <DropdownMenuLabel>Hành động</DropdownMenuLabel>
-            <DropdownMenuItem onClick={() => navigator.clipboard.writeText(String(post.id))}>
-              Sao chép ID
-            </DropdownMenuItem>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem onClick={() => onTogglePublish(post)}>
-              {post.is_published ? (
-                <>
-                  <EyeOff className="mr-2 h-4 w-4" />
-                  Chuyển thành nháp
-                </>
-              ) : (
-                <>
-                  <Eye className="mr-2 h-4 w-4" />
-                  Xuất bản
-                </>
-              )}
-            </DropdownMenuItem>
-            <DropdownMenuItem onClick={() => onDelete(post)} className="text-destructive">
-              <Trash2 className="mr-2 h-4 w-4" />
-              Xóa
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
+        <div onClick={(e) => e.stopPropagation()}>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="ghost" className="h-8 w-8 p-0">
+                <span className="sr-only">Open menu</span>
+                <MoreHorizontal className="h-4 w-4" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              <DropdownMenuLabel>Hành động</DropdownMenuLabel>
+              <DropdownMenuItem onClick={() => navigator.clipboard.writeText(String(post.id))}>
+                Sao chép ID
+              </DropdownMenuItem>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem onClick={() => onTogglePublish(post)}>
+                {post.is_published ? (
+                  <>
+                    <EyeOff className="mr-2 h-4 w-4" />
+                    Chuyển thành nháp
+                  </>
+                ) : (
+                  <>
+                    <Eye className="mr-2 h-4 w-4" />
+                    Xuất bản
+                  </>
+                )}
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={() => onDelete(post)} className="text-destructive">
+                <Trash2 className="mr-2 h-4 w-4" />
+                Xóa
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </div>
       );
     },
   },

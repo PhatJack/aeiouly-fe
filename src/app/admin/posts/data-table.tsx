@@ -74,9 +74,9 @@ export function DataTable<TData, TValue>({
       <div className="flex items-center justify-between gap-4">
         <div className="flex flex-1 items-center gap-4">
           <Input
-            placeholder="Tìm kiếm nội dung..."
-            value={(table.getColumn('content')?.getFilterValue() as string) ?? ''}
-            onChange={(event) => table.getColumn('content')?.setFilterValue(event.target.value)}
+            placeholder="Tìm kiếm ID..."
+            value={(table.getColumn('id')?.getFilterValue() as string) ?? ''}
+            onChange={(event) => table.getColumn('id')?.setFilterValue(event.target.value)}
             className="max-w-sm"
           />
           <Select

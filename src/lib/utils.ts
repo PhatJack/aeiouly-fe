@@ -163,7 +163,6 @@ export function UrlToEmbeded(url: string): { videoId: string; embedUrl: string }
     autoplay: '1',
     mute: '1',
     enablejsapi: '1',
-    start: '0',
     loop: '1',
     controls: '0',
     playsinline: '1',

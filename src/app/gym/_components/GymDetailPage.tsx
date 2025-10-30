@@ -40,8 +40,6 @@ const GymDetailPage = ({ id }: GymDetailPageProps) => {
   const [showVideo, setShowVideo] = useState(true);
   const [showTranslation, setShowTranslation] = useState(false);
 
-  // Mutations
-
   const getNextSentenceMutation = useGetNextSentenceMutation();
 
   // Memoized handlers

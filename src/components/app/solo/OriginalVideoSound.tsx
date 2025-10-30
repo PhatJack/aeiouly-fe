@@ -8,10 +8,7 @@ import { useSoloStore } from '@/hooks/use-solo-store';
 import VolumeChange from './VolumeChange';
 
 const OriginalVideoSound = () => {
-  const { volume, setVolume } = useSoloStore((state) => ({
-    volume: state.volume,
-    setVolume: state.setVolume,
-  }));
+  const { volume, setVolume } = useSoloStore();
 
   const debouncedSetVolume = useCallback(
     (val: number[]) => {
