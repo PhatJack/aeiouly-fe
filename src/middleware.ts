@@ -6,7 +6,16 @@ import { COOKIE_KEY_ACCESS_TOKEN, COOKIE_KEY_REFRESH_TOKEN } from './constants/c
 
 // This function can be marked `async` if using `await` inside
 export async function middleware(request: NextRequest) {
-  const protectedRoutes = ['/', '/onion', '/gym', '/topic', '/create', '/reading', 'news'];
+  const protectedRoutes = [
+    '/',
+    '/onion',
+    '/gym',
+    '/topic',
+    '/create',
+    '/reading',
+    'news',
+    '/admin',
+  ];
 
   const currentPath = request.nextUrl.pathname;
   const token = (await cookies()).get(COOKIE_KEY_ACCESS_TOKEN)?.value;
