@@ -34,7 +34,7 @@ const TopicInfoSection = ({ writingSession }: TopicInfoSectionProps) => {
   return (
     <div className="border-border/50 relative flex w-1/2 flex-col overflow-hidden rounded-2xl border bg-gray-50">
       <div className="flex h-full flex-col items-center justify-between pb-16">
-        <div className="overflow-y-auto">
+        <div className="w-full overflow-y-auto">
           {/* Stats Grid */}
           <div className="grid grid-cols-3 gap-2 divide-x border-b bg-white">
             <div className="flex items-center space-x-1 p-4">
@@ -76,7 +76,7 @@ const TopicInfoSection = ({ writingSession }: TopicInfoSectionProps) => {
             <HintButton id={writingSession.id} />
           </div>
         </div>
-        <div className="absolute bottom-0 z-[99] w-full border-t bg-gray-50 p-4">
+        <div className="absolute bottom-0 z-40 w-full border-t bg-gray-50 p-4">
           <EndSessionButton id={writingSession.id} />
         </div>
       </div>

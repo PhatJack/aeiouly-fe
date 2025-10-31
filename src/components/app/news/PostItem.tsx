@@ -53,8 +53,15 @@ const PostItem = ({ post }: PostItemProps) => {
       </div>
       {/* Image */}
       {post?.image_url && (
-        <div className="relative mt-3 min-h-60 w-full overflow-hidden rounded-lg">
-          <Image fill src={post.image_url} alt={'Hình ảnh'} className="object-cover" />
+        <div className="mt-3 w-full overflow-hidden rounded-lg">
+          <Image
+            src={post.image_url}
+            alt={'Hình ảnh'}
+            width={0}
+            height={0}
+            sizes="100vw"
+            className="h-auto w-full"
+          />
         </div>
       )}
       {/* Content */}

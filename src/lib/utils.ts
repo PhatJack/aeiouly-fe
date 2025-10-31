@@ -174,3 +174,15 @@ export function UrlToEmbeded(url: string): { videoId: string; embedUrl: string }
 
   return { videoId, embedUrl };
 }
+
+export const getScoreColor = (score: number) => {
+  if (score >= 80) return 'text-success';
+  if (score >= 60) return 'text-warning';
+  return 'text-error';
+};
+
+export const getScoreLabel = (score: number) => {
+  if (score >= 80) return 'Tốt';
+  if (score >= 60) return 'Khá';
+  return 'Cần cải thiện';
+};

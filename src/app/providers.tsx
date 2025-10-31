@@ -31,7 +31,7 @@ const Providers = ({
 }>) => {
   const { setTheme } = useTheme();
   const location = usePathname();
-  const excludedPaths = Object.values(ROUTE.AUTH);
+  const excludedPaths = [...Object.values(ROUTE.AUTH)];
   useEffect(() => {
     const theme = localStorage.getItem('aeiouly-theme');
     if (!theme) {
@@ -62,8 +62,7 @@ const Providers = ({
                   <main
                     className={cn(
                       'relative size-full min-h-screen bg-white',
-                      !excludedPaths.includes(location) ? 'rounded-l-3xl px-6 py-5' : '',
-                      location !== ROUTE.SPACE ? 'border' : ''
+                      !excludedPaths.includes(location) ? 'rounded-l-3xl px-6 py-5' : ''
                     )}
                   >
                     {children}
