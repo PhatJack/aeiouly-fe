@@ -53,7 +53,8 @@ const UsersTable = () => {
   const [userToDelete, setUserToDelete] = useState<UserResponseSchema | null>(null);
   const [userToResetPassword, setUserToResetPassword] = useState<UserResponseSchema | null>(null);
   const [newPassword, setNewPassword] = useState('');
-  const { data } = useGetAllUsersQuery({ page: 1, size: 100 });
+  const [pagination, setPagination] = useState({ page: 1, size: 10 });
+  const { data } = useGetAllUsersQuery(pagination);
 
   const deleteUserMutation = useDeleteUserMutation();
   const updateUserMutation = useUpdateUserMutation();
@@ -156,6 +157,13 @@ const UsersTable = () => {
     onResetPassword: handleResetPassword,
   });
 
+  const handlePaginationChange = (newPagination: { pageIndex: number; pageSize: number }) => {
+    setPagination({
+      page: newPagination.pageIndex + 1, // API uses 1-based pagination
+      size: newPagination.pageSize,
+    });
+  };
+
   return (
     <>
       <div className="mb-4 flex items-center justify-between">
@@ -165,7 +173,15 @@ const UsersTable = () => {
         </div>
       </div>
 
-      <DataTable columns={columns} data={data?.items || []} onRowClick={handleRowClick} />
+      <DataTable
+        columns={columns}
+        data={data?.items || []}
+        onRowClick={handleRowClick}
+        pageCount={data?.total ? Math.ceil(data.total / pagination.size) : 0}
+        pageIndex={pagination.page - 1} // Table uses 0-based pagination
+        pageSize={pagination.size}
+        onPaginationChange={handlePaginationChange}
+      />
 
       {/* Detail Sheet */}
       <Sheet open={isSheetOpen} onOpenChange={setIsSheetOpen}>

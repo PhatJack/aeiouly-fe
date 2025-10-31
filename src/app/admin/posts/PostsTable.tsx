@@ -50,7 +50,8 @@ const PostsTable = () => {
   const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false);
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [postToDelete, setPostToDelete] = useState<PostResponseSchema | null>(null);
-  const { data } = useGetAllPostsQuery({ page: 1, size: 100 });
+  const [pagination, setPagination] = useState({ page: 1, size: 10 });
+  const { data } = useGetAllPostsQuery(pagination);
 
   const deletePostMutation = useDeletePostMutation();
   const updatePostMutation = useUpdatePostMutation();
@@ -115,6 +116,13 @@ const PostsTable = () => {
     onTogglePublish: handleTogglePublish,
   });
 
+  const handlePaginationChange = (newPagination: { pageIndex: number; pageSize: number }) => {
+    setPagination({
+      page: newPagination.pageIndex + 1, // API uses 1-based pagination
+      size: newPagination.pageSize,
+    });
+  };
+
   return (
     <>
       <div className="mb-4 flex items-center justify-between">
@@ -128,7 +136,15 @@ const PostsTable = () => {
         </Button>
       </div>
 
-      <DataTable columns={columns} data={data?.items || []} onRowClick={handleRowClick} />
+      <DataTable
+        columns={columns}
+        data={data?.items || []}
+        onRowClick={handleRowClick}
+        pageCount={data?.total ? Math.ceil(data.total / pagination.size) : 0}
+        pageIndex={pagination.page - 1} // Table uses 0-based pagination
+        pageSize={pagination.size}
+        onPaginationChange={handlePaginationChange}
+      />
 
       {/* Detail Sheet */}
       <Sheet open={isSheetOpen} onOpenChange={setIsSheetOpen}>
