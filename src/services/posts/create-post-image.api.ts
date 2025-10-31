@@ -17,8 +17,6 @@ export async function createPostImageApi(post_id: number, body: PostCreateImageS
 }
 
 export const useCreatePostImageMutation = () => {
-  const queryClient = useQueryClient();
-
   return useMutation<
     PostResponseSchema,
     ErrorResponseSchema,
@@ -26,10 +24,5 @@ export const useCreatePostImageMutation = () => {
   >({
     mutationKey: ['createPostImage'],
     mutationFn: ({ post_id, body }) => createPostImageApi(post_id, body),
-    onSuccess: (data) => {
-      queryClient.setQueryData(['posts'], (oldData: PostResponseSchema[] | undefined) => {
-        return [...(oldData || []), data];
-      });
-    },
   });
 };

@@ -7,7 +7,7 @@ import Image from 'next/image';
 import AvatarCustom from '@/components/custom/AvatarCustom';
 import { PostResponseSchema } from '@/lib/schema/post.schema';
 import { distanceToNowVN } from '@/lib/timezone';
-import { useTogglePostLikeMutation } from '@/services/posts';
+import { togglePostLikeApi } from '@/services/posts';
 
 import LikeButton from './LikeButton';
 
@@ -16,15 +16,15 @@ interface PostItemProps {
 }
 
 const PostItem = ({ post }: PostItemProps) => {
-  const toggleLikeMutation = useTogglePostLikeMutation();
-
-  const handleLikeToggle = useCallback(() => {
-    toggleLikeMutation.mutate(post.id, {
-      onSuccess: (data) => {
+  const handleLikeToggle = useCallback(async () => {
+    await togglePostLikeApi(post.id)
+      .then((data) => {
         post.is_liked_by_user = data.is_liked;
         post.likes_count = data.likes_count;
-      },
-    });
+      })
+      .catch((error) => {
+        console.error('Error toggling like:', error);
+      });
   }, [post.id]);
 
   return (

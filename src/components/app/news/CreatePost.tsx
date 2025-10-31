@@ -7,16 +7,15 @@ import { ImageUpload } from '@/components/ImageUpload';
 import { Button } from '@/components/ui/button';
 import { Form, FormControl, FormField, FormItem, FormMessage } from '@/components/ui/form';
 import { Textarea } from '@/components/ui/textarea';
-import { PostCreateSchema, postCreateSchema } from '@/lib/schema/post.schema';
+import { PostCreateSchema, PostResponseSchema, postCreateSchema } from '@/lib/schema/post.schema';
 import { useCreatePostMutation } from '@/services/posts';
 import { useCreatePostImageMutation } from '@/services/posts/create-post-image.api';
 import { zodResolver } from '@hookform/resolvers/zod';
 
-import { motion } from 'motion/react';
 import { toast } from 'sonner';
 
 interface CreatePostProps {
-  onSuccess?: () => void;
+  onSuccess?: (data: PostResponseSchema) => void;
 }
 
 const CreatePost = ({ onSuccess }: CreatePostProps = {}) => {
@@ -42,10 +41,10 @@ const CreatePost = ({ onSuccess }: CreatePostProps = {}) => {
             },
           },
           {
-            onSuccess: () => {
+            onSuccess: (data) => {
               toast.success('Đăng bài viết thành công');
               createPostForm.reset();
-              onSuccess?.();
+              onSuccess?.(data);
             },
             onError: (error) => {
               toast.error(error.detail || 'Lỗi khi đăng bài viết');
@@ -63,14 +62,7 @@ const CreatePost = ({ onSuccess }: CreatePostProps = {}) => {
 
   return (
     <div className="relative flex w-full flex-col items-center">
-      <motion.div
-        key="create-form"
-        className="w-full"
-        initial={{ height: 0, opacity: 0 }}
-        animate={{ height: 'auto', opacity: 1 }}
-        exit={{ height: 0, opacity: 0 }}
-        transition={{ duration: 0.3 }}
-      >
+      <div key="create-form" className="w-full">
         <div>
           <Form {...createPostForm}>
             <form onSubmit={createPostForm.handleSubmit(onSubmit)} className="space-y-6">
@@ -103,7 +95,7 @@ const CreatePost = ({ onSuccess }: CreatePostProps = {}) => {
             </form>
           </Form>
         </div>
-      </motion.div>
+      </div>
     </div>
   );
 };

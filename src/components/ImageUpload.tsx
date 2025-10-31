@@ -55,7 +55,7 @@ export function ImageUpload<T extends FieldValues>({
 
   return (
     <div className="flex flex-col gap-2">
-      <div className="relative">
+      <div className="relative cursor-pointer">
         <div
           role="button"
           onClick={openFileDialog}

@@ -153,7 +153,7 @@ const Sidebar = () => {
                 className="hover:bg-secondary/20 relative flex cursor-pointer items-center justify-center rounded-full p-3 transition-all"
               >
                 <div className="relative size-6 min-w-6">
-                  <Image fill quality={100} src={item.icon} alt={item.title} />
+                  <Image fill quality={100} src={item.icon} alt={item.title} sizes="24px" />
                 </div>
 
                 {pathname === item.href && (

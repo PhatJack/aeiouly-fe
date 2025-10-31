@@ -34,6 +34,7 @@ import {
   useGetAllPostsQuery,
   useUpdatePostMutation,
 } from '@/services/posts';
+import { useQueryClient } from '@tanstack/react-query';
 
 import { format } from 'date-fns';
 import { vi } from 'date-fns/locale';
@@ -44,6 +45,7 @@ import { createColumns } from './columns';
 import { DataTable } from './data-table';
 
 const PostsTable = () => {
+  const queryClient = useQueryClient();
   const router = useRouter();
   const [selectedPost, setSelectedPost] = useState<PostResponseSchema | null>(null);
   const [isSheetOpen, setIsSheetOpen] = useState(false);
@@ -286,13 +288,19 @@ const PostsTable = () => {
 
       {/* Create Post Dialog */}
       <Dialog open={isCreateDialogOpen} onOpenChange={setIsCreateDialogOpen}>
-        <DialogContent className="max-w-2xl">
+        <DialogContent aria-describedby={undefined} className="max-w-2xl">
           <DialogHeader>
             <DialogTitle>Tạo bài viết mới</DialogTitle>
           </DialogHeader>
           <div className="py-4">
             <CreatePost
-              onSuccess={() => {
+              onSuccess={(data) => {
+                queryClient.setQueryData(['posts', pagination], (oldData: any) => {
+                  return {
+                    ...oldData,
+                    items: [data, ...oldData.items],
+                  };
+                });
                 setIsCreateDialogOpen(false);
                 router.refresh();
               }}
