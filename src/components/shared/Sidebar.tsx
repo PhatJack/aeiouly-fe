@@ -150,6 +150,7 @@ const Sidebar = () => {
               <motion.li
                 id={item.id}
                 onClick={() => router.push(item.href)}
+                data-navigation
                 className="hover:bg-secondary/20 relative flex cursor-pointer items-center justify-center rounded-full p-3 transition-all"
               >
                 <div className="relative size-6 min-w-6">

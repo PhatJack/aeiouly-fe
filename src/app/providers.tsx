@@ -7,6 +7,7 @@ import { usePathname } from 'next/navigation';
 import NextTopLoader from 'nextjs-toploader';
 
 import GlobalQueryLoading from '@/components/GlobalLoading';
+import NavigationBlocker from '@/components/NavigationBlocker';
 import Sidebar from '@/components/shared/Sidebar';
 import { Toaster } from '@/components/ui/sonner';
 import { TooltipProvider } from '@/components/ui/tooltip';
@@ -73,6 +74,7 @@ const Providers = ({
           </AuthProvider>
         </TooltipProvider>
         <Toaster position="top-center" toastOptions={{}} theme={'light'} richColors />
+        <NavigationBlocker />
         <GlobalQueryLoading />
       </QueryClientProvider>
     </>

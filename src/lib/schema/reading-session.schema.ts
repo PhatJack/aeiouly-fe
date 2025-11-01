@@ -48,7 +48,7 @@ export const readingSessionResponseSchema = z.object({
 });
 
 export const readingSessionSummarySchema = z.object({
-  session_id: z.number(),
+  id: z.number(),
   level: CEFRLevelSchema,
   genre: ReadingGenreSchema,
   topic: z.string(),

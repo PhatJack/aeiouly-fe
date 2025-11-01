@@ -1,51 +1,31 @@
 'use client';
 
-import React, { useState } from 'react';
-import { useForm } from 'react-hook-form';
+import React, { useCallback, useState } from 'react';
 import ReactMarkdown from 'react-markdown';
 
-import { useRouter } from 'next/navigation';
+import { useRouter } from 'nextjs-toploader/app';
 
+import QuizSection from '@/components/app/reading/QuizSection';
+import SummaryFeedback from '@/components/app/reading/SummaryFeedback';
+import SummarySubmissionForm from '@/components/app/reading/SummarySubmissionForm';
 import BlockquoteCustom from '@/components/custom/BlockquoteCustom';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import {
-  Form,
-  FormControl,
-  FormDescription,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
-import { Separator } from '@/components/ui/separator';
+import { Card, CardContent } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
-import { Textarea } from '@/components/ui/textarea';
 import {
   QuizGenerationRequestSchema,
   QuizQuestionSchema,
   SummarySubmissionSchema,
-  quizGenerationRequestSchema,
-  summarySubmissionSchema,
 } from '@/lib/schema/reading-session.schema';
 import {
   useGenerateQuizMutation,
   useGetReadingSessionDetailQuery,
   useSubmitSummaryMutation,
 } from '@/services/reading-session';
-import { zodResolver } from '@hookform/resolvers/zod';
+import { useBlockNavigation } from '@/stores/use-block-navigation';
 
-import {
-  ArrowLeft,
-  BookOpen,
-  Brain,
-  CheckCircle,
-  FileText,
-  Lightbulb,
-  TrendingUp,
-} from 'lucide-react';
+import { ArrowLeft } from 'lucide-react';
 import { toast } from 'sonner';
 
 interface ReadingDetailPageProps {
@@ -56,6 +36,7 @@ const ReadingDetailPage = ({ id }: ReadingDetailPageProps) => {
   const router = useRouter();
   const sessionId = Number(id);
 
+  const setUnsaved = useBlockNavigation((state) => state.setUnsaved);
   const [summarySubmitted, setSummarySubmitted] = useState(false);
   const [feedback, setFeedback] = useState<{ score: number; feedback: string } | null>(null);
   const [quiz, setQuiz] = useState<QuizQuestionSchema[] | null>(null);
@@ -71,57 +52,50 @@ const ReadingDetailPage = ({ id }: ReadingDetailPageProps) => {
   const submitSummaryMutation = useSubmitSummaryMutation();
   const generateQuizMutation = useGenerateQuizMutation();
 
-  const summaryForm = useForm<SummarySubmissionSchema>({
-    resolver: zodResolver(summarySubmissionSchema),
-    defaultValues: {
-      summary: '',
+  const handleSummarySubmit = useCallback(
+    (data: SummarySubmissionSchema) => {
+      setUnsaved(false);
+      submitSummaryMutation.mutate(
+        { sessionId, data },
+        {
+          onSuccess: (result) => {
+            setFeedback(result);
+            setSummarySubmitted(true);
+            toast.success('Đã nộp bài tóm tắt thành công!');
+          },
+          onError: () => {
+            toast.error('Có lỗi xảy ra. Vui lòng thử lại.');
+          },
+        }
+      );
     },
-  });
+    [sessionId, submitSummaryMutation]
+  );
 
-  const quizForm = useForm({
-    resolver: zodResolver(quizGenerationRequestSchema),
-    defaultValues: {
-      number_of_questions: 5,
+  const handleGenerateQuiz = useCallback(
+    (data: QuizGenerationRequestSchema) => {
+      generateQuizMutation.mutate(
+        { sessionId, data },
+        {
+          onSuccess: (result) => {
+            setQuiz(result.questions);
+            setSelectedAnswers({});
+            toast.success('Đã tạo bài trắc nghiệm!');
+          },
+          onError: () => {
+            toast.error('Có lỗi xảy ra khi tạo bài trắc nghiệm.');
+          },
+        }
+      );
     },
-  });
+    [sessionId, generateQuizMutation]
+  );
 
-  const handleSummarySubmit = (data: SummarySubmissionSchema) => {
-    submitSummaryMutation.mutate(
-      { sessionId, data },
-      {
-        onSuccess: (result) => {
-          setFeedback(result);
-          setSummarySubmitted(true);
-          toast.success('Đã nộp bài tóm tắt thành công!');
-        },
-        onError: () => {
-          toast.error('Có lỗi xảy ra. Vui lòng thử lại.');
-        },
-      }
-    );
-  };
-
-  const handleGenerateQuiz = (data: Record<string, any>) => {
-    generateQuizMutation.mutate(
-      { sessionId, data: data as QuizGenerationRequestSchema },
-      {
-        onSuccess: (result) => {
-          setQuiz(result.questions);
-          setSelectedAnswers({});
-          toast.success('Đã tạo bài trắc nghiệm!');
-        },
-        onError: () => {
-          toast.error('Có lỗi xảy ra khi tạo bài trắc nghiệm.');
-        },
-      }
-    );
-  };
-
-  const handleAnswerSelect = (questionId: string, answer: string) => {
+  const handleAnswerSelect = useCallback((questionId: string, answer: string) => {
     setSelectedAnswers((prev) => ({ ...prev, [questionId]: answer }));
-  };
+  }, []);
 
-  const checkQuizAnswers = () => {
+  const checkQuizAnswers = useCallback(() => {
     if (!quiz) return;
 
     let correct = 0;
@@ -132,7 +106,7 @@ const ReadingDetailPage = ({ id }: ReadingDetailPageProps) => {
     });
 
     toast.success(`Bạn trả lời đúng ${correct}/${quiz.length} câu hỏi!`);
-  };
+  }, [quiz, selectedAnswers]);
 
   if (isLoading) {
     return (
@@ -159,7 +133,7 @@ const ReadingDetailPage = ({ id }: ReadingDetailPageProps) => {
   return (
     <div className="min-h-screen">
       {/* Header */}
-      <div className="bg-card/50 sticky top-0 z-10 border-b backdrop-blur-sm">
+      <div className="bg-card/50 z-10 border-b backdrop-blur-sm">
         <div className="container mx-auto max-w-4xl px-4 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-4">
@@ -168,6 +142,7 @@ const ReadingDetailPage = ({ id }: ReadingDetailPageProps) => {
                 size="icon"
                 onClick={() => router.push('/reading')}
                 className="h-10 w-10"
+                data-navigation
               >
                 <ArrowLeft className="h-5 w-5" />
               </Button>
@@ -215,187 +190,30 @@ const ReadingDetailPage = ({ id }: ReadingDetailPageProps) => {
 
         {/* Summary Submission */}
         {!summarySubmitted && !feedback && (
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <FileText className="h-5 w-5" />
-                Viết bài tóm tắt
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <Form {...summaryForm}>
-                <form
-                  onSubmit={summaryForm.handleSubmit(handleSummarySubmit)}
-                  className="space-y-4"
-                >
-                  <FormField
-                    control={summaryForm.control}
-                    name="summary"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Tóm tắt của bạn (Tiếng Việt hoặc Tiếng Anh)</FormLabel>
-                        <FormControl>
-                          <Textarea
-                            placeholder="Viết tóm tắt nội dung bài đọc (tối thiểu 50 ký tự)..."
-                            className="min-h-[200px] resize-none"
-                            {...field}
-                          />
-                        </FormControl>
-                        <FormDescription>{field.value?.length || 0} / 2000 ký tự</FormDescription>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  <Button type="submit" disabled={submitSummaryMutation.isPending}>
-                    {submitSummaryMutation.isPending ? 'Đang nộp...' : 'Nộp bài tóm tắt'}
-                  </Button>
-                </form>
-              </Form>
-            </CardContent>
-          </Card>
+          <SummarySubmissionForm
+            onSubmit={handleSummarySubmit}
+            isPending={submitSummaryMutation.isPending}
+          />
         )}
 
         {/* Summary Feedback */}
         {feedback && (
-          <Card className="border-primary/20">
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <CheckCircle className="text-primary h-5 w-5" />
-                Đánh giá bài tóm tắt
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="flex items-center gap-4">
-                <div className="bg-primary/10 flex h-20 w-20 items-center justify-center rounded-full">
-                  <span className="text-primary text-2xl font-bold">{feedback.score}</span>
-                </div>
-                <div className="flex-1">
-                  <h3 className="mb-1 font-semibold">Điểm số</h3>
-                  <div className="bg-muted h-2 overflow-hidden rounded-full">
-                    <div
-                      className="bg-primary h-full transition-all duration-500"
-                      style={{ width: `${feedback.score}%` }}
-                    />
-                  </div>
-                </div>
-              </div>
-
-              <Separator />
-
-              <div>
-                <h3 className="mb-2 flex items-center gap-2 font-semibold">
-                  <Lightbulb className="h-4 w-4" />
-                  Nhận xét
-                </h3>
-                <p className="text-muted-foreground leading-relaxed">{feedback.feedback}</p>
-              </div>
-
-              {/* Generate Quiz Option */}
-              {!quiz && (
-                <>
-                  <Separator />
-                  <div className="space-y-4">
-                    <h3 className="flex items-center gap-2 font-semibold">
-                      <Brain className="h-4 w-4" />
-                      Tiếp tục luyện tập
-                    </h3>
-                    <Form {...quizForm}>
-                      <form
-                        onSubmit={quizForm.handleSubmit(handleGenerateQuiz)}
-                        className="flex items-end gap-4"
-                      >
-                        <FormField
-                          control={quizForm.control}
-                          name="number_of_questions"
-                          render={({ field }) => (
-                            <FormItem className="flex-1">
-                              <FormLabel>Số câu hỏi (3-10)</FormLabel>
-                              <FormControl>
-                                <Input
-                                  type="number"
-                                  min={3}
-                                  max={10}
-                                  {...field}
-                                  onChange={(e) => field.onChange(parseInt(e.target.value))}
-                                />
-                              </FormControl>
-                              <FormMessage />
-                            </FormItem>
-                          )}
-                        />
-                        <Button type="submit" disabled={generateQuizMutation.isPending}>
-                          {generateQuizMutation.isPending ? 'Đang tạo...' : 'Tạo bài trắc nghiệm'}
-                        </Button>
-                      </form>
-                    </Form>
-                  </div>
-                </>
-              )}
-            </CardContent>
-          </Card>
+          <SummaryFeedback
+            feedback={feedback}
+            showQuizForm={!quiz}
+            onGenerateQuiz={handleGenerateQuiz}
+            isGenerating={generateQuizMutation.isPending}
+          />
         )}
 
         {/* Quiz Section */}
         {quiz && (
-          <Card className="border-primary/20">
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Brain className="text-primary h-5 w-5" />
-                Bài trắc nghiệm
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-6">
-              {quiz.map((question, index) => (
-                <div key={question.id} className="space-y-3">
-                  <h3 className="font-semibold">
-                    Câu {index + 1}: {question.question}
-                  </h3>
-                  <div className="space-y-2">
-                    {question.options.map((option, optIndex) => (
-                      <button
-                        key={optIndex}
-                        onClick={() => handleAnswerSelect(question.id, option)}
-                        className={`w-full rounded-lg border-2 p-3 text-left transition-all ${
-                          selectedAnswers[question.id] === option
-                            ? 'border-primary bg-primary/5'
-                            : 'border-border hover:border-primary/50'
-                        }`}
-                      >
-                        {option}
-                      </button>
-                    ))}
-                  </div>
-                  {selectedAnswers[question.id] && (
-                    <div
-                      className={`rounded-lg p-3 ${
-                        selectedAnswers[question.id] === question.correct_answer.correct_option
-                          ? 'border border-green-200 bg-green-50'
-                          : 'border border-red-200 bg-red-50'
-                      }`}
-                    >
-                      <p className="mb-1 font-medium">
-                        {selectedAnswers[question.id] === question.correct_answer.correct_option
-                          ? '✅ Chính xác!'
-                          : '❌ Chưa đúng'}
-                      </p>
-                      <p className="text-muted-foreground text-sm">
-                        <strong>Đáp án đúng:</strong> {question.correct_answer.correct_option}
-                      </p>
-                      <p className="text-muted-foreground mt-1 text-sm">
-                        <strong>Giải thích:</strong> {question.correct_answer.explanation}
-                      </p>
-                    </div>
-                  )}
-                </div>
-              ))}
-
-              {Object.keys(selectedAnswers).length === quiz.length && (
-                <Button onClick={checkQuizAnswers} className="w-full">
-                  Kiểm tra kết quả
-                </Button>
-              )}
-            </CardContent>
-          </Card>
+          <QuizSection
+            quiz={quiz}
+            selectedAnswers={selectedAnswers}
+            onAnswerSelect={handleAnswerSelect}
+            onCheckAnswers={checkQuizAnswers}
+          />
         )}
       </div>
     </div>

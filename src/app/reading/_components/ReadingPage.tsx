@@ -3,7 +3,7 @@
 import React, { useCallback, useState } from 'react';
 
 import Image from 'next/image';
-import { useRouter } from 'next/navigation';
+import { useRouter } from 'nextjs-toploader/app';
 
 import ReadingSessionCard from '@/components/app/reading/ReadingSessionCard';
 import { Button } from '@/components/ui/button';
@@ -11,7 +11,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useGetReadingSessionsQuery } from '@/services/reading-session';
 
-import { BookOpen, FileText, Sparkles } from 'lucide-react';
+import { BookOpen, FileText } from 'lucide-react';
 
 import CreateSessionForm from './CreateSessionForm';
 
@@ -23,10 +23,6 @@ const ReadingPage = () => {
     page,
     size: 10,
   });
-
-  const handleSessionSuccess = useCallback(() => {
-    refetch();
-  }, [refetch]);
 
   const handleCardClick = useCallback(
     (sessionId: number) => {
@@ -119,7 +115,7 @@ const ReadingPage = () => {
                     <div key={`session-${index}`} className="size-full">
                       <ReadingSessionCard
                         session={session}
-                        onClick={() => handleCardClick(session.session_id)}
+                        onClick={() => handleCardClick(session.id)}
                       />
                     </div>
                   ))}
