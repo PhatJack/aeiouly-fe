@@ -1,12 +1,12 @@
 'use client';
 
 import React from 'react';
-import { useForm } from 'react-hook-form';
+import { Controller, useForm } from 'react-hook-form';
 
 import { ImageUpload } from '@/components/ImageUpload';
+import TiptapEditor from '@/components/editor/tiptap-editor';
 import { Button } from '@/components/ui/button';
-import { Form, FormControl, FormField, FormItem, FormMessage } from '@/components/ui/form';
-import { Textarea } from '@/components/ui/textarea';
+import { Field, FieldError, FieldGroup } from '@/components/ui/field';
 import { PostCreateSchema, PostResponseSchema, postCreateSchema } from '@/lib/schema/post.schema';
 import { useCreatePostMutation } from '@/services/posts';
 import { useCreatePostImageMutation } from '@/services/posts/create-post-image.api';
@@ -61,39 +61,39 @@ const CreatePost = ({ onSuccess }: CreatePostProps = {}) => {
   };
 
   return (
-    <div className="relative flex w-full flex-col items-center">
-      <div key="create-form" className="w-full">
+    <div className="relative flex h-full w-full flex-col items-center">
+      <div key="create-form" className="size-full">
         <div>
-          <Form {...createPostForm}>
-            <form onSubmit={createPostForm.handleSubmit(onSubmit)} className="space-y-6">
-              <FormField
-                control={createPostForm.control}
-                name="image"
-                render={() => (
-                  <FormItem>
-                    <ImageUpload control={createPostForm.control} name="image" />
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-
-              <FormField
-                control={createPostForm.control}
-                name="content"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormControl>
-                      <Textarea {...field} placeholder="Nội dung bài viết..." />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <Button type="submit" className="w-full">
-                Đăng bài viết
-              </Button>
-            </form>
-          </Form>
+          <form onSubmit={createPostForm.handleSubmit(onSubmit)} className="h-full space-y-6">
+            <Controller
+              control={createPostForm.control}
+              name="image"
+              render={({ field, fieldState }) => (
+                <Field>
+                  <ImageUpload control={createPostForm.control} name="image" />
+                  {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+                </Field>
+              )}
+            />
+            <Controller
+              control={createPostForm.control}
+              name="content"
+              render={({ field, fieldState }) => (
+                <Field className="h-full">
+                  <TiptapEditor
+                    content={field.value}
+                    onChange={field.onChange}
+                    placeholder="Nội dung bài viết..."
+                    output="html"
+                  />
+                  {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+                </Field>
+              )}
+            />
+            <Button type="submit" className="w-full">
+              Đăng bài viết
+            </Button>
+          </form>
         </div>
       </div>
     </div>

@@ -1,6 +1,5 @@
 import React from 'react';
-import ReactMarkdown from 'react-markdown';
-import ReactMarkdownTyper, { MarkdownTyperProps } from 'react-markdown-typer';
+import ReactMarkdownTyper from 'react-markdown-typer';
 
 import remarkBreaks from 'remark-breaks';
 import remarkGfm from 'remark-gfm';

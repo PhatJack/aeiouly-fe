@@ -32,6 +32,7 @@ interface TooltipCustomProps extends VariantProps<typeof tooltipVariants> {
   content: React.ReactNode;
   children: React.ReactNode;
   side?: 'top' | 'right' | 'bottom' | 'left';
+  align?: 'start' | 'center' | 'end';
   className?: string;
 }
 
@@ -40,12 +41,17 @@ const TooltipCustom = ({
   children,
   side = 'right',
   className,
+  align,
   variant,
 }: TooltipCustomProps) => {
   return (
     <Tooltip>
       <TooltipTrigger asChild>{children}</TooltipTrigger>
-      <TooltipContent className={cn(tooltipVariants({ variant }), className)} side={side}>
+      <TooltipContent
+        className={cn(tooltipVariants({ variant }), className)}
+        side={side}
+        align={align}
+      >
         {content}
       </TooltipContent>
     </Tooltip>
