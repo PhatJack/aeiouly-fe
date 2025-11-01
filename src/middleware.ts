@@ -21,6 +21,8 @@ export async function middleware(request: NextRequest) {
   const token = (await cookies()).get(COOKIE_KEY_ACCESS_TOKEN)?.value;
   const refreshToken = (await cookies()).get(COOKIE_KEY_REFRESH_TOKEN)?.value;
   const isLoggedIn = (await cookies()).get('isLoggedIn')?.value === '1';
+  console.log('token: ', token);
+  console.log('refreshToken: ', refreshToken);
 
   const isProtected = protectedRoutes.some(
     (route) => currentPath === route || currentPath.startsWith(`${route}/`)

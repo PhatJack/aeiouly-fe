@@ -22,6 +22,11 @@ export const metadata: Metadata = {
     template: '%s - Aeiouly',
     default: 'Home',
   },
+  keywords: ['tiếng anh', 'học tiếng anh', 'tiếng anh giao tiếp', 'AI tiếng anh'],
+  robots: {
+    index: true,
+    follow: true,
+  },
   description:
     'Lộ trình chinh phục tiếng Anh cùng Aeiouly sẽ vừa thú vị vừa hiệu quả. Công cụ, bài học và phương pháp cá nhân hóa của chúng tôi giúp bạn tự tin giao tiếp tiếng Anh.',
   openGraph: {

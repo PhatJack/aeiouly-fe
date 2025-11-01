@@ -12,7 +12,7 @@ import { useAuthStore } from '@/contexts/AuthContext';
 import { cn } from '@/lib/utils';
 import { useLogoutMutation } from '@/services/auth/logout.api';
 
-import { BrainCircuit, LogIn } from 'lucide-react';
+import { LogIn } from 'lucide-react';
 import { motion } from 'motion/react';
 import { toast } from 'sonner';
 
@@ -185,7 +185,7 @@ const Sidebar = () => {
             </TooltipCustom>
             <TooltipCustom content={user.full_name}>
               <div className="flex items-center justify-center">
-                <AvatarCustom className="size-10" url={user.avatar_url || '/avatar.gif'} />
+                <AvatarCustom className="size-10" url={user.avatar_url || ''} />
               </div>
             </TooltipCustom>
           </>

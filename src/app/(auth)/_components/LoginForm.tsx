@@ -22,6 +22,7 @@ import { cn } from '@/lib/utils';
 import { LoginBodySchema, loginBodySchema, useLoginMutation } from '@/services/auth/login.api';
 import { zodResolver } from '@hookform/resolvers/zod';
 
+import { jwtDecode } from 'jwt-decode';
 import { Eye, EyeOff } from 'lucide-react';
 import { toast } from 'sonner';
 
@@ -40,9 +41,10 @@ const LoginForm = () => {
 
   const onSubmit = (data: LoginBodySchema) => {
     loginMutation.mutate(data, {
-      onSuccess: () => {
+      onSuccess: (data) => {
+        const userInfo = jwtDecode(data.access_token) as any;
         toast.success('Đăng nhập thành công!');
-        router.push('/', { scroll: false });
+        router.push(userInfo.username === 'admin' ? '/admin' : '/', { scroll: false });
       },
       onError: (error) => {
         toast.error((error as any).detail || 'Đăng nhập thất bại!');

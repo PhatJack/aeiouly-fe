@@ -153,7 +153,7 @@ const PostsTable = () => {
         <SheetContent className="w-full sm:max-w-2xl">
           {selectedPost && (
             <>
-              <SheetHeader>
+              <SheetHeader className="mt-5">
                 <SheetTitle className="flex items-center justify-between">
                   <span>Chi tiết bài viết #{selectedPost.id}</span>
                   <Badge variant={selectedPost.is_published ? 'default' : 'secondary'}>
@@ -165,27 +165,6 @@ const PostsTable = () => {
 
               <ScrollArea className="h-auto overflow-y-auto pb-4">
                 <div className="space-y-4 px-4">
-                  {/* Author Info */}
-                  <div>
-                    <h3 className="mb-3 flex items-center gap-2 text-sm font-semibold">
-                      <User className="h-4 w-4" />
-                      Tác giả
-                    </h3>
-                    <div className="rounded-lg border p-4">
-                      <p className="font-medium">
-                        {selectedPost.author.full_name || selectedPost.author.username}
-                      </p>
-                      <p className="text-muted-foreground text-sm">
-                        @{selectedPost.author.username}
-                      </p>
-                      <p className="text-muted-foreground mt-1 text-xs">
-                        ID: {selectedPost.author.id}
-                      </p>
-                    </div>
-                  </div>
-
-                  <Separator />
-
                   {/* Content */}
                   <div>
                     <h3 className="mb-3 text-sm font-semibold">Nội dung</h3>

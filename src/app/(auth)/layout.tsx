@@ -11,11 +11,11 @@ export default function AuthLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <div className="grid max-h-svh min-h-svh overflow-hidden p-4 lg:grid-cols-4">
-      <div className="flex flex-col gap-4 p-6 md:p-10 lg:col-span-1">
+    <div className="grid max-h-svh min-h-svh overflow-hidden p-4 xl:grid-cols-4">
+      <div className="flex flex-col gap-4 p-6 md:p-10 xl:col-span-1">
         <div className="flex justify-center gap-2 md:justify-start">
           <div className="flex items-center gap-2 font-medium">
-            <div className="bg-primary text-primary-foreground relative flex size-10 items-center justify-center rounded-full">
+            <div className="bg-primary text-primary-foreground relative flex size-16 items-center justify-center rounded-full">
               <Image src="/logo.png" alt="Aeiouly Logo" fill />
             </div>
             <span className="sr-only">Aeiouly</span>
@@ -25,7 +25,7 @@ export default function AuthLayout({
           <div className="w-full max-w-xs">{children}</div>
         </div>
       </div>
-      <div className="bg-muted relative hidden overflow-hidden rounded-lg lg:col-span-3 lg:block">
+      <div className="bg-muted relative hidden overflow-hidden rounded-lg xl:col-span-3 xl:block">
         <div className="relative size-full">
           <Image
             src={'/banner-auth.png'}
