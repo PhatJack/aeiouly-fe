@@ -126,6 +126,7 @@ const Sidebar = () => {
           <Link
             href={ROUTE.TOPIC}
             id="create-topic"
+            data-navigation
             className="bg-primary hover:bg-primary/80 flex items-center justify-center rounded-full p-3 text-white"
           >
             <div className="relative size-6 min-w-6">
