@@ -1,62 +1,67 @@
-import type { Metadata } from "next";
-import { Be_Vietnam_Pro, Geist, Geist_Mono } from "next/font/google";
-import "./globals.css";
-import { ThemeProvider } from "@/components/theme-provider";
-import Providers from "./providers";
+import type { Metadata } from 'next';
+import { Be_Vietnam_Pro, Geist, Geist_Mono } from 'next/font/google';
+
+import { ThemeProvider } from '@/components/theme-provider';
+
+import './globals.css';
+import Providers from './providers';
 
 const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
+  variable: '--font-geist-sans',
+  subsets: ['latin'],
 });
 
 const beVietNamPro = Be_Vietnam_Pro({
-  variable: "--font-be-vietnam-pro",
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700", "800", "900"],
+  variable: '--font-be-vietnam-pro',
+  subsets: ['latin'],
+  weight: ['400', '500', '600', '700', '800', '900'],
 });
 
 export const metadata: Metadata = {
   title: {
-    template: "%s - Aeiouly",
-    default: "Home",
+    template: '%s - Aeiouly',
+    default: 'Home',
   },
   description:
-    "Your path to fluency in English with Aeiouly will be both enjoyable and fruitful. Our tools, lessons, and personalized approach empower you to speak confidently.",
+    'Lộ trình chinh phục tiếng Anh cùng Aeiouly sẽ vừa thú vị vừa hiệu quả. Công cụ, bài học và phương pháp cá nhân hóa của chúng tôi giúp bạn tự tin giao tiếp tiếng Anh.',
   openGraph: {
     title: {
-      template: "%s - Aeiouly",
-      default: "Home",
+      template: '%s - Aeiouly',
+      default: 'Home',
     },
     description:
-      "Your path to fluency in English with Aeiouly will be both enjoyable and fruitful. Our tools, lessons, and personalized approach empower you to speak confidently.",
-    url: "https://aeiouly.com",
-    siteName: "Aeiouly",
+      'Lộ trình chinh phục tiếng Anh cùng Aeiouly sẽ vừa thú vị vừa hiệu quả. Công cụ, bài học và phương pháp cá nhân hóa của chúng tôi giúp bạn tự tin giao tiếp tiếng Anh.',
+    url: 'https://aeiouly.site',
+    siteName: 'Aeiouly',
     images: [
       {
-        url: "/meta-image.jpg",
+        url: '/meta-image.jpg',
         width: 1200,
         height: 630,
-        alt: "Aeiouly",
+        alt: 'Aeiouly',
       },
     ],
-    type: "website",
+    type: 'website',
   },
   twitter: {
-    card: "summary_large_image",
+    card: 'summary_large_image',
     title: {
-      template: "%s - Aeiouly",
-      default: "Home",
+      template: '%s - Aeiouly',
+      default: 'Home',
     },
     description:
-      "Your path to fluency in English with Aeiouly will be both enjoyable and fruitful. Our tools, lessons, and personalized approach empower you to speak confidently.",
+      'Lộ trình chinh phục tiếng Anh cùng Aeiouly sẽ vừa thú vị vừa hiệu quả. Công cụ, bài học và phương pháp cá nhân hóa của chúng tôi giúp bạn tự tin giao tiếp tiếng Anh.',
     images: [
       {
-        url: "/meta-image.jpg",
+        url: '/meta-image.jpg',
         width: 1200,
         height: 630,
-        alt: "Aeiouly",
+        alt: 'Aeiouly',
       },
     ],
+  },
+  verification: {
+    google: 'cZNWDNvfb1eBjhJBoIU77GPztU1w-j5v5IjaUca_3Z8',
   },
 };
 
@@ -67,9 +72,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body
-        className={`${beVietNamPro.variable} ${geistSans.variable} antialiased flex`}
-      >
+      <body className={`${beVietNamPro.variable} ${geistSans.variable} flex antialiased`}>
         <ThemeProvider
           attribute="class"
           defaultTheme="system"

@@ -17,6 +17,7 @@ export const useLoginWithGoogleMutation = () => {
         path: '/',
         expires: new Date(Date.now() + 60 * 60 * 24 * 7 * 1000), // 7 days
         sameSite: 'lax',
+        secure: process.env.NODE_ENV === 'production',
       });
     },
   });

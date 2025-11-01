@@ -1,0 +1,9 @@
+{
+	"name": "Aieouly",
+	"short_name": "Aieouly",
+	"description": "Lộ trình chinh phục tiếng Anh cùng Aeiouly sẽ vừa thú vị vừa hiệu quả. Công cụ, bài học và phương pháp cá nhân hóa của chúng tôi giúp bạn tự tin giao tiếp tiếng Anh.",
+	"theme_color": "#ffffff",
+	"background_color": "#ffffff",
+	"start_url": "/",
+	"display": "standalone"
+}

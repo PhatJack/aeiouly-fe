@@ -15,10 +15,10 @@ export default function AuthLayout({
       <div className="flex flex-col gap-4 p-6 md:p-10 lg:col-span-1">
         <div className="flex justify-center gap-2 md:justify-start">
           <div className="flex items-center gap-2 font-medium">
-            <div className="bg-primary text-primary-foreground flex size-10 items-center justify-center rounded-md">
-              <BrainCircuit className="size-5" />
+            <div className="bg-primary text-primary-foreground relative flex size-10 items-center justify-center rounded-full">
+              <Image src="/logo.png" alt="Aeiouly Logo" fill />
             </div>
-            Aeiouly
+            <span className="sr-only">Aeiouly</span>
           </div>
         </div>
         <div className="flex flex-1 items-center justify-center">

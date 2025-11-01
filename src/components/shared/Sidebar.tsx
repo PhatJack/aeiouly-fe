@@ -116,11 +116,11 @@ const Sidebar = () => {
   return (
     <aside className={cn('sticky top-0 flex h-screen max-w-20 min-w-20 flex-col gap-2 p-4')}>
       {/* Logo */}
-      <TooltipCustom content="Aeiouly">
-        <Link href={ROUTE.HOME} className="flex items-center justify-center p-3">
-          <BrainCircuit />
-        </Link>
-      </TooltipCustom>
+      <Link href={ROUTE.HOME} className="mb-3 flex items-center justify-center">
+        <div className="relative size-10 overflow-hidden rounded-full">
+          <Image fill quality={100} src={'/logo.png'} alt={'Aeiouly logo'} />
+        </div>
+      </Link>
       {user && user.role === 'user' && (
         <TooltipCustom content="Tạo chủ đề">
           <Link
@@ -130,7 +130,7 @@ const Sidebar = () => {
             className="bg-primary hover:bg-primary/80 flex items-center justify-center rounded-full p-3 text-white"
           >
             <div className="relative size-6 min-w-6">
-              <Image fill quality={100} src={'/sidebarIcon/plus.png'} alt={'Plus icon'} />
+              <Image fill src={'/sidebarIcon/plus.png'} alt={'Plus icon'} />
             </div>
           </Link>
         </TooltipCustom>
@@ -155,7 +155,7 @@ const Sidebar = () => {
                 className="hover:bg-secondary/20 relative flex cursor-pointer items-center justify-center rounded-full p-3 transition-all"
               >
                 <div className="relative size-6 min-w-6">
-                  <Image fill quality={100} src={item.icon} alt={item.title} sizes="24px" />
+                  <Image fill src={item.icon} alt={item.title} sizes="24px" />
                 </div>
 
                 {pathname === item.href && (
