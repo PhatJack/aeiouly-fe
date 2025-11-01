@@ -1,7 +1,13 @@
 import React from 'react';
 
-const Page = () => {
-  return <div>Page</div>;
+import ListeningTestsTable from './ListeningTestsTable';
+
+const Page = async () => {
+  return (
+    <>
+      <ListeningTestsTable />
+    </>
+  );
 };
 
 export default Page;

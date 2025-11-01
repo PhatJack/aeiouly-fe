@@ -12,7 +12,7 @@ export const ROUTE = {
     INDEX: '/admin',
     USER_MANAGEMENT: '/admin/users',
     POST_MANAGEMENT: '/admin/posts',
-    LISTENING_SESSION_MANAGEMENT: '/admin/listening-session',
+    LISTENING_SESSION_MANAGEMENT: '/admin/listening-tests',
     SOLO_SPACE_MANAGEMENT: '/admin/solo-space',
   },
   SETTING: {

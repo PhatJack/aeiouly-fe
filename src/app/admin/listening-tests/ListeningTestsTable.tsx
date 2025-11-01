@@ -1,0 +1,250 @@
+'use client';
+
+import React, { useState } from 'react';
+
+import { useRouter } from 'next/navigation';
+
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from '@/components/ui/alert-dialog';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { ScrollArea } from '@/components/ui/scroll-area';
+import { Separator } from '@/components/ui/separator';
+import {
+  Sheet,
+  SheetContent,
+  SheetDescription,
+  SheetHeader,
+  SheetTitle,
+} from '@/components/ui/sheet';
+import { LessonResponseSchema } from '@/lib/schema/listening-session.schema';
+import { useDeleteLessonMutation, useGetLessonsQuery } from '@/services/listening-session';
+import { useQueryClient } from '@tanstack/react-query';
+
+import { format } from 'date-fns';
+import { vi } from 'date-fns/locale';
+import { Calendar, ExternalLink, Plus, Trash2, Youtube } from 'lucide-react';
+import { toast } from 'sonner';
+
+import { createColumns } from './columns';
+import { DataTable } from './data-table';
+
+const ListeningTestsTable = () => {
+  const queryClient = useQueryClient();
+  const router = useRouter();
+  const [selectedLesson, setSelectedLesson] = useState<LessonResponseSchema | null>(null);
+  const [isSheetOpen, setIsSheetOpen] = useState(false);
+  const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false);
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+  const [lessonToDelete, setLessonToDelete] = useState<LessonResponseSchema | null>(null);
+  const [pagination, setPagination] = useState({ page: 1, size: 10 });
+  const { data } = useGetLessonsQuery(pagination);
+
+  const deleteLessonMutation = useDeleteLessonMutation();
+
+  const handleRowClick = (lesson: LessonResponseSchema) => {
+    setSelectedLesson(lesson);
+    setIsSheetOpen(true);
+  };
+
+  const handleDelete = (lesson: LessonResponseSchema) => {
+    setLessonToDelete(lesson);
+    setDeleteDialogOpen(true);
+  };
+
+  const confirmDelete = () => {
+    if (!lessonToDelete) return;
+
+    deleteLessonMutation.mutate(lessonToDelete.id, {
+      onSuccess: () => {
+        toast.success('Xóa bài học thành công!');
+        router.refresh();
+        setDeleteDialogOpen(false);
+        setLessonToDelete(null);
+        if (selectedLesson?.id === lessonToDelete.id) {
+          setIsSheetOpen(false);
+          setSelectedLesson(null);
+        }
+      },
+      onError: () => {
+        toast.error('Có lỗi xảy ra khi xóa bài học');
+      },
+    });
+  };
+
+  const columns = createColumns({
+    onDelete: handleDelete,
+  });
+
+  const handlePaginationChange = (newPagination: { pageIndex: number; pageSize: number }) => {
+    setPagination({
+      page: newPagination.pageIndex + 1, // API uses 1-based pagination
+      size: newPagination.pageSize,
+    });
+  };
+
+  return (
+    <>
+      <div className="mb-4 flex items-center justify-between">
+        <div>
+          <h2 className="text-2xl font-bold">Quản lý bài học nghe</h2>
+          <p className="text-muted-foreground text-sm">Xem và quản lý tất cả bài học nghe</p>
+        </div>
+        <Button onClick={() => setIsCreateDialogOpen(true)}>
+          <Plus className="mr-2 h-4 w-4" />
+          Tạo bài học mới
+        </Button>
+      </div>
+
+      <DataTable
+        columns={columns}
+        data={data?.items || []}
+        onRowClick={handleRowClick}
+        pageCount={data?.total ? Math.ceil(data.total / pagination.size) : 0}
+        pageIndex={pagination.page - 1} // Table uses 0-based pagination
+        pageSize={pagination.size}
+        onPaginationChange={handlePaginationChange}
+      />
+
+      {/* Detail Sheet */}
+      <Sheet open={isSheetOpen} onOpenChange={setIsSheetOpen}>
+        <SheetContent className="w-full sm:max-w-2xl">
+          {selectedLesson && (
+            <>
+              <SheetHeader className="mt-5">
+                <SheetTitle className="flex items-center justify-between">
+                  <span>Chi tiết bài học #{selectedLesson.id}</span>
+                  <Badge variant="outline" className="bg-blue-50 text-blue-700">
+                    {selectedLesson.level}
+                  </Badge>
+                </SheetTitle>
+                <SheetDescription>Xem và quản lý thông tin chi tiết của bài học</SheetDescription>
+              </SheetHeader>
+
+              <ScrollArea className="h-auto overflow-y-auto pb-4">
+                <div className="space-y-4 px-4">
+                  {/* Title */}
+                  <div>
+                    <h3 className="mb-3 text-sm font-semibold">Tiêu đề</h3>
+                    <div className="rounded-lg border p-4">
+                      <p className="text-sm leading-relaxed">{selectedLesson.title}</p>
+                    </div>
+                  </div>
+
+                  {/* YouTube URL */}
+                  <div>
+                    <h3 className="mb-3 flex items-center gap-2 text-sm font-semibold">
+                      <Youtube className="h-4 w-4" />
+                      YouTube URL
+                    </h3>
+                    <div className="rounded-lg border p-4">
+                      <a
+                        href={selectedLesson.youtube_url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex items-center gap-2 text-sm text-blue-600 hover:text-blue-800"
+                      >
+                        {selectedLesson.youtube_url}
+                        <ExternalLink className="h-3 w-3" />
+                      </a>
+                    </div>
+                  </div>
+
+                  <Separator />
+
+                  {/* Stats */}
+                  <div>
+                    <h3 className="mb-3 text-sm font-semibold">Thống kê</h3>
+                    <div className="grid grid-cols-2 gap-4">
+                      <div className="rounded-lg border p-4">
+                        <div className="text-muted-foreground flex items-center gap-2">
+                          <span className="text-xs">Tổng số câu</span>
+                        </div>
+                        <p className="mt-2 text-2xl font-bold">{selectedLesson.total_sentences}</p>
+                      </div>
+                      <div className="rounded-lg border p-4">
+                        <div className="text-muted-foreground flex items-center gap-2">
+                          <Calendar className="h-4 w-4" />
+                          <span className="text-xs">Ngày tạo</span>
+                        </div>
+                        <p className="mt-2 text-sm font-medium">
+                          {format(new Date(selectedLesson.created_at), 'dd/MM/yyyy', {
+                            locale: vi,
+                          })}
+                        </p>
+                        <p className="text-muted-foreground text-xs">
+                          {format(new Date(selectedLesson.created_at), 'HH:mm', { locale: vi })}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+
+                  <Separator />
+
+                  {/* Actions */}
+                  <div className="space-y-2">
+                    <h3 className="mb-3 text-sm font-semibold">Hành động</h3>
+                    <div className="flex gap-2">
+                      <Button
+                        variant="destructive"
+                        onClick={() => handleDelete(selectedLesson)}
+                        disabled={deleteLessonMutation.isPending}
+                      >
+                        <Trash2 className="mr-2 h-4 w-4" />
+                        Xóa
+                      </Button>
+                    </div>
+                  </div>
+                </div>
+              </ScrollArea>
+            </>
+          )}
+        </SheetContent>
+      </Sheet>
+
+      {/* Create Lesson Dialog - Placeholder for now */}
+      <Dialog open={isCreateDialogOpen} onOpenChange={setIsCreateDialogOpen}>
+        <DialogContent aria-describedby={undefined} className="max-w-2xl">
+          <DialogHeader>
+            <DialogTitle>Tạo bài học nghe mới</DialogTitle>
+          </DialogHeader>
+          <div className="py-4">
+            <p className="text-muted-foreground">Tính năng tạo bài học sẽ được triển khai sau.</p>
+          </div>
+        </DialogContent>
+      </Dialog>
+
+      {/* Delete Confirmation Dialog */}
+      <AlertDialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Bạn có chắc chắn muốn xóa?</AlertDialogTitle>
+            <AlertDialogDescription>
+              Hành động này không thể hoàn tác. Bài học sẽ bị xóa vĩnh viễn khỏi hệ thống.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Hủy</AlertDialogCancel>
+            <AlertDialogAction
+              onClick={confirmDelete}
+              className="bg-destructive hover:bg-destructive/90"
+            >
+              Xóa
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+    </>
+  );
+};
+
+export default ListeningTestsTable;
