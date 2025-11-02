@@ -9,12 +9,19 @@ export const SessionStatusSchema = z.enum(['active', 'completed']);
 // Lesson schemas
 export const lessonCreateSchema = z.object({
   title: z.string().min(1, 'Tiêu đề không được để trống').max(255),
-  youtube_url: z.string().url('URL YouTube không hợp lệ'),
+  youtube_url: z.url('URL YouTube không hợp lệ'),
+  srt_file: z
+    .any()
+    .refine((file) => file?.size > 0, 'File SRT không được để trống')
+    .refine(
+      (file) => file?.type === 'application/x-subrip' || file?.name?.endsWith('.srt'),
+      'Chỉ chấp nhận file .srt'
+    ),
 });
 
 export const lessonUpdateSchema = z.object({
   title: z.string().min(1).max(255).optional(),
-  youtube_url: z.string().url().optional(),
+  youtube_url: z.url().optional(),
   level: CEFRLevelSchema.optional(),
 });
 

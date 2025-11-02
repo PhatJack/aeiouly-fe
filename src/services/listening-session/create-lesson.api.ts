@@ -1,6 +1,6 @@
 import { apiClient } from '@/lib/client';
 import { ErrorResponseSchema } from '@/lib/schema/error';
-import { LessonCreateSchema, LessonResponseSchema } from '@/lib/schema/listening-session.schema';
+import { LessonResponseSchema } from '@/lib/schema/listening-session.schema';
 import { UseMutationOptions, useMutation } from '@tanstack/react-query';
 
 export async function createLessonApi(formData: FormData) {

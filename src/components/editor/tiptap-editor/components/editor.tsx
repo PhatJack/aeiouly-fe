@@ -1,3 +1,5 @@
+'use client';
+
 import React, { forwardRef, useCallback, useEffect, useImperativeHandle, useMemo } from 'react';
 
 import type { EditorProps } from '@tiptap/pm/view';
