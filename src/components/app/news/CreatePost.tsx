@@ -3,6 +3,8 @@
 import React from 'react';
 import { Controller, useForm } from 'react-hook-form';
 
+import { useRouter } from 'nextjs-toploader/app';
+
 import { ImageUpload } from '@/components/ImageUpload';
 import TiptapEditor from '@/components/editor/tiptap-editor';
 import { Button } from '@/components/ui/button';
@@ -19,6 +21,7 @@ interface CreatePostProps {
 }
 
 const CreatePost = ({ onSuccess }: CreatePostProps = {}) => {
+  const router = useRouter();
   const postMutation = useCreatePostMutation();
   const postImageMutation = useCreatePostImageMutation();
   const createPostForm = useForm<PostCreateSchema>({
@@ -44,6 +47,7 @@ const CreatePost = ({ onSuccess }: CreatePostProps = {}) => {
             onSuccess: (data) => {
               toast.success('Đăng bài viết thành công');
               createPostForm.reset();
+              router.push('/admin/posts');
               onSuccess?.(data);
             },
             onError: (error) => {
@@ -69,7 +73,7 @@ const CreatePost = ({ onSuccess }: CreatePostProps = {}) => {
               control={createPostForm.control}
               name="image"
               render={({ field, fieldState }) => (
-                <Field>
+                <Field className="mx-auto max-w-xl lg:max-w-3xl">
                   <ImageUpload control={createPostForm.control} name="image" />
                   {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
                 </Field>

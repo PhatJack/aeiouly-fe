@@ -92,6 +92,11 @@ const TiptapEditor = forwardRef<TiptapEditorRef, TiptapEditorProps>((props, ref)
   }, [editor, isEditable]);
 
   useEffect(() => {
+    if (!editor || content === undefined) return;
+    editor.commands.setContent(content);
+  }, [editor, content]);
+
+  useEffect(() => {
     cssVar('--rte-editor-min-height', minHeight, 'px');
     cssVar('--rte-editor-max-height', maxHeight, 'px');
     cssVar('--rte-editor-max-width', maxWidth, 'px');

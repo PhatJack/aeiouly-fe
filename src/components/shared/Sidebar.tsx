@@ -118,7 +118,7 @@ const Sidebar = () => {
       {/* Logo */}
       <Link href={ROUTE.HOME} className="mb-3 flex items-center justify-center">
         <div className="relative size-10 overflow-hidden rounded-full">
-          <Image fill quality={100} src={'/logo.png'} alt={'Aeiouly logo'} />
+          <Image fill quality={100} src={'/logo.png'} sizes="60px" alt={'Aeiouly logo'} />
         </div>
       </Link>
       {user && user.role === 'user' && (
@@ -179,7 +179,7 @@ const Sidebar = () => {
                 className="hover:bg-destructive/80 flex w-full cursor-pointer items-center justify-center rounded-full p-3 transition-all hover:text-white"
               >
                 <div className="relative size-6 min-w-6">
-                  <Image fill quality={100} src={'/sidebarIcon/exit.png'} alt={'Exit icon'} />
+                  <Image fill src={'/sidebarIcon/exit.png'} sizes="24px" alt={'Exit icon'} />
                 </div>
               </div>
             </TooltipCustom>

@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 
-import { useRouter } from 'next/navigation';
+import { useRouter } from 'nextjs-toploader/app';
 
 import {
   AlertDialog,
@@ -16,11 +16,8 @@ import {
 } from '@/components/ui/alert-dialog';
 import { Button } from '@/components/ui/button';
 import { PostResponseSchema } from '@/lib/schema/post.schema';
-import {
-  useDeletePostMutation,
-  useGetAllPostsQuery,
-  useUpdatePostMutation,
-} from '@/services/posts';
+import { useDeletePostMutation, useUpdatePostMutation } from '@/services/posts';
+import { useGetAllPostsAdminQuery } from '@/services/posts/get-all-post-admin.api';
 import { useQueryClient } from '@tanstack/react-query';
 
 import { Plus } from 'lucide-react';
@@ -30,12 +27,11 @@ import { createColumns } from './columns';
 import { DataTable } from './data-table';
 
 const PostsTable = () => {
-  const queryClient = useQueryClient();
   const router = useRouter();
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [postToDelete, setPostToDelete] = useState<PostResponseSchema | null>(null);
   const [pagination, setPagination] = useState({ page: 1, size: 10 });
-  const { data } = useGetAllPostsQuery(pagination);
+  const { data } = useGetAllPostsAdminQuery(pagination);
 
   const deletePostMutation = useDeletePostMutation();
   const updatePostMutation = useUpdatePostMutation();

@@ -6,6 +6,7 @@ import {
   type DragEvent,
   type InputHTMLAttributes,
   useCallback,
+  useEffect,
   useRef,
   useState,
 } from 'react';
@@ -72,14 +73,27 @@ export const useFileUpload = (
   } = options;
 
   const [state, setState] = useState<FileUploadState>({
-    files: initialFiles.map((file) => ({
-      file,
-      id: file.id,
-      preview: file.url,
-    })),
+    files: [],
     isDragging: false,
     errors: [],
   });
+
+  useEffect(() => {
+    if (initialFiles.length > 0) {
+      const filesWithPreview: FileWithPreview[] = initialFiles.map((file) => ({
+        file,
+        id: file.id,
+        preview: file.url,
+      }));
+      setState((prev) => {
+        onFilesChange?.(filesWithPreview);
+        return {
+          ...prev,
+          files: filesWithPreview,
+        };
+      });
+    }
+  }, [initialFiles, onFilesChange]);
 
   const inputRef = useRef<HTMLInputElement>(null);
 

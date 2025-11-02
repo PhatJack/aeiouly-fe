@@ -3,11 +3,14 @@
 import React, { useEffect } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 
-import { useRouter } from 'next/navigation';
+import { useRouter } from 'nextjs-toploader/app';
 
+import { ImageUpload } from '@/components/ImageUpload';
 import TiptapEditor from '@/components/editor/tiptap-editor';
 import { Button } from '@/components/ui/button';
-import { Field, FieldError } from '@/components/ui/field';
+import { Field, FieldError, FieldGroup, FieldLabel } from '@/components/ui/field';
+import { Label } from '@/components/ui/label';
+import { Switch } from '@/components/ui/switch';
 import { PostUpdateSchema, postUpdateSchema } from '@/lib/schema/post.schema';
 import { useGetPostQuery, useUpdatePostMutation } from '@/services/posts';
 import { useCreatePostImageMutation } from '@/services/posts/create-post-image.api';
@@ -21,7 +24,7 @@ interface EditPostProps {
 
 const EditPost = ({ postId }: EditPostProps) => {
   const router = useRouter();
-  const { data: post, isLoading } = useGetPostQuery(postId);
+  const { data: post } = useGetPostQuery(postId);
   const updatePostMutation = useUpdatePostMutation();
   const postImageMutation = useCreatePostImageMutation();
 
@@ -29,78 +32,118 @@ const EditPost = ({ postId }: EditPostProps) => {
     resolver: zodResolver(postUpdateSchema),
     defaultValues: {
       content: '',
+      image: undefined,
       is_published: false,
     },
     mode: 'onSubmit',
   });
 
   useEffect(() => {
-    if (post) {
+    if (postId && post) {
       editPostForm.reset({
         content: post.content,
+        image: post.image_url,
         is_published: post.is_published,
       });
     }
   }, [post, editPostForm]);
 
   const onSubmit = (data: PostUpdateSchema) => {
+    const { image, ...rest } = data;
     updatePostMutation.mutate(
+      { postId, data: rest },
       {
-        postId,
-        data,
-      },
-      {
-        onSuccess: (updatedPost) => {
-          toast.success('Cập nhật bài viết thành công!');
-          router.push('/admin/posts');
+        onSuccess: () => {
+          if (image) {
+            postImageMutation.mutate(
+              { post_id: postId, body: { image } },
+              {
+                onSuccess: () => {
+                  toast.success('Cập nhật bài viết thành công!');
+                  router.push('/admin/posts');
+                },
+                onError: () => {
+                  toast.error('Bài viết đã được cập nhật nhưng có lỗi khi tải ảnh lên');
+                  router.push('/admin/posts');
+                },
+              }
+            );
+          } else {
+            toast.success('Cập nhật bài viết thành công!');
+            router.push('/admin/posts');
+          }
         },
-        onError: (error) => {
-          toast.error('Lỗi khi cập nhật bài viết');
-          console.error('Update post error:', error);
-        },
+        onError: () => toast.error('Lỗi khi cập nhật bài viết'),
       }
     );
   };
 
-  if (isLoading) {
-    return <div>Đang tải...</div>;
-  }
-
-  if (!post) {
-    return <div>Không tìm thấy bài viết</div>;
-  }
+  if (!post) return <div>Không tìm thấy bài viết</div>;
 
   return (
     <div className="relative flex w-full flex-col items-center">
-      <div key="edit-form" className="w-full">
-        <div>
-          <form onSubmit={editPostForm.handleSubmit(onSubmit)} className="space-y-6">
-            <Controller
-              control={editPostForm.control}
-              name="content"
-              render={({ field, fieldState }) => (
-                <Field>
-                  <TiptapEditor
-                    content={field.value}
-                    onChange={field.onChange}
-                    placeholder="Nội dung bài viết..."
-                    output="html"
-                  />
-                  {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
-                </Field>
-              )}
-            />
-
-            <div className="flex gap-4">
-              <Button type="submit" disabled={updatePostMutation.isPending}>
-                Cập nhật bài viết
-              </Button>
-              <Button type="button" variant="outline" onClick={() => router.push('/admin/posts')}>
-                Hủy
-              </Button>
+      <div className="w-full space-y-8">
+        <form onSubmit={editPostForm.handleSubmit(onSubmit)} className="w-full space-y-8">
+          {/* Image + Tiptap same row */}
+          <FieldGroup className="grid grid-cols-1 gap-4 lg:grid-cols-12">
+            <div className="space-y-4 lg:col-span-4">
+              <Controller
+                control={editPostForm.control}
+                name="image"
+                render={({ fieldState }) => (
+                  <Field>
+                    <FieldLabel>Hình ảnh</FieldLabel>
+                    <ImageUpload control={editPostForm.control} name="image" />
+                    {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+                  </Field>
+                )}
+              />
+              <Controller
+                control={editPostForm.control}
+                name="is_published"
+                render={({ field }) => (
+                  <Field className="flex w-auto space-x-2">
+                    <FieldLabel>Xuất bản bài viết</FieldLabel>
+                    <Switch
+                      checked={field.value}
+                      className="max-w-8"
+                      onCheckedChange={field.onChange}
+                    />
+                  </Field>
+                )}
+              />
             </div>
-          </form>
-        </div>
+
+            <div className="lg:col-span-8">
+              <Controller
+                control={editPostForm.control}
+                name="content"
+                render={({ field, fieldState }) => (
+                  <Field className="w-full">
+                    <FieldLabel>Nội dung bài viết</FieldLabel>
+                    <TiptapEditor
+                      content={field.value}
+                      onChange={field.onChange}
+                      placeholder="Nội dung bài viết..."
+                      output="html"
+                    />
+                    {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+                  </Field>
+                )}
+              />
+            </div>
+          </FieldGroup>
+
+          {/* Buttons */}
+          <div className="flex justify-end gap-4">
+            <Button type="submit" disabled={updatePostMutation.isPending}>
+              Cập nhật bài viết
+            </Button>
+            <Button type="button" variant="outline" onClick={() => router.push('/admin/posts')}>
+              Hủy
+            </Button>
+          </div>
+        </form>
       </div>
     </div>
   );

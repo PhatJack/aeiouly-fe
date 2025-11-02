@@ -1,10 +1,10 @@
 'use client';
 
-import { useEffect } from 'react';
-import { Control, Controller, FieldPath, FieldValues, useController } from 'react-hook-form';
+import { useEffect, useMemo, useState } from 'react';
+import { Control, FieldPath, FieldValues, useController } from 'react-hook-form';
 
 import { MAX_FILE_SIZE } from '@/constants/image';
-import { useFileUpload } from '@/hooks/use-file-upload';
+import { FileMetadata, useFileUpload } from '@/hooks/use-file-upload';
 import { cn } from '@/lib/utils';
 
 import { ImageUpIcon, XIcon } from 'lucide-react';
@@ -23,7 +23,35 @@ export function ImageUpload<T extends FieldValues>({
   multiple = false,
 }: ImageUploadProps<T>) {
   const { field } = useController({ control, name });
-  const maxSize = maxSizeMB * 1024 * 1024; // bytes
+  const maxSize = maxSizeMB;
+
+  const getInitialFiles = useMemo((): FileMetadata[] => {
+    if (!field.value) return [];
+
+    if (multiple && Array.isArray(field.value)) {
+      return field.value.map((url: string, idx: number) => ({
+        id: `existing-${idx}`,
+        name: `image-${idx}`,
+        url,
+        size: 1528737,
+        type: `image/${url.split('.').pop()?.split('?')[0]}`,
+      }));
+    }
+
+    if (!multiple && typeof field.value === 'string') {
+      return [
+        {
+          id: 'existing',
+          name: 'image',
+          url: field.value,
+          size: 1528737,
+          type: `image/${field.value.split('.').pop()?.split('?')[0]}`,
+        },
+      ];
+    }
+
+    return [];
+  }, [field.value, multiple]);
 
   const [
     { files, isDragging, errors },
@@ -40,18 +68,8 @@ export function ImageUpload<T extends FieldValues>({
     accept: 'image/*',
     maxSize,
     multiple,
+    initialFiles: getInitialFiles,
   });
-
-  // Use useEffect to update form field when files change
-  useEffect(() => {
-    if (multiple) {
-      field.onChange(files.map((f) => f.file));
-    } else {
-      field.onChange(files.length > 0 ? files[0].file : null);
-    }
-  }, [files, multiple, field]);
-
-  const previewUrls = files.map((f) => f.preview).filter((url): url is string => !!url);
 
   return (
     <div className="flex flex-col gap-2">
@@ -74,21 +92,20 @@ export function ImageUpload<T extends FieldValues>({
             aria-label="Upload file"
             onBlur={field.onBlur}
           />
-          {previewUrls.length > 0 ? (
+
+          {files.length > 0 ? (
             <div className={cn('grid gap-2', multiple ? 'grid-cols-2 md:grid-cols-3' : '')}>
-              {previewUrls.map((src, idx) => (
+              {files.map((file, idx) => (
                 <div key={idx} className="relative size-full">
                   <img
-                    src={src}
-                    alt={files[idx]?.file?.name || `Uploaded image ${idx + 1}`}
+                    src={file.preview}
+                    alt={file.file.name}
                     className="size-full rounded-lg object-cover"
                   />
                   <button
                     type="button"
                     className="focus-visible:border-ring focus-visible:ring-ring/50 absolute top-2 right-2 z-50 flex size-8 cursor-pointer items-center justify-center rounded-full bg-black/60 text-white transition-[color,box-shadow] outline-none hover:bg-black/80 focus-visible:ring-[3px]"
-                    onClick={() => {
-                      removeFile(files[idx]?.id);
-                    }}
+                    onClick={() => removeFile(files[idx].id)}
                     aria-label="Remove image"
                   >
                     <XIcon className="size-4" aria-hidden="true" />
@@ -114,6 +131,7 @@ export function ImageUpload<T extends FieldValues>({
           )}
         </div>
       </div>
+
       {errors.length > 0 && (
         <div className="text-destructive text-sm">
           {errors.map((error, idx) => (
