@@ -4,7 +4,6 @@ export const ROUTE = {
   LEARN: '/learn',
   ONION: '/onion',
   GYM: '/gym',
-  NEWS: '/news',
   READING: '/reading',
   SPACE: '/solo',
   USER: (username: string) => `/u/${username}`,

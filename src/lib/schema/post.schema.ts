@@ -52,6 +52,7 @@ export const authorResponseSchema = z.object({
   id: z.number(),
   username: z.string(),
   full_name: z.string().nullable().optional(),
+  avatar_url: z.string().nullable().optional(),
 });
 
 export const postResponseSchema = z.object({

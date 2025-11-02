@@ -17,59 +17,56 @@ interface PostItemProps {
 
 const PostItem = ({ post }: PostItemProps) => {
   const handleLikeToggle = useCallback(async () => {
-    await togglePostLikeApi(post.id)
-      .then((data) => {
-        post.is_liked_by_user = data.is_liked;
-        post.likes_count = data.likes_count;
-      })
-      .catch((error) => {
-        console.error('Error toggling like:', error);
-      });
+    try {
+      const data = await togglePostLikeApi(post.id);
+      post.is_liked_by_user = data.is_liked;
+      post.likes_count = data.likes_count;
+    } catch (error) {
+      console.error('Error toggling like:', error);
+    }
   }, [post.id]);
 
   return (
-    <div className="w-full p-4">
-      {/* Header */}
+    <div className="w-full rounded-xl border border-gray-200 bg-white p-4">
       <div className="flex items-start gap-3">
-        <AvatarCustom url="/avatar.gif" />
+        <AvatarCustom url={post.author.avatar_url || '/avatar.gif'} className="size-10" />
+
         <div className="flex-1">
           <div className="flex items-center justify-between">
-            <div className="flex items-center gap-2">
+            <div>
               <p className="font-semibold text-gray-900 dark:text-gray-100">
-                {post?.author.username}
+                {post.author.username}
               </p>
-              <span className="text-gray-400">•</span>
-              <span className="text-sm text-gray-500 dark:text-gray-400">
-                {post?.created_at && distanceToNowVN(post?.created_at)}
-              </span>
+              <p className="text-sm text-gray-500 dark:text-gray-400">
+                {distanceToNowVN(post.created_at)}
+              </p>
             </div>
+
             <LikeButton
               onClick={handleLikeToggle}
               totalLikes={post.likes_count}
               isLikedByUser={post.is_liked_by_user}
+              className="scale-90"
             />
           </div>
         </div>
       </div>
-      {/* Image */}
-      {post?.image_url && (
-        <div className="mt-3 w-full overflow-hidden rounded-lg">
+
+      {post.image_url && (
+        <div className="mt-3 overflow-hidden rounded-lg">
           <Image
             src={post.image_url}
-            alt={'Hình ảnh'}
-            width={0}
-            height={0}
-            sizes="100vw"
-            className="h-auto w-full"
+            alt="Post image"
+            width={800}
+            height={600}
+            className="h-auto w-full object-cover"
           />
         </div>
       )}
-      {/* Content */}
+
       <div
-        className="mt-3 text-base leading-relaxed text-gray-700 dark:text-gray-300"
-        dangerouslySetInnerHTML={{
-          __html: post?.content || '',
-        }}
+        className="prose mt-3 leading-relaxed text-gray-800 *:mb-0 dark:text-gray-200"
+        dangerouslySetInnerHTML={{ __html: post.content || '' }}
       />
     </div>
   );

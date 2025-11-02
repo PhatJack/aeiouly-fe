@@ -52,13 +52,6 @@ const menuWithImg = [
     role: 'user',
   },
   {
-    title: 'Bảng tin',
-    icon: '/sidebarIcon/newspaper.png',
-    href: ROUTE.NEWS,
-    id: 'news',
-    role: 'user',
-  },
-  {
     title: 'Cài đặt',
     icon: '/sidebarIcon/cogwheel.png',
     href: ROUTE.SETTING.INDEX,
@@ -101,14 +94,16 @@ const Sidebar = () => {
   const handleLogout = async () => {
     logoutMutation.mutate(undefined, {
       onSuccess: () => {
+        router.replace(ROUTE.AUTH.LOGIN);
+        router.refresh();
         toast.success('Đăng xuất thành công');
         logout();
-        router.refresh();
       },
       onError: () => {
+        router.push(ROUTE.AUTH.LOGIN);
+        router.refresh();
         toast.success('Đăng xuất thành công');
         logout();
-        router.refresh();
       },
     });
   };
