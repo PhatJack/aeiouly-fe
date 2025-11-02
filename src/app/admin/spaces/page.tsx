@@ -1,7 +1,9 @@
 import React from 'react';
 
+import SpacePage from './_components/SpacePage';
+
 const Page = () => {
-  return <div>Page</div>;
+  return <SpacePage />;
 };
 
 export default Page;

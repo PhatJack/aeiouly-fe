@@ -12,7 +12,21 @@ export const ROUTE = {
     USER_MANAGEMENT: '/admin/users',
     POST_MANAGEMENT: '/admin/posts',
     LISTENING_SESSION_MANAGEMENT: '/admin/listening-tests',
-    SOLO_SPACE_MANAGEMENT: '/admin/solo-space',
+    SOLO_SPACE_MANAGEMENT: {
+      INDEX: '/admin/spaces',
+      SOUNDS: {
+        INDEX: '/admin/spaces',
+        EDIT: (id: string | number) => `/admin/spaces/sounds/${id}`,
+      },
+      BACKGROUND_VIDEOS: {
+        INDEX: '/admin/spaces',
+        EDIT: (id: string | number) => `/admin/spaces/videos/${id}`,
+      },
+      VIDEO_TYPES: {
+        INDEX: '/admin/spaces',
+        EDIT: (id: string | number) => `/admin/spaces/types/${id}`,
+      },
+    },
   },
   SETTING: {
     INDEX: '/settings',

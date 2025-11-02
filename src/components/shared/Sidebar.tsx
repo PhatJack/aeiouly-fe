@@ -79,7 +79,7 @@ const menuWithImg = [
   {
     title: 'Quản lý không gian tự học',
     icon: '/sidebarIcon/management.png',
-    href: ROUTE.ADMIN.SOLO_SPACE_MANAGEMENT,
+    href: ROUTE.ADMIN.SOLO_SPACE_MANAGEMENT.INDEX,
     role: 'admin',
   },
 ];

@@ -17,6 +17,6 @@ export const useGetAllBackgroundVideoTypesQuery = (params?: PaginationRequestSch
     queryKey: ['background-video-types', params],
     queryFn: () => getAllBackgroundVideoTypesApi(params),
     refetchOnWindowFocus: false,
-    staleTime: 30 * 60 * 1000, // 60 minutes
+    staleTime: 60 * 60 * 1000, // 60 minutes
   });
 };
