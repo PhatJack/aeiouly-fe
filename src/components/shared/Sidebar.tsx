@@ -54,8 +54,8 @@ const menuWithImg = [
   {
     title: 'Luyện viết',
     icon: PenTool,
-    href: ROUTE.ONION,
-    id: 'onion',
+    href: ROUTE.TOPIC,
+    id: 'topic',
     role: 'user',
   },
   {

@@ -28,6 +28,7 @@ import {
   useGetFinalEvaluationQuery,
 } from '@/services/writing-session';
 
+import { Loader2 } from 'lucide-react';
 import { toast } from 'sonner';
 
 interface EndSessionButtonProps {
@@ -38,7 +39,7 @@ const EndSessionButton = ({ id }: EndSessionButtonProps) => {
   const router = useRouter();
   const [showEvaluation, setShowEvaluation] = useState(false);
   const endWritingSession = useCompleteWritingSessionMutation();
-  const { data, refetch } = useGetFinalEvaluationQuery(id || 0, {
+  const { data, refetch, isLoading } = useGetFinalEvaluationQuery(id || 0, {
     enabled: false,
   });
 
@@ -47,9 +48,8 @@ const EndSessionButton = ({ id }: EndSessionButtonProps) => {
     endWritingSession.mutate(id, {
       onSuccess: (data) => {
         toast.success(data.message || 'Kết thúc phiên học thành công!');
-        refetch().then(() => {
-          setShowEvaluation(true);
-        });
+        setShowEvaluation(true);
+        refetch();
       },
       onError: (error: any) => {
         toast.error(error.message || 'Đã có lỗi xảy ra khi kết thúc phiên học.');
@@ -79,10 +79,21 @@ const EndSessionButton = ({ id }: EndSessionButtonProps) => {
       </AlertDialog>
 
       <Dialog open={showEvaluation} onOpenChange={setShowEvaluation}>
-        <DialogContent className="max-h-[90vh] max-w-3xl min-w-3xl overflow-y-auto">
+        <DialogContent
+          onInteractOutside={(e) => {
+            e.preventDefault();
+          }}
+          className="max-h-[90vh] max-w-3xl min-w-3xl overflow-y-auto"
+        >
           <DialogHeader>
-            <DialogTitle className="text-2xl font-bold">Kết quả đánh giá</DialogTitle>
-            <DialogDescription>Dưới đây là kết quả chi tiết về phiên học của bạn</DialogDescription>
+            <DialogTitle className="text-2xl font-bold">
+              {isLoading ? 'Đang tải kết quả...' : 'Kết quả đánh giá'}
+            </DialogTitle>
+            <DialogDescription>
+              {isLoading
+                ? 'Hệ thống đang đánh giá...'
+                : 'Dưới đây là kết quả chi tiết về phiên học của bạn'}
+            </DialogDescription>
           </DialogHeader>
 
           {data && (

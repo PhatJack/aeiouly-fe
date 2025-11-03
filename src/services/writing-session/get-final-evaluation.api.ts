@@ -21,6 +21,9 @@ export const useGetFinalEvaluationQuery = (
     queryKey: ['finalEvaluation', sessionId],
     queryFn: () => getFinalEvaluationApi(sessionId),
     enabled: !!sessionId,
+    meta: {
+      ignoreGlobal: true,
+    },
     ...options,
   });
 };

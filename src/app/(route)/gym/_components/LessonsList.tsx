@@ -1,0 +1,27 @@
+'use client';
+
+import React from 'react';
+
+import ListeningLessonCard from '@/components/app/gym/ListeningLessonCard';
+import { LessonResponseSchema } from '@/lib/schema/listening-session.schema';
+
+interface LessonsListProps {
+  lessons: LessonResponseSchema[];
+  onLessonClick: (lessonId: number) => void;
+}
+
+const LessonsList = ({ lessons, onLessonClick }: LessonsListProps) => {
+  return (
+    <div className="grid gap-6 lg:grid-cols-3">
+      {lessons.map((lesson) => (
+        <ListeningLessonCard
+          key={lesson.id}
+          lesson={lesson}
+          onClick={() => onLessonClick(lesson.id)}
+        />
+      ))}
+    </div>
+  );
+};
+
+export default LessonsList;

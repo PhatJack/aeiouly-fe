@@ -85,6 +85,7 @@ export const userSessionResponseSchema = z.object({
 // List response schemas
 export const lessonListResponseSchema = createListResponseSchema(lessonResponseSchema);
 export const userSessionListResponseSchema = createListResponseSchema(userSessionResponseSchema);
+export const sessionListResponseSchema = createListResponseSchema(sessionResponseSchema);
 
 // Types
 export type CEFRLevel = z.infer<typeof CEFRLevelSchema>;
@@ -103,3 +104,4 @@ export type UserSessionResponseSchema = z.infer<typeof userSessionResponseSchema
 
 export type LessonListResponseSchema = z.infer<typeof lessonListResponseSchema>;
 export type UserSessionListResponseSchema = z.infer<typeof userSessionListResponseSchema>;
+export type SessionListResponseSchema = z.infer<typeof sessionListResponseSchema>;
