@@ -32,7 +32,7 @@ const TopicDetailPage = ({ id }: TopicDetailPageProps) => {
 
   if (!writingSession) {
     return (
-      <div className="size-full relative">
+      <div className="relative size-full">
         <Loading />
       </div>
     );

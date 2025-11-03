@@ -1,6 +1,6 @@
 import { apiClient } from '@/lib/client';
 import { ErrorResponseSchema } from '@/lib/schema/error';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 import { setCookie } from 'cookies-next';
 import z from 'zod';
@@ -27,16 +27,12 @@ export async function loginApi(body: LoginBodySchema) {
 }
 
 export const useLoginMutation = () => {
+  const queryClient = useQueryClient();
   return useMutation<LoginResponseSchema, ErrorResponseSchema, LoginBodySchema>({
     mutationKey: ['login'],
     mutationFn: (body) => loginApi(body),
     onSuccess: () => {
-      setCookie('isLoggedIn', '1', {
-        path: '/',
-        expires: new Date(Date.now() + 60 * 60 * 24 * 7 * 1000), // 7 days
-        sameSite: 'lax',
-        secure: process.env.NODE_ENV === 'production',
-      });
+      queryClient.invalidateQueries({ queryKey: ['me'] });
     },
   });
 };

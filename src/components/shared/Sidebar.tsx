@@ -12,7 +12,21 @@ import { useAuthStore } from '@/contexts/AuthContext';
 import { cn } from '@/lib/utils';
 import { useLogoutMutation } from '@/services/auth/logout.api';
 
-import { LogIn } from 'lucide-react';
+import {
+  BookOpen,
+  FileText,
+  GraduationCap,
+  Headphones,
+  Home,
+  ListChecks,
+  LogIn,
+  LogOut,
+  Mic,
+  PenTool,
+  Settings,
+  Users,
+  Wrench,
+} from 'lucide-react';
 import { motion } from 'motion/react';
 import { toast } from 'sonner';
 
@@ -22,63 +36,70 @@ import { Button } from '../ui/button';
 import { Separator } from '../ui/separator';
 
 const menuWithImg = [
-  { title: 'Trang chủ', icon: '/sidebarIcon/home.png', href: ROUTE.HOME, id: 'home', role: 'user' },
+  { title: 'Trang chủ', icon: Home, href: ROUTE.HOME, id: 'home', role: 'user' },
   {
     title: 'Không gian tự học',
-    icon: '/sidebarIcon/space.png',
+    icon: GraduationCap,
     href: ROUTE.SPACE,
     id: 'space',
     role: 'user',
   },
   {
     title: 'Luyện nói',
-    icon: '/sidebarIcon/microphone.png',
+    icon: Mic,
+    href: ROUTE.ONION,
+    id: 'onion',
+    role: 'user',
+  },
+  {
+    title: 'Luyện viết',
+    icon: PenTool,
     href: ROUTE.ONION,
     id: 'onion',
     role: 'user',
   },
   {
     title: 'Luyện nghe',
-    icon: '/sidebarIcon/headphone.png',
+    icon: Headphones,
     href: ROUTE.GYM,
     id: 'gym',
     role: 'user',
   },
   {
     title: 'Luyện đọc',
-    icon: '/sidebarIcon/reading.png',
+    icon: BookOpen,
     href: ROUTE.READING,
     id: 'reading',
     role: 'user',
   },
   {
     title: 'Cài đặt',
-    icon: '/sidebarIcon/cogwheel.png',
+    icon: Settings,
     href: ROUTE.SETTING.INDEX,
     id: 'setting',
     role: 'user',
   },
   {
     title: 'Quản lý người dùng',
-    icon: '/sidebarIcon/user.png',
+    icon: Users,
     href: ROUTE.ADMIN.USER_MANAGEMENT,
     role: 'admin',
   },
   {
     title: 'Quản lý bài viết',
-    icon: '/sidebarIcon/post.png',
+    icon: FileText,
     href: ROUTE.ADMIN.POST_MANAGEMENT,
     role: 'admin',
   },
   {
     title: 'Quản lý bài học nghe',
-    icon: '/sidebarIcon/checklist.png',
+    icon: ListChecks,
     href: ROUTE.ADMIN.LISTENING_SESSION_MANAGEMENT,
     role: 'admin',
   },
   {
     title: 'Quản lý không gian tự học',
-    icon: '/sidebarIcon/management.png',
+    icon: Wrench,
     href: ROUTE.ADMIN.SOLO_SPACE_MANAGEMENT.INDEX,
     role: 'admin',
   },
@@ -111,27 +132,13 @@ const Sidebar = () => {
   return (
     <aside className={cn('sticky top-0 flex h-screen max-w-20 min-w-20 flex-col gap-2 p-4')}>
       {/* Logo */}
-      <Link href={ROUTE.HOME} className="mb-3 flex items-center justify-center">
+      <Link href={ROUTE.HOME} className="flex items-center justify-center">
         <div className="relative size-10 overflow-hidden rounded-full">
           <Image fill quality={100} src={'/logo.png'} sizes="60px" alt={'Aeiouly logo'} />
         </div>
       </Link>
-      {user && user.role === 'user' && (
-        <TooltipCustom content="Tạo chủ đề">
-          <Link
-            href={ROUTE.TOPIC}
-            id="create-topic"
-            data-navigation
-            className="bg-primary hover:bg-primary/80 flex items-center justify-center rounded-full p-3 text-white"
-          >
-            <div className="relative size-6 min-w-6">
-              <Image fill src={'/sidebarIcon/plus.png'} alt={'Plus icon'} />
-            </div>
-          </Link>
-        </TooltipCustom>
-      )}
 
-      <Separator />
+      <Separator className="my-2" />
 
       {/* Menu */}
       <ul className="relative flex flex-col gap-2">
@@ -149,8 +156,8 @@ const Sidebar = () => {
                 data-navigation
                 className="hover:bg-secondary/20 relative flex cursor-pointer items-center justify-center rounded-full p-3 transition-all"
               >
-                <div className="relative size-6 min-w-6">
-                  <Image fill src={item.icon} alt={item.title} sizes="24px" />
+                <div className="relative flex size-6 min-w-6 items-center justify-center">
+                  <item.icon size={24} className={cn(pathname === item.href && 'text-white')} />
                 </div>
 
                 {pathname === item.href && (
@@ -173,8 +180,8 @@ const Sidebar = () => {
                 onClick={handleLogout}
                 className="hover:bg-destructive/80 flex w-full cursor-pointer items-center justify-center rounded-full p-3 transition-all hover:text-white"
               >
-                <div className="relative size-6 min-w-6">
-                  <Image fill src={'/sidebarIcon/exit.png'} sizes="24px" alt={'Exit icon'} />
+                <div className="relative flex size-6 min-w-6 items-center justify-center">
+                  <LogOut size={24} />
                 </div>
               </div>
             </TooltipCustom>

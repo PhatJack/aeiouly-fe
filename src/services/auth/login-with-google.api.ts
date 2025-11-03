@@ -1,5 +1,5 @@
 import { apiClient } from '@/lib/client';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 import { setCookie } from 'cookies-next';
 
@@ -9,16 +9,12 @@ export async function loginWithGoogleApi(token: string) {
 }
 
 export const useLoginWithGoogleMutation = () => {
+  const queryClient = useQueryClient();
   return useMutation({
     mutationKey: ['login-with-google'],
     mutationFn: (token: string) => loginWithGoogleApi(token),
     onSuccess: () => {
-      setCookie('isLoggedIn', '1', {
-        path: '/',
-        expires: new Date(Date.now() + 60 * 60 * 24 * 7 * 1000), // 7 days
-        sameSite: 'lax',
-        secure: process.env.NODE_ENV === 'production',
-      });
+      queryClient.invalidateQueries({ queryKey: ['me'] });
     },
   });
 };

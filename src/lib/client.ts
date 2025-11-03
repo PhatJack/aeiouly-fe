@@ -1,16 +1,18 @@
-import axios, { AxiosRequestConfig, AxiosResponse, isAxiosError } from "axios";
-import { refreshTokenApi } from "@/services/auth/refresh-token.api";
-import { redirectToLogin } from "./auth-utils";
-import { deleteCookie } from "cookies-next/client";
-import {
-  COOKIE_KEY_ACCESS_TOKEN,
-  COOKIE_KEY_REFRESH_TOKEN,
-} from "@/constants/cookies";
+import { redirect } from 'next/navigation';
+
+import { COOKIE_KEY_ACCESS_TOKEN, COOKIE_KEY_REFRESH_TOKEN } from '@/constants/cookies';
+import { refreshTokenApi } from '@/services/auth/refresh-token.api';
+
+import axios, { AxiosRequestConfig, AxiosResponse, isAxiosError } from 'axios';
+import { deleteCookie } from 'cookies-next/client';
+
+import { redirectToLogin } from './auth-utils';
+
 const client = axios.create({
   baseURL: process.env.NEXT_PUBLIC_DJANGO_SERVER_URL,
   withCredentials: true,
   headers: {
-    "Content-Type": "application/json",
+    'Content-Type': 'application/json',
   },
 });
 
@@ -20,11 +22,7 @@ export const apiClient = {
     data: RRequest,
     config?: AxiosRequestConfig<RRequest>
   ): Promise<AxiosResponse<TResponse, RRequest>> => {
-    const res = client.post<TResponse, AxiosResponse<TResponse>, RRequest>(
-      url,
-      data,
-      config
-    );
+    const res = client.post<TResponse, AxiosResponse<TResponse>, RRequest>(url, data, config);
     return res;
   },
 
@@ -44,31 +42,20 @@ export const apiClient = {
     data: RRequest,
     config?: AxiosRequestConfig<RRequest>
   ): Promise<AxiosResponse<TResponse, RRequest>> => {
-    return client.put<TResponse, AxiosResponse<TResponse>, RRequest>(
-      url,
-      data,
-      config
-    );
+    return client.put<TResponse, AxiosResponse<TResponse>, RRequest>(url, data, config);
   },
   patch: <TResponse = unknown, RRequest = unknown>(
     url: string,
     data: RRequest,
     config?: AxiosRequestConfig<RRequest>
   ): Promise<AxiosResponse<TResponse, RRequest>> => {
-    return client.patch<TResponse, AxiosResponse<TResponse>, RRequest>(
-      url,
-      data,
-      config
-    );
+    return client.patch<TResponse, AxiosResponse<TResponse>, RRequest>(url, data, config);
   },
   delete: <TResponse = unknown, RRequest = unknown>(
     url: string,
     config?: AxiosRequestConfig<RRequest>
   ): Promise<AxiosResponse<TResponse, RRequest>> => {
-    return client.delete<TResponse, AxiosResponse<TResponse>, RRequest>(
-      url,
-      config
-    );
+    return client.delete<TResponse, AxiosResponse<TResponse>, RRequest>(url, config);
   },
 };
 client.interceptors.response.use(
@@ -78,36 +65,33 @@ client.interceptors.response.use(
   async (error: any) => {
     const originalRequest = error.config;
     if (
-      error.response?.data?.detail?.code === "token_missing" &&
-      !originalRequest?._retry
+      error.response?.data?.detail?.code === 'token_missing' &&
+      !originalRequest?._retry &&
+      error?.response?.data?.detail?.action !== 'login_required'
     ) {
       originalRequest._retry = true;
       try {
         await refreshTokenApi();
         return client(originalRequest);
       } catch (error) {
-        // Clear cookies before redirect to prevent infinite loop
-        // clearAuthCookies();
         deleteCookie(COOKIE_KEY_ACCESS_TOKEN);
         deleteCookie(COOKIE_KEY_REFRESH_TOKEN);
-        deleteCookie("isLoggedIn");
-        redirectToLogin();
         return Promise.reject(error);
       }
     }
     if (isAxiosError(error)) {
       // console.log(error)
-      if (error.code === "ERR_NETWORK") {
+      if (error.code === 'ERR_NETWORK') {
         throw {
-          type: "NetworkError",
-          message: "Failed to connect to the server",
+          type: 'NetworkError',
+          message: 'Kết nối mạng gặp sự cố. Vui lòng kiểm tra kết nối của bạn và thử lại.',
         };
       }
       throw error.response?.data;
     }
     throw {
-      type: "UnknownError",
-      message: "An unknown error occurred",
+      type: 'UnknownError',
+      message: 'Đã xảy ra lỗi không xác định. Vui lòng thử lại sau.',
     };
   }
 );
