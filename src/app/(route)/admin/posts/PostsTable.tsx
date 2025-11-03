@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 
 import { useRouter } from 'nextjs-toploader/app';
 
@@ -20,6 +20,7 @@ import { useDeletePostMutation, useUpdatePostMutation } from '@/services/posts';
 import { useGetAllPostsAdminQuery } from '@/services/posts/get-all-post-admin.api';
 import { useQueryClient } from '@tanstack/react-query';
 
+import debounce from 'lodash.debounce';
 import { Plus } from 'lucide-react';
 import { toast } from 'sonner';
 
@@ -30,8 +31,24 @@ const PostsTable = () => {
   const router = useRouter();
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [postToDelete, setPostToDelete] = useState<PostResponseSchema | null>(null);
-  const [pagination, setPagination] = useState({ page: 1, size: 10 });
+  const [pagination, setPagination] = useState({ page: 1, size: 10, search: '' });
+  const [searchTerm, setSearchTerm] = useState('');
+
   const { data } = useGetAllPostsAdminQuery(pagination);
+
+  const debouncedSearch = useCallback(
+    debounce((searchValue: string) => {
+      setPagination((prev) => ({ ...prev, search: searchValue, page: 1 }));
+    }, 500),
+    []
+  );
+
+  useEffect(() => {
+    debouncedSearch(searchTerm);
+    return () => {
+      debouncedSearch.cancel();
+    };
+  }, [searchTerm, debouncedSearch]);
 
   const deletePostMutation = useDeletePostMutation();
   const updatePostMutation = useUpdatePostMutation();
@@ -89,10 +106,11 @@ const PostsTable = () => {
   });
 
   const handlePaginationChange = (newPagination: { pageIndex: number; pageSize: number }) => {
-    setPagination({
+    setPagination((prev) => ({
+      ...prev,
       page: newPagination.pageIndex + 1, // API uses 1-based pagination
       size: newPagination.pageSize,
-    });
+    }));
   };
 
   return (
@@ -116,6 +134,8 @@ const PostsTable = () => {
         pageIndex={pagination.page - 1} // Table uses 0-based pagination
         pageSize={pagination.size}
         onPaginationChange={handlePaginationChange}
+        searchTerm={searchTerm}
+        onSearchChange={setSearchTerm}
       />
 
       {/* Delete Confirmation Dialog */}

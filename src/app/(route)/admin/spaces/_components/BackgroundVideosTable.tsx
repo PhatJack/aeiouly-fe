@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 
 import { useRouter } from 'nextjs-toploader/app';
 
@@ -23,6 +23,7 @@ import {
 } from '@/services/background-videos';
 import { useQueryClient } from '@tanstack/react-query';
 
+import debounce from 'lodash.debounce';
 import { Image, Plus, Youtube } from 'lucide-react';
 import { toast } from 'sonner';
 
@@ -36,12 +37,28 @@ const BackgroundVideosTable = () => {
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [videoToDelete, setVideoToDelete] = useState<BackgroundVideoResponseSchema | null>(null);
   const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false);
-  const [pagination, setPagination] = useState({ pageIndex: 0, pageSize: 10 });
+  const [pagination, setPagination] = useState({ pageIndex: 0, pageSize: 10, search: '' });
+  const [searchTerm, setSearchTerm] = useState('');
 
   const { data, isLoading } = useGetAllBackgroundVideosQuery({
     page: pagination.pageIndex + 1,
     size: pagination.pageSize,
+    search: pagination.search,
   });
+
+  const debouncedSearch = useCallback(
+    debounce((searchValue: string) => {
+      setPagination((prev) => ({ ...prev, search: searchValue, pageIndex: 0 }));
+    }, 500),
+    []
+  );
+
+  useEffect(() => {
+    debouncedSearch(searchTerm);
+    return () => {
+      debouncedSearch.cancel();
+    };
+  }, [searchTerm, debouncedSearch]);
   const deleteVideoMutation = useDeleteBackgroundVideoMutation();
 
   const handleRowClick = (video: BackgroundVideoResponseSchema) => {
@@ -76,10 +93,11 @@ const BackgroundVideosTable = () => {
   };
 
   const handlePaginationChange = (newPagination: { pageIndex: number; pageSize: number }) => {
-    setPagination({
+    setPagination((prev) => ({
+      ...prev,
       pageIndex: newPagination.pageIndex,
       pageSize: newPagination.pageSize,
-    });
+    }));
   };
 
   const columns = createBackgroundVideoColumns({
@@ -107,6 +125,8 @@ const BackgroundVideosTable = () => {
         pageSize={pagination.pageSize}
         onPaginationChange={handlePaginationChange}
         onRowClick={handleRowClick}
+        searchTerm={searchTerm}
+        onSearchChange={setSearchTerm}
       />
 
       {/* Create Dialog */}

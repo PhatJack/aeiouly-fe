@@ -3,15 +3,7 @@
 import * as React from 'react';
 
 import { DataTablePagination } from '@/components/app/table/DataTablePagination';
-import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select';
 import {
   Table,
   TableBody,
@@ -41,6 +33,8 @@ interface DataTableProps<TData, TValue> {
   pageIndex?: number;
   pageSize?: number;
   onPaginationChange?: (pagination: { pageIndex: number; pageSize: number }) => void;
+  searchTerm?: string;
+  onSearchChange?: (value: string) => void;
 }
 
 export function DataTable<TData, TValue>({
@@ -51,11 +45,12 @@ export function DataTable<TData, TValue>({
   pageIndex = 0,
   pageSize = 10,
   onPaginationChange,
+  searchTerm = '',
+  onSearchChange,
 }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([]);
   const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({});
-  const [rowSelection, setRowSelection] = React.useState({});
 
   const table = useReactTable({
     data,
@@ -68,13 +63,11 @@ export function DataTable<TData, TValue>({
     onColumnFiltersChange: setColumnFilters,
     getFilteredRowModel: getFilteredRowModel(),
     onColumnVisibilityChange: setColumnVisibility,
-    onRowSelectionChange: setRowSelection,
     manualPagination: !!onPaginationChange,
     state: {
       sorting,
       columnFilters,
       columnVisibility,
-      rowSelection,
       pagination: {
         pageIndex,
         pageSize,
@@ -95,9 +88,9 @@ export function DataTable<TData, TValue>({
       <div className="flex items-center justify-between gap-4">
         <div className="flex flex-1 items-center gap-4">
           <Input
-            placeholder="Tìm kiếm ID..."
-            value={(table.getColumn('id')?.getFilterValue() as string) ?? ''}
-            onChange={(event) => table.getColumn('id')?.setFilterValue(event.target.value)}
+            placeholder="Tìm kiếm ID, tên âm thanh..."
+            value={searchTerm}
+            onChange={(event) => onSearchChange?.(event.target.value)}
             className="max-w-sm"
           />
         </div>
@@ -126,7 +119,6 @@ export function DataTable<TData, TValue>({
               table.getRowModel().rows.map((row) => (
                 <TableRow
                   key={row.id}
-                  data-state={row.getIsSelected() && 'selected'}
                   onClick={() => onRowClick?.(row.original)}
                   className="cursor-pointer"
                 >

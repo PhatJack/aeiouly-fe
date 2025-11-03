@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 
 import { useRouter } from 'nextjs-toploader/app';
 
@@ -20,6 +20,7 @@ import { SoundResponseSchema } from '@/lib/schema/sound.schema';
 import { useDeleteSoundMutation, useGetAllSoundsQuery } from '@/services/sounds';
 import { useQueryClient } from '@tanstack/react-query';
 
+import debounce from 'lodash.debounce';
 import { Plus, Upload } from 'lucide-react';
 import { toast } from 'sonner';
 
@@ -33,12 +34,28 @@ const SoundsTable = () => {
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [soundToDelete, setSoundToDelete] = useState<SoundResponseSchema | null>(null);
   const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false);
-  const [pagination, setPagination] = useState({ pageIndex: 0, pageSize: 10 });
+  const [pagination, setPagination] = useState({ pageIndex: 0, pageSize: 10, search: '' });
+  const [searchTerm, setSearchTerm] = useState('');
 
   const { data, isLoading } = useGetAllSoundsQuery({
     page: pagination.pageIndex + 1,
     size: pagination.pageSize,
+    search: pagination.search,
   });
+
+  const debouncedSearch = useCallback(
+    debounce((searchValue: string) => {
+      setPagination((prev) => ({ ...prev, search: searchValue, pageIndex: 0 }));
+    }, 500),
+    []
+  );
+
+  useEffect(() => {
+    debouncedSearch(searchTerm);
+    return () => {
+      debouncedSearch.cancel();
+    };
+  }, [searchTerm, debouncedSearch]);
   const deleteSoundMutation = useDeleteSoundMutation();
 
   const handleRowClick = (sound: SoundResponseSchema) => {
@@ -73,10 +90,11 @@ const SoundsTable = () => {
   };
 
   const handlePaginationChange = (newPagination: { pageIndex: number; pageSize: number }) => {
-    setPagination({
+    setPagination((prev) => ({
+      ...prev,
       pageIndex: newPagination.pageIndex,
       pageSize: newPagination.pageSize,
-    });
+    }));
   };
 
   const columns = createColumns({
@@ -104,6 +122,8 @@ const SoundsTable = () => {
         pageSize={pagination.pageSize}
         onPaginationChange={handlePaginationChange}
         onRowClick={handleRowClick}
+        searchTerm={searchTerm}
+        onSearchChange={setSearchTerm}
       />
 
       {/* Create Dialog */}

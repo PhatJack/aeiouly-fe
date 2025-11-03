@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
@@ -38,6 +38,7 @@ import {
 
 import { format } from 'date-fns';
 import { vi } from 'date-fns/locale';
+import debounce from 'lodash.debounce';
 import { Calendar, Lock, Mail, Shield, Trash2, User, UserCheck, UserX } from 'lucide-react';
 import { toast } from 'sonner';
 
@@ -51,10 +52,25 @@ const UsersTable = () => {
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [resetPasswordDialogOpen, setResetPasswordDialogOpen] = useState(false);
   const [userToDelete, setUserToDelete] = useState<UserResponseSchema | null>(null);
-  const [userToResetPassword, setUserToResetPassword] = useState<UserResponseSchema | null>(null);
   const [newPassword, setNewPassword] = useState('');
-  const [pagination, setPagination] = useState({ page: 1, size: 10 });
+  const [pagination, setPagination] = useState({ page: 1, size: 10, search: '' });
+  const [searchTerm, setSearchTerm] = useState('');
+
   const { data } = useGetAllUsersQuery(pagination);
+
+  const debouncedSearch = useCallback(
+    debounce((searchValue: string) => {
+      setPagination((prev) => ({ ...prev, search: searchValue, page: 1 }));
+    }, 500),
+    []
+  );
+
+  useEffect(() => {
+    debouncedSearch(searchTerm);
+    return () => {
+      debouncedSearch.cancel();
+    };
+  }, [searchTerm, debouncedSearch]);
 
   const deleteUserMutation = useDeleteUserMutation();
   const updateUserMutation = useUpdateUserMutation();
@@ -116,13 +132,12 @@ const UsersTable = () => {
   };
 
   const handleResetPassword = (user: UserResponseSchema) => {
-    setUserToResetPassword(user);
     setNewPassword('');
     setResetPasswordDialogOpen(true);
   };
 
   const confirmResetPassword = () => {
-    if (!userToResetPassword || !newPassword) {
+    if (!selectedUser || !newPassword) {
       toast.error('Vui lòng nhập mật khẩu mới');
       return;
     }
@@ -134,14 +149,13 @@ const UsersTable = () => {
 
     resetPasswordMutation.mutate(
       {
-        userId: userToResetPassword.id,
+        userId: selectedUser.id,
         data: { new_password: newPassword },
       },
       {
         onSuccess: () => {
           toast.success('Đặt lại mật khẩu thành công!');
           setResetPasswordDialogOpen(false);
-          setUserToResetPassword(null);
           setNewPassword('');
         },
         onError: () => {
@@ -158,10 +172,11 @@ const UsersTable = () => {
   });
 
   const handlePaginationChange = (newPagination: { pageIndex: number; pageSize: number }) => {
-    setPagination({
+    setPagination((prev) => ({
+      ...prev,
       page: newPagination.pageIndex + 1, // API uses 1-based pagination
       size: newPagination.pageSize,
-    });
+    }));
   };
 
   return (
@@ -181,6 +196,8 @@ const UsersTable = () => {
         pageIndex={pagination.page - 1} // Table uses 0-based pagination
         pageSize={pagination.size}
         onPaginationChange={handlePaginationChange}
+        searchTerm={searchTerm}
+        onSearchChange={setSearchTerm}
       />
 
       {/* Detail Sheet */}
@@ -382,7 +399,7 @@ const UsersTable = () => {
           <AlertDialogHeader>
             <AlertDialogTitle>Đặt lại mật khẩu</AlertDialogTitle>
             <AlertDialogDescription>
-              Nhập mật khẩu mới cho người dùng @{userToResetPassword?.username}
+              Nhập mật khẩu mới cho người dùng @{selectedUser?.username}
             </AlertDialogDescription>
           </AlertDialogHeader>
           <div className="py-4">

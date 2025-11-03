@@ -3,7 +3,6 @@
 import { DataTableColumnHeader } from '@/components/app/table/DataTableColumnHeader';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { Checkbox } from '@/components/ui/checkbox';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -30,30 +29,6 @@ export const createColumns = ({
   onToggleActive,
   onResetPassword,
 }: ColumnProps): ColumnDef<UserResponseSchema>[] => [
-  {
-    id: 'select',
-    header: ({ table }) => (
-      <Checkbox
-        checked={
-          table.getIsAllPageRowsSelected() || (table.getIsSomePageRowsSelected() && 'indeterminate')
-        }
-        onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-        aria-label="Chọn tất cả"
-      />
-    ),
-    cell: ({ row }) => (
-      <div onClick={(e) => e.stopPropagation()}>
-        <Checkbox
-          checked={row.getIsSelected()}
-          onCheckedChange={(value) => row.toggleSelected(!!value)}
-          aria-label="Chọn hàng"
-          className="z-50"
-        />
-      </div>
-    ),
-    enableSorting: false,
-    enableHiding: false,
-  },
   {
     accessorKey: 'id',
     header: ({ column }) => {

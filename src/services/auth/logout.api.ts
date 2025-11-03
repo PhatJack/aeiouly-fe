@@ -1,4 +1,3 @@
-import { clearCookies } from '@/lib/auth-utils';
 import { apiClient } from '@/lib/client';
 import { useMutation } from '@tanstack/react-query';
 
@@ -11,11 +10,5 @@ export const useLogoutMutation = () => {
   return useMutation({
     mutationKey: ['logout'],
     mutationFn: () => logoutApi(),
-    onSuccess: () => {
-      clearCookies();
-    },
-    onError: () => {
-      clearCookies();
-    },
   });
 };
