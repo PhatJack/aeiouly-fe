@@ -69,7 +69,11 @@ const CreatePost = ({ onSuccess }: CreatePostProps = {}) => {
   return (
     <div className="relative flex w-full flex-col items-center">
       <div className="w-full space-y-8">
-        <form onSubmit={createPostForm.handleSubmit(onSubmit)} className="w-full space-y-8">
+        <form
+          id="form-create-post"
+          onSubmit={createPostForm.handleSubmit(onSubmit)}
+          className="w-full space-y-8"
+        >
           {/* Image + Tiptap same row */}
           <FieldGroup className="grid grid-cols-1 gap-4 lg:grid-cols-12">
             <div className="space-y-4 lg:col-span-4">
@@ -77,8 +81,8 @@ const CreatePost = ({ onSuccess }: CreatePostProps = {}) => {
                 control={createPostForm.control}
                 name="image"
                 render={({ fieldState }) => (
-                  <Field>
-                    <FieldLabel>Hình ảnh</FieldLabel>
+                  <Field data-invalid={fieldState.invalid}>
+                    <FieldLabel htmlFor="form-create-post-image">Hình ảnh</FieldLabel>
                     <ImageUpload control={createPostForm.control} name="image" />
                     {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
                   </Field>
@@ -87,10 +91,13 @@ const CreatePost = ({ onSuccess }: CreatePostProps = {}) => {
               <Controller
                 control={createPostForm.control}
                 name="is_published"
-                render={({ field }) => (
-                  <Field className="flex w-auto space-x-2">
-                    <FieldLabel>Xuất bản bài viết</FieldLabel>
+                render={({ field, fieldState }) => (
+                  <Field data-invalid={fieldState.invalid} className="flex w-auto space-x-2">
+                    <FieldLabel htmlFor="form-create-post-is-published">
+                      Xuất bản bài viết
+                    </FieldLabel>
                     <Switch
+                      id="form-create-post-is-published"
                       checked={field.value}
                       className="max-w-8"
                       onCheckedChange={field.onChange}
@@ -105,8 +112,8 @@ const CreatePost = ({ onSuccess }: CreatePostProps = {}) => {
                 control={createPostForm.control}
                 name="content"
                 render={({ field, fieldState }) => (
-                  <Field className="w-full">
-                    <FieldLabel>Nội dung bài viết</FieldLabel>
+                  <Field className="w-full" data-invalid={fieldState.invalid}>
+                    <FieldLabel htmlFor="form-create-post-content">Nội dung bài viết</FieldLabel>
                     <TiptapEditor
                       content={field.value}
                       onChange={field.onChange}

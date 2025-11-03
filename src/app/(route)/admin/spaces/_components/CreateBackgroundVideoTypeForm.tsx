@@ -50,15 +50,20 @@ const CreateBackgroundVideoTypeForm = ({
   };
 
   return (
-    <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+    <form
+      id="form-create-background-video-type"
+      onSubmit={form.handleSubmit(onSubmit)}
+      className="space-y-6"
+    >
       <Controller
         control={form.control}
         name="name"
         render={({ field, fieldState }) => (
-          <Field>
-            <FieldLabel>Tên loại</FieldLabel>
+          <Field data-invalid={fieldState.invalid}>
+            <FieldLabel htmlFor="form-create-background-video-type-name">Tên loại</FieldLabel>
             <Input
               {...field}
+              id="form-create-background-video-type-name"
               placeholder="Nhập tên loại video..."
               disabled={createTypeMutation.isPending}
             />
@@ -71,10 +76,13 @@ const CreateBackgroundVideoTypeForm = ({
         control={form.control}
         name="description"
         render={({ field, fieldState }) => (
-          <Field>
-            <FieldLabel>Mô tả (tùy chọn)</FieldLabel>
+          <Field data-invalid={fieldState.invalid}>
+            <FieldLabel htmlFor="form-create-background-video-type-description">
+              Mô tả (tùy chọn)
+            </FieldLabel>
             <Textarea
               {...field}
+              id="form-create-background-video-type-description"
               placeholder="Nhập mô tả..."
               disabled={createTypeMutation.isPending}
               rows={3}
@@ -84,7 +92,7 @@ const CreateBackgroundVideoTypeForm = ({
         )}
       />
 
-      <div className="flex justify-end gap-3">
+      <Field orientation="horizontal" className="justify-end">
         <Button
           type="button"
           variant="outline"
@@ -96,7 +104,7 @@ const CreateBackgroundVideoTypeForm = ({
         <Button type="submit" disabled={createTypeMutation.isPending}>
           {createTypeMutation.isPending ? 'Đang tạo...' : 'Tạo loại'}
         </Button>
-      </div>
+      </Field>
     </form>
   );
 };

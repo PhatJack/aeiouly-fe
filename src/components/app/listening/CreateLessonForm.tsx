@@ -50,15 +50,16 @@ const CreateLessonForm = ({ onSuccess, onCancel }: CreateLessonFormProps) => {
   };
 
   return (
-    <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+    <form id="form-create-lesson" onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
       <Controller
         control={form.control}
         name="title"
         render={({ field, fieldState }) => (
-          <Field>
-            <FieldLabel>Tiêu đề bài học</FieldLabel>
+          <Field data-invalid={fieldState.invalid}>
+            <FieldLabel htmlFor="form-create-lesson-title">Tiêu đề bài học</FieldLabel>
             <Input
               {...field}
+              id="form-create-lesson-title"
               placeholder="Nhập tiêu đề bài học..."
               disabled={createLessonMutation.isPending}
             />
@@ -71,10 +72,11 @@ const CreateLessonForm = ({ onSuccess, onCancel }: CreateLessonFormProps) => {
         control={form.control}
         name="youtube_url"
         render={({ field, fieldState }) => (
-          <Field>
-            <FieldLabel>URL YouTube</FieldLabel>
+          <Field data-invalid={fieldState.invalid}>
+            <FieldLabel htmlFor="form-create-lesson-url">URL YouTube</FieldLabel>
             <Input
               {...field}
+              id="form-create-lesson-url"
               type="url"
               placeholder="https://www.youtube.com/watch?v=..."
               disabled={createLessonMutation.isPending}
@@ -88,9 +90,10 @@ const CreateLessonForm = ({ onSuccess, onCancel }: CreateLessonFormProps) => {
         control={form.control}
         name="srt_file"
         render={({ field, fieldState }) => (
-          <Field>
-            <FieldLabel>File SRT phụ đề</FieldLabel>
+          <Field data-invalid={fieldState.invalid}>
+            <FieldLabel htmlFor="form-create-lesson-srt">File SRT phụ đề</FieldLabel>
             <Input
+              id="form-create-lesson-srt"
               type="file"
               accept=".srt"
               onChange={(e) => {

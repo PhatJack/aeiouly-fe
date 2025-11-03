@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 
 import { Button } from '@/components/ui/button';
-import { Field, FieldError, FieldLabel } from '@/components/ui/field';
+import { Field, FieldError, FieldGroup, FieldLabel } from '@/components/ui/field';
 import { Input } from '@/components/ui/input';
 import {
   Select,
@@ -92,72 +92,87 @@ const CreateBackgroundVideoForm = ({ onSuccess, onCancel }: CreateBackgroundVide
   const videoTypes = typesData?.items || [];
 
   return (
-    <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-      <Controller
-        control={form.control}
-        name="youtube_url"
-        render={({ field, fieldState }) => (
-          <Field>
-            <FieldLabel>URL YouTube</FieldLabel>
-            <Input
-              {...field}
-              type="url"
-              placeholder="https://www.youtube.com/watch?v=..."
-              disabled={isLoading}
-            />
-            {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
-          </Field>
-        )}
-      />
+    <form
+      id="form-create-background-video"
+      onSubmit={form.handleSubmit(onSubmit)}
+      className="space-y-6"
+    >
+      <FieldGroup>
+        <Controller
+          control={form.control}
+          name="youtube_url"
+          render={({ field, fieldState }) => (
+            <Field data-invalid={fieldState.invalid}>
+              <FieldLabel htmlFor="form-create-background-video-url">URL YouTube</FieldLabel>
+              <Input
+                {...field}
+                id="form-create-background-video-url"
+                type="url"
+                placeholder="https://www.youtube.com/watch?v=..."
+                disabled={isLoading}
+              />
+              {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+            </Field>
+          )}
+        />
 
-      <Controller
-        control={form.control}
-        name="type_id"
-        render={({ field, fieldState }) => (
-          <Field>
-            <FieldLabel>Loại video</FieldLabel>
-            <Select
-              value={field.value?.toString()}
-              onValueChange={(value) => field.onChange(parseInt(value))}
-              disabled={isLoading}
-            >
-              <SelectTrigger>
-                <SelectValue placeholder="Chọn loại video" />
-              </SelectTrigger>
-              <SelectContent>
-                {videoTypes.map((type: BackgroundVideoTypeResponseSchema) => (
-                  <SelectItem key={type.id} value={type.id.toString()}>
-                    {type.name}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-            {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
-          </Field>
-        )}
-      />
+        <Controller
+          control={form.control}
+          name="type_id"
+          render={({ field, fieldState }) => (
+            <Field data-invalid={fieldState.invalid}>
+              <FieldLabel htmlFor="form-create-background-video-type">Loại video</FieldLabel>
+              <Select
+                value={field.value?.toString()}
+                onValueChange={(value) => field.onChange(parseInt(value))}
+                disabled={isLoading}
+              >
+                <SelectTrigger id="form-create-background-video-type">
+                  <SelectValue placeholder="Chọn loại video" />
+                </SelectTrigger>
+                <SelectContent>
+                  {videoTypes.map((type: BackgroundVideoTypeResponseSchema) => (
+                    <SelectItem key={type.id} value={type.id.toString()}>
+                      {type.name}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+              {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+            </Field>
+          )}
+        />
 
-      <Field>
-        <FieldLabel>Hình thu nhỏ (tùy chọn)</FieldLabel>
-        <Input type="file" accept="image/*" onChange={handleImageChange} disabled={isLoading} />
-        {selectedImage && (
+        <Field>
+          <FieldLabel htmlFor="form-create-background-video-image">
+            Hình thu nhỏ (tùy chọn)
+          </FieldLabel>
+          <Input
+            id="form-create-background-video-image"
+            type="file"
+            accept="image/*"
+            onChange={handleImageChange}
+            disabled={isLoading}
+          />
+          {selectedImage && (
+            <p className="text-muted-foreground mt-1 text-sm">
+              Đã chọn: {selectedImage.name} ({(selectedImage.size / (1024 * 1024)).toFixed(2)} MB)
+            </p>
+          )}
           <p className="text-muted-foreground mt-1 text-sm">
-            Đã chọn: {selectedImage.name} ({(selectedImage.size / (1024 * 1024)).toFixed(2)} MB)
+            Chọn hình thu nhỏ cho video. Bạn có thể upload sau nếu cần.
           </p>
-        )}
-        <p className="text-muted-foreground mt-1 text-sm">
-          Chọn hình thu nhỏ cho video. Bạn có thể upload sau nếu cần.
-        </p>
-      </Field>
+        </Field>
 
-      <div className="flex justify-end gap-3">
-        <Button type="button" variant="outline" onClick={onCancel} disabled={isLoading}>
-          Hủy
-        </Button>
-        <Button type="submit" disabled={isLoading}>
-          {isLoading ? 'Đang tạo...' : 'Tạo video'}
-        </Button>
-      </div>
+        <Field orientation="horizontal" className="justify-end">
+          <Button type="button" variant="outline" onClick={onCancel} disabled={isLoading}>
+            Hủy
+          </Button>
+          <Button type="submit" disabled={isLoading}>
+            {isLoading ? 'Đang tạo...' : 'Tạo video'}
+          </Button>
+        </Field>
+      </FieldGroup>
     </form>
   );
 };

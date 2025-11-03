@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 
 import { Button } from '@/components/ui/button';
-import { Field, FieldError, FieldLabel } from '@/components/ui/field';
+import { Field, FieldDescription, FieldError, FieldLabel } from '@/components/ui/field';
 import { Input } from '@/components/ui/input';
 import { SoundCreateSchema, soundCreateSchema } from '@/lib/schema/sound.schema';
 import { useCreateSoundMutation, useUploadSoundFileMutation } from '@/services/sounds';
@@ -69,40 +69,50 @@ const CreateSoundForm = ({ onSuccess, onCancel }: CreateSoundFormProps) => {
   const isLoading = createSoundMutation.isPending || uploadSoundFileMutation.isPending;
 
   return (
-    <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+    <form id="form-create-sound" onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
       <Controller
         control={form.control}
         name="name"
         render={({ field, fieldState }) => (
-          <Field>
-            <FieldLabel>Tên âm thanh</FieldLabel>
-            <Input {...field} placeholder="Nhập tên âm thanh..." disabled={isLoading} />
+          <Field data-invalid={fieldState.invalid}>
+            <FieldLabel htmlFor="form-create-sound-name">Tên âm thanh</FieldLabel>
+            <Input
+              {...field}
+              id="form-create-sound-name"
+              placeholder="Nhập tên âm thanh..."
+              disabled={isLoading}
+            />
             {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
           </Field>
         )}
       />
-
       <Field>
-        <FieldLabel>File âm thanh (tùy chọn)</FieldLabel>
-        <Input type="file" accept="audio/*" onChange={handleFileChange} disabled={isLoading} />
+        <FieldLabel htmlFor="form-create-sound-file">File âm thanh (tùy chọn)</FieldLabel>
+        <Input
+          id="form-create-sound-file"
+          type="file"
+          accept="audio/*"
+          onChange={handleFileChange}
+          disabled={isLoading}
+        />
         {selectedFile && (
           <p className="text-muted-foreground mt-1 text-sm">
             Đã chọn: {selectedFile.name} ({(selectedFile.size / (1024 * 1024)).toFixed(2)} MB)
           </p>
         )}
-        <p className="text-muted-foreground mt-1 text-sm">
+        <FieldDescription className="text-muted-foreground mt-1 text-sm">
           Chọn file âm thanh để upload. Bạn có thể upload sau nếu muốn.
-        </p>
+        </FieldDescription>
       </Field>
 
-      <div className="flex justify-end gap-3">
+      <Field orientation="horizontal" className="justify-end">
         <Button type="button" variant="outline" onClick={onCancel} disabled={isLoading}>
           Hủy
         </Button>
         <Button type="submit" disabled={isLoading}>
           {isLoading ? 'Đang tạo...' : 'Tạo âm thanh'}
         </Button>
-      </div>
+      </Field>
     </form>
   );
 };

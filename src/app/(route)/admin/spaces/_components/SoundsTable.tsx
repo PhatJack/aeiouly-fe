@@ -132,7 +132,10 @@ const SoundsTable = () => {
           <DialogHeader>
             <DialogTitle>Tạo âm thanh mới</DialogTitle>
           </DialogHeader>
-          <CreateSoundForm onSuccess={handleCreateSuccess} />
+          <CreateSoundForm
+            onSuccess={handleCreateSuccess}
+            onCancel={() => setIsCreateDialogOpen(false)}
+          />
         </DialogContent>
       </Dialog>
 

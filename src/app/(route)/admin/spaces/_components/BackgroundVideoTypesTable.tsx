@@ -135,7 +135,10 @@ const BackgroundVideoTypesTable = () => {
           <DialogHeader>
             <DialogTitle>Tạo loại video</DialogTitle>
           </DialogHeader>
-          <CreateBackgroundVideoTypeForm onSuccess={handleCreateSuccess} />
+          <CreateBackgroundVideoTypeForm
+            onSuccess={handleCreateSuccess}
+            onCancel={() => setIsCreateDialogOpen(false)}
+          />
         </DialogContent>
       </Dialog>
 

@@ -135,7 +135,10 @@ const BackgroundVideosTable = () => {
           <DialogHeader>
             <DialogTitle>Tạo video nền</DialogTitle>
           </DialogHeader>
-          <CreateBackgroundVideoForm onSuccess={handleCreateSuccess} />
+          <CreateBackgroundVideoForm
+            onSuccess={handleCreateSuccess}
+            onCancel={() => setIsCreateDialogOpen(false)}
+          />
         </DialogContent>
       </Dialog>
 
