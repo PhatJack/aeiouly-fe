@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 
 import Image from 'next/image';
 import Link from 'next/link';
@@ -111,6 +111,7 @@ const Sidebar = () => {
   const router = useRouter();
   const user = useAuthStore((state) => state.user);
   const logout = useAuthStore((state) => state.logout);
+  const [hovered, setHovered] = useState(false);
 
   const handleLogout = async () => {
     logoutMutation.mutate(undefined, {
@@ -130,11 +131,18 @@ const Sidebar = () => {
   };
 
   return (
-    <aside className={cn('sticky top-0 flex h-screen max-w-20 min-w-20 flex-col gap-2 p-4')}>
+    <motion.aside
+      initial={false}
+      animate={{ width: hovered ? '16rem' : '4rem' }}
+      transition={{ type: 'spring', stiffness: 300, damping: 30 }}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+      className={cn('sticky top-0 flex h-screen min-w-20 flex-col gap-2 p-4')}
+    >
       {/* Logo */}
-      <Link href={ROUTE.HOME} className="flex items-center justify-center">
-        <div className="relative size-10 overflow-hidden rounded-full">
-          <Image fill quality={100} src={'/logo.png'} sizes="60px" alt={'Aeiouly logo'} />
+      <Link href={ROUTE.HOME} className="flex items-center">
+        <div className="relative size-12 overflow-hidden rounded-full">
+          <Image fill quality={100} src={'/logo.png'} sizes="48px" alt={'Aeiouly logo'} />
         </div>
       </Link>
 
@@ -149,59 +157,84 @@ const Sidebar = () => {
             return false;
           })
           .map((item, index) => (
-            <TooltipCustom key={`sidebar-${index}`} content={item.title}>
-              <motion.li
-                id={item.id}
-                onClick={() => router.push(item.href)}
-                data-navigation
-                className="hover:bg-secondary/20 relative flex cursor-pointer items-center justify-center rounded-full p-3 transition-all"
-              >
-                <div className="relative flex size-6 min-w-6 items-center justify-center">
-                  <item.icon size={24} className={cn(pathname === item.href && 'text-white')} />
-                </div>
-
-                {pathname === item.href && (
-                  <motion.div
-                    className="bg-secondary absolute inset-0 -z-10 rounded-full"
-                    layoutId="background"
-                    transition={{ type: 'spring', stiffness: 300, damping: 30 }}
-                  />
+            <motion.li
+              key={`menu_item_${index}`}
+              id={item.id}
+              onClick={() => router.push(item.href)}
+              data-navigation
+              className="hover:bg-secondary/20 relative flex cursor-pointer items-center gap-3 rounded-full p-3 transition-all"
+            >
+              <div className="relative flex size-6 min-w-6 items-center justify-center">
+                <item.icon size={24} className={cn(pathname === item.href && 'text-white')} />
+              </div>
+              <motion.span
+                animate={{ opacity: hovered ? 1 : 0, x: hovered ? 0 : -10 }}
+                transition={{ duration: 0.2 }}
+                className={cn(
+                  'text-sm font-medium whitespace-nowrap',
+                  pathname === item.href && 'text-secondary-foreground'
                 )}
-              </motion.li>
-            </TooltipCustom>
+              >
+                {item.title}
+              </motion.span>
+              {pathname === item.href && (
+                <motion.div
+                  className="bg-secondary absolute inset-0 -z-10 rounded-full"
+                  layoutId="background"
+                  transition={{ type: 'spring', stiffness: 300, damping: 30 }}
+                />
+              )}
+            </motion.li>
           ))}
       </ul>
 
       <div className="flex flex-1 flex-col justify-end gap-4">
         {user ? (
           <>
-            <TooltipCustom content="Đăng xuất">
-              <div
-                onClick={handleLogout}
-                className="hover:bg-destructive/80 flex w-full cursor-pointer items-center justify-center rounded-full p-3 transition-all hover:text-white"
-              >
+            <div
+              onClick={handleLogout}
+              className="hover:bg-destructive/80 flex w-full cursor-pointer items-center rounded-full p-3 transition-all hover:text-white"
+            >
+              <div className="relative flex items-center gap-3">
                 <div className="relative flex size-6 min-w-6 items-center justify-center">
                   <LogOut size={24} />
                 </div>
+                <motion.span
+                  animate={{ opacity: hovered ? 1 : 0, x: hovered ? 0 : -10 }}
+                  transition={{ duration: 0.2 }}
+                  className="text-sm font-medium whitespace-nowrap"
+                >
+                  Đăng xuất
+                </motion.span>
               </div>
-            </TooltipCustom>
-            <TooltipCustom content={user.full_name}>
-              <div className="flex items-center justify-center">
-                <AvatarCustom className="size-10" url={user.avatar_url || ''} />
-              </div>
-            </TooltipCustom>
+            </div>
+            <div className="flex items-center gap-3">
+              <AvatarCustom className="size-10" url={user.avatar_url || ''} />
+              <motion.span
+                animate={{ opacity: hovered ? 1 : 0, x: hovered ? 0 : -10 }}
+                transition={{ duration: 0.2 }}
+                className="text-sm font-medium whitespace-nowrap"
+              >
+                {user.full_name}
+              </motion.span>
+            </div>
           </>
         ) : (
-          <TooltipCustom content="Đăng nhập">
-            <Button className="h-10 p-2" asChild>
-              <Link href={ROUTE.AUTH.LOGIN}>
-                <LogIn />
-              </Link>
-            </Button>
-          </TooltipCustom>
+          <Button onClick={() => router.push(ROUTE.AUTH.LOGIN)}>
+            <div className="relative flex size-6 min-w-6 items-center justify-center">
+              <LogIn size={24} />
+            </div>
+            <motion.span
+              animate={{ opacity: hovered ? 1 : 0, x: hovered ? 0 : -10 }}
+              transition={{ duration: 0.2 }}
+              className="text-sm font-medium whitespace-nowrap"
+            >
+              Đăng nhập
+            </motion.span>
+          </Button>
         )}
       </div>
-    </aside>
+    </motion.aside>
   );
 };
 

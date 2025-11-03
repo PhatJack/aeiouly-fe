@@ -64,11 +64,7 @@ client.interceptors.response.use(
   },
   async (error: any) => {
     const originalRequest = error.config;
-    if (
-      error.response?.data?.detail?.code === 'token_missing' &&
-      !originalRequest?._retry &&
-      error?.response?.data?.detail?.action !== 'login_required'
-    ) {
+    if (error.response?.data?.detail?.code === 'token_missing' && !originalRequest?._retry) {
       originalRequest._retry = true;
       try {
         await refreshTokenApi();
