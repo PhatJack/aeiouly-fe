@@ -28,13 +28,12 @@ export const lessonUpdateSchema = z.object({
 export const sentenceResponseSchema = z.object({
   id: z.number(),
   lesson_id: z.number(),
-  sentence_index: z.number(),
-  start_time: z.string(),
-  end_time: z.string(),
-  original_text: z.string(),
-  vietnamese_translation: z.string(),
-  difficulty_level: CEFRLevelSchema,
-  created_at: z.string().or(z.date()),
+  index: z.number(),
+  text: z.string(),
+  translation: z.string().optional(),
+  start_time: z.number(),
+  end_time: z.number(),
+  normalized_text: z.string().optional(),
 });
 
 export const lessonResponseSchema = z.object({
@@ -69,6 +68,7 @@ export const sessionResponseSchema = z.object({
 
 export const sessionDetailResponseSchema = sessionResponseSchema.extend({
   current_sentence: sentenceResponseSchema.nullable().optional(),
+  attempts: z.number(),
 });
 
 export const userSessionResponseSchema = z.object({

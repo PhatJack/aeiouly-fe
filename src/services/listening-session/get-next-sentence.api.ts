@@ -20,6 +20,9 @@ export const useGetNextSentenceMutation = (
   return useMutation<SessionDetailResponseSchema, ErrorResponseSchema, number>({
     mutationKey: ['getNextSentence'],
     mutationFn: (sessionId) => getNextSentenceApi(sessionId),
+    meta: {
+      ignoreGlobal: true,
+    },
     ...options,
   });
 };

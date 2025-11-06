@@ -186,3 +186,15 @@ export const getScoreLabel = (score: number) => {
   if (score >= 60) return 'Khá';
   return 'Cần cải thiện';
 };
+
+export const getLevelColor = (level: string) => {
+  const colors: Record<string, string> = {
+    A1: 'bg-green-100 text-green-700 border-green-300',
+    A2: 'bg-blue-100 text-blue-700 border-blue-300',
+    B1: 'bg-yellow-100 text-yellow-700 border-yellow-300',
+    B2: 'bg-orange-100 text-orange-700 border-orange-300',
+    C1: 'bg-red-100 text-red-700 border-red-300',
+    C2: 'bg-purple-100 text-purple-700 border-purple-300',
+  };
+  return colors[level] || 'bg-gray-100 text-gray-700 border-gray-300';
+};

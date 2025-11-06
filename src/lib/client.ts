@@ -1,12 +1,8 @@
-import { redirect } from 'next/navigation';
-
 import { COOKIE_KEY_ACCESS_TOKEN, COOKIE_KEY_REFRESH_TOKEN } from '@/constants/cookies';
 import { refreshTokenApi } from '@/services/auth/refresh-token.api';
 
 import axios, { AxiosRequestConfig, AxiosResponse, isAxiosError } from 'axios';
 import { deleteCookie } from 'cookies-next/client';
-
-import { redirectToLogin } from './auth-utils';
 
 const client = axios.create({
   baseURL: process.env.NEXT_PUBLIC_DJANGO_SERVER_URL,
@@ -16,6 +12,13 @@ const client = axios.create({
   },
 });
 
+export const serverAxios = axios.create({
+  baseURL: process.env.DJANGO_SERVER_URL,
+  withCredentials: true,
+  headers: {
+    'Content-Type': 'application/json',
+  },
+});
 export const apiClient = {
   post: <TResponse = unknown, RRequest = unknown>(
     url: string,

@@ -117,7 +117,7 @@ const GymPage = () => {
               onContinueSession={(sessionId) => router.push(`/gym/${sessionId}`)}
             />
           ) : (
-            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+            <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
               {[1, 2, 3].map((i) => (
                 <div key={i} className="rounded-xl border p-5">
                   <div className="space-y-3">

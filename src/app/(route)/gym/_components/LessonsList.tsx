@@ -12,7 +12,7 @@ interface LessonsListProps {
 
 const LessonsList = ({ lessons, onLessonClick }: LessonsListProps) => {
   return (
-    <div className="grid gap-6 lg:grid-cols-3">
+    <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-4">
       {lessons.map((lesson) => (
         <ListeningLessonCard
           key={lesson.id}

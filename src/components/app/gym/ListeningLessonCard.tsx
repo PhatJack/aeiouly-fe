@@ -2,89 +2,85 @@
 
 import React from 'react';
 
+import Image from 'next/image';
+
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent } from '@/components/ui/card';
 import { LessonResponseSchema } from '@/lib/schema/listening-session.schema';
 import { distanceToNowVN } from '@/lib/timezone';
-import { cn } from '@/lib/utils';
+import { UrlToEmbeded, cn, getLevelColor } from '@/lib/utils';
 
-import { formatDistanceToNow } from 'date-fns';
-import { vi } from 'date-fns/locale';
-import { BookOpen, Calendar, Headphones, PlayCircle } from 'lucide-react';
+import { BookOpen, Calendar, Clock } from 'lucide-react';
 
 interface ListeningLessonCardProps {
   lesson: LessonResponseSchema;
   onClick?: () => void;
 }
 
-const getLevelColor = (level: string) => {
-  const colors: Record<string, string> = {
-    A1: 'bg-green-100 text-green-700 border-green-300',
-    A2: 'bg-blue-100 text-blue-700 border-blue-300',
-    B1: 'bg-yellow-100 text-yellow-700 border-yellow-300',
-    B2: 'bg-orange-100 text-orange-700 border-orange-300',
-    C1: 'bg-red-100 text-red-700 border-red-300',
-    C2: 'bg-purple-100 text-purple-700 border-purple-300',
-  };
-  return colors[level] || 'bg-gray-100 text-gray-700 border-gray-300';
-};
-
 const ListeningLessonCard = ({ lesson, onClick }: ListeningLessonCardProps) => {
+  // Mock duration for demo purposes (replace with actual duration if available)
+  const duration = '12:34'; // Example duration, adjust based on your data
+
   return (
     <Card
-      className="group border-l-primary cursor-pointer overflow-hidden border-l-4 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg"
+      className={cn(
+        'group cursor-pointer overflow-hidden rounded-lg border border-gray-200 bg-white py-0 shadow-sm transition-shadow hover:shadow-md'
+      )}
       onClick={onClick}
     >
-      <CardContent className="p-5">
-        <div className="flex items-start justify-between gap-4">
-          {/* Left side - Icon and Content */}
-          <div className="flex min-w-0 flex-1 gap-4">
-            {/* Icon */}
-            <div
-              className={cn(
-                'bg-primary/10 hover:bg-primary/20 flex h-14 w-14 flex-shrink-0 items-center justify-center rounded-xl transition-colors'
-              )}
-            >
-              <Headphones className="text-primary h-7 w-7" />
+      <CardContent className="p-0">
+        <div className="flex flex-col">
+          {/* Thumbnail */}
+          <div className="relative aspect-video w-full overflow-hidden">
+            <Image
+              src={`https://img.youtube.com/vi/${UrlToEmbeded(lesson.youtube_url)?.videoId}/hqdefault.jpg`}
+              alt={lesson.title}
+              className="object-cover transition-transform duration-300 group-hover:scale-105"
+              sizes="(max-width: 768px) 100vw, 300px"
+              fill
+              priority
+            />
+            {/* Duration Overlay */}
+            <div className="bg-opacity-80 absolute right-2 bottom-2 rounded bg-black px-1.5 py-0.5 text-xs font-medium text-white">
+              {duration}
             </div>
-
-            {/* Content */}
-            <div className="min-w-0 flex-1 space-y-3">
-              {/* Title */}
-              <h3 className="text-foreground group-hover:text-primary line-clamp-2 text-lg font-semibold transition-colors">
-                {lesson.title}
-              </h3>
-
-              {/* Metadata */}
-              <div className="text-muted-foreground flex flex-wrap items-center gap-3 text-sm">
-                <div className="flex items-center gap-1.5">
-                  <BookOpen className="h-4 w-4" />
-                  <span>{lesson.total_sentences} câu</span>
-                </div>
-                <div className="flex items-center gap-1.5">
-                  <Calendar className="h-4 w-4" />
-                  <span>{distanceToNowVN(lesson.created_at)}</span>
-                </div>
-              </div>
-
-              {/* YouTube URL Preview */}
-              {lesson.youtube_url && (
-                <div className="text-muted-foreground flex items-center gap-2 text-xs">
-                  <PlayCircle className="h-3.5 w-3.5" />
-                  <span className="truncate">{lesson.youtube_url}</span>
-                </div>
-              )}
+            {/* Play Icon on Hover */}
+            <div className="absolute inset-0 flex items-center justify-center bg-black/30 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+              <svg className="h-10 w-10 text-white" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M8 5v14l11-7z" />
+              </svg>
             </div>
           </div>
 
-          {/* Right side - Level Badge */}
-          <div className="flex-shrink-0">
-            <Badge
-              variant="outline"
-              className={`${getLevelColor(lesson.level)} px-3 py-1 font-semibold`}
-            >
-              {lesson.level}
-            </Badge>
+          {/* Content */}
+          <div className="flex flex-col gap-2 p-4">
+            {/* Title */}
+            <h3 className="text-foreground group-hover:text-primary line-clamp-2 text-sm font-semibold transition-colors md:text-base">
+              {lesson.title}
+            </h3>
+
+            {/* Metadata */}
+            <div className="text-muted-foreground flex flex-wrap items-center gap-2 text-xs">
+              <Badge variant="default" className={cn(getLevelColor(lesson.level), 'text-xs')}>
+                {lesson.level}
+              </Badge>
+              <div className="flex items-center gap-1">
+                <BookOpen className="h-3.5 w-3.5" />
+                <span>{lesson.total_sentences} câu</span>
+              </div>
+              <div className="flex items-center gap-1">
+                <Calendar className="h-3.5 w-3.5" />
+                <span>{distanceToNowVN(lesson.created_at)}</span>
+              </div>
+            </div>
+
+            {/* YouTube URL (optional, hidden by default to mimic YouTube's clean look) */}
+            {/* {lesson.youtube_url && (
+              <div className="text-muted-foreground flex items-center gap-1 text-xs truncate">
+                <Clock className="h-3.5 w-3.5 flex-shrink-0" />
+                <span className="truncate">{lesson.youtube_url}</span>
+              </div>
+            )} */}
           </div>
         </div>
       </CardContent>

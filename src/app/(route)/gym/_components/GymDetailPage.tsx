@@ -1,22 +1,23 @@
 'use client';
 
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect } from 'react';
+import { useHotkeys } from 'react-hotkeys-hook';
 
 import { useRouter } from 'nextjs-toploader/app';
 
-import PracticeInput from '@/components/app/gym/detail/PracticeInput';
+import InputChecker from '@/components/app/gym/detail/InputChecker';
 import ProgressNavigation from '@/components/app/gym/detail/ProgressNavigation';
-import TranslationCard from '@/components/app/gym/detail/TranslationCard';
 import VideoControls from '@/components/app/gym/detail/VideoControls';
 import VideoPlayer from '@/components/app/gym/detail/VideoPlayer';
 import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
 import {
-  useGetLessonDetailQuery,
   useGetListeningSessionQuery,
   useGetNextSentenceMutation,
 } from '@/services/listening-session';
+import { useGymDetailStore } from '@/stores/gym-detail.store';
 
+import { Play } from 'lucide-react';
 import { toast } from 'sonner';
 
 interface GymDetailPageProps {
@@ -27,6 +28,24 @@ const GymDetailPage = ({ id }: GymDetailPageProps) => {
   const router = useRouter();
   const lessonId = Number(id);
 
+  // Zustand store
+  const {
+    session,
+    isStarted,
+    currentSentenceIndex,
+    showVideo,
+    showTranslation,
+    setSession,
+    startLearning,
+    setCurrentSentenceIndex,
+    toggleVideo,
+    toggleTranslation,
+    handlePlay,
+    setIsPlaying,
+    reset,
+    setPlayTrigger,
+  } = useGymDetailStore();
+
   const {
     data: listeningSession,
     isLoading,
@@ -35,63 +54,71 @@ const GymDetailPage = ({ id }: GymDetailPageProps) => {
     refetchOnWindowFocus: false,
     staleTime: 30 * 60 * 1000, // 30 minutes
   });
-  const [currentSentenceIndex, setCurrentSentenceIndex] = useState(0);
-  const [userInput, setUserInput] = useState('');
-  const [showVideo, setShowVideo] = useState(true);
-  const [showTranslation, setShowTranslation] = useState(false);
 
   const getNextSentenceMutation = useGetNextSentenceMutation();
 
+  useEffect(() => {
+    if (listeningSession) {
+      setSession(listeningSession);
+      setCurrentSentenceIndex(listeningSession.current_sentence_index);
+    }
+  }, [listeningSession, setSession]);
+
+  useEffect(() => {
+    return () => reset();
+  }, [reset]);
+
   // Memoized handlers
-  const handleCheck = useCallback(() => {
-    // const userText = userInput.trim().toLowerCase();
-    // const correctText = listeningSession.lesson.sentences[currentSentenceIndex].original_text.trim().toLowerCase();
-  }, [userInput]);
+  const handleCheckResult = useCallback((result: { detailed: any }) => {}, []);
 
   const handleNext = useCallback(() => {
-    if (!listeningSession || !id) return;
+    if (!session || !id) return;
 
-    if (currentSentenceIndex < listeningSession.lesson.total_sentences - 1) {
+    if (currentSentenceIndex < session.lesson.total_sentences - 1) {
       getNextSentenceMutation.mutate(Number(id), {
         onSuccess: (data) => {
           setCurrentSentenceIndex(data.current_sentence_index);
-          setUserInput('');
-          setShowTranslation(false);
         },
       });
     } else {
       toast.success('Hoàn thành bài học! 🎊');
       router.push('/gym');
     }
-  }, [listeningSession, id, currentSentenceIndex, getNextSentenceMutation, router]);
-
-  const handleSkip = useCallback(() => {
-    handleNext();
-  }, [handleNext]);
+  }, [session, id, currentSentenceIndex, getNextSentenceMutation, router, setCurrentSentenceIndex]);
 
   const handlePrevious = useCallback(() => {
     if (currentSentenceIndex > 0) {
-      setCurrentSentenceIndex((prev) => prev - 1);
-      setUserInput('');
-      setShowTranslation(false);
+      setCurrentSentenceIndex(currentSentenceIndex - 1);
     }
-  }, [currentSentenceIndex]);
+  }, [currentSentenceIndex, setCurrentSentenceIndex]);
 
   const handleToggleVideo = useCallback(() => {
-    setShowVideo((prev) => !prev);
-  }, []);
+    toggleVideo();
+  }, [toggleVideo]);
 
   const handleToggleTranslation = useCallback(() => {
-    setShowTranslation((prev) => !prev);
-  }, []);
+    toggleTranslation();
+  }, [toggleTranslation]);
 
   const handleBack = useCallback(() => {
     router.push('/gym');
   }, [router]);
 
-  const handleInputChange = useCallback((value: string) => {
-    setUserInput(value);
-  }, []);
+  const handleStartLearning = useCallback(() => {
+    startLearning();
+    setPlayTrigger();
+    setIsPlaying(true);
+  }, [startLearning]);
+
+  const handlePlayVideo = useCallback(() => {
+    handlePlay();
+    setPlayTrigger();
+    setIsPlaying(true);
+  }, [setPlayTrigger, setIsPlaying]);
+
+  useHotkeys('space', () => {
+    handlePlayVideo();
+  });
 
   if (isLoading) {
     return (
@@ -104,7 +131,7 @@ const GymDetailPage = ({ id }: GymDetailPageProps) => {
     );
   }
 
-  if (isError || !listeningSession) {
+  if (isError || !session) {
     return (
       <div>
         <div className="text-center">
@@ -117,43 +144,55 @@ const GymDetailPage = ({ id }: GymDetailPageProps) => {
 
   return (
     <div>
-      {/* Main Content */}
       <div>
         <div className="grid gap-6 lg:grid-cols-2">
-          {/* Left Side - Video Section */}
           <div className="space-y-4">
-            <VideoPlayer
-              session={listeningSession}
-              showVideo={showVideo}
-              onToggleVideo={handleToggleVideo}
-            />
+            <VideoPlayer />
 
             <VideoControls showVideo={showVideo} onToggleVideo={handleToggleVideo} />
           </div>
 
           {/* Right Side - Practice Interface */}
           <div className="space-y-4">
-            <ProgressNavigation
-              currentIndex={currentSentenceIndex}
-              totalSentences={listeningSession.lesson.total_sentences}
-              onPrevious={handlePrevious}
-              onNext={handleNext}
-            />
+            {!isStarted ? (
+              // Start Learning Button
+              <div className="flex h-full min-h-[400px] items-center justify-center">
+                <div className="space-y-6 text-center">
+                  <div className="from-primary to-secondary mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-gradient-to-br shadow-lg">
+                    <Play className="h-8 w-8 text-white" />
+                  </div>
+                  <div className="space-y-2">
+                    <h3 className="text-2xl font-bold">Sẵn sàng bắt đầu?</h3>
+                    <p className="text-muted-foreground">
+                      Nhấp vào nút bên dưới để bắt đầu bài học và nghe câu đầu tiên
+                    </p>
+                  </div>
+                  <Button size="lg" onClick={handleStartLearning} className="px-8 py-3 text-lg">
+                    <Play className="mr-2 h-5 w-5" />
+                    Bắt đầu học
+                  </Button>
+                </div>
+              </div>
+            ) : (
+              // Practice Interface
+              <>
+                <ProgressNavigation
+                  currentIndex={currentSentenceIndex}
+                  totalSentences={session.lesson.total_sentences}
+                  onPrevious={handlePrevious}
+                  onNext={handleNext}
+                  onPlay={handlePlayVideo}
+                />
 
-            <PracticeInput
-              value={userInput}
-              onChange={handleInputChange}
-              onCheck={handleCheck}
-              onSkip={handleSkip}
-            />
-
-            {/* Translation */}
-            {listeningSession.current_sentence && (
-              <TranslationCard
-                translation={listeningSession.current_sentence?.vietnamese_translation || ''}
-                showTranslation={showTranslation}
-                onToggle={handleToggleTranslation}
-              />
+                {session.current_sentence && (
+                  <InputChecker
+                    sentence={session.current_sentence}
+                    onResult={handleCheckResult}
+                    onNext={handleNext}
+                    isLoading={getNextSentenceMutation.isPending}
+                  />
+                )}
+              </>
             )}
           </div>
         </div>

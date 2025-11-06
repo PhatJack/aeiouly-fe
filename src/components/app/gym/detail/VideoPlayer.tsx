@@ -1,27 +1,144 @@
 'use client';
 
-import React, { memo } from 'react';
+import React, { memo, useEffect, useRef, useState } from 'react';
 
 import { useRouter } from 'nextjs-toploader/app';
 
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader } from '@/components/ui/card';
-import { SessionDetailResponseSchema } from '@/lib/schema/listening-session.schema';
+import { Card, CardHeader } from '@/components/ui/card';
+import { UrlToEmbeded } from '@/lib/utils';
+import { useGymDetailStore } from '@/stores/gym-detail.store';
 
 import { ArrowLeft, Play } from 'lucide-react';
 
-interface VideoPlayerProps {
-  session: SessionDetailResponseSchema;
-  showVideo: boolean;
-  onToggleVideo: () => void;
-}
+const VideoPlayer = memo(() => {
+  const session = useGymDetailStore((state) => state.session);
+  const showVideo = useGymDetailStore((state) => state.showVideo);
+  const playTrigger = useGymDetailStore((state) => state.playTrigger);
+  const isAddYtbScript = useGymDetailStore((state) => state.isAddYtbScript);
+  const isStarted = useGymDetailStore((state) => state.isStarted);
+  const currentSentenceIndex = useGymDetailStore((state) => state.currentSentenceIndex);
+  const setIsPlaying = useGymDetailStore((state) => state.setIsPlaying);
 
-const VideoPlayer = memo(({ session, showVideo, onToggleVideo }: VideoPlayerProps) => {
+  const { toggleVideo, setAddYtbScript } = useGymDetailStore();
   const router = useRouter();
-  const getYouTubeEmbedUrl = (url: string) => {
-    const videoId = url.split('v=')[1]?.split('&')[0] || url.split('/').pop();
-    return `https://www.youtube.com/embed/${videoId}?start=6.76&end=8.94`;
-  };
+  const videoRef = useRef<YT.PlayerEvent['target']>(null);
+  const youtubeRef = useRef<any>(null);
+  const [videoError, setVideoError] = useState<boolean>(false);
+
+  const videoId =
+    session?.lesson.youtube_url.split('v=')[1]?.split('&')[0] ||
+    session?.lesson.youtube_url.split('/').pop();
+
+  const currentSentence = session?.current_sentence;
+
+  useEffect(() => {
+    const initializeyoutube = () => {
+      if (!session?.lesson.youtube_url) {
+        console.log('Không có URL video YouTube');
+        return;
+      }
+
+      const video = UrlToEmbeded(session?.lesson.youtube_url);
+      if (!video?.videoId) {
+        console.log('URL video không hợp lệ hoặc không thể trích xuất ID video');
+        setVideoError(true);
+        return;
+      }
+
+      try {
+        youtubeRef.current = new window.YT.Player('yt-player', {
+          height: '390',
+          width: '640',
+          videoId: `${video?.videoId}`,
+          playerVars: {
+            playsinline: 1,
+            enablejsapi: 1,
+            autoplay: 0,
+            controls: 1,
+            showinfo: 0,
+            rel: 0,
+            modestbranding: 1,
+            autohide: 1,
+          },
+          events: {
+            onReady: (event: YT.PlayerEvent) => {
+              videoRef.current = event.target;
+              setVideoError(false);
+            },
+            onError: (event: YT.OnErrorEvent) => {
+              setVideoError(true);
+            },
+          },
+        });
+      } catch (error) {
+        console.error('Error initializing YouTube player:', error);
+        setVideoError(true);
+      }
+    };
+    if (!isAddYtbScript) {
+      const tag = document.createElement('script');
+      tag.src = 'https://www.youtube.com/iframe_api';
+      document.body.appendChild(tag);
+      const firstScriptTag = document.getElementsByTagName('script')[0];
+      firstScriptTag.parentNode?.insertBefore(tag, firstScriptTag);
+      setAddYtbScript(true);
+
+      (window as any).onYouTubeIframeAPIReady = () => {
+        if (session?.lesson.youtube_url) {
+          initializeyoutube();
+        }
+      };
+    } else if (window.YT && window.YT.Player && session?.lesson.youtube_url) {
+      initializeyoutube();
+    }
+  }, [showVideo, videoId]);
+
+  useEffect(() => {
+    if (videoRef.current && session) {
+      try {
+        videoRef.current.playVideo();
+        videoRef.current.seekTo(currentSentence ? currentSentence.start_time : 0, true);
+        setVideoError(false);
+      } catch (error) {
+        console.error('Error loading video:', error);
+        setVideoError(true);
+      }
+    }
+  }, [session, isStarted]);
+
+  // Handle play button click
+  useEffect(() => {
+    if (!videoRef.current || !currentSentence || playTrigger === 0) return;
+
+    try {
+      videoRef.current.seekTo(currentSentence.start_time, true);
+      videoRef.current.playVideo();
+      setIsPlaying(true);
+      setVideoError(false);
+    } catch (error) {
+      console.error('Error playing video:', error);
+      setVideoError(true);
+    }
+  }, [playTrigger]);
+
+  // Monitor video progress and pause at end time
+  useEffect(() => {
+    if (!videoRef.current || !currentSentence?.end_time || playTrigger === 0) return;
+    const interval = setInterval(() => {
+      const currentTime = videoRef.current?.getCurrentTime();
+      const playerState = videoRef.current?.getPlayerState();
+
+      // YT.PlayerState.PLAYING === 1
+      if (playerState === 1 && currentTime && currentTime >= Math.round(currentSentence.end_time)) {
+        videoRef.current?.pauseVideo();
+        setIsPlaying(false);
+        clearInterval(interval);
+      }
+    }, 100);
+
+    return () => clearInterval(interval);
+  }, [currentSentence?.end_time, playTrigger]);
 
   return (
     <Card className="bg-muted/30 gap-0 overflow-hidden py-0">
@@ -35,23 +152,19 @@ const VideoPlayer = memo(({ session, showVideo, onToggleVideo }: VideoPlayerProp
           >
             <ArrowLeft />
           </Button>
-          <h1 className="text-lg font-semibold">{session.lesson.title}</h1>
+          <h1 className="text-lg font-semibold">{session?.lesson.title}</h1>
         </div>
       </CardHeader>
+      {videoError && <div className="text-red-500">Video không khả dụng</div>}
       {showVideo ? (
         <div className="aspect-video">
-          <iframe
-            src={getYouTubeEmbedUrl(session.lesson.youtube_url)}
-            className="h-full w-full"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-            allowFullScreen
-          />
+          <div id="yt-player" className="h-full w-full" />
         </div>
       ) : (
         <div className="bg-muted flex aspect-video items-center justify-center">
-          <Button variant="outline" size="lg" onClick={onToggleVideo} className="gap-2">
+          <Button variant="outline" size="lg" onClick={toggleVideo} className="gap-2">
             <Play className="h-5 w-5" />
-            Show video
+            Hiện video
           </Button>
         </div>
       )}
@@ -60,5 +173,4 @@ const VideoPlayer = memo(({ session, showVideo, onToggleVideo }: VideoPlayerProp
 });
 
 VideoPlayer.displayName = 'VideoPlayer';
-
 export default VideoPlayer;
