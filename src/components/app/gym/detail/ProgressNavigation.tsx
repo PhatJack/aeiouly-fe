@@ -22,7 +22,8 @@ const ProgressNavigation = memo(
     return (
       <Card className="p-4">
         <div className="mb-2 flex items-center justify-between">
-          <Button
+          <div className=""></div>
+          {/* <Button
             variant="ghost"
             size="icon"
             onClick={onPrevious}
@@ -30,7 +31,7 @@ const ProgressNavigation = memo(
             aria-label="Previous sentence"
           >
             <ChevronLeft className="h-5 w-5" />
-          </Button>
+          </Button> */}
           <div className="flex items-center gap-3">
             <Button
               variant={isPlaying ? 'destructive' : 'default'}
@@ -49,7 +50,8 @@ const ProgressNavigation = memo(
               {currentIndex + 1} / {totalSentences}
             </span>
           </div>
-          <Button
+          <div className=""></div>
+          {/* <Button
             variant="ghost"
             size="icon"
             onClick={onNext}
@@ -57,7 +59,7 @@ const ProgressNavigation = memo(
             aria-label="Next sentence"
           >
             <ChevronRight className="h-5 w-5" />
-          </Button>
+          </Button> */}
         </div>
       </Card>
     );

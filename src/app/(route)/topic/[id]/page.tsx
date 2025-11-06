@@ -6,14 +6,12 @@ import { cookies } from 'next/headers';
 import { COOKIE_KEY_ACCESS_TOKEN } from '@/constants/cookies';
 import { serverAxios } from '@/lib/client';
 import { WritingSessionResponseSchema } from '@/lib/schema/writing-session.schema';
-import { getWritingSessionApi } from '@/services/writing-session';
 
 import TopicDetailPage from '../_components/TopicDetailPage';
 
 export const generateMetadata = async ({ params }: { params: Promise<{ id: string }> }) => {
   const { id } = await params;
   const accessToken = (await cookies()).get(COOKIE_KEY_ACCESS_TOKEN)?.value || '';
-
   const result = await serverAxios.get<WritingSessionResponseSchema>(`/writing-sessions/${id}`, {
     headers: {
       Authorization: `Bearer ${accessToken}`,

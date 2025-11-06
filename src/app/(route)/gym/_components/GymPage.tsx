@@ -57,7 +57,7 @@ const GymPage = () => {
   return (
     <div className="min-h-screen">
       <div className="border-b">
-        <div className="py-6">
+        <div className="py-4">
           <div className="mb-6 flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
             <div className="flex items-start gap-5">
               <div className="group relative">
@@ -119,7 +119,7 @@ const GymPage = () => {
           ) : (
             <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
               {[1, 2, 3].map((i) => (
-                <div key={i} className="rounded-xl border p-5">
+                <div key={i} className="rounded-xl border p-4">
                   <div className="space-y-3">
                     <Skeleton className="h-5 w-3/4" />
                     <Skeleton className="h-4 w-1/2" />
@@ -167,7 +167,7 @@ const GymPage = () => {
           {isLoading && (
             <div className="grid gap-6 lg:col-span-2 lg:grid-cols-2">
               {[1, 2, 3, 4, 5].map((i) => (
-                <div key={i} className="rounded-xl border p-5">
+                <div key={i} className="rounded-xl border p-4">
                   <div className="flex gap-4">
                     <Skeleton className="h-14 w-14 rounded-xl" />
                     <div className="flex-1 space-y-2">

@@ -12,7 +12,11 @@ const GlobalQueryLoading = () => {
       return query.state.fetchStatus === 'fetching' && !query.meta?.ignoreGlobal;
     },
   });
-  const isMutating = useIsMutating();
+  const isMutating = useIsMutating({
+    predicate: (mutation) => {
+      return !mutation.meta?.ignoreGlobal;
+    },
+  });
 
   if (!isFetching && !isMutating) return null;
 

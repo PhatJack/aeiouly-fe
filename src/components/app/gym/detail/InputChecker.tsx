@@ -1,5 +1,4 @@
 import React, { JSX, memo, useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { useHotkeys } from 'react-hotkeys-hook';
 
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
@@ -22,35 +21,95 @@ type LastResultType = {
 
 type Props = {
   sentence: SentenceResponseSchema;
-  onResult?: (result: { detailed: any }) => void;
   onNext?: () => void;
   isLoading?: boolean;
+  inputRef?: React.RefObject<HTMLTextAreaElement | null>;
 };
 
 const normalize = (s: string) =>
   s
     .toLowerCase()
-    .replace(/[""„"«»]/g, '"')
-    .replace(/[''`]/g, "'")
-    .replace(/[^a-z0-9'\s]+/g, ' ')
-    .replace(/\s+/g, ' ')
-    .trim();
+    // ✅ Chuyển toàn bộ string về lowercase để so sánh không phân biệt hoa/thường
 
+    .replace(/[""„"«»]/g, '"')
+    // ✅ Chuẩn hóa các loại dấu ngoặc kép fancy Unicode thành dấu " chuẩn
+    // Ví dụ: “ ” „ « »  => "
+
+    .replace(/[''`]/g, "'")
+    // ✅ Chuẩn hóa các loại apostrophe (` ‘ ’) thành dấu '
+    // Ví dụ: `don't` , ‘‘hello’’ , ain’t  => don't, 'hello', ain't
+
+    .replace(/(^|\s)'+/g, '$1')
+    // ✅ Xóa apostrophe đứng đầu từ (leading apostrophe)
+    // (^|\s)  : đầu chuỗi hoặc sau dấu cách
+    // '+      : một hoặc nhiều dấu '
+    // $1      : giữ nguyên vị trí trước đó, bỏ toàn bộ dấu '
+    // Ví dụ: "'rob" → "rob", " 'fear" → "fear", nhưng "don't" vẫn giữ nguyên
+
+    .replace(/[^a-z0-9'\s]+/g, ' ')
+    // ✅ Xóa mọi ký tự không phải chữ, số, space hoặc apostrophe
+    // Loại bỏ: !@#$%^&*()_+=/:;,.?~ …
+    // Nhưng giữ lại dấu ' bên trong từ
+    // Ví dụ: "rock&roll!" → "rock roll"
+
+    .replace(/\s+/g, ' ')
+    // ✅ Gom nhiều khoảng trắng liên tiếp thành 1 space
+    // Ví dụ: "hello    world" → "hello world"
+
+    .trim();
+// ✅ Xóa space thừa đầu/cuối chuỗi
+
+/**
+ * Tính khoảng cách Levenshtein (số thao tác tối thiểu để biến chuỗi a thành chuỗi b)
+ * Các thao tác gồm:
+ *  - Thêm ký tự (insert)
+ *  - Xóa ký tự (delete)
+ *  - Thay ký tự (substitute)
+ *
+ * Ví dụ:
+ *  levenshtein("cat", "cut")  => 1 (thay 'a' -> 'u')
+ *  levenshtein("cat", "cart") => 1 (thêm 'r')
+ *  levenshtein("cart", "cat") => 1 (xóa 'r')
+ */
 const levenshtein = (a: string, b: string) => {
+  // Nếu hai chuỗi giống hệt nhau -> không cần thay đổi
   if (a === b) return 0;
-  const m = a.length;
-  const n = b.length;
+
+  const m = a.length; // độ dài chuỗi a
+  const n = b.length; // độ dài chuỗi b
+
+  // Nếu chuỗi a rỗng -> phải thêm n ký tự để thành b
   if (m === 0) return n;
+
+  // Nếu chuỗi b rỗng -> phải xóa m ký tự từ a
   if (n === 0) return m;
+
+  // Tạo ma trận (m+1) x (n+1)
+  // dp[i][j] = số thao tác để biến a[0..i-1] thành b[0..j-1]
   const dp = Array.from({ length: m + 1 }, () => new Array(n + 1).fill(0));
+
+  // Điền cột đầu tiên: biến chuỗi có i ký tự thành chuỗi rỗng -> cần i lần xóa
   for (let i = 0; i <= m; i++) dp[i][0] = i;
+
+  // Điền hàng đầu tiên: biến chuỗi rỗng thành chuỗi có j ký tự -> cần j lần thêm
   for (let j = 0; j <= n; j++) dp[0][j] = j;
+
+  // Duyệt từng ký tự trong chuỗi a và b
   for (let i = 1; i <= m; i++) {
     for (let j = 1; j <= n; j++) {
+      // Nếu ký tự giống nhau -> không cần hành động (cost = 0)
+      // Nếu khác -> cần 1 thao tác thay thế
       const cost = a[i - 1] === b[j - 1] ? 0 : 1;
-      dp[i][j] = Math.min(dp[i - 1][j] + 1, dp[i][j - 1] + 1, dp[i - 1][j - 1] + cost);
+
+      dp[i][j] = Math.min(
+        dp[i - 1][j] + 1, // Xóa ký tự a[i-1]
+        dp[i][j - 1] + 1, // Thêm ký tự b[j-1]
+        dp[i - 1][j - 1] + cost // Thay ký tự a[i-1] -> b[j-1] (nếu khác)
+      );
     }
   }
+
+  // Kết quả nằm tại góc dưới bên phải
   return dp[m][n];
 };
 
@@ -110,15 +169,13 @@ const computeWordDiff = (correctRaw: string, userRaw: string) => {
   return { result };
 };
 
-const InputChecker = memo(({ sentence, onResult, onNext, isLoading }: Props) => {
+const InputChecker = memo(({ sentence, onNext, isLoading, inputRef }: Props) => {
   const [userText, setUserText] = useState('');
   const [lastResult, setLastResult] = useState<LastResultType | null>(null);
   const [isSkipped, setIsSkipped] = useState(false);
   const [isExactMatch, setIsExactMatch] = useState(false);
-  const inputRef = useRef<HTMLTextAreaElement | null>(null);
 
   const checkExactMatch = useCallback(() => {
-    console.log('checkExactMatch');
     if (!sentence || !userText?.trim()) return false;
     return normalize(sentence.text) === normalize(userText);
   }, [sentence, userText]);
@@ -131,11 +188,14 @@ const InputChecker = memo(({ sentence, onResult, onNext, isLoading }: Props) => 
   }, [sentence.id]);
 
   const handleCheck = useCallback(() => {
-    const { result } = computeWordDiff(sentence.text, userText);
-    setLastResult({ result, correct: sentence.text });
-    setIsExactMatch(checkExactMatch());
-    onResult?.({ detailed: result });
-  }, [sentence, userText, onResult]);
+    if (!isExactMatch) {
+      const { result } = computeWordDiff(sentence.text, userText);
+      setLastResult({ result, correct: sentence.text });
+      setIsExactMatch(checkExactMatch());
+    } else {
+      onNext?.();
+    }
+  }, [sentence, userText, isExactMatch]);
 
   const handleSkip = useCallback(() => {
     setUserText(sentence.text);
@@ -198,9 +258,11 @@ const InputChecker = memo(({ sentence, onResult, onNext, isLoading }: Props) => 
 
         <div className="flex gap-2">
           {isExactMatch ? (
-            <Button size="lg" onClick={handleNext}>
-              {isLoading ? 'Đang tải...' : 'Tiếp theo'}
-            </Button>
+            <div className="flex w-full justify-end">
+              <Button size="lg" onClick={handleNext}>
+                {isLoading ? 'Đang tải...' : 'Tiếp theo'}
+              </Button>
+            </div>
           ) : (
             <>
               <Button size="lg" onClick={handleCheck}>
@@ -228,7 +290,7 @@ const InputChecker = memo(({ sentence, onResult, onNext, isLoading }: Props) => 
                 </>
               )}
             </div>
-            <div className="rounded-lg border bg-gray-50 p-4 text-xl text-gray-600">
+            <div className="rounded-lg border bg-gray-50 p-4 text-xl text-black">
               {rendered.correctLine}
             </div>
           </div>

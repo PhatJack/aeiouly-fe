@@ -17,7 +17,6 @@ const VideoPlayer = memo(() => {
   const playTrigger = useGymDetailStore((state) => state.playTrigger);
   const isAddYtbScript = useGymDetailStore((state) => state.isAddYtbScript);
   const isStarted = useGymDetailStore((state) => state.isStarted);
-  const currentSentenceIndex = useGymDetailStore((state) => state.currentSentenceIndex);
   const setIsPlaying = useGymDetailStore((state) => state.setIsPlaying);
 
   const { toggleVideo, setAddYtbScript } = useGymDetailStore();
@@ -76,6 +75,7 @@ const VideoPlayer = memo(() => {
         setVideoError(true);
       }
     };
+
     if (!isAddYtbScript) {
       const tag = document.createElement('script');
       tag.src = 'https://www.youtube.com/iframe_api';
@@ -92,7 +92,7 @@ const VideoPlayer = memo(() => {
     } else if (window.YT && window.YT.Player && session?.lesson.youtube_url) {
       initializeyoutube();
     }
-  }, [showVideo, videoId]);
+  }, [videoId, session?.lesson.youtube_url, isAddYtbScript, setAddYtbScript]);
 
   useEffect(() => {
     if (videoRef.current && session) {
@@ -156,18 +156,17 @@ const VideoPlayer = memo(() => {
         </div>
       </CardHeader>
       {videoError && <div className="text-red-500">Video không khả dụng</div>}
-      {showVideo ? (
-        <div className="aspect-video">
-          <div id="yt-player" className="h-full w-full" />
-        </div>
-      ) : (
-        <div className="bg-muted flex aspect-video items-center justify-center">
-          <Button variant="outline" size="lg" onClick={toggleVideo} className="gap-2">
-            <Play className="h-5 w-5" />
-            Hiện video
-          </Button>
-        </div>
-      )}
+      <div className="relative aspect-video">
+        <div id="yt-player" className="h-full w-full" />
+        {!showVideo && (
+          <div className="bg-muted absolute inset-0 flex aspect-video items-center justify-center">
+            <Button variant="outline" size="lg" onClick={toggleVideo} className="gap-2">
+              <Play className="h-5 w-5" />
+              Hiện video
+            </Button>
+          </div>
+        )}
+      </div>
     </Card>
   );
 });

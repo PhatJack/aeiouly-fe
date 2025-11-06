@@ -10,7 +10,6 @@ interface GymDetailState {
   currentSentenceIndex: number;
   userInput: string;
   showVideo: boolean;
-  showTranslation: boolean;
   isAddYtbScript: boolean;
   isPlaying: boolean;
   playTrigger: number;
@@ -24,7 +23,6 @@ interface GymDetailState {
   setPlayTrigger: () => void;
   setIsPlaying: (value: boolean) => void;
   toggleVideo: () => void;
-  toggleTranslation: () => void;
   handlePlay: () => void;
   reset: () => void;
 }
@@ -53,7 +51,6 @@ export const useGymDetailStore = create<GymDetailState>()(
         set({
           currentSentenceIndex: index,
           userInput: '',
-          showTranslation: false,
         }),
 
       setAddYtbScript: (value) => set({ isAddYtbScript: value }),
@@ -61,8 +58,6 @@ export const useGymDetailStore = create<GymDetailState>()(
       setUserInput: (input) => set({ userInput: input }),
 
       toggleVideo: () => set((state) => ({ showVideo: !state.showVideo })),
-
-      toggleTranslation: () => set((state) => ({ showTranslation: !state.showTranslation })),
 
       handlePlay: () => set(() => ({ showVideo: true })),
 

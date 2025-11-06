@@ -43,7 +43,7 @@ const ReadingPage = () => {
     <div className="min-h-screen">
       {/* Header */}
       <div className="border-b">
-        <div className="py-6">
+        <div className="py-4">
           <div className="mb-6 flex items-start gap-5">
             <div className="group relative">
               <div className="relative flex h-20 w-20 items-center justify-center rounded-2xl ring-2 ring-orange-600">
@@ -83,7 +83,7 @@ const ReadingPage = () => {
       </div>
 
       {/* Content */}
-      <div className="grid gap-6 py-6 lg:grid-cols-[1fr_400px]">
+      <div className="grid gap-6 py-4 lg:grid-cols-[1fr_400px]">
         {/* Left - Sessions List */}
         <div>
           {isLoading && (
@@ -110,7 +110,7 @@ const ReadingPage = () => {
           {!isLoading && !isError && data && (
             <>
               {data.items.length > 0 ? (
-                <div className="space-y-4">
+                <div className="grid gap-4 xl:grid-cols-3">
                   {data.items.map((session, index) => (
                     <div key={`session-${index}`} className="size-full">
                       <ReadingSessionCard

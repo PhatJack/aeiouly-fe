@@ -165,7 +165,7 @@ const OnionPage = () => {
     <div className="min-h-screen">
       {/* Header */}
       <div className="border-b">
-        <div className="py-6">
+        <div className="py-4">
           <div className="mb-6 flex items-start gap-5">
             <div className="group relative">
               <div className="relative flex h-20 w-20 items-center justify-center rounded-2xl ring-2 ring-purple-600">

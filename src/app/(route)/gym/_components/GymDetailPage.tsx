@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useCallback, useEffect } from 'react';
+import React, { useCallback, useEffect, useRef } from 'react';
 import { useHotkeys } from 'react-hotkeys-hook';
 
 import { useRouter } from 'nextjs-toploader/app';
@@ -27,19 +27,17 @@ interface GymDetailPageProps {
 const GymDetailPage = ({ id }: GymDetailPageProps) => {
   const router = useRouter();
   const lessonId = Number(id);
-
+  const inputRef = useRef<HTMLTextAreaElement | null>(null);
   // Zustand store
   const {
     session,
     isStarted,
     currentSentenceIndex,
     showVideo,
-    showTranslation,
     setSession,
     startLearning,
     setCurrentSentenceIndex,
     toggleVideo,
-    toggleTranslation,
     handlePlay,
     setIsPlaying,
     reset,
@@ -68,15 +66,13 @@ const GymDetailPage = ({ id }: GymDetailPageProps) => {
     return () => reset();
   }, [reset]);
 
-  // Memoized handlers
-  const handleCheckResult = useCallback((result: { detailed: any }) => {}, []);
-
   const handleNext = useCallback(() => {
     if (!session || !id) return;
 
     if (currentSentenceIndex < session.lesson.total_sentences - 1) {
       getNextSentenceMutation.mutate(Number(id), {
         onSuccess: (data) => {
+          setSession(data);
           setCurrentSentenceIndex(data.current_sentence_index);
         },
       });
@@ -96,10 +92,6 @@ const GymDetailPage = ({ id }: GymDetailPageProps) => {
     toggleVideo();
   }, [toggleVideo]);
 
-  const handleToggleTranslation = useCallback(() => {
-    toggleTranslation();
-  }, [toggleTranslation]);
-
   const handleBack = useCallback(() => {
     router.push('/gym');
   }, [router]);
@@ -108,6 +100,9 @@ const GymDetailPage = ({ id }: GymDetailPageProps) => {
     startLearning();
     setPlayTrigger();
     setIsPlaying(true);
+    setTimeout(() => {
+      inputRef.current?.focus();
+    }, 0);
   }, [startLearning]);
 
   const handlePlayVideo = useCallback(() => {
@@ -116,9 +111,16 @@ const GymDetailPage = ({ id }: GymDetailPageProps) => {
     setIsPlaying(true);
   }, [setPlayTrigger, setIsPlaying]);
 
-  useHotkeys('space', () => {
-    handlePlayVideo();
-  });
+  useHotkeys(
+    'ctrl',
+    () => {
+      handlePlayVideo();
+      inputRef.current?.focus();
+    },
+    {
+      enableOnFormTags: true,
+    }
+  );
 
   if (isLoading) {
     return (
@@ -187,9 +189,9 @@ const GymDetailPage = ({ id }: GymDetailPageProps) => {
                 {session.current_sentence && (
                   <InputChecker
                     sentence={session.current_sentence}
-                    onResult={handleCheckResult}
                     onNext={handleNext}
                     isLoading={getNextSentenceMutation.isPending}
+                    inputRef={inputRef}
                   />
                 )}
               </>
