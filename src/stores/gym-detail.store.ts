@@ -11,7 +11,6 @@ interface GymDetailState {
   userInput: string;
   showVideo: boolean;
   showTranslation: boolean;
-  showAnswer: boolean;
   isAddYtbScript: boolean;
   isPlaying: boolean;
   playTrigger: number;
@@ -26,7 +25,6 @@ interface GymDetailState {
   setIsPlaying: (value: boolean) => void;
   toggleVideo: () => void;
   toggleTranslation: () => void;
-  revealAnswer: () => void;
   handlePlay: () => void;
   reset: () => void;
 }
@@ -38,14 +36,13 @@ const initialState = {
   userInput: '',
   showVideo: true,
   showTranslation: false,
-  showAnswer: false,
   isAddYtbScript: false,
   playTrigger: 0,
 };
 
 export const useGymDetailStore = create<GymDetailState>()(
   devtools(
-    (set, get) => ({
+    (set) => ({
       ...initialState,
 
       setSession: (session) => set({ session }),
@@ -57,7 +54,6 @@ export const useGymDetailStore = create<GymDetailState>()(
           currentSentenceIndex: index,
           userInput: '',
           showTranslation: false,
-          showAnswer: false,
         }),
 
       setAddYtbScript: (value) => set({ isAddYtbScript: value }),
@@ -68,9 +64,7 @@ export const useGymDetailStore = create<GymDetailState>()(
 
       toggleTranslation: () => set((state) => ({ showTranslation: !state.showTranslation })),
 
-      revealAnswer: () => set({ showAnswer: true }),
-
-      handlePlay: () => set((state) => ({ showVideo: true })),
+      handlePlay: () => set(() => ({ showVideo: true })),
 
       reset: () => set(initialState),
 

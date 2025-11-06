@@ -1,3 +1,5 @@
+import { Metadata } from 'next';
+
 import DriverOnboarding from '@/components/DriverOnBoarding';
 import PostsFeed from '@/components/PostsFeed';
 

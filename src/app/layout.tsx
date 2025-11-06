@@ -32,7 +32,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: {
       template: '%s - Aeiouly',
-      default: 'Home',
+      default: 'Trang chủ',
     },
     description:
       'Lộ trình chinh phục tiếng Anh cùng Aeiouly sẽ vừa thú vị vừa hiệu quả. Công cụ, bài học và phương pháp cá nhân hóa của chúng tôi giúp bạn tự tin giao tiếp tiếng Anh.',
@@ -76,7 +76,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="vi" suppressHydrationWarning>
       <body className={`${beVietNamPro.variable} ${geistSans.variable} flex antialiased`}>
         <ThemeProvider
           attribute="class"
