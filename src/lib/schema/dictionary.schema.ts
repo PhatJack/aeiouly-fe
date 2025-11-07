@@ -69,17 +69,10 @@ export const dictionaryStatsResponseSchema = z.object({
   }),
 });
 
-// Cambridge Dictionary schemas
-export const cambridgeVerbDataSchema = z.object({
-  id: z.number(),
-  type: z.string(),
-  text: z.string(),
-});
-
 export const cambridgePronunciationDataSchema = z.object({
   pos: z.string(),
   lang: z.string().optional(),
-  url: z.string().url(),
+  url: z.url(),
   pron: z.string(),
 });
 
@@ -101,7 +94,7 @@ export const cambridgeDefinitionDataSchema = z.object({
 export const cambridgeDictionaryResponseSchema = z.object({
   word: z.string(),
   pos: z.array(z.string()),
-  verbs: z.array(cambridgeVerbDataSchema),
+  // verbs: z.array(cambridgeVerbDataSchema),
   pronunciation: z.array(cambridgePronunciationDataSchema),
   definition: z.array(cambridgeDefinitionDataSchema),
 });
@@ -126,7 +119,6 @@ export type GetWordByExpressionRequestSchema = z.infer<typeof getWordByExpressio
 export type DictionaryStatsResponseSchema = z.infer<typeof dictionaryStatsResponseSchema>;
 
 // Cambridge Dictionary types
-export type CambridgeVerbData = z.infer<typeof cambridgeVerbDataSchema>;
 export type CambridgePronunciationData = z.infer<typeof cambridgePronunciationDataSchema>;
 export type CambridgeExampleData = z.infer<typeof cambridgeExampleDataSchema>;
 export type CambridgeDefinitionData = z.infer<typeof cambridgeDefinitionDataSchema>;

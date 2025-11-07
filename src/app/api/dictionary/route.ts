@@ -6,11 +6,8 @@ import {
   CambridgeDictionaryResponse,
   CambridgeExampleData,
   CambridgePronunciationData,
-  CambridgeVerbData,
-  cambridgeDictionaryLookupRequestSchema,
 } from '@/lib/schema/dictionary.schema';
 
-import axios from 'axios';
 import * as cheerio from 'cheerio';
 
 // Cache implementation
@@ -40,67 +37,6 @@ const setCache = (key: string, data: any): void => {
   }
 };
 
-// Fetch verb conjugations from Wiktionary
-const fetchVerbs = async (wiki: string): Promise<CambridgeVerbData[]> => {
-  const cacheKey = getCacheKey(wiki);
-  const cached = getFromCache(cacheKey);
-  if (cached) {
-    return cached;
-  }
-
-  try {
-    const response = await httpClient.get(wiki);
-    const $$ = cheerio.load(response.data);
-    const verbs: CambridgeVerbData[] = [];
-
-    $$('.inflection-table tr td').each((index, cell) => {
-      const cellElement = $$(cell);
-      const cellText = cellElement.text().trim();
-
-      if (!cellText) return;
-
-      const pElement = cellElement.find('p');
-      if (pElement.length > 0) {
-        const pText = pElement.text().trim();
-        const parts = pText
-          .split('\n')
-          .map((p) => p.trim())
-          .filter((p) => p);
-
-        if (parts.length >= 2) {
-          const type = parts[0];
-          const text = parts[1];
-
-          if (type && text) {
-            verbs.push({ id: verbs.length, type, text });
-          }
-        } else {
-          const htmlContent = pElement.html();
-          if (htmlContent && htmlContent.includes('<br>')) {
-            const htmlParts = htmlContent.split('<br>');
-            if (htmlParts.length >= 2) {
-              const type =
-                $$(htmlParts[0]).text().trim() || htmlParts[0].replace(/<[^>]*>/g, '').trim();
-              const textPart = htmlParts[1];
-              const text = $$(textPart).text().trim() || textPart.replace(/<[^>]*>/g, '').trim();
-
-              if (type && text) {
-                verbs.push({ id: verbs.length, type, text });
-              }
-            }
-          }
-        }
-      }
-    });
-
-    setCache(cacheKey, verbs);
-    return verbs;
-  } catch (error) {
-    console.warn(`Failed to fetch verbs from ${wiki}:`, error);
-    return [];
-  }
-};
-
 // Server action for dictionary lookup
 export async function GET(request: NextRequest) {
   try {
@@ -127,8 +63,6 @@ export async function GET(request: NextRequest) {
     }
 
     const url = `https://dictionary.cambridge.org/${nation}/dictionary/${dictLanguage}/${entry}`;
-    console.log('url: ', url);
-    const wiki = `https://simple.wiktionary.org/wiki/${entry}`;
 
     const mainCacheKey = getCacheKey(url);
     const cachedResult = getFromCache(mainCacheKey);
@@ -136,10 +70,7 @@ export async function GET(request: NextRequest) {
       return NextResponse.json(cachedResult);
     }
 
-    const [dictionaryResponse, verbs] = await Promise.allSettled([
-      httpClient.get(url),
-      fetchVerbs(wiki),
-    ]);
+    const [dictionaryResponse] = await Promise.allSettled([httpClient.get(url)]);
 
     if (dictionaryResponse.status === 'rejected' || dictionaryResponse.value.status !== 200) {
       return NextResponse.json({ error: 'word not found' }, { status: 404 });
@@ -214,7 +145,7 @@ export async function GET(request: NextRequest) {
     const result: CambridgeDictionaryResponse = {
       word: word,
       pos: pos,
-      verbs: verbs.status === 'fulfilled' ? verbs.value : [],
+      // verbs: verbs.status === 'fulfilled' ? verbs.value : [],
       pronunciation: audio,
       definition: definition,
     };
