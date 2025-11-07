@@ -1,7 +1,7 @@
 import { apiClient } from '@/lib/client';
 import { ErrorResponseSchema } from '@/lib/schema/error';
 import { PostCreateImageSchema, PostResponseSchema } from '@/lib/schema/post.schema';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useMutation } from '@tanstack/react-query';
 
 export async function createPostImageApi(post_id: number, body: PostCreateImageSchema) {
   const response = await apiClient.post<PostResponseSchema, PostCreateImageSchema>(

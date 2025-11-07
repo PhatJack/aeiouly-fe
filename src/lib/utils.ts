@@ -198,3 +198,36 @@ export const getLevelColor = (level: string) => {
   };
   return colors[level] || 'bg-gray-100 text-gray-700 border-gray-300';
 };
+
+export const normalizeText = (s: string) =>
+  s
+    .toLowerCase()
+    // ✅ Chuyển toàn bộ string về lowercase để so sánh không phân biệt hoa/thường
+
+    .replace(/[""„"«»]/g, '"')
+    // ✅ Chuẩn hóa các loại dấu ngoặc kép fancy Unicode thành dấu " chuẩn
+    // Ví dụ: “ ” „ « »  => "
+
+    .replace(/[''`]/g, "'")
+    // ✅ Chuẩn hóa các loại apostrophe (` ‘ ’) thành dấu '
+    // Ví dụ: `don't` , ‘‘hello’’ , ain’t  => don't, 'hello', ain't
+
+    .replace(/(^|\s)'+/g, '$1')
+    // ✅ Xóa apostrophe đứng đầu từ (leading apostrophe)
+    // (^|\s)  : đầu chuỗi hoặc sau dấu cách
+    // '+      : một hoặc nhiều dấu '
+    // $1      : giữ nguyên vị trí trước đó, bỏ toàn bộ dấu '
+    // Ví dụ: "'rob" → "rob", " 'fear" → "fear", nhưng "don't" vẫn giữ nguyên
+
+    .replace(/[^a-z0-9'\s]+/g, ' ')
+    // ✅ Xóa mọi ký tự không phải chữ, số, space hoặc apostrophe
+    // Loại bỏ: !@#$%^&*()_+=/:;,.?~ …
+    // Nhưng giữ lại dấu ' bên trong từ
+    // Ví dụ: "rock&roll!" → "rock roll"
+
+    .replace(/\s+/g, ' ')
+    // ✅ Gom nhiều khoảng trắng liên tiếp thành 1 space
+    // Ví dụ: "hello    world" → "hello world"
+
+    .trim();
+// ✅ Xóa space thừa đầu/cuối chuỗi

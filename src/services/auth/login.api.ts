@@ -2,7 +2,6 @@ import { apiClient } from '@/lib/client';
 import { ErrorResponseSchema } from '@/lib/schema/error';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
-import { setCookie } from 'cookies-next';
 import z from 'zod';
 
 export const loginBodySchema = z.object({

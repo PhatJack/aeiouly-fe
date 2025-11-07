@@ -15,7 +15,7 @@ const TranslationCard = memo(({ translation }: TranslationCardProps) => {
   return (
     <Card>
       <CardContent className="space-y-2">
-        <div className="flex items-center justify-between">
+        <div className="flex items-center justify-between text-xl">
           <h3 className="font-semibold">Bản dịch</h3>
         </div>
         {<p className="text-xl">{translation}</p>}

@@ -1,9 +1,7 @@
-import { Metadata } from 'next';
-
 import DriverOnboarding from '@/components/DriverOnBoarding';
 import PostsFeed from '@/components/PostsFeed';
 
-export default function Home() {
+export default async function Home() {
   return (
     <>
       <DriverOnboarding />

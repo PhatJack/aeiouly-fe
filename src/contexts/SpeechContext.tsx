@@ -38,7 +38,7 @@ export const SpeechProvider: React.FC<{ children: React.ReactNode }> = ({ childr
         rate,
       });
     },
-    [originalSpeak]
+    [originalSpeak, rate]
   );
 
   const cancel = useCallback(() => {

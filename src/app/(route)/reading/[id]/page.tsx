@@ -9,11 +9,6 @@ import { ReadingSessionDetailSchema } from '@/lib/schema/reading-session.schema'
 
 import ReadingDetailPage from '../_components/ReadingDetailPage';
 
-export const metadata: Metadata = {
-  title: 'Reading Session',
-  description: 'Reading practice session detail',
-};
-
 interface PageProps {
   params: Promise<{ id: string }>;
 }

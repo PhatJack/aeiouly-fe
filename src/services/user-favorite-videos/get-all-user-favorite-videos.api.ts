@@ -2,7 +2,7 @@ import { apiClient } from '@/lib/client';
 import { ErrorResponseSchema } from '@/lib/schema/error';
 import { PaginationRequestSchema } from '@/lib/schema/pagination';
 import { UserFavoriteVideoListResponseSchema } from '@/lib/schema/user-favorite-video.schema';
-import { infiniteQueryOptions, useInfiniteQuery } from '@tanstack/react-query';
+import { infiniteQueryOptions } from '@tanstack/react-query';
 
 export async function getAllUserFavoriteVideosApi(params?: PaginationRequestSchema) {
   const response = await apiClient.get<UserFavoriteVideoListResponseSchema>(

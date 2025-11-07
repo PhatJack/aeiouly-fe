@@ -60,6 +60,7 @@
     "@tiptap/react": "^3.10.1",
     "@tiptap/starter-kit": "^3.10.1",
     "axios": "^1.11.0",
+    "cheerio": "^1.1.2",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "cookies-next": "^6.1.0",

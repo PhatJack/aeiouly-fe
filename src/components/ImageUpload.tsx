@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo } from 'react';
 import { Control, FieldPath, FieldValues, useController } from 'react-hook-form';
 
 import { MAX_FILE_SIZE } from '@/constants/image';

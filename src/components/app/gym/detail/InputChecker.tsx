@@ -4,9 +4,11 @@ import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Textarea } from '@/components/ui/textarea';
 import { SentenceResponseSchema } from '@/lib/schema/listening-session.schema';
+import { normalizeText } from '@/lib/utils';
 
 import { CheckCircle2, TriangleAlert } from 'lucide-react';
 
+import PronounCard from './PronounCard';
 import TranslationCard from './TranslationCard';
 
 type LastResultType = {
@@ -25,39 +27,6 @@ type Props = {
   isLoading?: boolean;
   inputRef?: React.RefObject<HTMLTextAreaElement | null>;
 };
-
-const normalize = (s: string) =>
-  s
-    .toLowerCase()
-    // ✅ Chuyển toàn bộ string về lowercase để so sánh không phân biệt hoa/thường
-
-    .replace(/[""„"«»]/g, '"')
-    // ✅ Chuẩn hóa các loại dấu ngoặc kép fancy Unicode thành dấu " chuẩn
-    // Ví dụ: “ ” „ « »  => "
-
-    .replace(/[''`]/g, "'")
-    // ✅ Chuẩn hóa các loại apostrophe (` ‘ ’) thành dấu '
-    // Ví dụ: `don't` , ‘‘hello’’ , ain’t  => don't, 'hello', ain't
-
-    .replace(/(^|\s)'+/g, '$1')
-    // ✅ Xóa apostrophe đứng đầu từ (leading apostrophe)
-    // (^|\s)  : đầu chuỗi hoặc sau dấu cách
-    // '+      : một hoặc nhiều dấu '
-    // $1      : giữ nguyên vị trí trước đó, bỏ toàn bộ dấu '
-    // Ví dụ: "'rob" → "rob", " 'fear" → "fear", nhưng "don't" vẫn giữ nguyên
-
-    .replace(/[^a-z0-9'\s]+/g, ' ')
-    // ✅ Xóa mọi ký tự không phải chữ, số, space hoặc apostrophe
-    // Loại bỏ: !@#$%^&*()_+=/:;,.?~ …
-    // Nhưng giữ lại dấu ' bên trong từ
-    // Ví dụ: "rock&roll!" → "rock roll"
-
-    .replace(/\s+/g, ' ')
-    // ✅ Gom nhiều khoảng trắng liên tiếp thành 1 space
-    // Ví dụ: "hello    world" → "hello world"
-
-    .trim();
-// ✅ Xóa space thừa đầu/cuối chuỗi
 
 /**
  * Tính khoảng cách Levenshtein (số thao tác tối thiểu để biến chuỗi a thành chuỗi b)
@@ -114,8 +83,8 @@ const levenshtein = (a: string, b: string) => {
 };
 
 const computeWordDiff = (correctRaw: string, userRaw: string) => {
-  const correct = normalize(correctRaw);
-  const user = normalize(userRaw);
+  const correct = normalizeText(correctRaw);
+  const user = normalizeText(userRaw);
 
   const correctWords = correct.split(' ');
   const userWords = user.split(' ');
@@ -177,7 +146,7 @@ const InputChecker = memo(({ sentence, onNext, isLoading, inputRef }: Props) => 
 
   const checkExactMatch = useCallback(() => {
     if (!sentence || !userText?.trim()) return false;
-    return normalize(sentence.text) === normalize(userText);
+    return normalizeText(sentence.text) === normalizeText(userText);
   }, [sentence, userText]);
 
   useEffect(() => {
@@ -239,7 +208,7 @@ const InputChecker = memo(({ sentence, onNext, isLoading, inputRef }: Props) => 
   }, [lastResult]);
 
   return (
-    <Card className="p-6">
+    <Card className="p-4">
       <div className="space-y-4">
         <Textarea
           ref={inputRef}
@@ -275,7 +244,7 @@ const InputChecker = memo(({ sentence, onNext, isLoading, inputRef }: Props) => 
           )}
         </div>
 
-        {lastResult && rendered && (
+        {document.activeElement !== inputRef?.current && lastResult && rendered && (
           <div className="mt-4 space-y-3">
             <div className="flex items-center gap-2">
               {isExactMatch ? (
@@ -296,7 +265,12 @@ const InputChecker = memo(({ sentence, onNext, isLoading, inputRef }: Props) => 
           </div>
         )}
         {isSkipped ||
-          (isExactMatch && <TranslationCard translation={sentence.translation || ''} />)}
+          (isExactMatch && (
+            <>
+              <TranslationCard translation={sentence.translation || ''} />
+              <PronounCard words={sentence.text.split(' ')} />
+            </>
+          ))}
       </div>
     </Card>
   );

@@ -2,12 +2,7 @@ import { apiClient } from '@/lib/client';
 import { ErrorResponseSchema } from '@/lib/schema/error';
 import { PaginationRequestSchema } from '@/lib/schema/pagination';
 import { PostListResponseSchema } from '@/lib/schema/post.schema';
-import {
-  infiniteQueryOptions,
-  keepPreviousData,
-  useInfiniteQuery,
-  useQuery,
-} from '@tanstack/react-query';
+import { infiniteQueryOptions, keepPreviousData, useQuery } from '@tanstack/react-query';
 
 export async function getAllPostsApi(params?: PaginationRequestSchema) {
   const response = await apiClient.get<PostListResponseSchema>('/posts/', params);
