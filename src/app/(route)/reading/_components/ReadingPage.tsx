@@ -2,9 +2,9 @@
 
 import React, { useCallback, useState } from 'react';
 
-import Image from 'next/image';
 import { useRouter } from 'nextjs-toploader/app';
 
+import PageHeader from '@/components/PageHeader';
 import ReadingSessionCard from '@/components/app/reading/ReadingSessionCard';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
@@ -41,46 +41,21 @@ const ReadingPage = () => {
 
   return (
     <div className="min-h-screen">
-      {/* Header */}
-      <div className="border-b">
-        <div className="py-4">
-          <div className="mb-6 flex items-start gap-5">
-            <div className="group relative">
-              <div className="relative flex h-20 w-20 items-center justify-center rounded-2xl ring-2 ring-orange-600">
-                <div className="relative size-10">
-                  <Image src={'/sidebarIcon/reading.png'} alt="Reading icon" fill quality={100} />
-                </div>
-              </div>
-            </div>
-
-            <div className="flex-1 space-y-2">
-              <h1 className="from-foreground to-foreground/70 bg-gradient-to-r bg-clip-text text-4xl leading-snug font-bold tracking-tight text-transparent">
-                Luyện Đọc
-              </h1>
-              <p className="text-muted-foreground max-w-2xl text-base leading-relaxed">
-                Cải thiện kỹ năng đọc hiểu tiếng Anh qua các bài đọc đa dạng hoặc văn bản tự chọn
-              </p>
-
-              {data && (
-                <div className="flex flex-wrap items-center gap-4 pt-2 text-sm">
-                  <div className="flex items-center gap-2">
-                    <div className="h-2 w-2 animate-pulse rounded-full bg-green-500" />
-                    <span className="text-muted-foreground">
-                      <span className="text-foreground font-semibold">{data.total}</span> phiên đọc
-                    </span>
-                  </div>
-                  <div className="bg-border h-4 w-px" />
-                  <div className="flex items-center gap-2">
-                    <span className="text-muted-foreground">
-                      Cấp độ <span className="text-foreground font-semibold">A1 - C2</span>
-                    </span>
-                  </div>
-                </div>
-              )}
-            </div>
-          </div>
-        </div>
-      </div>
+      <PageHeader
+        title="Luyện Đọc"
+        description="Cải thiện kỹ năng đọc hiểu tiếng Anh qua các bài đọc đa dạng hoặc văn bản tự chọn"
+        icon="/sidebarIcon/reading.png"
+        iconAlt="Reading icon"
+        ringColor="ring-orange-600"
+        stats={
+          data
+            ? [
+                { label: 'phiên đọc', value: data.total, isLive: true },
+                { label: '', value: 'Cấp độ A1 - C2' },
+              ]
+            : undefined
+        }
+      />
 
       {/* Content */}
       <div className="grid gap-6 py-4 lg:grid-cols-[1fr_400px]">

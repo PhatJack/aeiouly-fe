@@ -73,7 +73,7 @@ const TopicInsertForm = ({ values }: TopicInsertFormProps) => {
     });
   };
   return (
-    <Card ref={formRef} className="mx-auto w-full shadow-none sm:max-w-md">
+    <Card ref={formRef} className="mx-auto w-full shadow-none">
       <CardContent>
         <form id="form-create-writing-session" onSubmit={form.handleSubmit(onSubmit)}>
           <FieldGroup className="gap-4">

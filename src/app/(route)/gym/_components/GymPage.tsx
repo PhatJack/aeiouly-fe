@@ -2,9 +2,9 @@
 
 import React, { useState } from 'react';
 
-import Image from 'next/image';
 import { useRouter } from 'nextjs-toploader/app';
 
+import PageHeader from '@/components/PageHeader';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import {
@@ -56,55 +56,21 @@ const GymPage = () => {
 
   return (
     <div className="min-h-screen">
-      <div className="border-b">
-        <div className="py-4">
-          <div className="mb-6 flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
-            <div className="flex items-start gap-5">
-              <div className="group relative">
-                <div className="relative flex h-20 w-20 items-center justify-center rounded-2xl ring-2 ring-blue-600">
-                  <div className="relative size-10">
-                    <Image
-                      src={'/sidebarIcon/headphone.png'}
-                      alt="Headphone icon"
-                      fill
-                      quality={100}
-                    />
-                  </div>
-                </div>
-              </div>
-
-              {/* Title and Description */}
-              <div className="flex-1 space-y-2">
-                <h1 className="from-foreground to-foreground/70 bg-gradient-to-r bg-clip-text text-4xl leading-snug font-bold tracking-tight text-transparent">
-                  Luyện Nghe
-                </h1>
-                <p className="text-muted-foreground max-w-2xl text-base leading-relaxed">
-                  Nâng cao khả năng nghe hiểu tiếng Anh qua các bài học chất lượng cao từ YouTube
-                  với phụ đề song ngữ
-                </p>
-
-                {/* Stats */}
-                {data && (
-                  <div className="flex flex-wrap items-center gap-4 pt-2 text-sm">
-                    <div className="flex items-center gap-2">
-                      <div className="h-2 w-2 animate-pulse rounded-full bg-green-500" />
-                      <span className="text-muted-foreground">
-                        <span className="text-foreground font-semibold">{data.total}</span> bài học
-                      </span>
-                    </div>
-                    <div className="bg-border h-4 w-px" />
-                    <div className="flex items-center gap-2">
-                      <span className="text-muted-foreground">
-                        Cấp độ <span className="text-foreground font-semibold">A1 - C2</span>
-                      </span>
-                    </div>
-                  </div>
-                )}
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+      <PageHeader
+        title="Luyện Nghe"
+        description="Nâng cao khả năng nghe hiểu tiếng Anh qua các bài học chất lượng cao từ YouTube với phụ đề song ngữ"
+        icon="/sidebarIcon/headphone.png"
+        iconAlt="Headphone icon"
+        ringColor="ring-blue-600"
+        stats={
+          data
+            ? [
+                { label: 'bài học', value: data.total, isLive: true },
+                { label: '', value: 'Cấp độ A1 - C2' },
+              ]
+            : undefined
+        }
+      />
 
       <div className="relative grid gap-6 py-4">
         <section className="space-y-4 xl:col-span-1">
