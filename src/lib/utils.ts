@@ -231,3 +231,30 @@ export const normalizeText = (s: string) =>
 
     .trim();
 // ✅ Xóa space thừa đầu/cuối chuỗi
+
+export const convertWordPos = (pos: string) => {
+  switch (pos.toLowerCase()) {
+    case 'noun':
+      return 'N';
+    case 'verb':
+      return 'V';
+    case 'adjective':
+      return 'Adj';
+    case 'adverb':
+      return 'Adv';
+    case 'pronoun':
+      return 'Pron';
+    case 'preposition':
+      return 'Prep';
+    case 'conjunction':
+      return 'Conj';
+    case 'interjection':
+      return 'Interj';
+    case 'determiner':
+      return 'Det';
+    case 'article':
+      return 'Art';
+    default:
+      return pos; // Trả về nguyên bản nếu không tìm thấy
+  }
+};

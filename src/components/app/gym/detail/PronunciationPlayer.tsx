@@ -3,21 +3,16 @@
 import React, { useCallback } from 'react';
 
 import { Button } from '@/components/ui/button';
+import { CambridgePronunciationData } from '@/lib/schema/dictionary.schema';
 
 import { Volume2 } from 'lucide-react';
 
-interface Pronunciation {
-  lang?: string;
-  url: string;
-  pron?: string;
-  pos?: string;
-}
-
 interface Props {
-  pronunciations: Pronunciation[];
+  pronunciations: CambridgePronunciationData[];
 }
 
 const PronunciationPlayer: React.FC<Props> = ({ pronunciations }) => {
+  console.log('pronunciations', pronunciations);
   const play = useCallback((url?: string) => {
     if (!url) return;
     try {
@@ -45,9 +40,9 @@ const PronunciationPlayer: React.FC<Props> = ({ pronunciations }) => {
       {uk && (
         <Button
           type="button"
-          variant={'secondary'}
+          variant={'secondary-outline'}
           onClick={() => play(uk.url)}
-          aria-label="Play UK pronunciation"
+          aria-label="Phát âm UK"
         >
           UK
           <Volume2 />
@@ -57,9 +52,9 @@ const PronunciationPlayer: React.FC<Props> = ({ pronunciations }) => {
       {us && (
         <Button
           type="button"
-          variant={'secondary'}
+          variant={'secondary-outline'}
           onClick={() => play(us.url)}
-          aria-label="Play US pronunciation"
+          aria-label="Phát âm US"
         >
           US
           <Volume2 />

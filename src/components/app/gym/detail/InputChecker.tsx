@@ -1,7 +1,7 @@
 import React, { JSX, memo, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
 import { Button } from '@/components/ui/button';
-import { Card } from '@/components/ui/card';
+import { Card, CardContent } from '@/components/ui/card';
 import { Textarea } from '@/components/ui/textarea';
 import { SentenceResponseSchema } from '@/lib/schema/listening-session.schema';
 import { normalizeText } from '@/lib/utils';
@@ -107,15 +107,22 @@ const computeWordDiff = (correctRaw: string, userRaw: string) => {
       continue;
     }
 
+    // ✅ same word
     if (c === u && c) {
       result.push({ tag: 'correct', word: c });
-    } else if (!c && u) {
+    }
+    // ✅ extra word beyond correct length — don’t mark as error
+    else if (!c && u) {
       result.push({ tag: 'extra', word: u });
-      errorFound = true;
-    } else if (!u && c) {
+      // ❌ don't set errorFound = true here
+    }
+    // ❌ missing word — still an error
+    else if (!u && c) {
       result.push({ tag: 'missing', word: c });
       errorFound = true;
-    } else {
+    }
+    // ❌ mismatch / typo
+    else {
       const dist = levenshtein(c, u);
       const threshold = Math.max(1, Math.floor(Math.max(c.length, u.length) * 0.3));
 
@@ -135,7 +142,10 @@ const computeWordDiff = (correctRaw: string, userRaw: string) => {
     }
   }
 
-  return { result };
+  // ✅ if only extra words and no real error, treat as correct
+  const hasRealError = result.some((r) => ['typo', 'missing'].includes(r.tag));
+
+  return { result, isExtraOnly: !hasRealError };
 };
 
 const InputChecker = memo(({ sentence, onNext, isLoading, inputRef }: Props) => {
@@ -167,9 +177,9 @@ const InputChecker = memo(({ sentence, onNext, isLoading, inputRef }: Props) => 
   }, [sentence, userText, isExactMatch]);
 
   const handleSkip = useCallback(() => {
-    setUserText(sentence.text);
+    const fullText = sentence.text;
+    setUserText(fullText);
     setIsSkipped(true);
-    setLastResult(null);
     setIsExactMatch(true);
   }, [sentence.text]);
 
@@ -215,7 +225,6 @@ const InputChecker = memo(({ sentence, onNext, isLoading, inputRef }: Props) => 
           placeholder="Nhập câu bạn nghe được..."
           value={userText}
           onChange={(e) => setUserText(e.target.value)}
-          disabled={isSkipped}
           className="min-h-[120px] md:text-lg"
           onKeyDown={(e) => {
             if (e.key === 'Enter') {
@@ -244,10 +253,10 @@ const InputChecker = memo(({ sentence, onNext, isLoading, inputRef }: Props) => 
           )}
         </div>
 
-        {document.activeElement !== inputRef?.current && lastResult && rendered && (
+        {lastResult && rendered && (
           <div className="mt-4 space-y-3">
             <div className="flex items-center gap-2">
-              {isExactMatch ? (
+              {userText && isExactMatch ? (
                 <>
                   <CheckCircle2 className="text-green-600" />
                   <span className="font-semibold text-green-500">Chính xác</span>
@@ -259,18 +268,20 @@ const InputChecker = memo(({ sentence, onNext, isLoading, inputRef }: Props) => 
                 </>
               )}
             </div>
-            <div className="rounded-lg border bg-gray-50 p-4 text-xl text-black">
-              {rendered.correctLine}
-            </div>
+            <Card className="rounded-lg border bg-white text-xl text-black">
+              <CardContent>
+                <p>{rendered?.correctLine}</p>
+              </CardContent>
+            </Card>
           </div>
         )}
-        {isSkipped ||
-          (isExactMatch && (
-            <>
-              <TranslationCard translation={sentence.translation || ''} />
-              <PronounCard words={sentence.text.split(' ')} />
-            </>
-          ))}
+
+        {(isSkipped || isExactMatch) && (
+          <>
+            <TranslationCard translation={sentence.translation || ''} />
+            <PronounCard words={sentence.text.split(' ')} />
+          </>
+        )}
       </div>
     </Card>
   );

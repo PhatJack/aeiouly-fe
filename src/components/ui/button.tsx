@@ -18,6 +18,18 @@ const buttonVariants = cva(
         secondary: 'bg-secondary text-secondary-foreground shadow-xs hover:bg-secondary/80',
         ghost: 'hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50',
         link: 'text-primary underline-offset-4 hover:underline',
+        'primary-outline':
+          'border border-primary text-primary bg-transparent hover:bg-primary/10 dark:hover:bg-primary/20',
+        'secondary-outline':
+          'border border-secondary text-secondary bg-transparent hover:bg-secondary/10 dark:hover:bg-secondary/20',
+        'success-outline':
+          'border border-success text-success bg-transparent hover:bg-success/10 dark:hover:bg-success/20',
+        'warning-outline':
+          'border border-warning text-warning bg-transparent hover:bg-warning/10 dark:hover:bg-warning/20',
+        'error-outline':
+          'border border-error text-error bg-transparent hover:bg-error/10 dark:hover:bg-error/20',
+        'info-outline':
+          'border border-info text-info bg-transparent hover:bg-info/10 dark:hover:bg-info/20',
         success: 'bg-success text-success-foreground shadow-xs hover:bg-success/90',
         warning: 'bg-warning text-warning-foreground shadow-xs hover:bg-warning/90',
         error: 'bg-error text-error-foreground shadow-xs hover:bg-error/90',

@@ -5,6 +5,7 @@ import React, { useState } from 'react';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { Separator } from '@/components/ui/separator';
 import { CambridgeDictionaryResponse } from '@/lib/schema/dictionary.schema';
+import { convertWordPos } from '@/lib/utils';
 
 import { Loader2 } from 'lucide-react';
 
@@ -54,7 +55,7 @@ const WordPronunciation: React.FC<Props> = ({ word }) => {
           {word}
         </div>
       </PopoverTrigger>
-      <PopoverContent className="w-80 space-y-2">
+      <PopoverContent className="w-96 space-y-2">
         {loading ? (
           <div className="flex items-center justify-center">
             <Loader2 className="animate-spin" />
@@ -62,7 +63,7 @@ const WordPronunciation: React.FC<Props> = ({ word }) => {
         ) : (
           <>
             <p>
-              <strong className="text-lg">{word}</strong>
+              <strong className="text-lg">{result && 'word' in result && result?.word}</strong>
             </p>
             <div>
               {result && 'pronunciation' in result && result?.pronunciation && (
@@ -71,13 +72,16 @@ const WordPronunciation: React.FC<Props> = ({ word }) => {
             </div>
             <Separator />
             <p>
-              IPA for <strong>{word}</strong>
+              IPA for <strong>{result && 'word' in result && result?.word}</strong>
             </p>
             {result && 'pronunciation' in result && result?.pronunciation && (
               <div className="grid grid-cols-2 gap-2">
                 {result.pronunciation.map((p, index) => (
                   <div key={index} className="space-y-1">
                     <div>
+                      {p.pos && (
+                        <span className="font-medium capitalize">{convertWordPos(p.pos)} </span>
+                      )}
                       {p.lang && <span className="font-medium">[{p.lang}] </span>}
                       {p.pron && <span className="italic">{p.pron}</span>}
                     </div>

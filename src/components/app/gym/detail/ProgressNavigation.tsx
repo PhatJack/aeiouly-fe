@@ -34,7 +34,7 @@ const ProgressNavigation = memo(
           </Button> */}
           <div className="flex items-center gap-3">
             <Button
-              variant={isPlaying ? 'destructive' : 'default'}
+              variant={isPlaying ? 'error-outline' : 'primary-outline'}
               size="icon"
               className="border-primary bg-primary/10 h-10 w-10 rounded-lg border-2"
               onClick={onPlay}
