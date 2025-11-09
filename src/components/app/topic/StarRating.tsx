@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 
 import { CEFRLevel } from '@/lib/schema/writing-session.schema';
 import { cn } from '@/lib/utils';

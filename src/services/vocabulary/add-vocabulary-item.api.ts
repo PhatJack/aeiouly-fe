@@ -4,7 +4,7 @@ import {
   VocabularyItemCreateSchema,
   VocabularyItemResponseSchema,
 } from '@/lib/schema/vocabulary.schema';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { UseMutationOptions, useMutation } from '@tanstack/react-query';
 
 export async function addVocabularyItemApi(body: VocabularyItemCreateSchema) {
   const response = await apiClient.post<VocabularyItemResponseSchema, VocabularyItemCreateSchema>(
@@ -14,18 +14,24 @@ export async function addVocabularyItemApi(body: VocabularyItemCreateSchema) {
   return response.data;
 }
 
-export const useAddVocabularyItemMutation = () => {
-  const queryClient = useQueryClient();
-
+export const useAddVocabularyItemMutation = (
+  options?: Omit<
+    UseMutationOptions<
+      VocabularyItemResponseSchema,
+      ErrorResponseSchema,
+      VocabularyItemCreateSchema
+    >,
+    'mutationKey' | 'mutationFn'
+  >
+) => {
   return useMutation<VocabularyItemResponseSchema, ErrorResponseSchema, VocabularyItemCreateSchema>(
     {
       mutationKey: ['addVocabularyItem'],
       mutationFn: (body) => addVocabularyItemApi(body),
-      onSuccess: (data) => {
-        queryClient.invalidateQueries({ queryKey: ['vocabulary-items', data.vocabulary_set_id] });
-        queryClient.invalidateQueries({ queryKey: ['vocabulary-set', data.vocabulary_set_id] });
-        queryClient.invalidateQueries({ queryKey: ['vocabulary-sets'] });
+      meta: {
+        ignoreGlobal: true,
       },
+      ...options,
     }
   );
 };

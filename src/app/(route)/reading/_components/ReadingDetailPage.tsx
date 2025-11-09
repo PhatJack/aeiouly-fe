@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import ReactMarkdown from 'react-markdown';
 
 import { useRouter } from 'nextjs-toploader/app';
@@ -9,13 +9,17 @@ import QuizSection from '@/components/app/reading/QuizSection';
 import SummaryFeedback from '@/components/app/reading/SummaryFeedback';
 import SummarySubmissionForm from '@/components/app/reading/SummarySubmissionForm';
 import BlockquoteCustom from '@/components/custom/BlockquoteCustom';
+import TextSelectionModal from '@/components/shared/TextSelectionModal';
+import VocabularyDialog from '@/components/shared/VocabularyDialog';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
+import useContentTextSelection from '@/hooks/use-text-selection';
 import {
   QuizGenerationRequestSchema,
   QuizQuestionSchema,
+  SummaryFeedbackSchema,
   SummarySubmissionSchema,
 } from '@/lib/schema/reading-session.schema';
 import {
@@ -33,12 +37,17 @@ interface ReadingDetailPageProps {
 }
 
 const ReadingDetailPage = ({ id }: ReadingDetailPageProps) => {
+  const contentRef = useRef<HTMLDivElement | null>(null);
+  const tooltipRef = useRef<HTMLDivElement | null>(null);
+  const selection = useContentTextSelection({
+    ref: contentRef,
+  });
+  const [open, setOpen] = useState(false);
   const router = useRouter();
   const sessionId = Number(id);
-
   const setUnsaved = useBlockNavigation((state) => state.setUnsaved);
   const [summarySubmitted, setSummarySubmitted] = useState(false);
-  const [feedback, setFeedback] = useState<{ score: number; feedback: string } | null>(null);
+  const [feedback, setFeedback] = useState<SummaryFeedbackSchema | null>(null);
   const [quiz, setQuiz] = useState<QuizQuestionSchema[] | null>(null);
   const [selectedAnswers, setSelectedAnswers] = useState<Record<string, string>>({});
 
@@ -175,7 +184,7 @@ const ReadingDetailPage = ({ id }: ReadingDetailPageProps) => {
       <div className="container mx-auto max-w-4xl space-y-8 px-4 py-8">
         {/* Reading Content */}
         <Card>
-          <CardContent>
+          <CardContent ref={contentRef}>
             <BlockquoteCustom
               variants="primary"
               title="Nội dung bài đọc"
@@ -211,11 +220,20 @@ const ReadingDetailPage = ({ id }: ReadingDetailPageProps) => {
           <QuizSection
             quiz={quiz}
             selectedAnswers={selectedAnswers}
+            isLoading={generateQuizMutation.isPending}
             onAnswerSelect={handleAnswerSelect}
             onCheckAnswers={checkQuizAnswers}
           />
         )}
       </div>
+      {selection.isSelected && selection.position && (
+        <TextSelectionModal selection={selection} tooltipRef={tooltipRef} setOpen={setOpen} />
+      )}
+      <VocabularyDialog
+        textSelection={selection.persistedText}
+        open={open}
+        onOpenChange={setOpen}
+      />
     </div>
   );
 };

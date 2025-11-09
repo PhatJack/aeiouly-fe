@@ -1,4 +1,3 @@
-import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 
 import { Clock } from 'lucide-react';
@@ -16,21 +15,6 @@ export interface SituationCardProps {
 }
 
 export const SituationCard = ({ situation, onStart }: SituationCardProps) => {
-  const difficultyColors = {
-    'Người mới': 'bg-green-100 text-green-800 border-green-200',
-    'Trung bình': 'bg-yellow-100 text-yellow-800 border-yellow-200',
-    'Nâng cao': 'bg-red-100 text-red-800 border-red-200',
-  };
-
-  const categoryColors = {
-    'Cuộc sống': 'bg-blue-100 text-blue-800 border-blue-200',
-    'Công việc': 'bg-purple-100 text-purple-800 border-purple-200',
-    'Xã hội': 'bg-pink-100 text-pink-800 border-pink-200',
-    'Học tập': 'bg-indigo-100 text-indigo-800 border-indigo-200',
-    'Du lịch': 'bg-orange-100 text-orange-800 border-orange-200',
-    'Y tế': 'bg-teal-100 text-teal-800 border-teal-200',
-  };
-
   return (
     <div className="border-border group hover:border-primary/30 cursor-pointer rounded-lg border p-6 transition-all duration-300 hover:shadow-lg">
       <div className="mb-4 flex items-start justify-between">

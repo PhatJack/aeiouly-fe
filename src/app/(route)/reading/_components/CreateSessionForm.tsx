@@ -5,6 +5,13 @@ import { Controller, useForm } from 'react-hook-form';
 
 import { useRouter } from 'nextjs-toploader/app';
 
+import {
+  Tabs,
+  TabsContent,
+  TabsContents,
+  TabsList,
+  TabsTrigger,
+} from '@/components/animate-ui/components/animate/tabs';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Field, FieldError, FieldGroup, FieldLabel } from '@/components/ui/field';
@@ -16,7 +23,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Textarea } from '@/components/ui/textarea';
 import {
   CEFRLevelSchema,
@@ -94,117 +100,129 @@ const CreateSessionForm = memo(({ onSuccess }: CreateSessionFormProps) => {
           </TabsList>
 
           <form onSubmit={form.handleSubmit(onSubmit, onError)} className="mt-4 space-y-4">
-            <TabsContent value="ai" className="mt-0">
-              <FieldGroup className="gap-4">
-                <Controller
-                  control={form.control}
-                  name="level"
-                  render={({ field, fieldState }) => (
-                    <Field data-invalid={fieldState.invalid}>
-                      <FieldLabel>Cấp độ</FieldLabel>
-                      <Select name={field.name} value={field.value} onValueChange={field.onChange}>
-                        <SelectTrigger aria-invalid={fieldState.invalid}>
-                          <SelectValue placeholder="Chọn cấp độ" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          {CEFRLevelSchema.options.map((level) => (
-                            <SelectItem key={level} value={level}>
-                              {level}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
-                      {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
-                    </Field>
-                  )}
-                />
+            <TabsContents>
+              <TabsContent value="ai" className="mt-0">
+                <FieldGroup className="gap-4">
+                  <Controller
+                    control={form.control}
+                    name="level"
+                    render={({ field, fieldState }) => (
+                      <Field data-invalid={fieldState.invalid}>
+                        <FieldLabel>Cấp độ</FieldLabel>
+                        <Select
+                          name={field.name}
+                          value={field.value}
+                          onValueChange={field.onChange}
+                        >
+                          <SelectTrigger aria-invalid={fieldState.invalid}>
+                            <SelectValue placeholder="Chọn cấp độ" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            {CEFRLevelSchema.options.map((level) => (
+                              <SelectItem key={level} value={level}>
+                                {level}
+                              </SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
+                        {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+                      </Field>
+                    )}
+                  />
 
-                <Controller
-                  control={form.control}
-                  name="genre"
-                  render={({ field, fieldState }) => (
-                    <Field data-invalid={fieldState.invalid}>
-                      <FieldLabel>Thể loại</FieldLabel>
-                      <Select name={field.name} value={field.value} onValueChange={field.onChange}>
-                        <SelectTrigger aria-invalid={fieldState.invalid}>
-                          <SelectValue placeholder="Chọn thể loại" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          {ReadingGenreSchema.options.map((genre) => (
-                            <SelectItem key={genre} value={genre}>
-                              {genre}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
-                      {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
-                    </Field>
-                  )}
-                />
+                  <Controller
+                    control={form.control}
+                    name="genre"
+                    render={({ field, fieldState }) => (
+                      <Field data-invalid={fieldState.invalid}>
+                        <FieldLabel>Thể loại</FieldLabel>
+                        <Select
+                          name={field.name}
+                          value={field.value}
+                          onValueChange={field.onChange}
+                        >
+                          <SelectTrigger aria-invalid={fieldState.invalid}>
+                            <SelectValue placeholder="Chọn thể loại" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            {ReadingGenreSchema.options.map((genre) => (
+                              <SelectItem key={genre} value={genre}>
+                                {genre}
+                              </SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
+                        {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+                      </Field>
+                    )}
+                  />
 
-                <Controller
-                  control={form.control}
-                  name="topic"
-                  render={({ field, fieldState }) => (
-                    <Field>
-                      <FieldLabel>Chủ đề (tùy chọn)</FieldLabel>
-                      <Input
-                        {...field}
-                        aria-invalid={fieldState.invalid}
-                        placeholder="Ví dụ: Technology, Travel..."
-                        autoComplete="off"
-                      />
-                      <p className="text-muted-foreground text-xs">Để trống để AI tự chọn chủ đề</p>
-                      {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
-                    </Field>
-                  )}
-                />
+                  <Controller
+                    control={form.control}
+                    name="topic"
+                    render={({ field, fieldState }) => (
+                      <Field>
+                        <FieldLabel>Chủ đề (tùy chọn)</FieldLabel>
+                        <Input
+                          {...field}
+                          aria-invalid={fieldState.invalid}
+                          placeholder="Ví dụ: Technology, Travel..."
+                          autoComplete="off"
+                        />
+                        <p className="text-muted-foreground text-xs">
+                          Để trống để AI tự chọn chủ đề
+                        </p>
+                        {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+                      </Field>
+                    )}
+                  />
 
-                <Controller
-                  control={form.control}
-                  name="word_count"
-                  render={({ field, fieldState }) => (
-                    <Field>
-                      <FieldLabel>Số từ (100-1000)</FieldLabel>
-                      <Input
-                        {...field}
-                        type="number"
-                        min={100}
-                        max={1000}
-                        onChange={(e) => field.onChange(parseInt(e.target.value))}
-                        aria-invalid={fieldState.invalid}
-                        autoComplete="off"
-                      />
-                      {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
-                    </Field>
-                  )}
-                />
-              </FieldGroup>
-            </TabsContent>
+                  <Controller
+                    control={form.control}
+                    name="word_count"
+                    render={({ field, fieldState }) => (
+                      <Field>
+                        <FieldLabel>Số từ (100-1000)</FieldLabel>
+                        <Input
+                          {...field}
+                          type="number"
+                          min={100}
+                          max={1000}
+                          onChange={(e) => field.onChange(parseInt(e.target.value))}
+                          aria-invalid={fieldState.invalid}
+                          autoComplete="off"
+                        />
+                        {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+                      </Field>
+                    )}
+                  />
+                </FieldGroup>
+              </TabsContent>
 
-            <TabsContent value="custom" className="mt-0">
-              <FieldGroup className="gap-4">
-                <Controller
-                  control={form.control}
-                  name="custom_text"
-                  render={({ field, fieldState }) => (
-                    <Field>
-                      <FieldLabel>Văn bản của bạn</FieldLabel>
-                      <Textarea
-                        {...field}
-                        placeholder="Nhập hoặc dán văn bản tiếng Anh của bạn (tối thiểu 100 ký tự)..."
-                        className="min-h-[300px] resize-none"
-                        aria-invalid={fieldState.invalid}
-                      />
-                      <p className="text-muted-foreground text-xs">
-                        {field.value?.length || 0} / 5000 ký tự
-                      </p>
-                      {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
-                    </Field>
-                  )}
-                />
-              </FieldGroup>
-            </TabsContent>
+              <TabsContent value="custom" className="mt-0">
+                <FieldGroup className="gap-4">
+                  <Controller
+                    control={form.control}
+                    name="custom_text"
+                    render={({ field, fieldState }) => (
+                      <Field>
+                        <FieldLabel>Văn bản của bạn</FieldLabel>
+                        <Textarea
+                          {...field}
+                          placeholder="Nhập hoặc dán văn bản tiếng Anh của bạn (tối thiểu 100 ký tự)..."
+                          className="min-h-[300px] resize-none"
+                          aria-invalid={fieldState.invalid}
+                        />
+                        <p className="text-muted-foreground text-xs">
+                          {field.value?.length || 0} / 5000 ký tự
+                        </p>
+                        {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+                      </Field>
+                    )}
+                  />
+                </FieldGroup>
+              </TabsContent>
+            </TabsContents>
 
             <Button type="submit" className="w-full" disabled={createSessionMutation.isPending}>
               {createSessionMutation.isPending ? 'Đang tạo...' : 'Tạo phiên đọc'}

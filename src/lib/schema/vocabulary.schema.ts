@@ -34,7 +34,7 @@ export const vocabularySetListResponseSchema = createListResponseSchema(
 export const vocabularyItemCreateSchema = z.object({
   vocabulary_set_id: z.number().optional(),
   dictionary_id: z.number(),
-  use_default_set: z.boolean().default(false),
+  use_default_set: z.boolean().default(false).optional(),
 });
 
 export const vocabularyItemResponseSchema = z.object({

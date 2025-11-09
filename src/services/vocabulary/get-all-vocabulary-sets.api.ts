@@ -13,6 +13,11 @@ export const useGetAllVocabularySetsQuery = (params?: PaginationRequestSchema) =
   return useQuery<VocabularySetListResponseSchema, ErrorResponseSchema>({
     queryKey: ['vocabulary-sets', params],
     queryFn: () => getAllVocabularySetsApi(params),
+    meta: {
+      ignoreGlobal: true,
+    },
     refetchOnWindowFocus: false,
+    staleTime: 60 * 60 * 1000, // 1 hour
+    gcTime: 2 * 60 * 60 * 1000, // 2 hours
   });
 };

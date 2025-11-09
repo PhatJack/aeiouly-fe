@@ -12,6 +12,9 @@ export const useFindWordWithSuffixesQuery = (params: FindWordRequestSchema, enab
   return useQuery<DictionaryResponseSchema, ErrorResponseSchema>({
     queryKey: ['dictionary', 'find', params.word],
     queryFn: () => findWordWithSuffixesApi(params),
+    meta: {
+      ignoreGlobal: true,
+    },
     refetchOnWindowFocus: false,
     enabled: enabled && !!params.word,
   });

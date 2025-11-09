@@ -28,6 +28,9 @@ export const useSubmitSummaryMutation = (
   return useMutation<SummaryFeedbackSchema, ErrorResponseSchema, SubmitSummaryParams>({
     mutationKey: ['submitSummary'],
     mutationFn: (params) => submitSummaryApi(params),
+    meta: {
+      ignoreGlobal: true,
+    },
     ...options,
   });
 };

@@ -9,7 +9,6 @@ import { ImageUpload } from '@/components/ImageUpload';
 import TiptapEditor from '@/components/editor/tiptap-editor';
 import { Button } from '@/components/ui/button';
 import { Field, FieldError, FieldGroup, FieldLabel } from '@/components/ui/field';
-import { Label } from '@/components/ui/label';
 import { Switch } from '@/components/ui/switch';
 import { PostUpdateSchema, postUpdateSchema } from '@/lib/schema/post.schema';
 import { useGetPostQuery, useUpdatePostMutation } from '@/services/posts';
@@ -46,7 +45,7 @@ const EditPost = ({ postId }: EditPostProps) => {
         is_published: post.is_published,
       });
     }
-  }, [post, editPostForm]);
+  }, [post, editPostForm, postId]);
 
   const onSubmit = (data: PostUpdateSchema) => {
     const { image, ...rest } = data;

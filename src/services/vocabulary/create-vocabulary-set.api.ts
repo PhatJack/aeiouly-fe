@@ -20,8 +20,11 @@ export const useCreateVocabularySetMutation = () => {
   return useMutation<VocabularySetResponseSchema, ErrorResponseSchema, VocabularySetCreateSchema>({
     mutationKey: ['createVocabularySet'],
     mutationFn: (body) => createVocabularySetApi(body),
+    meta: {
+      ignoreGlobal: true,
+    },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['vocabulary-sets'] });
+      queryClient.invalidateQueries({ queryKey: ['vocabularySets'] });
     },
   });
 };

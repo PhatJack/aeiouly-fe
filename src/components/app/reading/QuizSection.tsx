@@ -2,6 +2,7 @@
 
 import React, { memo } from 'react';
 
+import LoadingWithText from '@/components/LoadingWithText';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { QuizQuestionSchema } from '@/lib/schema/reading-session.schema';
@@ -13,6 +14,7 @@ interface QuizSectionProps {
   selectedAnswers: Record<string, string>;
   onAnswerSelect: (questionId: string, answer: string) => void;
   onCheckAnswers: () => void;
+  isLoading?: boolean;
 }
 
 const QuizSection = ({
@@ -20,7 +22,12 @@ const QuizSection = ({
   selectedAnswers,
   onAnswerSelect,
   onCheckAnswers,
+  isLoading,
 }: QuizSectionProps) => {
+  if (isLoading) {
+    return <LoadingWithText text="Đang tạo bài trắc nghiệm..." />;
+  }
+
   return (
     <Card className="border-primary/20">
       <CardHeader>
@@ -29,9 +36,9 @@ const QuizSection = ({
           Bài trắc nghiệm
         </CardTitle>
       </CardHeader>
-      <CardContent className="space-y-6">
+      <CardContent className="space-y-4">
         {quiz.map((question, index) => (
-          <div key={question.id} className="space-y-3">
+          <div key={question.id} className="space-y-2">
             <h3 className="font-semibold">
               Câu {index + 1}: {question.question}
             </h3>

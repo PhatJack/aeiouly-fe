@@ -1,6 +1,5 @@
 import { useCallback } from 'react';
 
-import { CellSelection } from '@tiptap/pm/tables';
 import { type Editor, useEditorState } from '@tiptap/react';
 
 import { useTiptapEditor } from '../components/provider';

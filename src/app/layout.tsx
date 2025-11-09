@@ -76,7 +76,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="vi" suppressHydrationWarning>
+    <html lang="vi" suppressHydrationWarning data-overlayscrollbars-initialize>
       <body className={`${beVietNamPro.variable} ${geistSans.variable} flex antialiased`}>
         <ThemeProvider
           attribute="class"
