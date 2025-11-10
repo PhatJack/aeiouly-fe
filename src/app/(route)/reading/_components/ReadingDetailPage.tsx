@@ -8,6 +8,7 @@ import { useRouter } from 'nextjs-toploader/app';
 import QuizSection from '@/components/app/reading/QuizSection';
 import SummaryFeedback from '@/components/app/reading/SummaryFeedback';
 import SummarySubmissionForm from '@/components/app/reading/SummarySubmissionForm';
+import AlertCustom from '@/components/custom/AlertCustom';
 import BlockquoteCustom from '@/components/custom/BlockquoteCustom';
 import TextSelectionModal from '@/components/shared/TextSelectionModal';
 import VocabularyDialog from '@/components/shared/VocabularyDialog';
@@ -29,7 +30,7 @@ import {
 } from '@/services/reading-session';
 import { useBlockNavigation } from '@/stores/use-block-navigation';
 
-import { ArrowLeft } from 'lucide-react';
+import { ArrowLeft, CircleAlert } from 'lucide-react';
 import { toast } from 'sonner';
 
 interface ReadingDetailPageProps {
@@ -183,6 +184,11 @@ const ReadingDetailPage = ({ id }: ReadingDetailPageProps) => {
       {/* Content */}
       <div className="container mx-auto max-w-4xl space-y-8 px-4 py-8">
         {/* Reading Content */}
+        <AlertCustom
+          variant={'success'}
+          icon={<CircleAlert />}
+          title="Bạn có thể bôi đen từ để lưu lại và học thêm"
+        />
         <Card>
           <CardContent ref={contentRef}>
             <BlockquoteCustom
