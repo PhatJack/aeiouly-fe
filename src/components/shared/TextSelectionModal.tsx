@@ -4,7 +4,7 @@ import React, { memo } from 'react';
 
 import { TextSelection } from '@/hooks/use-text-selection';
 
-import { Plus } from 'lucide-react';
+import { Languages, Plus } from 'lucide-react';
 
 import TooltipCustom from '../custom/TooltipCustom';
 import { Button } from '../ui/button';
@@ -38,10 +38,10 @@ const TextSelectionModal = ({ selection, tooltipRef, setOpen }: TextSelectionMod
       }}
     >
       <div className="rounded-lg border border-gray-200 bg-white px-4 py-2 shadow-lg">
-        <TooltipCustom content="Thêm từ mới vào list từ để học" side="top">
+        <TooltipCustom content="Dịch từ và lưu vào list từ" side="top">
           <Button size={'sm'} variant={'primary-outline'} type="button" onClick={handleOpenModal}>
-            <Plus />
-            <span>Thêm vào list từ</span>
+            <Languages />
+            <span>Dịch</span>
           </Button>
         </TooltipCustom>
       </div>

@@ -162,16 +162,16 @@
 	--tracking-normal: 0rem;
 	--spacing: 0.25rem;
 
-	--success: oklch(82% 0.1699 149.234);
+	--success: oklch(63% 0.19 145);
 	--success-foreground: oklch(100% 0.00011 271.152);
 
-	--warning: oklch(95% 0.17305 91.942);
+	--warning: oklch(68% 0.18 85);
 	--warning-foreground: oklch(28.565% 0.06391 53.801);
 
-	--error: oklch(78% 0.21516 27.312);
+	--error: oklch(68.622% 0.18635 27.891);
 	--error-foreground: oklch(100% 0.00011 271.152);
 
-	--info: oklch(80% 0.13893 241.989);
+	--info: oklch(76.578% 0.13327 236.233);
 	--info-foreground: oklch(100% 0.00011 271.152);
 
 }

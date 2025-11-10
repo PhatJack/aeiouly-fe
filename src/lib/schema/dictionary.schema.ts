@@ -18,6 +18,19 @@ export const dictionarySearchRequestSchema = z.object({
 // Dictionary search response schema
 export const dictionarySearchResponseSchema = createListResponseSchema(dictionaryResponseSchema);
 
+export const dictionaryTranslateRequestSchema = z.object({
+  text: z.string().min(1).max(5000),
+  source_language: z.string().min(2).max(5).optional().default('vi'),
+  target_language: z.string().min(2).max(5).optional().default('en'),
+});
+
+export const dictionaryTranslateResponseSchema = z.object({
+  original_text: z.string(),
+  translated_text: z.string(),
+  source_language: z.string(),
+  target_language: z.string(),
+});
+
 // Random words request schema
 export const randomWordsRequestSchema = z.object({
   limit: z.number().int().min(1).max(50).optional().default(10),
@@ -117,6 +130,8 @@ export type RandomWordsRequestSchema = z.infer<typeof randomWordsRequestSchema>;
 export type FindWordRequestSchema = z.infer<typeof findWordRequestSchema>;
 export type GetWordByExpressionRequestSchema = z.infer<typeof getWordByExpressionRequestSchema>;
 export type DictionaryStatsResponseSchema = z.infer<typeof dictionaryStatsResponseSchema>;
+export type DictionaryTranslateRequestSchema = z.infer<typeof dictionaryTranslateRequestSchema>;
+export type DictionaryTranslateResponseSchema = z.infer<typeof dictionaryTranslateResponseSchema>;
 
 // Cambridge Dictionary types
 export type CambridgePronunciationData = z.infer<typeof cambridgePronunciationDataSchema>;

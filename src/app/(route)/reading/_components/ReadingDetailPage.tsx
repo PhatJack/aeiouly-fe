@@ -144,7 +144,7 @@ const ReadingDetailPage = ({ id }: ReadingDetailPageProps) => {
     <div className="min-h-screen">
       {/* Header */}
       <div className="bg-card/50 z-10 border-b backdrop-blur-sm">
-        <div className="container mx-auto max-w-4xl px-4 py-4">
+        <div className="container mx-auto max-w-4xl py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-4">
               <Button
@@ -182,10 +182,10 @@ const ReadingDetailPage = ({ id }: ReadingDetailPageProps) => {
       </div>
 
       {/* Content */}
-      <div className="container mx-auto max-w-4xl space-y-8 px-4 py-8">
+      <div className="container mx-auto max-w-4xl space-y-4 py-4">
         {/* Reading Content */}
         <AlertCustom
-          variant={'success'}
+          variant={'info'}
           icon={<CircleAlert />}
           title="Bạn có thể bôi đen từ để lưu lại và học thêm"
         />

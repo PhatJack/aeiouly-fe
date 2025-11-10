@@ -258,3 +258,9 @@ export const convertWordPos = (pos: string) => {
       return pos; // Trả về nguyên bản nếu không tìm thấy
   }
 };
+
+export const checkSentence = (text: string): { type: 'word' | 'sentence'; text: string } => {
+  return text.trim().includes(' ')
+    ? { type: 'sentence', text: text.trim() }
+    : { type: 'word', text: text.trim() };
+};
