@@ -42,8 +42,6 @@ const WordPronunciation: React.FC<Props> = ({ word }) => {
     setLoading(false);
   };
 
-  console.log(result);
-
   return (
     <Popover>
       <PopoverTrigger asChild>

@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useCallback, useEffect, useRef } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useHotkeys } from 'react-hotkeys-hook';
 
 import { useRouter } from 'nextjs-toploader/app';
@@ -9,8 +9,11 @@ import InputChecker from '@/components/app/gym/detail/InputChecker';
 import ProgressNavigation from '@/components/app/gym/detail/ProgressNavigation';
 import VideoControls from '@/components/app/gym/detail/VideoControls';
 import VideoPlayer from '@/components/app/gym/detail/VideoPlayer';
+import TextSelectionModal from '@/components/shared/TextSelectionModal';
+import VocabularyDialog from '@/components/shared/VocabularyDialog';
 import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
+import useContentTextSelection from '@/hooks/use-text-selection';
 import {
   useGetListeningSessionQuery,
   useGetNextSentenceMutation,
@@ -28,6 +31,12 @@ const GymDetailPage = ({ id }: GymDetailPageProps) => {
   const router = useRouter();
   const lessonId = Number(id);
   const inputRef = useRef<HTMLTextAreaElement | null>(null);
+  const contentRef = useRef<HTMLDivElement | null>(null);
+  const tooltipRef = useRef<HTMLDivElement | null>(null);
+  const selection = useContentTextSelection({
+    ref: contentRef,
+  });
+  const [open, setOpen] = useState(false);
   // Zustand store
   const {
     session,
@@ -146,59 +155,66 @@ const GymDetailPage = ({ id }: GymDetailPageProps) => {
 
   return (
     <div>
-      <div>
-        <div className="grid gap-6 lg:grid-cols-2">
-          <div className="space-y-4">
-            <VideoPlayer />
+      <div className="grid gap-6 lg:grid-cols-2">
+        <div className="space-y-4">
+          <VideoPlayer />
 
-            <VideoControls showVideo={showVideo} onToggleVideo={handleToggleVideo} />
-          </div>
+          <VideoControls showVideo={showVideo} onToggleVideo={handleToggleVideo} />
+        </div>
 
-          {/* Right Side - Practice Interface */}
-          <div className="space-y-4">
-            {!isStarted ? (
-              // Start Learning Button
-              <div className="flex h-full min-h-[400px] items-center justify-center">
-                <div className="space-y-6 text-center">
-                  <div className="from-primary to-secondary mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-gradient-to-br shadow-lg">
-                    <Play className="h-8 w-8 text-white" />
-                  </div>
-                  <div className="space-y-2">
-                    <h3 className="text-2xl font-bold">Sẵn sàng bắt đầu?</h3>
-                    <p className="text-muted-foreground">
-                      Nhấp vào nút bên dưới để bắt đầu bài học và nghe câu đầu tiên
-                    </p>
-                  </div>
-                  <Button size="lg" onClick={handleStartLearning} className="px-8 py-3 text-lg">
-                    <Play className="mr-2 h-5 w-5" />
-                    Bắt đầu học
-                  </Button>
+        {/* Right Side - Practice Interface */}
+        <div className="space-y-4">
+          {!isStarted ? (
+            // Start Learning Button
+            <div className="flex h-full min-h-[400px] items-center justify-center">
+              <div className="space-y-6 text-center">
+                <div className="from-primary to-secondary mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-gradient-to-br shadow-lg">
+                  <Play className="h-8 w-8 text-white" />
                 </div>
+                <div className="space-y-2">
+                  <h3 className="text-2xl font-bold">Sẵn sàng bắt đầu?</h3>
+                  <p className="text-muted-foreground">
+                    Nhấp vào nút bên dưới để bắt đầu bài học và nghe câu đầu tiên
+                  </p>
+                </div>
+                <Button size="lg" onClick={handleStartLearning} className="px-8 py-3 text-lg">
+                  <Play className="mr-2 h-5 w-5" />
+                  Bắt đầu học
+                </Button>
               </div>
-            ) : (
-              // Practice Interface
-              <>
-                <ProgressNavigation
-                  currentIndex={currentSentenceIndex}
-                  totalSentences={session.lesson.total_sentences}
-                  onPrevious={handlePrevious}
-                  onNext={handleNext}
-                  onPlay={handlePlayVideo}
-                />
+            </div>
+          ) : (
+            // Practice Interface
+            <>
+              <ProgressNavigation
+                currentIndex={currentSentenceIndex}
+                totalSentences={session.lesson.total_sentences}
+                onPrevious={handlePrevious}
+                onNext={handleNext}
+                onPlay={handlePlayVideo}
+              />
 
-                {session.current_sentence && (
-                  <InputChecker
-                    sentence={session.current_sentence}
-                    onNext={handleNext}
-                    isLoading={getNextSentenceMutation.isPending}
-                    inputRef={inputRef}
-                  />
-                )}
-              </>
-            )}
-          </div>
+              {session.current_sentence && (
+                <InputChecker
+                  sentence={session.current_sentence}
+                  onNext={handleNext}
+                  isLoading={getNextSentenceMutation.isPending}
+                  inputRef={inputRef}
+                  containerRef={contentRef}
+                />
+              )}
+            </>
+          )}
         </div>
       </div>
+      {selection.isSelected && selection.position && (
+        <TextSelectionModal selection={selection} tooltipRef={tooltipRef} setOpen={setOpen} />
+      )}
+      <VocabularyDialog
+        textSelection={selection.persistedText}
+        open={open}
+        onOpenChange={setOpen}
+      />
     </div>
   );
 };

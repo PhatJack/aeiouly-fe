@@ -26,6 +26,7 @@ type Props = {
   onNext?: () => void;
   isLoading?: boolean;
   inputRef?: React.RefObject<HTMLTextAreaElement | null>;
+  containerRef?: React.RefObject<HTMLDivElement | null>;
 };
 
 /**
@@ -148,7 +149,7 @@ const computeWordDiff = (correctRaw: string, userRaw: string) => {
   return { result, isExtraOnly: !hasRealError };
 };
 
-const InputChecker = memo(({ sentence, onNext, isLoading, inputRef }: Props) => {
+const InputChecker = memo(({ sentence, onNext, isLoading, inputRef, containerRef }: Props) => {
   const [userText, setUserText] = useState('');
   const [lastResult, setLastResult] = useState<LastResultType | null>(null);
   const [isSkipped, setIsSkipped] = useState(false);
@@ -219,7 +220,7 @@ const InputChecker = memo(({ sentence, onNext, isLoading, inputRef }: Props) => 
 
   return (
     <Card className="p-4">
-      <div className="space-y-4">
+      <div ref={containerRef} className="space-y-4">
         <Textarea
           ref={inputRef}
           placeholder="Nhập câu bạn nghe được..."

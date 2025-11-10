@@ -4,7 +4,7 @@ import React, { memo } from 'react';
 
 import { TextSelection } from '@/hooks/use-text-selection';
 
-import { Languages, Plus } from 'lucide-react';
+import { Languages } from 'lucide-react';
 
 import TooltipCustom from '../custom/TooltipCustom';
 import { Button } from '../ui/button';
