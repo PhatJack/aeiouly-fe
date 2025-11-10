@@ -318,10 +318,16 @@ const VocabularyDialog = ({ textSelection, open, onOpenChange }: VocabularyDialo
                 title="Không thể dịch câu này. Vui lòng thử lại sau."
               />
             ) : (
-              <div className="bg-muted/50 rounded-md border p-4">
-                <h4 className="mb-2 text-sm font-medium text-gray-600">Bản dịch:</h4>
-                <p className="text-lg">{translationData.translated_text}</p>
-              </div>
+              <>
+                <div className="bg-muted/50 mb-4 rounded-md border p-4">
+                  <h4 className="mb-2 text-sm font-medium text-gray-600">Câu gốc:</h4>
+                  <p className="text-lg">{translationData.original_text}</p>
+                </div>
+                <div className="bg-muted/50 rounded-md border p-4">
+                  <h4 className="mb-2 text-sm font-medium text-gray-600">Bản dịch:</h4>
+                  <p className="text-lg">{translationData.translated_text}</p>
+                </div>
+              </>
             )
           ) : // Show word definition for words
           isLoadingWord ? (
