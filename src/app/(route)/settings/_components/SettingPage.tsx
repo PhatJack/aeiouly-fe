@@ -2,23 +2,17 @@
 
 import { useState } from 'react';
 
-import Image from 'next/image';
-
+import EditAvatarSetting from '@/components/app/settings/EditAvatarSetting';
 import EditFieldDialog from '@/components/app/settings/EditFieldDialog';
 import SettingHeader from '@/components/app/settings/SettingHeader';
-import AvatarCustom from '@/components/custom/AvatarCustom';
 import { WaveAnimation } from '@/components/shared/WaveAnimation';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { useAuthStore } from '@/contexts/AuthContext';
 import { UserUpdateSchema, userUpdateSchema } from '@/lib/schema/user.schema';
-import { getFallbackInitials } from '@/lib/utils';
 import { useUpdateMeMutation } from '@/services/auth/update-me.api';
 
-import { Plus } from 'lucide-react';
 import { toast } from 'sonner';
-
-import { AVATAR_VIBRANT } from '../../../../../public/avatars';
 
 const SettingPage = () => {
   const user = useAuthStore((state) => state.user);
@@ -70,36 +64,7 @@ const SettingPage = () => {
               <div className="flex items-center justify-between">
                 <div className="flex flex-col gap-4">
                   <Label className="text-sm font-medium text-gray-500">Ảnh đại diện</Label>
-                  <div className="flex gap-2">
-                    <AvatarCustom
-                      url={user?.avatar_url || ''}
-                      fallback={getFallbackInitials(user?.full_name || user?.username || 'User')}
-                      className="size-20 border"
-                    />
-                    <div className="flex flex-wrap gap-2">
-                      {AVATAR_VIBRANT.map((avatar, index) => (
-                        <button
-                          key={`avatar-option-${index}`}
-                          className="hover:border-primary relative size-12 cursor-pointer overflow-hidden rounded-full border-2 border-transparent transition-all"
-                        >
-                          <Image
-                            src={avatar}
-                            alt={`Avatar ${index + 1}`}
-                            fill
-                            sizes="200px"
-                            className="h-full w-full"
-                          />
-                        </button>
-                      ))}
-                      <Button
-                        size={'lg'}
-                        variant={'outline'}
-                        className="hover:border-primary size-12 rounded-full border-dashed bg-transparent transition-all"
-                      >
-                        <Plus />
-                      </Button>
-                    </div>
-                  </div>
+                  <EditAvatarSetting />
                 </div>
               </div>
             </div>
