@@ -18,7 +18,7 @@ const EditAvatarSetting = () => {
       <AvatarCustom
         url={user?.avatar_url || ''}
         fallback={getFallbackInitials(user?.full_name || user?.username || 'User')}
-        className="size-16 border"
+        className="size-20 border"
       />
       <div className="flex flex-wrap gap-2">
         {AVATAR_VIBRANT.map((avatar, index) => (

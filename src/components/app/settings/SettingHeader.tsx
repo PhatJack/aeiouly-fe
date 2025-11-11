@@ -13,11 +13,11 @@ interface SettingHeaderProps {
 
 const SettingHeader = ({ title, description, src, className }: SettingHeaderProps) => {
   return (
-    <div className={cn('border-border border-b p-6', className)}>
+    <div className={cn('border-border border-b p-4', className)}>
       <div className="flex items-center gap-3">
         <div className="bg-primary/10 text-primary flex h-12 w-12 items-center justify-center rounded-xl">
           <div className="relative size-5">
-            <Image src={src} alt={title} fill quality={100} />
+            <Image src={src} alt={title} fill className="object-cover" />
           </div>
         </div>
         <div>

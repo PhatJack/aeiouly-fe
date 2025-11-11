@@ -55,7 +55,7 @@ const SettingNav = () => {
   return (
     <div className="mx-auto w-full lg:max-w-md">
       <div className="overflow-hidden rounded-2xl bg-white">
-        <div className="border-b border-gray-50 p-6">
+        <div className="border-b border-gray-50 p-4">
           <h2 className="text-xl font-semibold text-gray-900">Cài đặt</h2>
           <p className="text-sm text-gray-500">Quản lý tài khoản và tùy chọn</p>
         </div>
@@ -68,7 +68,7 @@ const SettingNav = () => {
               <motion.div key={item.title} className="relative">
                 <Link
                   href={item.href}
-                  className={`group relative flex items-center gap-3 rounded-xl p-3 transition-all duration-200 ${
+                  className={`group relative flex items-center gap-3 rounded-xl p-2 transition-all duration-200 ${
                     isActive
                       ? item.danger
                         ? 'bg-red-50 text-red-700'
@@ -86,17 +86,13 @@ const SettingNav = () => {
                     } ${item.danger && !isActive ? 'group-hover:bg-red-100 group-hover:text-red-500' : ''} `}
                   >
                     <div className="relative size-5">
-                      <Image src={item.icon} alt={item.title} fill quality={100} />
+                      <Image src={item.icon} alt={item.title} fill className="object-cover" />
                     </div>
                   </div>
 
                   <div className="min-w-0 flex-1">
                     <div className="flex items-center justify-between">
                       <h3 className="truncate text-sm font-medium">{item.title}</h3>
-                      <ChevronRight
-                        size={16}
-                        className={`opacity-0 transition-transform duration-200 group-hover:opacity-100 ${isActive ? 'rotate-90 opacity-100' : 'group-hover:translate-x-1'} `}
-                      />
                     </div>
                     <p className="mt-0.5 truncate text-xs text-gray-500">{item.description}</p>
                   </div>

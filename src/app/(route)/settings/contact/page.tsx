@@ -18,18 +18,18 @@ export const metadata: Metadata = {
 
 export default function ContactPage() {
   return (
-    <div className="space-y-8">
+    <div className="space-y-4">
       <SettingHeader
         title="Liên hệ hỗ trợ"
         description="Chúng tôi luôn sẵn sàng hỗ trợ bạn"
         src={`/settingIcon/chat.png`}
       />
 
-      <div className="grid grid-cols-1 gap-8">
+      <div className="grid grid-cols-1 gap-4">
         {/* Contact Information */}
-        <div className="space-y-6">
-          <div className="bg-card border-border rounded-lg border p-6">
-            <h2 className="mb-6 text-xl font-semibold">Thông tin liên hệ</h2>
+        <div className="space-y-4">
+          <div className="bg-card border-border rounded-lg border p-4">
+            <h2 className="mb-4 text-xl font-semibold">Thông tin liên hệ</h2>
 
             <div className="space-y-4">
               <div className="flex items-start gap-4">
@@ -70,13 +70,13 @@ export default function ContactPage() {
             </div>
           </div>
 
-          <div className="bg-card border-border rounded-lg border p-6">
-            <h2 className="mb-4 text-xl font-semibold">Câu hỏi thường gặp</h2>
+          <div className="bg-card border-border rounded-lg border">
+            <h2 className="px-4 pt-4 text-xl font-semibold">Câu hỏi thường gặp</h2>
             <Accordion type="single" collapsible>
               {FAQ.map((item, index) => (
                 <AccordionItem key={index} value={item.question}>
-                  <AccordionTrigger>{item.question}</AccordionTrigger>
-                  <AccordionContent>{item.answer}</AccordionContent>
+                  <AccordionTrigger className="px-4">{item.question}</AccordionTrigger>
+                  <AccordionContent className="px-4">{item.answer}</AccordionContent>
                 </AccordionItem>
               ))}
             </Accordion>

@@ -1,3 +1,5 @@
+import { ACCEPTED_IMAGE_TYPES, MAX_FILE_SIZE } from '@/constants/image';
+
 import z from 'zod';
 
 import { createListResponseSchema } from './pagination';
@@ -52,6 +54,16 @@ export const userResponseSchema = z.object({
   updated_at: z.string().optional(),
 });
 
+export const userCreateImageSchema = z.object({
+  image: z
+    .any()
+    .refine((file) => file?.size <= MAX_FILE_SIZE, `Max image size is 5MB.`)
+    .refine(
+      (file) => ACCEPTED_IMAGE_TYPES.includes(file?.type),
+      'Only .jpg, .jpeg, .png and .webp formats are supported.'
+    ),
+});
+
 // User list response schema
 export const userListResponseSchema = createListResponseSchema(userResponseSchema);
 
@@ -67,3 +79,4 @@ export type UserResetPasswordSchema = z.infer<typeof userResetPasswordSchema>;
 export type UserResponseSchema = z.infer<typeof userResponseSchema>;
 export type UserListResponseSchema = z.infer<typeof userListResponseSchema>;
 export type UserSchema = z.infer<typeof userSchema>;
+export type UserCreateImageSchema = z.infer<typeof userCreateImageSchema>;

@@ -58,16 +58,16 @@ const ChangePasswordPage = () => {
         />
 
         {/* Form Content */}
-        <div className="p-6">
+        <div className="p-4">
           <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
               {/* Current Password Field */}
               <div>
                 <FormField
                   control={form.control}
                   name="current_password"
                   render={({ field }) => (
-                    <FormItem className="space-y-2">
+                    <FormItem>
                       <FormLabel className="text-foreground flex items-center gap-2 text-sm font-medium">
                         <Lock size={16} className="text-muted-foreground" />
                         Mật khẩu hiện tại
@@ -78,7 +78,7 @@ const ChangePasswordPage = () => {
                           placeholder="Nhập mật khẩu hiện tại của bạn"
                           {...field}
                           disabled={isPending}
-                          className="border-border focus:border-primary h-12 rounded-xl"
+                          className="border-border focus:border-primary h-10 rounded-lg"
                         />
                       </FormControl>
                       <FormMessage className="text-destructive text-sm" />
@@ -92,7 +92,7 @@ const ChangePasswordPage = () => {
                 control={form.control}
                 name="new_password"
                 render={({ field }) => (
-                  <FormItem className="space-y-2">
+                  <FormItem>
                     <FormLabel className="text-foreground text-sm font-medium">
                       Mật khẩu mới
                     </FormLabel>
@@ -103,7 +103,7 @@ const ChangePasswordPage = () => {
                           placeholder="Nhập mật khẩu mới"
                           {...field}
                           disabled={isPending}
-                          className="border-border focus:border-primary h-12 rounded-xl"
+                          className="border-border focus:border-primary h-10 rounded-lg"
                         />
                         <button
                           type="button"

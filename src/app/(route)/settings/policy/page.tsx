@@ -11,14 +11,14 @@ export const metadata: Metadata = {
 
 export default function PolicyPage() {
   return (
-    <div className="space-y-6">
+    <div className="space-y-4">
       <SettingHeader
         title="Chính sách bảo mật"
         description="Cập nhật lần cuối: 13/09/2024"
         src={'/settingIcon/security.png'}
       />
 
-      <div className="space-y-6">
+      <div className="space-y-4">
         <section className="space-y-4">
           <h2 className="text-lg font-semibold">1. Thu thập thông tin</h2>
           <p className="text-foreground/80">

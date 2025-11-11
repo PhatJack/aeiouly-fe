@@ -11,14 +11,14 @@ export const metadata: Metadata = {
 
 export default function TermsPage() {
   return (
-    <div className="space-y-6">
+    <div className="space-y-4">
       <SettingHeader
         title="Điều khoản dịch vụ"
         description="Có hiệu lực từ ngày 13/09/2024"
         src={'/settingIcon/paper.png'}
       />
 
-      <div className="space-y-6">
+      <div className="space-y-4">
         <section className="space-y-4">
           <h2 className="text-lg font-semibold">1. Giới thiệu</h2>
           <p className="text-foreground/80">
