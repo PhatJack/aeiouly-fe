@@ -1,0 +1,236 @@
+'use client';
+
+import React, { useState } from 'react';
+
+import { useRouter } from 'nextjs-toploader/app';
+
+import LoadingWithText from '@/components/LoadingWithText';
+import VocabularyItemCard from '@/components/app/vocabulary/VocabularyItemCard';
+import PaginationCustom from '@/components/custom/PaginationCustom';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent } from '@/components/ui/card';
+import { Skeleton } from '@/components/ui/skeleton';
+import {
+  useCreateFlashcardSessionMutation,
+  useCreateMultipleChoiceSessionMutation,
+  useGetVocabularyItemsQuery,
+  useGetVocabularySetQuery,
+  useRemoveVocabularyItemMutation,
+} from '@/services/vocabulary';
+
+import { ArrowLeft, BookOpen, BrainCircuit, Layers, WholeWord } from 'lucide-react';
+import { toast } from 'sonner';
+
+interface VocabularyDetailPageProps {
+  id: string;
+}
+
+const VocabularyDetailPage = ({ id }: VocabularyDetailPageProps) => {
+  const router = useRouter();
+  const [page, setPage] = useState(1);
+  const setId = Number(id);
+
+  const { data: vocabularySetData, isLoading: isLoadingSet } = useGetVocabularySetQuery(setId);
+  const {
+    data: vocabularyItemsData,
+    isLoading: isLoadingItems,
+    refetch,
+  } = useGetVocabularyItemsQuery(setId, {
+    page,
+  });
+
+  const removeItemMutation = useRemoveVocabularyItemMutation();
+  const createFlashcardMutation = useCreateFlashcardSessionMutation();
+  const createMultipleChoiceMutation = useCreateMultipleChoiceSessionMutation();
+
+  const handleRemoveItem = (itemId: number) => {
+    if (confirm('Bạn có chắc chắn muốn xóa từ này khỏi bộ từ vựng?')) {
+      removeItemMutation.mutate(itemId, {
+        onSuccess: () => {
+          toast.success('Đã xóa từ khỏi bộ từ vựng!');
+          refetch();
+        },
+        onError: (error) => {
+          toast.error(error.detail || 'Có lỗi xảy ra khi xóa từ');
+        },
+      });
+    }
+  };
+
+  const handlePlayAudio = (word: string) => {
+    // TODO: Implement text-to-speech or audio playback
+    toast.info(`Phát âm: ${word}`);
+  };
+
+  const handleFlashcardPractice = () => {
+    createFlashcardMutation.mutate(
+      { vocabulary_set_id: setId, max_items: 20 },
+      {
+        onSuccess: (data) => {
+          toast.success('Đã tạo phiên luyện tập Flashcard!');
+          // TODO: Navigate to flashcard session
+          console.log('Flashcard session:', data);
+        },
+        onError: (error) => {
+          toast.error(error.detail || 'Có lỗi xảy ra khi tạo phiên luyện tập');
+        },
+      }
+    );
+  };
+
+  const handleMultipleChoicePractice = () => {
+    createMultipleChoiceMutation.mutate(
+      { vocabulary_set_id: setId, max_items: 20 },
+      {
+        onSuccess: (data) => {
+          toast.success('Đã tạo phiên luyện tập Multiple Choice!');
+          // TODO: Navigate to multiple choice session
+          console.log('Multiple choice session:', data);
+        },
+        onError: (error) => {
+          toast.error(error.detail || 'Có lỗi xảy ra khi tạo phiên luyện tập');
+        },
+      }
+    );
+  };
+
+  if (isLoadingSet) {
+    return (
+      <div className="container mx-auto max-w-5xl space-y-6 p-4">
+        <Skeleton className="h-12 w-full" />
+        <div className="grid gap-4 sm:grid-cols-2">
+          <Skeleton className="h-32" />
+          <Skeleton className="h-32" />
+        </div>
+        <div className="space-y-4">
+          {[1, 2, 3].map((i) => (
+            <Skeleton key={i} className="h-32" />
+          ))}
+        </div>
+      </div>
+    );
+  }
+
+  if (!vocabularySetData) {
+    return (
+      <div className="container mx-auto max-w-5xl p-4">
+        <Card>
+          <CardContent className="py-12 text-center">
+            <h2 className="mb-4 text-2xl font-bold">Không tìm thấy bộ từ vựng</h2>
+            <Button onClick={() => router.push('/vocabulary')}>Quay lại</Button>
+          </CardContent>
+        </Card>
+      </div>
+    );
+  }
+
+  const totalPages = vocabularyItemsData?.pages || 1;
+  const totalItems = vocabularyItemsData?.total || 0;
+
+  return (
+    <div className="container mx-auto max-w-5xl space-y-4">
+      {/* Header */}
+      <div className="flex items-start gap-4">
+        <Button variant="ghost" size="lg" onClick={() => router.push('/vocabulary')}>
+          <ArrowLeft className="h-6 w-6" />
+        </Button>
+        <div className="flex-1">
+          <div className="flex items-center gap-2">
+            <h1 className="text-3xl font-bold">{vocabularySetData.name}</h1>
+            {vocabularySetData.is_default && (
+              <span className="bg-primary/10 text-primary rounded-full px-3 py-1 text-sm font-medium">
+                Mặc định
+              </span>
+            )}
+          </div>
+          {vocabularySetData.description && (
+            <p className="text-muted-foreground mt-2">{vocabularySetData.description}</p>
+          )}
+          <div className="mt-2 flex items-center gap-1">
+            <span className="bg-primary size-6 rounded-full p-1">
+              <WholeWord className="h-4 w-4 text-white" />
+            </span>
+            <span className="text-base font-medium">{vocabularySetData.total_words}</span>
+            <span className="text-muted-foreground">từ</span>
+          </div>
+        </div>
+      </div>
+
+      {/* Practice Buttons */}
+      {totalItems > 0 && (
+        <div className="grid gap-4">
+          {/* Flashcard Practice */}
+          <Button
+            size={'lg'}
+            disabled={createFlashcardMutation.isPending}
+            onClick={handleFlashcardPractice}
+          >
+            <Layers className="text-primary h-6 w-6" />
+            <h3 className="font-semibold">Luyện tập với Flashcard</h3>
+          </Button>
+
+          {/* Multiple Choice Practice */}
+          <Button
+            variant="secondary-outline"
+            size={'lg'}
+            disabled={createMultipleChoiceMutation.isPending}
+            onClick={handleMultipleChoicePractice}
+          >
+            <BrainCircuit className="text-secondary h-6 w-6" />
+            <h3 className="font-semibold">Luyện tập Multiple Choice</h3>
+          </Button>
+        </div>
+      )}
+
+      {/* Vocabulary Items */}
+      {isLoadingItems ? (
+        <div className="space-y-4">
+          {[1, 2, 3].map((i) => (
+            <Skeleton key={i} className="h-32" />
+          ))}
+        </div>
+      ) : vocabularyItemsData && vocabularyItemsData.items.length > 0 ? (
+        <>
+          <div className="space-y-4">
+            {vocabularyItemsData.items.map((item) => (
+              <VocabularyItemCard
+                key={item.id}
+                item={item}
+                onRemove={handleRemoveItem}
+                onPlayAudio={handlePlayAudio}
+              />
+            ))}
+          </div>
+
+          {/* Pagination */}
+          {totalPages > 1 && (
+            <div className="flex justify-center">
+              <PaginationCustom
+                currentPage={page}
+                totalPages={vocabularyItemsData?.pages || 1}
+                onPageChange={setPage}
+              />
+            </div>
+          )}
+        </>
+      ) : (
+        <Card>
+          <CardContent className="flex min-h-[300px] flex-col items-center justify-center py-12">
+            <BookOpen className="text-muted-foreground mb-4 h-16 w-16" />
+            <h3 className="mb-2 text-lg font-semibold">Chưa có từ vựng nào</h3>
+            <p className="text-muted-foreground text-center">
+              Thêm từ vựng vào bộ từ này để bắt đầu học
+            </p>
+          </CardContent>
+        </Card>
+      )}
+
+      {/* Loading Overlays */}
+      {removeItemMutation.isPending && (
+        <LoadingWithText text="Đang xóa..." className="fixed inset-0 z-50 bg-black/20" />
+      )}
+    </div>
+  );
+};
+
+export default VocabularyDetailPage;

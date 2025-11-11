@@ -24,6 +24,9 @@ export const useUpdateVocabularySetMutation = () => {
   >({
     mutationKey: ['updateVocabularySet'],
     mutationFn: ({ setId, data }) => updateVocabularySetApi(setId, data),
+    meta: {
+      ignoreGlobal: true,
+    },
     onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: ['vocabulary-set', data.id] });
       queryClient.invalidateQueries({ queryKey: ['vocabulary-sets'] });

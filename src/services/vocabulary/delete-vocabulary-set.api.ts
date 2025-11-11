@@ -13,6 +13,9 @@ export const useDeleteVocabularySetMutation = () => {
   return useMutation<{ message: string }, ErrorResponseSchema, number>({
     mutationKey: ['deleteVocabularySet'],
     mutationFn: (setId) => deleteVocabularySetApi(setId),
+    meta: {
+      ignoreGlobal: true,
+    },
     onSuccess: (_, setId) => {
       queryClient.removeQueries({ queryKey: ['vocabulary-set', setId] });
       queryClient.invalidateQueries({ queryKey: ['vocabulary-sets'] });
