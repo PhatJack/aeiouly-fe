@@ -3,7 +3,7 @@ import { Metadata } from 'next';
 import SoloPage from './_components/SoloPage';
 
 export const metadata: Metadata = {
-  title: 'Học tập tập trung | Solo Study',
+  title: 'Không gian tự học',
   description:
     'Môi trường học tập tập trung với nhạc nền, video nền và công cụ Pomodoro. Tối ưu hóa hiệu quả học tiếng Anh với không gian làm việc cá nhân hóa.',
   keywords: [
@@ -15,7 +15,7 @@ export const metadata: Metadata = {
     'hiệu quả học',
   ],
   openGraph: {
-    title: 'Học tập tập trung | Solo Study',
+    title: 'Không gian tự học',
     description:
       'Môi trường học tập tập trung với nhạc nền, video nền và công cụ Pomodoro. Tối ưu hóa hiệu quả học tiếng Anh với không gian làm việc cá nhân hóa.',
     type: 'website',

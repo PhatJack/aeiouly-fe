@@ -5,7 +5,7 @@ import { Metadata } from 'next';
 import TopicPage from './_components/TopicPage';
 
 export const metadata: Metadata = {
-  title: 'Thảo luận chủ đề | Topic',
+  title: 'Thảo luận chủ đề',
   description:
     'Thảo luận và trao đổi về các chủ đề tiếng Anh thú vị với cộng đồng. Học tiếng Anh thông qua việc chia sẻ ý kiến và giao tiếp thực tế.',
   keywords: [

@@ -13,6 +13,7 @@ import { cn } from '@/lib/utils';
 import { useLogoutMutation } from '@/services/auth/logout.api';
 
 import {
+  BookMarked,
   BookOpen,
   FileText,
   GraduationCap,
@@ -70,6 +71,13 @@ const menuWithImg = [
     icon: BookOpen,
     href: ROUTE.READING,
     id: 'reading',
+    role: 'user',
+  },
+  {
+    title: 'Từ vựng đã lưu',
+    icon: BookMarked,
+    href: ROUTE.VOCABULARY,
+    id: 'vocabulary',
     role: 'user',
   },
   {

@@ -1,23 +1,59 @@
 'use client';
 
-import AvatarUpload from '@/components/AvatarUpload';
+import { useState } from 'react';
+
+import Image from 'next/image';
+
+import EditFieldDialog from '@/components/app/settings/EditFieldDialog';
 import SettingHeader from '@/components/app/settings/SettingHeader';
 import AvatarCustom from '@/components/custom/AvatarCustom';
 import { WaveAnimation } from '@/components/shared/WaveAnimation';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useAuthStore } from '@/contexts/AuthContext';
-import { formatTimezoneVN } from '@/lib/timezone';
+import { UserUpdateSchema, userUpdateSchema } from '@/lib/schema/user.schema';
 import { getFallbackInitials } from '@/lib/utils';
+import { useUpdateMeMutation } from '@/services/auth/update-me.api';
 
-import { Calendar, Mail, Pencil } from 'lucide-react';
+import { Plus } from 'lucide-react';
+import { toast } from 'sonner';
+
+import { AVATAR_VIBRANT } from '../../../../../public/avatars';
 
 const SettingPage = () => {
   const user = useAuthStore((state) => state.user);
+  const [openEmailDialog, setOpenEmailDialog] = useState(false);
+  const [openFullNameDialog, setOpenFullNameDialog] = useState(false);
+
+  const updateMeMutation = useUpdateMeMutation();
+
+  const handleUpdateInformation = (data: UserUpdateSchema, fieldName: keyof UserUpdateSchema) => {
+    if (fieldName === 'full_name') {
+      updateMeMutation.mutate(
+        { full_name: data.full_name },
+        {
+          onSuccess: () => {
+            toast.success('Cập nhật tên thành công');
+          },
+        }
+      );
+      return;
+    }
+    if (fieldName === 'email') {
+      updateMeMutation.mutate(
+        { email: data.email },
+        {
+          onSuccess: () => {
+            toast.success('Cập nhật email thành công');
+          },
+        }
+      );
+      return;
+    }
+  };
 
   return (
-    <div className="space-y-6 p-4">
+    <div className="space-y-4 p-4">
       {/* Header */}
       <SettingHeader
         title="Hồ sơ cá nhân"
@@ -25,79 +61,82 @@ const SettingPage = () => {
         description="Quản lý và chỉnh sửa thông tin tài khoản của bạn"
       />
 
-      {/* Profile Card */}
-      <div className="rounded-xl border bg-white p-6 dark:border-slate-700 dark:bg-slate-900">
-        <div className="relative flex flex-col items-center gap-6 lg:flex-row lg:items-start">
-          {/* Avatar */}
-          <div className="flex flex-col items-center gap-3">
-            <AvatarCustom
-              url={user?.avatar_url || ''}
-              className="size-20 border border-slate-200 dark:border-slate-700"
-              fallback={getFallbackInitials(user?.full_name || '')}
-            />
-          </div>
-
-          {/* Form Fields */}
-          <div className="w-full flex-1 space-y-4">
-            <div className="grid gap-4 lg:grid-cols-2">
-              {/* Name */}
-              <div className="space-y-2">
-                <Label htmlFor="name">Họ và tên</Label>
-                <div className="flex h-10 items-center rounded-md border border-slate-200 bg-white px-3 text-sm dark:border-slate-700 dark:bg-slate-800">
-                  {user?.full_name}
-                </div>
-              </div>
-
-              {/* Email */}
-              <div className="space-y-2">
-                <Label htmlFor="email">Email</Label>
-                <div className="flex items-center gap-2">
-                  <div className="flex h-10 flex-1 items-center rounded-md border border-slate-200 bg-white px-3 text-sm dark:border-slate-700 dark:bg-slate-800">
-                    {user?.email}
+      <div className="space-y-4">
+        <Label className="text-lg font-semibold">Thông tin cá nhân</Label>
+        <div className="rounded-xl border bg-white dark:border-slate-700 dark:bg-slate-900">
+          <div className="divide-y">
+            {/* Avatar Section */}
+            <div className="p-4">
+              <div className="flex items-center justify-between">
+                <div className="flex flex-col gap-4">
+                  <Label className="text-sm font-medium text-gray-500">Ảnh đại diện</Label>
+                  <div className="flex gap-2">
+                    <AvatarCustom
+                      url={user?.avatar_url || ''}
+                      fallback={getFallbackInitials(user?.full_name || user?.username || 'User')}
+                      className="size-16 border"
+                    />
+                    <div className="flex flex-wrap gap-2">
+                      {AVATAR_VIBRANT.map((avatar, index) => (
+                        <button
+                          key={`avatar-option-${index}`}
+                          className="hover:border-primary relative size-12 cursor-pointer overflow-hidden rounded-full border-2 border-transparent transition-all"
+                        >
+                          <Image
+                            src={avatar}
+                            alt={`Avatar ${index + 1}`}
+                            fill
+                            sizes="200px"
+                            className="h-full w-full"
+                          />
+                        </button>
+                      ))}
+                      <Button
+                        size={'lg'}
+                        variant={'outline'}
+                        className="hover:border-primary size-12 rounded-full border-dashed bg-transparent transition-all"
+                      >
+                        <Plus />
+                      </Button>
+                    </div>
                   </div>
-                  <Button variant="outline" size="icon" disabled>
-                    <Mail className="h-4 w-4" />
-                  </Button>
                 </div>
               </div>
             </div>
-
-            <div className="grid gap-4 lg:grid-cols-2">
-              {/* Username */}
-              <div className="space-y-2">
-                <Label htmlFor="username">Tên đăng nhập</Label>
-                <div className="flex h-10 items-center rounded-md border border-slate-200 bg-white px-3 text-sm dark:border-slate-700 dark:bg-slate-800">
-                  {user?.username}
-                </div>
-              </div>
-
-              {/* Join Date */}
-              <div className="space-y-2">
-                <Label>Ngày tham gia</Label>
-                <div className="flex h-10 cursor-not-allowed items-center gap-2 rounded-md border border-slate-200 bg-gray-100 px-3 text-sm dark:border-slate-700 dark:bg-slate-800">
-                  <Calendar className="h-4 w-4" />
-                  <Input
-                    className="w-full border-0 bg-transparent p-0 text-sm shadow-none focus-visible:ring-0 focus-visible:ring-offset-0"
-                    // readOnly
-                    value={formatTimezoneVN(user?.created_at || '')}
-                  />
-                </div>
+            {/* Full Name Section */}
+            <div className="p-4">
+              <div>
+                <Label className="text-sm font-medium text-gray-500">Full Name</Label>
+                <p className="mt-1 font-medium">{user?.full_name || 'Chưa cập nhật'}</p>
               </div>
             </div>
 
-            {/* Actions */}
-            <div className="grid grid-cols-4 gap-3 border-t pt-4 sm:flex-row dark:border-slate-700">
-              <div className="col-start-4">
-                <Button className="h-10 w-full flex-1">
-                  <Pencil className="h-4 w-4" />
-                  Lưu
-                </Button>
+            {/* Username Section */}
+            <div className="flex items-center justify-between p-4">
+              <div>
+                <Label className="text-sm font-medium text-gray-500">Username</Label>
+                <p className="mt-1 font-medium">{user?.username}</p>
               </div>
+              <Button variant="outline" onClick={() => setOpenFullNameDialog(true)}>
+                Sửa
+              </Button>
+            </div>
+
+            {/* Email Section */}
+            <div className="flex items-center justify-between p-4">
+              <div>
+                <Label className="text-sm font-medium text-gray-500">Email</Label>
+                <p className="mt-1 font-medium">{user?.email}</p>
+              </div>
+              <Button variant="outline" onClick={() => setOpenEmailDialog(true)}>
+                Sửa
+              </Button>
             </div>
           </div>
         </div>
       </div>
-      <div className="flex w-full flex-col items-center justify-center gap-3 rounded-xl border p-4">
+
+      <div className="flex w-full flex-col items-center justify-center gap-4 rounded-xl border p-4">
         <p className="font-semibold">
           Tôi đã <span className="text-primary">mở miệng nói tiếng Anh</span> được
         </p>
@@ -106,7 +145,7 @@ const SettingPage = () => {
         </div>
         <p className="font-semibold">lần</p>
       </div>
-      <div className="grid w-full gap-6 lg:grid-cols-2">
+      <div className="grid w-full gap-4 lg:grid-cols-2">
         <div className="relative min-h-44 w-full overflow-hidden rounded-xl border p-4 font-semibold">
           <p className="text-lg">
             Tôi <span className="text-primary">sắp nói được tiếng anh</span> vì đã mở miệng được
@@ -126,6 +165,33 @@ const SettingPage = () => {
           <WaveAnimation color="#24d0a3" className="h-full max-h-12" speed={10} />
         </div>
       </div>
+
+      {/* Edit Email Dialog */}
+      <EditFieldDialog
+        open={openEmailDialog}
+        onOpenChange={setOpenEmailDialog}
+        title="Update Email"
+        fieldLabel="New Email"
+        fieldName="email"
+        fieldType="email"
+        currentValue={user?.email || ''}
+        placeholder="Enter new email"
+        onSubmit={handleUpdateInformation}
+        validationSchema={userUpdateSchema.pick({ email: true })}
+      />
+
+      {/* Edit Full Name Dialog */}
+      <EditFieldDialog
+        open={openFullNameDialog}
+        onOpenChange={setOpenFullNameDialog}
+        title="Update Full Name"
+        fieldLabel="Full Name"
+        fieldName="full_name"
+        currentValue={user?.full_name || ''}
+        placeholder="Enter your full name"
+        onSubmit={handleUpdateInformation}
+        validationSchema={userUpdateSchema.pick({ full_name: true })}
+      />
     </div>
   );
 };
