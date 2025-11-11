@@ -1,3 +1,4 @@
+import { getQueryClient } from '@/app/get-query-client';
 import { apiClient } from '@/lib/client';
 import { ErrorResponseSchema } from '@/lib/schema/error';
 import { UserCreateImageSchema, UserResponseSchema } from '@/lib/schema/user.schema';
@@ -17,11 +18,15 @@ export async function updateUserImageApi(body: UserCreateImageSchema) {
 }
 
 export const useUpdateUserImageMutation = () => {
+  const queryClient = getQueryClient();
   return useMutation<UserResponseSchema, ErrorResponseSchema, { body: UserCreateImageSchema }>({
     mutationKey: ['updateUserImage'],
     meta: {
       ignoreGlobal: true,
     },
     mutationFn: ({ body }) => updateUserImageApi(body),
+    onSuccess: (data) => {
+      queryClient.setQueryData(['me'], data);
+    },
   });
 };
