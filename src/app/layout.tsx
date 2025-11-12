@@ -5,6 +5,7 @@ import { ThemeProvider } from '@/components/theme-provider';
 
 import './globals.css';
 import Providers from './providers';
+import './theme-toggle.css';
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -40,7 +41,7 @@ export const metadata: Metadata = {
     siteName: 'Aeiouly',
     images: [
       {
-        url: '/banner-auth.png',
+        url: 'https://aeiouly.site/banner-auth.png',
         width: 1200,
         height: 630,
         alt: 'Aeiouly',
@@ -58,7 +59,7 @@ export const metadata: Metadata = {
       'Lộ trình chinh phục tiếng Anh cùng Aeiouly sẽ vừa thú vị vừa hiệu quả. Công cụ, bài học và phương pháp cá nhân hóa của chúng tôi giúp bạn tự tin giao tiếp tiếng Anh.',
     images: [
       {
-        url: '/banner-auth.png',
+        url: 'https://aeiouly.site/banner-auth.png',
         width: 1200,
         height: 630,
         alt: 'Aeiouly',
@@ -78,12 +79,7 @@ export default function RootLayout({
   return (
     <html lang="vi" suppressHydrationWarning data-overlayscrollbars-initialize>
       <body className={`${beVietNamPro.variable} ${geistSans.variable} flex antialiased`}>
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-        >
+        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           <Providers>{children}</Providers>
         </ThemeProvider>
       </body>

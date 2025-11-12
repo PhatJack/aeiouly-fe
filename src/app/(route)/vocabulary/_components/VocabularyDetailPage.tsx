@@ -104,10 +104,17 @@ const VocabularyDetailPage = ({ id }: VocabularyDetailPageProps) => {
   if (!vocabularySetData) {
     return (
       <div className="container mx-auto max-w-5xl p-4">
-        <Card>
+        <Card className="dark:bg-card/50 dark:border-border/30 dark:backdrop-blur-sm">
           <CardContent className="py-12 text-center">
-            <h2 className="mb-4 text-2xl font-bold">Không tìm thấy bộ từ vựng</h2>
-            <Button onClick={() => router.push('/vocabulary')}>Quay lại</Button>
+            <h2 className="text-foreground mb-4 text-2xl font-bold dark:text-white">
+              Không tìm thấy bộ từ vựng
+            </h2>
+            <Button
+              onClick={() => router.push('/vocabulary')}
+              className="dark:bg-primary dark:text-primary-foreground dark:hover:bg-primary/90"
+            >
+              Quay lại
+            </Button>
           </CardContent>
         </Card>
       </div>
@@ -121,27 +128,38 @@ const VocabularyDetailPage = ({ id }: VocabularyDetailPageProps) => {
     <div className="container mx-auto max-w-5xl space-y-4">
       {/* Header */}
       <div className="flex items-start gap-4">
-        <Button variant="ghost" size="lg" onClick={() => router.push('/vocabulary')}>
+        <Button
+          variant="ghost"
+          size="lg"
+          onClick={() => router.push('/vocabulary')}
+          className="dark:hover:bg-accent/50"
+        >
           <ArrowLeft className="h-6 w-6" />
         </Button>
         <div className="flex-1">
           <div className="flex items-center gap-2">
-            <h1 className="text-3xl font-bold">{vocabularySetData.name}</h1>
+            <h1 className="text-foreground text-3xl font-bold dark:text-white">
+              {vocabularySetData.name}
+            </h1>
             {vocabularySetData.is_default && (
-              <span className="bg-primary/10 text-primary rounded-full px-3 py-1 text-sm font-medium">
+              <span className="bg-primary/10 text-primary dark:bg-primary/20 dark:text-primary rounded-full px-3 py-1 text-sm font-medium">
                 Mặc định
               </span>
             )}
           </div>
           {vocabularySetData.description && (
-            <p className="text-muted-foreground mt-2">{vocabularySetData.description}</p>
+            <p className="text-muted-foreground mt-2 dark:text-gray-400">
+              {vocabularySetData.description}
+            </p>
           )}
           <div className="mt-2 flex items-center gap-1">
-            <span className="bg-primary size-6 rounded-full p-1">
+            <span className="bg-primary dark:bg-primary/90 size-6 rounded-full p-1">
               <WholeWord className="h-4 w-4 text-white" />
             </span>
-            <span className="text-base font-medium">{vocabularySetData.total_words}</span>
-            <span className="text-muted-foreground">từ</span>
+            <span className="text-foreground text-base font-medium dark:text-white">
+              {vocabularySetData.total_words}
+            </span>
+            <span className="text-muted-foreground dark:text-gray-400">từ</span>
           </div>
         </div>
       </div>
@@ -157,8 +175,9 @@ const VocabularyDetailPage = ({ id }: VocabularyDetailPageProps) => {
             size={'lg'}
             disabled={createFlashcardMutation.isPending}
             onClick={handleFlashcardPractice}
+            className="dark:bg-primary dark:text-primary-foreground dark:hover:bg-primary/90"
           >
-            <Layers className="text-primary h-6 w-6" />
+            <Layers className="text-primary-foreground h-6 w-6 dark:text-white" />
             <h3 className="font-semibold">Luyện tập với Flashcard</h3>
           </Button>
 
@@ -168,6 +187,7 @@ const VocabularyDetailPage = ({ id }: VocabularyDetailPageProps) => {
             size={'lg'}
             disabled={createMultipleChoiceMutation.isPending}
             onClick={handleMultipleChoicePractice}
+            className="dark:border-secondary/50 dark:bg-secondary/10 dark:text-secondary dark:hover:bg-secondary/20"
           >
             <BrainCircuit className="text-secondary h-6 w-6" />
             <h3 className="font-semibold">Luyện tập Multiple Choice</h3>
@@ -202,11 +222,13 @@ const VocabularyDetailPage = ({ id }: VocabularyDetailPageProps) => {
           )}
         </>
       ) : (
-        <Card>
+        <Card className="dark:bg-card/50 dark:border-border/30 dark:backdrop-blur-sm">
           <CardContent className="flex min-h-[300px] flex-col items-center justify-center py-12">
-            <BookOpen className="text-muted-foreground mb-4 h-16 w-16" />
-            <h3 className="mb-2 text-lg font-semibold">Chưa có từ vựng nào</h3>
-            <p className="text-muted-foreground text-center">
+            <BookOpen className="text-muted-foreground mb-4 h-16 w-16 dark:text-gray-500" />
+            <h3 className="text-foreground mb-2 text-lg font-semibold dark:text-white">
+              Chưa có từ vựng nào
+            </h3>
+            <p className="text-muted-foreground text-center dark:text-gray-400">
               Thêm từ vựng vào bộ từ này để bắt đầu học
             </p>
           </CardContent>

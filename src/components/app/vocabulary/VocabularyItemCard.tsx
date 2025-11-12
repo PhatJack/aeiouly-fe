@@ -54,33 +54,36 @@ const VocabularyItemCard = ({ item, onRemove }: VocabularyItemCardProps) => {
   return (
     <Card>
       <CardContent>
-        <div className="flex items-start justify-between">
-          <div className="flex-1">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-3">
-                <h3 className="text-xl font-bold">{item.word}</h3>
-                {result && 'pronunciation' in result && result?.pronunciation && (
-                  <PronunciationPlayer pronunciations={result ? result.pronunciation : []} />
-                )}
-                {loading && (
-                  <div className="flex items-center gap-2">
-                    <Skeleton className="h-10 w-20" />
-                    <Skeleton className="h-10 w-20" />
-                  </div>
-                )}
-              </div>
-              <Button variant="destructive" size="icon" onClick={() => onRemove(item.id)}>
-                <Trash className="h-4 w-4" />
-              </Button>
+        <div className="flex items-start justify-between gap-4">
+          <div className="flex-1 space-y-3">
+            <div className="flex items-center gap-3">
+              <h3 className="text-foreground text-xl font-bold dark:text-white">{item.word}</h3>
+              {result && 'pronunciation' in result && result?.pronunciation && (
+                <PronunciationPlayer pronunciations={result ? result.pronunciation : []} />
+              )}
+              {loading && (
+                <div className="flex items-center gap-2">
+                  <Skeleton className="h-6 w-20" />
+                  <Skeleton className="h-6 w-20" />
+                </div>
+              )}
             </div>
             {item.definitions && (
-              <div className="prose prose-sm mt-3 max-w-none">
+              <div className="prose prose-sm dark:prose-invert prose-p:text-foreground dark:prose-p:text-gray-300 prose-strong:text-foreground dark:prose-strong:text-white prose-headings:text-foreground dark:prose-headings:text-white max-w-none">
                 <ReactMarkdown remarkPlugins={[remarkBreaks]}>
                   {item.definitions.replace(/\\n/g, '\n')}
                 </ReactMarkdown>
               </div>
             )}
           </div>
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={() => onRemove(item.id)}
+            className="text-destructive hover:bg-destructive/10 hover:text-destructive dark:hover:bg-destructive/20 opacity-0 transition-all group-hover:opacity-100"
+          >
+            <Trash className="h-4 w-4" />
+          </Button>
         </div>
       </CardContent>
     </Card>

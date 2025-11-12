@@ -5,6 +5,7 @@ import { useState } from 'react';
 import EditAvatarSetting from '@/components/app/settings/EditAvatarSetting';
 import EditFieldDialog from '@/components/app/settings/EditFieldDialog';
 import SettingHeader from '@/components/app/settings/SettingHeader';
+import { ModeToggle } from '@/components/mode-toggle';
 import { WaveAnimation } from '@/components/shared/WaveAnimation';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
@@ -101,33 +102,53 @@ const SettingPage = () => {
         </div>
       </div>
 
-      <div className="flex w-full flex-col items-center justify-center gap-4 rounded-xl border p-4">
-        <p className="font-semibold">
-          Tôi đã <span className="text-primary">mở miệng nói tiếng Anh</span> được
-        </p>
-        <div className="flex aspect-square size-20 items-center justify-center rounded-full border border-gray-100 bg-gray-50 p-4">
-          <p className="text-primary text-5xl font-bold">7</p>
+      <div className="space-y-4">
+        <Label className="text-lg font-semibold">Thống kê học tập</Label>
+        <div className="space-y-4 divide-y">
+          <div className="flex w-full flex-col items-center justify-center gap-4 rounded-xl border p-4">
+            <p className="font-semibold">
+              Tôi đã <span className="text-primary">mở miệng nói tiếng Anh</span> được
+            </p>
+            <div className="flex aspect-square size-20 items-center justify-center rounded-full border border-gray-100 bg-gray-50 p-4">
+              <p className="text-primary text-5xl font-bold">7</p>
+            </div>
+            <p className="font-semibold">lần</p>
+          </div>
+          <div className="grid w-full gap-4 lg:grid-cols-2">
+            <div className="relative min-h-44 w-full overflow-hidden rounded-xl border p-4 font-semibold">
+              <p className="text-lg">
+                Tôi <span className="text-primary">sắp nói được tiếng anh</span> vì đã mở miệng được
+              </p>
+              <p className="mt-2 text-3xl font-bold">
+                <span className="text-primary">1</span> / 100 giờ
+              </p>
+              <WaveAnimation color="#ff7429" className="max-h-5" speed={20} />
+            </div>
+            <div className="relative min-h-44 w-full overflow-hidden rounded-xl border p-4 font-semibold">
+              <p className="text-lg">
+                Tôi <span className="text-secondary">đã vượt qua cơn lười học</span> của bản thân
+                được
+              </p>
+              <p className="mt-2 text-3xl font-bold">
+                <span className="text-secondary">1</span> ngày
+              </p>
+              <WaveAnimation color="#24d0a3" className="h-full max-h-12" speed={10} />
+            </div>
+          </div>
         </div>
-        <p className="font-semibold">lần</p>
       </div>
-      <div className="grid w-full gap-4 lg:grid-cols-2">
-        <div className="relative min-h-44 w-full overflow-hidden rounded-xl border p-4 font-semibold">
-          <p className="text-lg">
-            Tôi <span className="text-primary">sắp nói được tiếng anh</span> vì đã mở miệng được
-          </p>
-          <p className="mt-2 text-3xl font-bold">
-            <span className="text-primary">1</span> / 100 giờ
-          </p>
-          <WaveAnimation color="#ff7429" className="max-h-5" speed={20} />
-        </div>
-        <div className="relative min-h-44 w-full overflow-hidden rounded-xl border p-4 font-semibold">
-          <p className="text-lg">
-            Tôi <span className="text-secondary">đã vượt qua cơn lười học</span> của bản thân được
-          </p>
-          <p className="mt-2 text-3xl font-bold">
-            <span className="text-secondary">1</span> ngày
-          </p>
-          <WaveAnimation color="#24d0a3" className="h-full max-h-12" speed={10} />
+
+      <div className="space-y-4">
+        <Label className="text-lg font-semibold">Giao diện</Label>
+        <div className="rounded-xl border bg-white dark:border-slate-700 dark:bg-slate-900">
+          <div className="divide-y">
+            <div className="p-4">
+              <div className="flex items-center justify-between">
+                <Label className="text-sm font-medium text-gray-500">Chủ đề</Label>
+                <ModeToggle />
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -135,12 +156,12 @@ const SettingPage = () => {
       <EditFieldDialog
         open={openEmailDialog}
         onOpenChange={setOpenEmailDialog}
-        title="Update Email"
-        fieldLabel="New Email"
+        title="Cập nhật Email"
+        fieldLabel="Email mới"
         fieldName="email"
         fieldType="email"
         currentValue={user?.email || ''}
-        placeholder="Enter new email"
+        placeholder="Nhập email mới"
         onSubmit={handleUpdateInformation}
         validationSchema={userUpdateSchema.pick({ email: true })}
       />
@@ -149,11 +170,11 @@ const SettingPage = () => {
       <EditFieldDialog
         open={openFullNameDialog}
         onOpenChange={setOpenFullNameDialog}
-        title="Update Full Name"
-        fieldLabel="Full Name"
+        title="Cập nhật Họ và Tên"
+        fieldLabel="Họ và Tên"
         fieldName="full_name"
         currentValue={user?.full_name || ''}
-        placeholder="Enter your full name"
+        placeholder="Nhập họ và tên"
         onSubmit={handleUpdateInformation}
         validationSchema={userUpdateSchema.pick({ full_name: true })}
       />

@@ -33,6 +33,7 @@ import { toast } from 'sonner';
 
 import AvatarCustom from '../custom/AvatarCustom';
 import TooltipCustom from '../custom/TooltipCustom';
+import { ModeToggle } from '../mode-toggle';
 import { Button } from '../ui/button';
 import { Separator } from '../ui/separator';
 
@@ -197,6 +198,7 @@ const Sidebar = () => {
       </ul>
 
       <div className="flex flex-1 flex-col justify-end gap-4">
+        <ModeToggle />
         {user ? (
           <>
             <div

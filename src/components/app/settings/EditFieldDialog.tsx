@@ -86,10 +86,10 @@ const EditFieldDialog = ({
 
         <div className="flex justify-end gap-2">
           <Button type="button" variant="outline" onClick={handleCancel}>
-            Cancel
+            Hủy
           </Button>
           <Button type="submit" form={`form-edit-${fieldName}`}>
-            Save
+            Lưu
           </Button>
         </div>
       </DialogContent>
