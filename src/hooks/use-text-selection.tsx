@@ -209,7 +209,7 @@ const useTextSelection = (options?: UseTextSelectionOptions): TextSelection => {
       saveSelection,
       clearPersistedText,
     });
-  }, [getCaretPosition, clearSelection, options?.onSelectionChange, options?.ref]);
+  }, [getCaretPosition, clearSelection, options, persistedText, saveSelection, clearPersistedText]);
 
   const handleSelection = useCallback(() => {
     requestAnimationFrame(updateSelection);

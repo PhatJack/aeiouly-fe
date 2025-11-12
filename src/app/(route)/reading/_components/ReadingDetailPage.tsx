@@ -5,30 +5,33 @@ import ReactMarkdown from 'react-markdown';
 
 import { useRouter } from 'nextjs-toploader/app';
 
+import LoadingWithText from '@/components/LoadingWithText';
+import DiscussionSection from '@/components/app/reading/DiscussionSection';
 import QuizSection from '@/components/app/reading/QuizSection';
-import SummaryFeedback from '@/components/app/reading/SummaryFeedback';
-import SummarySubmissionForm from '@/components/app/reading/SummarySubmissionForm';
 import AlertCustom from '@/components/custom/AlertCustom';
 import BlockquoteCustom from '@/components/custom/BlockquoteCustom';
 import TextSelectionModal from '@/components/shared/TextSelectionModal';
 import VocabularyDialog from '@/components/shared/VocabularyDialog';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Separator } from '@/components/ui/separator';
 import { Skeleton } from '@/components/ui/skeleton';
 import useContentTextSelection from '@/hooks/use-text-selection';
 import {
+  DiscussionQuestionSchema,
+  EvaluateAnswerResponseSchema,
   QuizGenerationRequestSchema,
   QuizQuestionSchema,
-  SummaryFeedbackSchema,
-  SummarySubmissionSchema,
 } from '@/lib/schema/reading-session.schema';
 import {
+  useEvaluateAnswerMutation,
+  useGenerateDiscussionMutation,
   useGenerateQuizMutation,
   useGetReadingSessionDetailQuery,
-  useSubmitSummaryMutation,
 } from '@/services/reading-session';
-import { useBlockNavigation } from '@/stores/use-block-navigation';
 
 import { ArrowLeft, CircleAlert } from 'lucide-react';
 import { toast } from 'sonner';
@@ -46,11 +49,15 @@ const ReadingDetailPage = ({ id }: ReadingDetailPageProps) => {
   const [open, setOpen] = useState(false);
   const router = useRouter();
   const sessionId = Number(id);
-  const setUnsaved = useBlockNavigation((state) => state.setUnsaved);
-  const [summarySubmitted, setSummarySubmitted] = useState(false);
-  const [feedback, setFeedback] = useState<SummaryFeedbackSchema | null>(null);
+  const [numberOfQuestions, setNumberOfQuestions] = useState(5);
+  const [showQuestionInput, setShowQuestionInput] = useState(true);
+  const [discussions, setDiscussions] = useState<DiscussionQuestionSchema[] | null>(null);
   const [quiz, setQuiz] = useState<QuizQuestionSchema[] | null>(null);
   const [selectedAnswers, setSelectedAnswers] = useState<Record<string, string>>({});
+  const [evaluating, setEvaluating] = useState<Record<string, boolean>>({});
+  const [discussionFeedback, setDiscussionFeedback] = useState<
+    Record<string, EvaluateAnswerResponseSchema>
+  >({});
 
   const {
     data: session,
@@ -59,27 +66,52 @@ const ReadingDetailPage = ({ id }: ReadingDetailPageProps) => {
   } = useGetReadingSessionDetailQuery(sessionId, {
     refetchOnWindowFocus: false,
   });
-  const submitSummaryMutation = useSubmitSummaryMutation();
+
+  const generateDiscussionMutation = useGenerateDiscussionMutation();
+  const evaluateAnswerMutation = useEvaluateAnswerMutation();
   const generateQuizMutation = useGenerateQuizMutation();
 
-  const handleSummarySubmit = useCallback(
-    (data: SummarySubmissionSchema) => {
-      setUnsaved(false);
-      submitSummaryMutation.mutate(
-        { sessionId, data },
+  const handleGenerateDiscussion = useCallback(() => {
+    if (numberOfQuestions < 3 || numberOfQuestions > 10) {
+      toast.error('Số câu hỏi phải từ 3 đến 10');
+      return;
+    }
+
+    generateDiscussionMutation.mutate(
+      { sessionId, data: { number_of_questions: numberOfQuestions } },
+      {
+        onSuccess: (result) => {
+          setDiscussions(result.questions);
+          setShowQuestionInput(false);
+          toast.success(`Đã tạo ${result.questions.length} câu hỏi thảo luận!`);
+        },
+        onError: () => {
+          toast.error('Có lỗi xảy ra khi tạo câu hỏi thảo luận.');
+        },
+      }
+    );
+  }, [sessionId, numberOfQuestions, generateDiscussionMutation]);
+
+  const handleEvaluateAnswer = useCallback(
+    (questionId: string, question: string, answer: string) => {
+      setEvaluating((prev) => ({ ...prev, [questionId]: true }));
+      evaluateAnswerMutation.mutate(
+        { sessionId, data: { question, answer } },
         {
           onSuccess: (result) => {
-            setFeedback(result);
-            setSummarySubmitted(true);
-            toast.success('Đã nộp bài tóm tắt thành công!');
+            setDiscussionFeedback((prev) => ({ ...prev, [questionId]: result }));
+            toast.success('Đã phân tích câu trả lời!');
           },
           onError: () => {
-            toast.error('Có lỗi xảy ra. Vui lòng thử lại.');
+            toast.error('Có lỗi xảy ra khi phân tích câu trả lời.');
+          },
+          onSettled: () => {
+            setEvaluating((prev) => ({ ...prev, [questionId]: false }));
           },
         }
       );
     },
-    [sessionId, submitSummaryMutation]
+    [sessionId, evaluateAnswerMutation]
   );
 
   const handleGenerateQuiz = useCallback(
@@ -143,8 +175,8 @@ const ReadingDetailPage = ({ id }: ReadingDetailPageProps) => {
   return (
     <div className="min-h-screen">
       {/* Header */}
-      <div className="bg-card/50 z-10 border-b backdrop-blur-sm">
-        <div className="container mx-auto max-w-4xl py-4">
+      <div className="z-10 backdrop-blur-sm">
+        <div className="container mx-auto max-w-4xl pb-3.5">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-4">
               <Button
@@ -179,6 +211,7 @@ const ReadingDetailPage = ({ id }: ReadingDetailPageProps) => {
             </div>
           </div>
         </div>
+        <Separator />
       </div>
 
       {/* Content */}
@@ -203,22 +236,58 @@ const ReadingDetailPage = ({ id }: ReadingDetailPageProps) => {
           </CardContent>
         </Card>
 
-        {/* Summary Submission */}
-        {!summarySubmitted && !feedback && (
-          <SummarySubmissionForm
-            onSubmit={handleSummarySubmit}
-            isPending={submitSummaryMutation.isPending}
-          />
-        )}
-
-        {/* Summary Feedback */}
-        {feedback && (
-          <SummaryFeedback
-            feedback={feedback}
-            showQuizForm={!quiz}
-            onGenerateQuiz={handleGenerateQuiz}
-            isGenerating={generateQuizMutation.isPending}
-          />
+        {/* Discussion Questions */}
+        {showQuestionInput && !discussions ? (
+          <Card className="relative">
+            <CardHeader>
+              <CardTitle className="text-foreground dark:text-white">
+                Tạo câu hỏi thảo luận
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <div className="space-y-2">
+                <Label htmlFor="numQuestions" className="text-sm font-medium">
+                  Số lượng câu hỏi (3-10)
+                </Label>
+                <Input
+                  id="numQuestions"
+                  type="number"
+                  min={3}
+                  max={10}
+                  value={numberOfQuestions}
+                  onChange={(e) => setNumberOfQuestions(Number(e.target.value))}
+                  className="dark:bg-card/50"
+                  disabled={generateDiscussionMutation.isPending}
+                />
+                <p className="text-muted-foreground text-xs dark:text-gray-400">
+                  Nhập số câu hỏi bạn muốn tạo để thảo luận về bài đọc
+                </p>
+              </div>
+              <Button
+                onClick={handleGenerateDiscussion}
+                disabled={generateDiscussionMutation.isPending}
+                size="lg"
+                className="dark:bg-primary dark:text-primary-foreground dark:hover:bg-primary/90"
+              >
+                {'Tạo câu hỏi thảo luận'}
+              </Button>
+            </CardContent>
+            {generateDiscussionMutation.isPending && (
+              <LoadingWithText
+                text="Đang tạo câu hỏi thảo luận..."
+                className="bg-background absolute inset-0 size-full backdrop-blur-sm"
+              />
+            )}
+          </Card>
+        ) : (
+          discussions && (
+            <DiscussionSection
+              questions={discussions}
+              onEvaluateAnswer={handleEvaluateAnswer}
+              evaluating={evaluating}
+              feedback={discussionFeedback}
+            />
+          )
         )}
 
         {/* Quiz Section */}
@@ -230,6 +299,21 @@ const ReadingDetailPage = ({ id }: ReadingDetailPageProps) => {
             onAnswerSelect={handleAnswerSelect}
             onCheckAnswers={checkQuizAnswers}
           />
+        )}
+
+        {/* Generate Quiz Button */}
+        {discussions && !quiz && (
+          <Card>
+            <CardContent className="py-6 text-center">
+              <Button
+                onClick={() => handleGenerateQuiz({ number_of_questions: 5 })}
+                disabled={generateQuizMutation.isPending}
+                size="lg"
+              >
+                {generateQuizMutation.isPending ? 'Đang tạo...' : 'Tạo bài trắc nghiệm'}
+              </Button>
+            </CardContent>
+          </Card>
         )}
       </div>
       {selection.isSelected && selection.position && (

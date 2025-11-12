@@ -188,7 +188,7 @@ const Sidebar = () => {
               </motion.span>
               {pathname === item.href && (
                 <motion.div
-                  className="bg-secondary absolute inset-0 -z-10 rounded-full"
+                  className="bg-primary absolute inset-0 -z-10 rounded-full"
                   layoutId="background"
                   transition={{ type: 'spring', stiffness: 300, damping: 30 }}
                 />

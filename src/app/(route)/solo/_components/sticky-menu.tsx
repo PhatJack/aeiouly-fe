@@ -95,10 +95,10 @@ const StickyMenu = () => {
               type="button"
               onClick={() => handleClick(item.variable)}
               className={cn(
-                `h-10 w-10 shadow-lg md:h-12 md:w-12 [&_svg]:size-4 md:[&_svg]:size-5`,
+                `bg-background h-10 w-10 shadow-lg md:h-12 md:w-12 md:[&_svg:not([class*='size-'])]:size-5`,
                 activePanel === item.variable && 'bg-primary text-primary-foreground'
               )}
-              variant={activePanel === item.variable ? 'default' : 'outline'}
+              variant={activePanel === item.variable ? 'default' : 'ghost'}
               size={'icon'}
             >
               <span className="text-lg md:text-xl">
@@ -111,8 +111,8 @@ const StickyMenu = () => {
           <Button
             type="button"
             onClick={toggleFullscreenHandler}
-            className="hover:bg-background/90 hover:text-foreground h-10 w-10 shadow-lg md:h-12 md:w-12 [&_svg]:size-4 md:[&_svg]:size-5"
-            variant={'outline'}
+            className="bg-background hover:bg-background/90 hover:text-foreground h-10 w-10 shadow-lg md:h-12 md:w-12 [&_svg]:size-4 md:[&_svg]:size-5"
+            variant={'ghost'}
             size={'icon'}
           >
             <span className="text-lg md:text-xl">

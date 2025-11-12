@@ -29,7 +29,7 @@ const VolumeChange = ({
         onClick={handleMute}
         size={'icon'}
         variant={'ghost'}
-        className="hover:bg-transparent hover:text-black"
+        className="hover:bg-transparent hover:text-black dark:hover:text-white"
       >
         {volume > 0 ? <Volume2 /> : <VolumeX />}
       </Button>

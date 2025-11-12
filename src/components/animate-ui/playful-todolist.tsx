@@ -41,7 +41,7 @@ function PlayfulTodolist({ list, className, onStatusChange }: PlayfulTodolistPro
   }
 
   return (
-    <div className={cn('divide-y rounded-2xl bg-neutral-100 p-6 dark:bg-neutral-900', className)}>
+    <div className={cn('divide-y p-4', className)}>
       {list.map((item, idx) => (
         <div key={item.id} className="flex items-center space-x-2 py-2">
           <Checkbox

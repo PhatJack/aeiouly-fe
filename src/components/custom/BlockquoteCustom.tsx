@@ -61,7 +61,7 @@ const BlockquoteCustom = ({
       {title && (
         <div className="flex items-center gap-2">
           <div className={cn('h-6 w-1 rounded-full', styles.backgroundColor)}></div>
-          <Label className="text-lg font-semibold text-gray-800">{title}</Label>
+          <Label className="text-lg font-semibold text-gray-800 dark:text-gray-100">{title}</Label>
         </div>
       )}
       <div
@@ -72,7 +72,7 @@ const BlockquoteCustom = ({
           contentClassName
         )}
       >
-        <div className="leading-relaxed text-gray-700">{content}</div>
+        <div className="leading-relaxed text-gray-700 dark:text-gray-200">{content}</div>
       </div>
     </div>
   );

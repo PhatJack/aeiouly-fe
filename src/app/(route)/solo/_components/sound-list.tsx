@@ -73,18 +73,6 @@ const SoundList = () => {
   return (
     <div className="bg-background flex w-full flex-col space-y-2 rounded-md p-4 shadow-lg">
       <OriginalVideoSound />
-      {/* <div className="flex flex-col">
-        <Label htmlFor="volume" className="flex items-center gap-1 text-xs">
-          <span>
-            <strong>Original Video Sound</strong>
-          </span>
-        </Label>
-        <VolumeChange
-          debouncedSetVolume={(val: number[]) => setVolume(val[0])}
-          volume={volume}
-          handleMute={() => setVolume(volume > 0 ? 0 : 100)}
-        />
-      </div> */}
       {sounds?.map((sound, index) => (
         <div key={index} className="flex flex-col">
           <Label htmlFor="volume" className="flex items-center gap-1 text-xs">

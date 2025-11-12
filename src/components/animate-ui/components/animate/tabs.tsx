@@ -29,7 +29,7 @@ function TabsList({ className, ...props }: TabsListProps) {
     <TabsHighlightPrimitive className="bg-background dark:border-input dark:bg-input/30 absolute inset-0 z-0 rounded-md border border-transparent shadow-sm">
       <TabsListPrimitive
         className={cn(
-          'bg-muted text-muted-foreground inline-flex h-9 w-fit items-center justify-center rounded-lg p-[3px]',
+          'bg-muted dark:bg-background text-muted-foreground inline-flex h-9 w-fit items-center justify-center rounded-lg p-[3px]',
           className
         )}
         {...props}

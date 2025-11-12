@@ -9,26 +9,52 @@ import ReadingSessionCard from '@/components/app/reading/ReadingSessionCard';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
-import { useGetReadingSessionsQuery } from '@/services/reading-session';
+import {
+  useDeleteReadingSessionMutation,
+  useGetReadingSessionsQuery,
+} from '@/services/reading-session';
 
 import { BookOpen, FileText } from 'lucide-react';
+import { toast } from 'sonner';
 
 import CreateSessionForm from './CreateSessionForm';
 
 const ReadingPage = () => {
   const router = useRouter();
   const [page, setPage] = useState(1);
+  const [deletingId, setDeletingId] = useState<number | null>(null);
 
   const { data, isLoading, isError, refetch } = useGetReadingSessionsQuery({
     page,
     size: 10,
   });
 
+  const deleteSessionMutation = useDeleteReadingSessionMutation();
+
   const handleCardClick = useCallback(
     (sessionId: number) => {
       router.push(`/reading/${sessionId}`);
     },
     [router]
+  );
+
+  const handleDelete = useCallback(
+    (sessionId: number) => {
+      setDeletingId(sessionId);
+      deleteSessionMutation.mutate(sessionId, {
+        onSuccess: () => {
+          toast.success('Đã xóa phiên đọc thành công!');
+          refetch();
+        },
+        onError: () => {
+          toast.error('Có lỗi xảy ra khi xóa phiên đọc.');
+        },
+        onSettled: () => {
+          setDeletingId(null);
+        },
+      });
+    },
+    [deleteSessionMutation, refetch]
   );
 
   const handlePreviousPage = useCallback(() => {
@@ -91,6 +117,8 @@ const ReadingPage = () => {
                       <ReadingSessionCard
                         session={session}
                         onClick={() => handleCardClick(session.id)}
+                        onDelete={handleDelete}
+                        isDeleting={deletingId === session.id}
                       />
                     </div>
                   ))}

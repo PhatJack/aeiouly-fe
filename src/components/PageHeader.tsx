@@ -37,7 +37,7 @@ const PageHeader: React.FC<PageHeaderProps> = ({
           <div className="group relative">
             <div
               className={cn(
-                'relative flex h-20 w-20 items-center justify-center rounded-2xl ring-2',
+                'bg-background dark:bg-card/50 dark:ring-offset-background relative flex h-20 w-20 items-center justify-center rounded-2xl ring-2 transition-all dark:shadow-lg dark:ring-offset-2',
                 ringColor
               )}
             >
@@ -49,10 +49,12 @@ const PageHeader: React.FC<PageHeaderProps> = ({
 
           {/* Title, Description and Stats */}
           <div className="flex-1 space-y-2">
-            <h1 className="from-foreground to-foreground/70 bg-gradient-to-r bg-clip-text text-4xl leading-snug font-bold tracking-tight text-transparent">
+            <h1 className="from-foreground to-foreground/70 bg-gradient-to-r bg-clip-text text-4xl leading-snug font-bold tracking-tight text-transparent dark:from-white dark:to-gray-300">
               {title}
             </h1>
-            <p className="text-muted-foreground text-base leading-relaxed">{description}</p>
+            <p className="text-muted-foreground text-base leading-relaxed dark:text-gray-400">
+              {description}
+            </p>
 
             {/* Stats */}
             {stats && stats.length > 0 && (
@@ -61,14 +63,18 @@ const PageHeader: React.FC<PageHeaderProps> = ({
                   <React.Fragment key={index}>
                     <div className="flex items-center gap-2">
                       {stat.isLive && (
-                        <div className="h-2 w-2 animate-pulse rounded-full bg-green-500" />
+                        <div className="h-2 w-2 animate-pulse rounded-full bg-green-500 shadow-lg shadow-green-500/50 dark:bg-green-400 dark:shadow-green-400/50" />
                       )}
-                      <span className="text-muted-foreground">
-                        <span className="text-foreground font-semibold">{stat.value}</span>{' '}
+                      <span className="text-muted-foreground dark:text-gray-400">
+                        <span className="text-foreground font-semibold dark:text-white">
+                          {stat.value}
+                        </span>{' '}
                         {stat.label}
                       </span>
                     </div>
-                    {index < stats.length - 1 && <div className="bg-border h-4 w-px" />}
+                    {index < stats.length - 1 && (
+                      <div className="bg-border dark:bg-border/50 h-4 w-px" />
+                    )}
                   </React.Fragment>
                 ))}
               </div>

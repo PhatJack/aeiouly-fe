@@ -3,84 +3,112 @@
 import React, { memo } from 'react';
 
 import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { ReadingSessionSummarySchema } from '@/lib/schema/reading-session.schema';
 import { getLevelColor } from '@/lib/utils';
 
-import { BookOpen, FileText, Sparkles } from 'lucide-react';
+import { BookOpen, FileText, Sparkles, Trash2 } from 'lucide-react';
 
 interface ReadingSessionCardProps {
   session: ReadingSessionSummarySchema;
   onClick?: () => void;
+  onDelete?: (sessionId: number) => void;
+  isDeleting?: boolean;
 }
 
-const ReadingSessionCard = memo(({ session, onClick }: ReadingSessionCardProps) => {
-  return (
-    <Card
-      className="border-l-primary cursor-pointer overflow-hidden border-l-4 bg-white"
-      onClick={onClick}
-      role="button"
-      tabIndex={0}
-      onKeyDown={(e) => e.key === 'Enter' && onClick?.()}
-      aria-label={`Reading session: ${session.topic}`}
-    >
-      <CardContent>
-        <div className="flex items-start justify-between gap-5">
-          {/* Left side - Icon and Content */}
-          <div className="flex min-w-0 flex-1 gap-4">
-            {/* Icon */}
-            <div className="bg-primary/10 flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-lg">
-              <BookOpen className="text-primary h-6 w-6" />
-              {session.is_custom && (
-                <Sparkles className="absolute -top-1 -right-1 h-4 w-4 text-amber-500" />
-              )}
-            </div>
+const ReadingSessionCard = memo(
+  ({ session, onClick, onDelete, isDeleting }: ReadingSessionCardProps) => {
+    const handleDelete = (e: React.MouseEvent) => {
+      e.stopPropagation();
+      if (
+        onDelete &&
+        confirm('Bạn có chắc chắn muốn xóa phiên đọc này? Hành động này không thể hoàn tác.')
+      ) {
+        onDelete(session.id);
+      }
+    };
 
-            {/* Content */}
-            <div className="min-w-0 flex-1 space-y-2">
-              {/* Title */}
-              <h3 className="text-foreground line-clamp-2 text-lg font-semibold">
-                {session.topic}
-              </h3>
-
-              {/* Metadata */}
-              <div className="text-muted-foreground flex flex-wrap items-center gap-3 text-sm">
-                <div className="flex items-center gap-1.5">
-                  <FileText className="h-4 w-4" />
-                  <span>{session.genre}</span>
-                </div>
-                <div className="flex items-center gap-1.5">
-                  <BookOpen className="h-4 w-4" />
-                  <span>{session.word_count} từ</span>
-                </div>
+    return (
+      <Card
+        className="group border-l-primary dark:bg-background cursor-pointer overflow-hidden border-l-4 bg-white transition-all"
+        onClick={onClick}
+        role="button"
+        tabIndex={0}
+        onKeyDown={(e) => e.key === 'Enter' && onClick?.()}
+        aria-label={`Reading session: ${session.topic}`}
+      >
+        <CardContent className="relative">
+          <div className="flex items-start justify-between gap-5">
+            {/* Left side - Icon and Content */}
+            <div className="flex min-w-0 flex-1 gap-4">
+              {/* Icon */}
+              <div className="bg-primary/10 flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-lg">
+                <BookOpen className="text-primary h-6 w-6" />
+                {session.is_custom && (
+                  <Sparkles className="absolute -top-1 -right-1 h-4 w-4 text-amber-500" />
+                )}
               </div>
 
-              {/* Custom badge */}
-              {session.is_custom && (
-                <Badge
-                  variant="outline"
-                  className="border-amber-300 bg-amber-50 px-2.5 py-0.5 text-xs font-medium text-amber-700"
+              {/* Content */}
+              <div className="min-w-0 flex-1 space-y-2">
+                {/* Title */}
+                <h3 className="text-foreground line-clamp-2 text-lg font-semibold">
+                  {session.topic}
+                </h3>
+
+                {/* Metadata */}
+                <div className="text-muted-foreground flex flex-wrap items-center gap-3 text-sm">
+                  <div className="flex items-center gap-1.5">
+                    <FileText className="h-4 w-4" />
+                    <span>{session.genre}</span>
+                  </div>
+                  <div className="flex items-center gap-1.5">
+                    <BookOpen className="h-4 w-4" />
+                    <span>{session.word_count} từ</span>
+                  </div>
+                </div>
+
+                {/* Custom badge */}
+                {session.is_custom && (
+                  <Badge
+                    variant="outline"
+                    className="border-amber-300 bg-amber-50 px-2.5 py-0.5 text-xs font-medium text-amber-700"
+                  >
+                    Văn bản tự chọn
+                  </Badge>
+                )}
+              </div>
+            </div>
+
+            {/* Right side - Level Badge and Delete Button */}
+            <div className="flex flex-shrink-0 flex-col items-end gap-2">
+              <Badge
+                variant="outline"
+                className={`${getLevelColor(session.level)} px-3 py-1 font-semibold uppercase`}
+              >
+                {session.level}
+              </Badge>
+
+              {onDelete && (
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  onClick={handleDelete}
+                  disabled={isDeleting}
+                  className="text-destructive hover:bg-destructive/10 hover:text-destructive dark:hover:bg-destructive/20 h-8 w-8 opacity-0 transition-all group-hover:opacity-100"
+                  aria-label="Xóa phiên đọc"
                 >
-                  Văn bản tự chọn
-                </Badge>
+                  <Trash2 className="h-4 w-4" />
+                </Button>
               )}
             </div>
           </div>
-
-          {/* Right side - Level Badge */}
-          <div className="flex-shrink-0">
-            <Badge
-              variant="outline"
-              className={`${getLevelColor(session.level)} px-3 py-1 text-sm font-semibold uppercase`}
-            >
-              {session.level}
-            </Badge>
-          </div>
-        </div>
-      </CardContent>
-    </Card>
-  );
-});
+        </CardContent>
+      </Card>
+    );
+  }
+);
 
 ReadingSessionCard.displayName = 'ReadingSessionCard';
 

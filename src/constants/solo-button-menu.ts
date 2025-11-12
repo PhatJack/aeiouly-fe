@@ -10,11 +10,6 @@ export interface MenuButtonItem {
 
 export const menuButton: MenuButtonItem[] = [
   {
-    label: 'Quote',
-    variable: 'quote',
-    icon: Quote,
-  },
-  {
     label: 'Sounds',
     variable: 'sound',
     icon: Volume2,
