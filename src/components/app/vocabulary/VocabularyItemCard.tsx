@@ -56,17 +56,22 @@ const VocabularyItemCard = ({ item, onRemove }: VocabularyItemCardProps) => {
       <CardContent>
         <div className="flex items-start justify-between">
           <div className="flex-1">
-            <div className="flex items-center gap-3">
-              <h3 className="text-xl font-bold">{item.word}</h3>
-              {result && 'pronunciation' in result && result?.pronunciation && (
-                <PronunciationPlayer pronunciations={result ? result.pronunciation : []} />
-              )}
-              {loading && (
-                <div className="flex items-center gap-2">
-                  <Skeleton className="h-6 w-20" />
-                  <Skeleton className="h-6 w-20" />
-                </div>
-              )}
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <h3 className="text-xl font-bold">{item.word}</h3>
+                {result && 'pronunciation' in result && result?.pronunciation && (
+                  <PronunciationPlayer pronunciations={result ? result.pronunciation : []} />
+                )}
+                {loading && (
+                  <div className="flex items-center gap-2">
+                    <Skeleton className="h-10 w-20" />
+                    <Skeleton className="h-10 w-20" />
+                  </div>
+                )}
+              </div>
+              <Button variant="destructive" size="icon" onClick={() => onRemove(item.id)}>
+                <Trash className="h-4 w-4" />
+              </Button>
             </div>
             {item.definitions && (
               <div className="prose prose-sm mt-3 max-w-none">
@@ -76,14 +81,6 @@ const VocabularyItemCard = ({ item, onRemove }: VocabularyItemCardProps) => {
               </div>
             )}
           </div>
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={() => onRemove(item.id)}
-            className="text-destructive hover:text-destructive opacity-0 transition-opacity group-hover:opacity-100"
-          >
-            <Trash className="h-4 w-4" />
-          </Button>
         </div>
       </CardContent>
     </Card>

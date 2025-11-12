@@ -19,6 +19,9 @@ export const useCreateFlashcardSessionMutation = () => {
     {
       mutationKey: ['createFlashcardSession'],
       mutationFn: (body) => createFlashcardSessionApi(body),
+      meta: {
+        ignoreGlobal: true,
+      },
     }
   );
 };

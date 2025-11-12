@@ -57,33 +57,29 @@ const VocabularyDetailPage = ({ id }: VocabularyDetailPageProps) => {
   };
 
   const handleFlashcardPractice = () => {
-    createFlashcardMutation.mutate(
-      { vocabulary_set_id: setId, max_items: 20 },
+    toast.promise(
+      createFlashcardMutation.mutateAsync({ vocabulary_set_id: setId, max_items: 20 }),
       {
-        onSuccess: (data) => {
-          toast.success('Đã tạo phiên luyện tập Flashcard!');
-          // TODO: Navigate to flashcard session
-          console.log('Flashcard session:', data);
+        loading: 'Đang tạo phiên luyện tập Flashcard...',
+        success: () => {
+          router.push(`/vocabulary/${setId}/flashcards`);
+          return 'Đang chuyển đến phiên luyện tập Flashcard!';
         },
-        onError: (error) => {
-          toast.error(error.detail || 'Có lỗi xảy ra khi tạo phiên luyện tập');
-        },
+        error: (error) => error.detail || 'Có lỗi xảy ra khi tạo phiên luyện tập',
       }
     );
   };
 
   const handleMultipleChoicePractice = () => {
-    createMultipleChoiceMutation.mutate(
-      { vocabulary_set_id: setId, max_items: 20 },
+    toast.promise(
+      createMultipleChoiceMutation.mutateAsync({ vocabulary_set_id: setId, max_items: 20 }),
       {
-        onSuccess: (data) => {
-          toast.success('Đã tạo phiên luyện tập Multiple Choice!');
-          // TODO: Navigate to multiple choice session
-          console.log('Multiple choice session:', data);
+        loading: 'Đang tạo phiên luyện tập Multiple Choice...',
+        success: () => {
+          router.push(`/vocabulary/${setId}/multiple-choices`);
+          return 'Đang chuyển đến phiên luyện tập Multiple Choice!';
         },
-        onError: (error) => {
-          toast.error(error.detail || 'Có lỗi xảy ra khi tạo phiên luyện tập');
-        },
+        error: (error) => error.detail || 'Có lỗi xảy ra khi tạo phiên luyện tập',
       }
     );
   };

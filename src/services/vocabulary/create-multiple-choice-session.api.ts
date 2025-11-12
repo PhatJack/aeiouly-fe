@@ -22,5 +22,8 @@ export const useCreateMultipleChoiceSessionMutation = () => {
   >({
     mutationKey: ['createMultipleChoiceSession'],
     mutationFn: (body) => createMultipleChoiceSessionApi(body),
+    meta: {
+      ignoreGlobal: true,
+    },
   });
 };
