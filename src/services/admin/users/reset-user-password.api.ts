@@ -1,7 +1,8 @@
+import { getQueryClient } from '@/app/get-query-client';
 import { apiClient } from '@/lib/client';
 import { ErrorResponseSchema } from '@/lib/schema/error';
 import { UserResetPasswordSchema, UserResponseSchema } from '@/lib/schema/user.schema';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useMutation } from '@tanstack/react-query';
 
 export async function resetUserPasswordApi(userId: number, body: UserResetPasswordSchema) {
   const response = await apiClient.post<UserResponseSchema, UserResetPasswordSchema>(
@@ -12,7 +13,7 @@ export async function resetUserPasswordApi(userId: number, body: UserResetPasswo
 }
 
 export const useResetUserPasswordMutation = () => {
-  const queryClient = useQueryClient();
+  const queryClient = getQueryClient();
 
   return useMutation<
     UserResponseSchema,

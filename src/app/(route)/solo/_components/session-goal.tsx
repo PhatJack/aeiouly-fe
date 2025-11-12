@@ -3,6 +3,7 @@
 import React, { useEffect } from 'react';
 import { useInView } from 'react-intersection-observer';
 
+import { getQueryClient } from '@/app/get-query-client';
 import { PlayfulTodolist } from '@/components/animate-ui/playful-todolist';
 import AddTodoForm from '@/components/app/solo/AddTodoForm';
 import TooltipCustom from '@/components/custom/TooltipCustom';
@@ -10,13 +11,12 @@ import { useAuthStore } from '@/contexts/AuthContext';
 import { useSoloStore } from '@/hooks/use-solo-store';
 import { SessionGoalsStatusSchema } from '@/lib/schema/session-goal.schema';
 import { updateSessionGoalApi, useGetAllSessionGoalsInfiniteQuery } from '@/services/session-goals';
-import { useQueryClient } from '@tanstack/react-query';
 
 import { OctagonAlert, Target, X } from 'lucide-react';
 import { toast } from 'sonner';
 
 const SessionGoal = () => {
-  const queryClient = useQueryClient();
+  const queryClient = getQueryClient();
   const { ref, inView } = useInView();
   const { completedGoals, saveCompletedGoal, saveOpenGoals } = useSoloStore();
   const user = useAuthStore((state) => state.user);

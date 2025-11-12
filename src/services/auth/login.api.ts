@@ -1,6 +1,7 @@
+import { getQueryClient } from '@/app/get-query-client';
 import { apiClient } from '@/lib/client';
 import { ErrorResponseSchema } from '@/lib/schema/error';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useMutation } from '@tanstack/react-query';
 
 import z from 'zod';
 
@@ -26,7 +27,7 @@ export async function loginApi(body: LoginBodySchema) {
 }
 
 export const useLoginMutation = () => {
-  const queryClient = useQueryClient();
+  const queryClient = getQueryClient();
   return useMutation<LoginResponseSchema, ErrorResponseSchema, LoginBodySchema>({
     mutationKey: ['login'],
     mutationFn: (body) => loginApi(body),

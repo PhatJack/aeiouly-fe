@@ -1,7 +1,8 @@
+import { getQueryClient } from '@/app/get-query-client';
 import { apiClient } from '@/lib/client';
 import { BackgroundVideoResponseSchema } from '@/lib/schema/background-video.schema';
 import { ErrorResponseSchema } from '@/lib/schema/error';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useMutation } from '@tanstack/react-query';
 
 export async function uploadBackgroundVideoImageApi(videoId: number, imageFile: File) {
   const formData = new FormData();
@@ -15,7 +16,7 @@ export async function uploadBackgroundVideoImageApi(videoId: number, imageFile: 
 }
 
 export const useUploadBackgroundVideoImageMutation = () => {
-  const queryClient = useQueryClient();
+  const queryClient = getQueryClient();
 
   return useMutation<
     BackgroundVideoResponseSchema,

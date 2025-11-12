@@ -1,6 +1,7 @@
+import { getQueryClient } from '@/app/get-query-client';
 import { apiClient } from '@/lib/client';
 import { ErrorResponseSchema } from '@/lib/schema/error';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useMutation } from '@tanstack/react-query';
 
 export async function removeVocabularyItemApi(itemId: number) {
   const response = await apiClient.delete<{ message: string }>(`/vocabulary/items/${itemId}`);
@@ -8,15 +9,20 @@ export async function removeVocabularyItemApi(itemId: number) {
 }
 
 export const useRemoveVocabularyItemMutation = () => {
-  const queryClient = useQueryClient();
+  const queryClient = getQueryClient();
 
   return useMutation<{ message: string }, ErrorResponseSchema, number>({
     mutationKey: ['removeVocabularyItem'],
     mutationFn: (itemId) => removeVocabularyItemApi(itemId),
-    onSuccess: () => {
-      // Invalidate all vocabulary-related queries
-      queryClient.invalidateQueries({ queryKey: ['vocabulary-items'] });
-      queryClient.invalidateQueries({ queryKey: ['vocabulary-sets'] });
+    onSuccess: (data, variables) => {
+      queryClient.setQueriesData({ queryKey: ['vocabulary-items'] }, (oldData: any) => {
+        if (!oldData) return oldData;
+        const { items, ...rest } = oldData;
+        return {
+          ...rest,
+          items: items.filter((item: any) => item.id !== variables),
+        };
+      });
     },
   });
 };

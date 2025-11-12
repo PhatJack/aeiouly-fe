@@ -1,7 +1,8 @@
+import { getQueryClient } from '@/app/get-query-client';
 import { apiClient } from '@/lib/client';
 import { ErrorResponseSchema } from '@/lib/schema/error';
 import { UserSchema, UserUpdateSchema } from '@/lib/schema/user.schema';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useMutation } from '@tanstack/react-query';
 
 export const updateMeApi = async (params: UserUpdateSchema) => {
   const response = await apiClient.post<UserSchema, UserUpdateSchema>('/auth/me', params);
@@ -9,7 +10,7 @@ export const updateMeApi = async (params: UserUpdateSchema) => {
 };
 
 export const useUpdateMeMutation = () => {
-  const queryClient = useQueryClient();
+  const queryClient = getQueryClient();
   return useMutation<UserSchema, ErrorResponseSchema, UserUpdateSchema>({
     mutationKey: ['update-me'],
     mutationFn: (body) => updateMeApi(body),

@@ -1,10 +1,11 @@
+import { getQueryClient } from '@/app/get-query-client';
 import { apiClient } from '@/lib/client';
 import { ErrorResponseSchema } from '@/lib/schema/error';
 import {
   SessionGoalResponseSchema,
   SessionGoalUpdateSchema,
 } from '@/lib/schema/session-goal.schema';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useMutation } from '@tanstack/react-query';
 
 export async function updateSessionGoalApi(goalId: number, body: SessionGoalUpdateSchema) {
   const response = await apiClient.put<SessionGoalResponseSchema, SessionGoalUpdateSchema>(
@@ -15,7 +16,7 @@ export async function updateSessionGoalApi(goalId: number, body: SessionGoalUpda
 }
 
 export const useUpdateSessionGoalMutation = () => {
-  const queryClient = useQueryClient();
+  const queryClient = getQueryClient();
 
   return useMutation<
     SessionGoalResponseSchema,

@@ -4,6 +4,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 
 import { useRouter } from 'nextjs-toploader/app';
 
+import { getQueryClient } from '@/app/get-query-client';
 import {
   AlertDialog,
   AlertDialogAction,
@@ -18,7 +19,6 @@ import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { SoundResponseSchema } from '@/lib/schema/sound.schema';
 import { useDeleteSoundMutation, useGetAllSoundsQuery } from '@/services/sounds';
-import { useQueryClient } from '@tanstack/react-query';
 
 import debounce from 'lodash.debounce';
 import { Plus, Upload } from 'lucide-react';
@@ -30,7 +30,7 @@ import { DataTable } from './data-table';
 
 const SoundsTable = () => {
   const router = useRouter();
-  const queryClient = useQueryClient();
+  const queryClient = getQueryClient();
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [soundToDelete, setSoundToDelete] = useState<SoundResponseSchema | null>(null);
   const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false);

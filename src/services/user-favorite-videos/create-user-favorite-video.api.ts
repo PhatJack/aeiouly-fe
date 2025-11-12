@@ -1,10 +1,11 @@
+import { getQueryClient } from '@/app/get-query-client';
 import { apiClient } from '@/lib/client';
 import { ErrorResponseSchema } from '@/lib/schema/error';
 import {
   UserFavoriteVideoCreateSchema,
   UserFavoriteVideoResponseSchema,
 } from '@/lib/schema/user-favorite-video.schema';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useMutation } from '@tanstack/react-query';
 
 export async function createUserFavoriteVideoApi(body: UserFavoriteVideoCreateSchema) {
   const response = await apiClient.post<
@@ -15,7 +16,7 @@ export async function createUserFavoriteVideoApi(body: UserFavoriteVideoCreateSc
 }
 
 export const useCreateUserFavoriteVideoMutation = () => {
-  const queryClient = useQueryClient();
+  const queryClient = getQueryClient();
 
   return useMutation<
     UserFavoriteVideoResponseSchema,

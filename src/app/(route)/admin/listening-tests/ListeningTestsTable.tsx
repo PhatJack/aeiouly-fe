@@ -4,6 +4,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 
 import { useRouter } from 'next/navigation';
 
+import { getQueryClient } from '@/app/get-query-client';
 import CreateLessonForm from '@/components/app/listening/CreateLessonForm';
 import {
   AlertDialog,
@@ -29,7 +30,6 @@ import {
 } from '@/components/ui/sheet';
 import { LessonResponseSchema } from '@/lib/schema/listening-session.schema';
 import { useDeleteLessonMutation, useGetLessonsQuery } from '@/services/listening-session';
-import { useQueryClient } from '@tanstack/react-query';
 
 import { format } from 'date-fns';
 import { vi } from 'date-fns/locale';
@@ -41,7 +41,7 @@ import { createColumns } from './columns';
 import { DataTable } from './data-table';
 
 const ListeningTestsTable = () => {
-  const queryClient = useQueryClient();
+  const queryClient = getQueryClient();
   const router = useRouter();
   const [selectedLesson, setSelectedLesson] = useState<LessonResponseSchema | null>(null);
   const [isSheetOpen, setIsSheetOpen] = useState(false);

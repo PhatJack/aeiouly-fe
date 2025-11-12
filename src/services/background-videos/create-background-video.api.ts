@@ -1,10 +1,11 @@
+import { getQueryClient } from '@/app/get-query-client';
 import { apiClient } from '@/lib/client';
 import {
   BackgroundVideoCreateSchema,
   BackgroundVideoResponseSchema,
 } from '@/lib/schema/background-video.schema';
 import { ErrorResponseSchema } from '@/lib/schema/error';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useMutation } from '@tanstack/react-query';
 
 export async function createBackgroundVideoApi(body: BackgroundVideoCreateSchema) {
   const response = await apiClient.post<BackgroundVideoResponseSchema, BackgroundVideoCreateSchema>(
@@ -15,7 +16,7 @@ export async function createBackgroundVideoApi(body: BackgroundVideoCreateSchema
 }
 
 export const useCreateBackgroundVideoMutation = () => {
-  const queryClient = useQueryClient();
+  const queryClient = getQueryClient();
 
   return useMutation<
     BackgroundVideoResponseSchema,

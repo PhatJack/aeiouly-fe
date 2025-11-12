@@ -1,7 +1,8 @@
+import { getQueryClient } from '@/app/get-query-client';
 import { apiClient } from '@/lib/client';
 import { ErrorResponseSchema } from '@/lib/schema/error';
 import { UserCreateSchema, UserResponseSchema } from '@/lib/schema/user.schema';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useMutation } from '@tanstack/react-query';
 
 export async function createUserApi(body: UserCreateSchema) {
   const response = await apiClient.post<UserResponseSchema, UserCreateSchema>('/users/', body);
@@ -9,7 +10,7 @@ export async function createUserApi(body: UserCreateSchema) {
 }
 
 export const useCreateUserMutation = () => {
-  const queryClient = useQueryClient();
+  const queryClient = getQueryClient();
 
   return useMutation<UserResponseSchema, ErrorResponseSchema, UserCreateSchema>({
     mutationKey: ['createUser'],

@@ -1,7 +1,8 @@
+import { getQueryClient } from '@/app/get-query-client';
 import { apiClient } from '@/lib/client';
 import { ErrorResponseSchema } from '@/lib/schema/error';
 import { PostResponseSchema, PostUpdateSchema } from '@/lib/schema/post.schema';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useMutation } from '@tanstack/react-query';
 
 export async function updatePostApi(postId: number, body: PostUpdateSchema) {
   const response = await apiClient.put<PostResponseSchema, PostUpdateSchema>(
@@ -12,7 +13,7 @@ export async function updatePostApi(postId: number, body: PostUpdateSchema) {
 }
 
 export const useUpdatePostMutation = () => {
-  const queryClient = useQueryClient();
+  const queryClient = getQueryClient();
 
   return useMutation<
     PostResponseSchema,

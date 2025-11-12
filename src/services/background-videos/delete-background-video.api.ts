@@ -1,6 +1,7 @@
+import { getQueryClient } from '@/app/get-query-client';
 import { apiClient } from '@/lib/client';
 import { ErrorResponseSchema } from '@/lib/schema/error';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useMutation } from '@tanstack/react-query';
 
 export async function deleteBackgroundVideoApi(videoId: number) {
   const response = await apiClient.delete<{ message: string }>(`/background-videos/${videoId}`);
@@ -8,7 +9,7 @@ export async function deleteBackgroundVideoApi(videoId: number) {
 }
 
 export const useDeleteBackgroundVideoMutation = () => {
-  const queryClient = useQueryClient();
+  const queryClient = getQueryClient();
 
   return useMutation<{ message: string }, ErrorResponseSchema, number>({
     mutationKey: ['deleteBackgroundVideo'],

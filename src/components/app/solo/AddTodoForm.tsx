@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 
+import { getQueryClient } from '@/app/get-query-client';
 import { Button } from '@/components/ui/button';
 import { Field } from '@/components/ui/field';
 import { Input } from '@/components/ui/input';
@@ -11,7 +12,6 @@ import { SessionGoalCreateSchema } from '@/lib/schema/session-goal.schema';
 import { UserResponseSchema } from '@/lib/schema/user.schema';
 import { cn } from '@/lib/utils';
 import { createSessionGoalApi } from '@/services/session-goals';
-import { useQueryClient } from '@tanstack/react-query';
 
 import { Loader, Plus, Target } from 'lucide-react';
 import { toast } from 'sonner';
@@ -24,7 +24,7 @@ interface Props {
 
 const AddTodoForm = ({ isDisplayIcon = true, className }: Props) => {
   const user = useAuthStore((state) => state.user);
-  const queryClient = useQueryClient();
+  const queryClient = getQueryClient();
   const [isLoading, setIsLoading] = useState(false);
   const createGoalForm = useForm<SessionGoalCreateSchema>({
     defaultValues: {

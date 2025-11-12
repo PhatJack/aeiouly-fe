@@ -1,7 +1,8 @@
+import { getQueryClient } from '@/app/get-query-client';
 import { apiClient } from '@/lib/client';
 import { ErrorResponseSchema } from '@/lib/schema/error';
 import { SoundCreateSchema, SoundResponseSchema } from '@/lib/schema/sound.schema';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useMutation } from '@tanstack/react-query';
 
 export async function createSoundApi(body: SoundCreateSchema) {
   const response = await apiClient.post<SoundResponseSchema, SoundCreateSchema>('/sounds/', body);
@@ -9,7 +10,7 @@ export async function createSoundApi(body: SoundCreateSchema) {
 }
 
 export const useCreateSoundMutation = () => {
-  const queryClient = useQueryClient();
+  const queryClient = getQueryClient();
 
   return useMutation<SoundResponseSchema, ErrorResponseSchema, SoundCreateSchema>({
     mutationKey: ['createSound'],

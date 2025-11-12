@@ -1,6 +1,7 @@
+import { getQueryClient } from '@/app/get-query-client';
 import { apiClient } from '@/lib/client';
 import { ErrorResponseSchema } from '@/lib/schema/error';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useMutation } from '@tanstack/react-query';
 
 export async function deleteUserApi(userId: number) {
   const response = await apiClient.delete<{ message: string }>(`/users/${userId}`);
@@ -8,7 +9,7 @@ export async function deleteUserApi(userId: number) {
 }
 
 export const useDeleteUserMutation = () => {
-  const queryClient = useQueryClient();
+  const queryClient = getQueryClient();
 
   return useMutation<{ message: string }, ErrorResponseSchema, number>({
     mutationKey: ['deleteUser'],

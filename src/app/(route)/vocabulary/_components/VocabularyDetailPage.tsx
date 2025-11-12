@@ -32,13 +32,12 @@ const VocabularyDetailPage = ({ id }: VocabularyDetailPageProps) => {
   const setId = Number(id);
 
   const { data: vocabularySetData, isLoading: isLoadingSet } = useGetVocabularySetQuery(setId);
-  const {
-    data: vocabularyItemsData,
-    isLoading: isLoadingItems,
-    refetch,
-  } = useGetVocabularyItemsQuery(setId, {
-    page,
-  });
+  const { data: vocabularyItemsData, isLoading: isLoadingItems } = useGetVocabularyItemsQuery(
+    setId,
+    {
+      page,
+    }
+  );
 
   const removeItemMutation = useRemoveVocabularyItemMutation();
   const createFlashcardMutation = useCreateFlashcardSessionMutation();
@@ -49,7 +48,6 @@ const VocabularyDetailPage = ({ id }: VocabularyDetailPageProps) => {
       removeItemMutation.mutate(itemId, {
         onSuccess: () => {
           toast.success('Đã xóa từ khỏi bộ từ vựng!');
-          refetch();
         },
         onError: (error) => {
           toast.error(error.detail || 'Có lỗi xảy ra khi xóa từ');
@@ -64,6 +62,7 @@ const VocabularyDetailPage = ({ id }: VocabularyDetailPageProps) => {
       {
         onSuccess: (data) => {
           toast.success('Đã tạo phiên luyện tập Flashcard!');
+          // TODO: Navigate to flashcard session
           console.log('Flashcard session:', data);
         },
         onError: (error) => {

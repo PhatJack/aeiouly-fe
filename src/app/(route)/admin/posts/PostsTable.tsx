@@ -4,6 +4,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 
 import { useRouter } from 'nextjs-toploader/app';
 
+import { getQueryClient } from '@/app/get-query-client';
 import {
   AlertDialog,
   AlertDialogAction,
@@ -18,7 +19,6 @@ import { Button } from '@/components/ui/button';
 import { PostResponseSchema } from '@/lib/schema/post.schema';
 import { useDeletePostMutation, useUpdatePostMutation } from '@/services/posts';
 import { useGetAllPostsAdminQuery } from '@/services/posts/get-all-post-admin.api';
-import { useQueryClient } from '@tanstack/react-query';
 
 import debounce from 'lodash.debounce';
 import { Plus } from 'lucide-react';

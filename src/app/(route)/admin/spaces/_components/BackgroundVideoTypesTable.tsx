@@ -4,6 +4,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 
 import { useRouter } from 'nextjs-toploader/app';
 
+import { getQueryClient } from '@/app/get-query-client';
 import {
   AlertDialog,
   AlertDialogAction,
@@ -21,7 +22,6 @@ import {
   useDeleteBackgroundVideoTypeMutation,
   useGetAllBackgroundVideoTypesQuery,
 } from '@/services/background-video-types';
-import { useQueryClient } from '@tanstack/react-query';
 
 import debounce from 'lodash.debounce';
 import { Plus } from 'lucide-react';
@@ -33,7 +33,7 @@ import { DataTable } from './data-table';
 
 const BackgroundVideoTypesTable = () => {
   const router = useRouter();
-  const queryClient = useQueryClient();
+  const queryClient = getQueryClient();
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [typeToDelete, setTypeToDelete] = useState<BackgroundVideoTypeResponseSchema | null>(null);
   const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false);

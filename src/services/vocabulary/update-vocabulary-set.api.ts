@@ -1,10 +1,11 @@
+import { getQueryClient } from '@/app/get-query-client';
 import { apiClient } from '@/lib/client';
 import { ErrorResponseSchema } from '@/lib/schema/error';
 import {
   VocabularySetResponseSchema,
   VocabularySetUpdateSchema,
 } from '@/lib/schema/vocabulary.schema';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useMutation } from '@tanstack/react-query';
 
 export async function updateVocabularySetApi(setId: number, body: VocabularySetUpdateSchema) {
   const response = await apiClient.put<VocabularySetResponseSchema, VocabularySetUpdateSchema>(
@@ -15,7 +16,7 @@ export async function updateVocabularySetApi(setId: number, body: VocabularySetU
 }
 
 export const useUpdateVocabularySetMutation = () => {
-  const queryClient = useQueryClient();
+  const queryClient = getQueryClient();
 
   return useMutation<
     VocabularySetResponseSchema,
