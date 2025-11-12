@@ -9,6 +9,7 @@ import NextTopLoader from 'nextjs-toploader';
 import GlobalQueryLoading from '@/components/GlobalLoading';
 import NavigationBlocker from '@/components/NavigationBlocker';
 import Sidebar from '@/components/shared/Sidebar';
+import { ThemeProvider } from '@/components/theme-provider';
 import { Toaster } from '@/components/ui/sonner';
 import { TooltipProvider } from '@/components/ui/tooltip';
 import { ROUTE } from '@/configs/route';
@@ -51,7 +52,7 @@ const Providers = ({
   }, [setTheme]);
 
   return (
-    <>
+    <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
       <QueryClientProvider client={queryClient}>
         <NextTopLoader color="hsl(150 30% 45%)" zIndex={9999} showSpinner={false} />
         <TooltipProvider>
@@ -77,7 +78,7 @@ const Providers = ({
         <NavigationBlocker />
         <GlobalQueryLoading />
       </QueryClientProvider>
-    </>
+    </ThemeProvider>
   );
 };
 

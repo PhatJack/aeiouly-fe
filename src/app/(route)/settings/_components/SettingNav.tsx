@@ -6,7 +6,6 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
-import { ChevronRight } from 'lucide-react';
 import { motion } from 'motion/react';
 
 const menu = [
@@ -54,8 +53,8 @@ const SettingNav = () => {
 
   return (
     <div className="mx-auto w-full lg:max-w-md">
-      <div className="bg-card overflow-hidden rounded-2xl border shadow-sm transition-all">
-        <div className="border-border/50 dark:border-border/30 border-b p-4">
+      <div className="overflow-hidden rounded-2xl transition-all">
+        <div className="border-b p-4">
           <h2 className="text-foreground text-xl font-semibold dark:text-white">Cài đặt</h2>
           <p className="text-muted-foreground text-sm dark:text-gray-400">
             Quản lý tài khoản và tùy chọn

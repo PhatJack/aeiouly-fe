@@ -1,11 +1,10 @@
 import type { Metadata } from 'next';
-import { Be_Vietnam_Pro, Geist, Geist_Mono } from 'next/font/google';
-
-import { ThemeProvider } from '@/components/theme-provider';
+import { Be_Vietnam_Pro, Geist } from 'next/font/google';
 
 import './globals.css';
 import Providers from './providers';
-import './theme-toggle.css';
+
+// import './theme-toggle.css';
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -79,9 +78,7 @@ export default function RootLayout({
   return (
     <html lang="vi" suppressHydrationWarning data-overlayscrollbars-initialize>
       <body className={`${beVietNamPro.variable} ${geistSans.variable} flex antialiased`}>
-        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-          <Providers>{children}</Providers>
-        </ThemeProvider>
+        <Providers>{children}</Providers>
       </body>
     </html>
   );

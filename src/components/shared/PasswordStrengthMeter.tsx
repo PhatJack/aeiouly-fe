@@ -49,7 +49,7 @@ export const PasswordStrengthMeter = ({
 
   return (
     <div className={cn('space-y-2 pt-2', className)}>
-      <div className="bg-gray-100">
+      <div className="rounded-full bg-gray-100 dark:bg-gray-600">
         <div
           style={{ width: `${strengthScore * 25}%` }}
           className={`h-1.5 rounded-full transition-[width] duration-300 ${getStrengthColor(strengthScore)}`}

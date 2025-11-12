@@ -5,19 +5,17 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 
 import SettingHeader from '@/components/app/settings/SettingHeader';
-import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useDeleteAccountMutation } from '@/services/auth/delete-account.api';
 
-import { AlertCircle, ShieldAlert, Trash2 } from 'lucide-react';
+import { ShieldAlert } from 'lucide-react';
 import { toast } from 'sonner';
 
 export default function DeleteAccountPage() {
   const [confirmText, setConfirmText] = useState('');
   const [showConfirm, setShowConfirm] = useState(false);
-  const router = useRouter();
   const deleteAccountMutation = useDeleteAccountMutation();
 
   const handleDeleteAccount = () => {
@@ -76,8 +74,9 @@ export default function DeleteAccountPage() {
           <div className="space-y-6">
             <div className="space-y-2">
               <Label htmlFor="confirm">
-                Để xác nhận, vui lòng nhập <span className="font-bold">xóa tài khoản</span> vào ô
-                bên dưới:
+                Để xác nhận, vui lòng nhập{' '}
+                <span className="bg-primary rounded-sm px-2 py-1 font-bold">xóa tài khoản</span> vào
+                ô bên dưới:
               </Label>
               <Input
                 id="confirm"
@@ -87,7 +86,7 @@ export default function DeleteAccountPage() {
               />
             </div>
 
-            <div className="border-destructive/20 bg-destructive/5 rounded-lg border p-4">
+            <div className="border-destructive/20 bg-destructive/5 rounded-xl border p-4">
               <div className="flex">
                 <ShieldAlert className="text-destructive mt-0.5 mr-2 h-5 w-5 flex-shrink-0" />
                 <div>

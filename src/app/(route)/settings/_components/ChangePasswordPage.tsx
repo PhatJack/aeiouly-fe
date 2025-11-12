@@ -49,7 +49,7 @@ const ChangePasswordPage = () => {
 
   return (
     <div className="w-full">
-      <div className="bg-card overflow-hidden">
+      <div className="overflow-hidden">
         {/* Header */}
         <SettingHeader
           title="Thay đổi mật khẩu"

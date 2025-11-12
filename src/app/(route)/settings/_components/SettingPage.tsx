@@ -48,7 +48,7 @@ const SettingPage = () => {
   };
 
   return (
-    <div className="space-y-4 p-4">
+    <div className="space-y-4">
       {/* Header */}
       <SettingHeader
         title="Hồ sơ cá nhân"
@@ -58,13 +58,13 @@ const SettingPage = () => {
 
       <div className="space-y-4">
         <Label className="text-lg font-semibold">Thông tin cá nhân</Label>
-        <div className="rounded-xl border bg-white dark:border-slate-700 dark:bg-slate-900">
+        <div className="rounded-xl border">
           <div className="divide-y">
             {/* Avatar Section */}
             <div className="p-4">
               <div className="flex items-center justify-between">
                 <div className="flex flex-col gap-4">
-                  <Label className="text-sm font-medium text-gray-500">Ảnh đại diện</Label>
+                  <Label className="font-medium text-gray-500">Ảnh đại diện</Label>
                   <EditAvatarSetting />
                 </div>
               </div>
@@ -72,7 +72,7 @@ const SettingPage = () => {
             {/* Full Name Section */}
             <div className="p-4">
               <div>
-                <Label className="text-sm font-medium text-gray-500">Full Name</Label>
+                <Label className="font-medium text-gray-500">Full Name</Label>
                 <p className="mt-1 font-medium">{user?.full_name || 'Chưa cập nhật'}</p>
               </div>
             </div>
@@ -80,7 +80,7 @@ const SettingPage = () => {
             {/* Username Section */}
             <div className="flex items-center justify-between p-4">
               <div>
-                <Label className="text-sm font-medium text-gray-500">Username</Label>
+                <Label className="font-medium text-gray-500">Username</Label>
                 <p className="mt-1 font-medium">{user?.username}</p>
               </div>
               <Button variant="outline" onClick={() => setOpenFullNameDialog(true)}>
@@ -91,7 +91,7 @@ const SettingPage = () => {
             {/* Email Section */}
             <div className="flex items-center justify-between p-4">
               <div>
-                <Label className="text-sm font-medium text-gray-500">Email</Label>
+                <Label className="font-medium text-gray-500">Email</Label>
                 <p className="mt-1 font-medium">{user?.email}</p>
               </div>
               <Button variant="outline" onClick={() => setOpenEmailDialog(true)}>
@@ -140,13 +140,14 @@ const SettingPage = () => {
 
       <div className="space-y-4">
         <Label className="text-lg font-semibold">Giao diện</Label>
-        <div className="rounded-xl border bg-white dark:border-slate-700 dark:bg-slate-900">
+        <div className="rounded-xl border">
           <div className="divide-y">
-            <div className="p-4">
-              <div className="flex items-center justify-between">
-                <Label className="text-sm font-medium text-gray-500">Chủ đề</Label>
-                <ModeToggle />
+            <div className="flex items-center justify-between p-4">
+              <div>
+                <Label className="font-medium text-gray-500">Chủ đề</Label>
+                <p className="mt-1 font-medium">Chuyển đổi giao diện đen/trắng</p>
               </div>
+              <ModeToggle />
             </div>
           </div>
         </div>

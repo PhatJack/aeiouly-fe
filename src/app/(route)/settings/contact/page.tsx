@@ -28,7 +28,7 @@ export default function ContactPage() {
       <div className="grid grid-cols-1 gap-4">
         {/* Contact Information */}
         <div className="space-y-4">
-          <div className="bg-card border-border rounded-lg border p-4">
+          <div className="rounded-xl border p-4">
             <h2 className="mb-4 text-xl font-semibold">Thông tin liên hệ</h2>
 
             <div className="space-y-4">
@@ -70,7 +70,7 @@ export default function ContactPage() {
             </div>
           </div>
 
-          <div className="bg-card border-border rounded-lg border">
+          <div className="rounded-xl border">
             <h2 className="px-4 pt-4 text-xl font-semibold">Câu hỏi thường gặp</h2>
             <Accordion type="single" collapsible>
               {FAQ.map((item, index) => (
