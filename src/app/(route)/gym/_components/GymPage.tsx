@@ -5,6 +5,7 @@ import React, { useState } from 'react';
 import { useRouter } from 'nextjs-toploader/app';
 
 import PageHeader from '@/components/PageHeader';
+import PaginationCustom from '@/components/custom/PaginationCustom';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import {
@@ -21,12 +22,11 @@ import {
   useGetListeningSessionsQuery,
 } from '@/services/listening-session';
 
-import { BookOpen, Clock, Filter, Headphones, Search, Sparkles } from 'lucide-react';
+import { Filter, Headphones, Search } from 'lucide-react';
 import { toast } from 'sonner';
 
 import LessonsList from './LessonsList';
 import ListeningSessionsList from './ListeningSessionsList';
-import Pagination from './Pagination';
 
 const GymPage = () => {
   const router = useRouter();
@@ -38,7 +38,6 @@ const GymPage = () => {
   const { data: listeningSessions } = useGetListeningSessionsQuery();
   const { data, isLoading, isError, refetch } = useGetLessonsQuery({
     page,
-    size: 10,
     level: level == 'all' ? undefined : level,
     search: search || undefined,
   });
@@ -170,7 +169,7 @@ const GymPage = () => {
               )}
 
               {/* Pagination */}
-              <Pagination currentPage={page} totalPages={data.pages} onPageChange={setPage} />
+              <PaginationCustom currentPage={page} totalPages={data.pages} onPageChange={setPage} />
             </>
           )}
         </section>

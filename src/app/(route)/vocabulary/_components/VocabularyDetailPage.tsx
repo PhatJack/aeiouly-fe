@@ -6,6 +6,7 @@ import { useRouter } from 'nextjs-toploader/app';
 
 import LoadingWithText from '@/components/LoadingWithText';
 import VocabularyItemCard from '@/components/app/vocabulary/VocabularyItemCard';
+import AlertCustom from '@/components/custom/AlertCustom';
 import PaginationCustom from '@/components/custom/PaginationCustom';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
@@ -57,18 +58,12 @@ const VocabularyDetailPage = ({ id }: VocabularyDetailPageProps) => {
     }
   };
 
-  const handlePlayAudio = (word: string) => {
-    // TODO: Implement text-to-speech or audio playback
-    toast.info(`Phát âm: ${word}`);
-  };
-
   const handleFlashcardPractice = () => {
     createFlashcardMutation.mutate(
       { vocabulary_set_id: setId, max_items: 20 },
       {
         onSuccess: (data) => {
           toast.success('Đã tạo phiên luyện tập Flashcard!');
-          // TODO: Navigate to flashcard session
           console.log('Flashcard session:', data);
         },
         onError: (error) => {
@@ -155,7 +150,10 @@ const VocabularyDetailPage = ({ id }: VocabularyDetailPageProps) => {
           </div>
         </div>
       </div>
-
+      <AlertCustom
+        variant={'warning'}
+        title="Chú ý: bạn được học tối đa 20 từ mới một ngày. Đây là lượng từ phù hợp để bạn có thể học hiệu quả."
+      />
       {/* Practice Buttons */}
       {totalItems > 0 && (
         <div className="grid gap-4">
@@ -193,12 +191,7 @@ const VocabularyDetailPage = ({ id }: VocabularyDetailPageProps) => {
         <>
           <div className="space-y-4">
             {vocabularyItemsData.items.map((item) => (
-              <VocabularyItemCard
-                key={item.id}
-                item={item}
-                onRemove={handleRemoveItem}
-                onPlayAudio={handlePlayAudio}
-              />
+              <VocabularyItemCard key={item.id} item={item} onRemove={handleRemoveItem} />
             ))}
           </div>
 

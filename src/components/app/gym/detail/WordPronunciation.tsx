@@ -2,12 +2,11 @@
 
 import React, { useState } from 'react';
 
+import LoadingWithText from '@/components/LoadingWithText';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { Separator } from '@/components/ui/separator';
 import { CambridgeDictionaryResponse } from '@/lib/schema/dictionary.schema';
 import { convertWordPos } from '@/lib/utils';
-
-import { Loader2 } from 'lucide-react';
 
 import PronunciationPlayer from './PronunciationPlayer';
 
@@ -55,9 +54,7 @@ const WordPronunciation: React.FC<Props> = ({ word }) => {
       </PopoverTrigger>
       <PopoverContent className="w-96 space-y-2">
         {loading ? (
-          <div className="flex items-center justify-center">
-            <Loader2 className="animate-spin" />
-          </div>
+          <LoadingWithText text="Đang tải dữ liệu phát âm..." />
         ) : (
           <>
             <p>

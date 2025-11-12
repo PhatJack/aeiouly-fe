@@ -12,7 +12,6 @@ interface Props {
 }
 
 const PronunciationPlayer: React.FC<Props> = ({ pronunciations }) => {
-  console.log('pronunciations', pronunciations);
   const play = useCallback((url?: string) => {
     if (!url) return;
     try {

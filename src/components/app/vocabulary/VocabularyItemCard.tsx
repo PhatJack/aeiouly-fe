@@ -1,23 +1,56 @@
 'use client';
 
-import React from 'react';
+import React, { memo, useEffect, useState } from 'react';
 import ReactMarkdown from 'react-markdown';
 
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
+import { Skeleton } from '@/components/ui/skeleton';
+import { CambridgeDictionaryResponse } from '@/lib/schema/dictionary.schema';
 import { VocabularyItemResponseSchema } from '@/lib/schema/vocabulary.schema';
-import { parseDefinitions } from '@/lib/utils';
 
 import { Trash, Volume2 } from 'lucide-react';
 import remarkBreaks from 'remark-breaks';
 
+import PronunciationPlayer from '../gym/detail/PronunciationPlayer';
+
 interface VocabularyItemCardProps {
   item: VocabularyItemResponseSchema;
   onRemove: (itemId: number) => void;
-  onPlayAudio?: (word: string) => void;
 }
 
-const VocabularyItemCard = ({ item, onRemove, onPlayAudio }: VocabularyItemCardProps) => {
+const VocabularyItemCard = ({ item, onRemove }: VocabularyItemCardProps) => {
+  const [loading, setLoading] = useState(false);
+  const [result, setResult] = useState<CambridgeDictionaryResponse | { error: string } | null>(
+    null
+  );
+  const fetchData = async () => {
+    setLoading(true);
+    try {
+      if (!item.word) return;
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'}/api/dictionary?entry=${encodeURIComponent(item.word)}&language=en`,
+        {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        }
+      );
+      if (response.ok) {
+        const data: CambridgeDictionaryResponse = await response.json();
+        setResult(data);
+      }
+    } catch (error) {
+      console.error('Error fetching pronunciation data:', error);
+    }
+    setLoading(false);
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, [item.word]);
+
   return (
     <Card>
       <CardContent>
@@ -25,15 +58,14 @@ const VocabularyItemCard = ({ item, onRemove, onPlayAudio }: VocabularyItemCardP
           <div className="flex-1">
             <div className="flex items-center gap-3">
               <h3 className="text-xl font-bold">{item.word}</h3>
-              {onPlayAudio && (
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  className="h-8 w-8"
-                  onClick={() => onPlayAudio(item.word || '')}
-                >
-                  <Volume2 className="h-4 w-4" />
-                </Button>
+              {result && 'pronunciation' in result && result?.pronunciation && (
+                <PronunciationPlayer pronunciations={result ? result.pronunciation : []} />
+              )}
+              {loading && (
+                <div className="flex items-center gap-2">
+                  <Skeleton className="h-6 w-20" />
+                  <Skeleton className="h-6 w-20" />
+                </div>
               )}
             </div>
             {item.definitions && (
@@ -58,4 +90,4 @@ const VocabularyItemCard = ({ item, onRemove, onPlayAudio }: VocabularyItemCardP
   );
 };
 
-export default VocabularyItemCard;
+export default memo(VocabularyItemCard);
