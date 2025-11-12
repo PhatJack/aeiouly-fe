@@ -149,9 +149,6 @@ importers:
       driver.js:
         specifier: ^1.3.6
         version: 1.3.6
-      emojibase-data:
-        specifier: ^16.0.3
-        version: 16.0.3(emojibase@16.0.0)
       input-otp:
         specifier: ^1.4.2
         version: 1.4.2(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
@@ -2456,11 +2453,6 @@ packages:
 
   emojibase-data@15.3.2:
     resolution: {integrity: sha512-TpDyTDDTdqWIJixV5sTA6OQ0P0JfIIeK2tFRR3q56G9LK65ylAZ7z3KyBXokpvTTJ+mLUXQXbLNyVkjvnTLE+A==}
-    peerDependencies:
-      emojibase: '*'
-
-  emojibase-data@16.0.3:
-    resolution: {integrity: sha512-MopInVCDZeXvqBMPJxnvYUyKw9ImJZqIDr2sABo6acVSPev5IDYX+mf+0tsu96JJyc3INNvgIf06Eso7bdTX2Q==}
     peerDependencies:
       emojibase: '*'
 
@@ -6680,10 +6672,6 @@ snapshots:
   emoji-regex@9.2.2: {}
 
   emojibase-data@15.3.2(emojibase@16.0.0):
-    dependencies:
-      emojibase: 16.0.0
-
-  emojibase-data@16.0.3(emojibase@16.0.0):
     dependencies:
       emojibase: 16.0.0
 

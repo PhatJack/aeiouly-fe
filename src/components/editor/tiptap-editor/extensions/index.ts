@@ -7,7 +7,6 @@ import { BackgroundColor, Color, TextStyle } from '@tiptap/extension-text-style'
 import { CharacterCount, Placeholder, Selection } from '@tiptap/extensions';
 import { StarterKit } from '@tiptap/starter-kit';
 
-import { getEmojis } from '../helpers/emoji';
 import { CellAlign } from './cell-align';
 import { Link } from './link';
 import { Youtube } from './youtube';
@@ -48,7 +47,6 @@ export function createExtensions({ placeholder }: ExtensionConfig) {
     Superscript,
     Subscript,
     Youtube,
-    Emoji.configure({ emojis: getEmojis() }),
   ];
 }
 
