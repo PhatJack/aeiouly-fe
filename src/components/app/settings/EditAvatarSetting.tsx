@@ -15,7 +15,7 @@ import { useUpdateUserImageMutation } from '@/services/auth/update-me-avatar.api
 import { Plus } from 'lucide-react';
 import { toast } from 'sonner';
 
-import { AVATAR_VIBRANT } from '../../../../public/avatars';
+import { AVATAR_VIBRANT, AVATAR_ZODIAC } from '../../../../public/avatars';
 
 const EditAvatarSetting = () => {
   const user = useAuthStore((state) => state.user);
@@ -86,11 +86,35 @@ const EditAvatarSetting = () => {
             variant={'outline'}
             onClick={() => handleAvatarClick(avatar.src, index)}
             disabled={userImageMutation.isPending}
+            title={`Chọn ảnh đại diện ${index + 1}`}
             className="hover:border-primary dark:hover:border-primary relative size-12 overflow-hidden rounded-full border border-transparent transition-all disabled:opacity-50"
           >
             <Image
               src={avatar}
               alt={`Avatar ${index + 1}`}
+              blurDataURL={avatar.blurDataURL}
+              placeholder="blur"
+              sizes="200px"
+              fill
+              className="object-cover"
+            />
+          </Button>
+        ))}
+        {AVATAR_ZODIAC.map((avatar, index) => (
+          <Button
+            key={`avatar-option-zodiac-${index}`}
+            size={'lg'}
+            variant={'outline'}
+            onClick={() => handleAvatarClick(avatar.src, index)}
+            disabled={userImageMutation.isPending}
+            title={`Chọn ảnh đại diện zodiac ${index + 1}`}
+            className="hover:border-primary dark:hover:border-primary relative size-12 overflow-hidden rounded-full border border-transparent transition-all disabled:opacity-50"
+          >
+            <Image
+              src={avatar}
+              alt={`Avatar Zodiac ${index + 1}`}
+              blurDataURL={avatar.blurDataURL}
+              placeholder="blur"
               sizes="200px"
               fill
               className="object-cover"

@@ -22,6 +22,7 @@ import { QueryClientProvider } from '@tanstack/react-query';
 
 import { OverlayScrollbars } from 'overlayscrollbars';
 import 'overlayscrollbars/overlayscrollbars.css';
+import { ToasterProps } from 'sonner';
 
 import { getQueryClient } from './get-query-client';
 
@@ -31,7 +32,7 @@ const Providers = ({
 }: Readonly<{
   children: React.ReactNode;
 }>) => {
-  const { setTheme } = useTheme();
+  const { setTheme, resolvedTheme } = useTheme();
   const location = usePathname();
   const excludedPaths = [...Object.values(ROUTE.AUTH)];
   useEffect(() => {
@@ -74,7 +75,12 @@ const Providers = ({
             </WritingSessionProvider>
           </AuthProvider>
         </TooltipProvider>
-        <Toaster position="top-center" toastOptions={{}} theme={'light'} richColors />
+        <Toaster
+          position="top-center"
+          toastOptions={{}}
+          theme={resolvedTheme as ToasterProps['theme']}
+          richColors
+        />
         <NavigationBlocker />
         <GlobalQueryLoading />
       </QueryClientProvider>
