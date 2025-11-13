@@ -84,7 +84,7 @@ const RandomTopics: React.FC<RandomTopicsProps> = ({ onTopicSelect }) => {
           </Select>
 
           {/* Shuffle Button */}
-          <Button variant="outline" size="sm" onClick={generateRandomTopics} className="gap-2">
+          <Button variant="secondary-outline" onClick={generateRandomTopics} className="gap-2">
             <Dices className="size-4" />
             <span className="hidden sm:inline">Tạo mới</span>
           </Button>

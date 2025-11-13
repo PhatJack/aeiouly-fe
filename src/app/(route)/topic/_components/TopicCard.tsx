@@ -59,20 +59,13 @@ const TopicCard: React.FC<TopicCardProps> = ({ topic, level, total_sentences, im
         </div>
 
         {/* Topic Title */}
-        <h3 className="text-foreground group-hover:text-primary mb-3 text-lg leading-tight font-bold transition-colors duration-200">
-          {topic}
-        </h3>
-
-        {/* Metadata */}
-        <div className="text-muted-foreground flex items-center gap-3 text-sm">
-          <div className="flex items-center gap-1.5">
+        <div className="flex items-center justify-between">
+          <h3 className="text-foreground group-hover:text-primary mb-3 text-lg leading-tight font-bold transition-colors duration-200">
+            {topic}
+          </h3>
+          <div className="flex items-center gap-0.5">
             <Hash className="size-4" />
             <span className="font-medium">{total_sentences} câu</span>
-          </div>
-          <div className="bg-border h-4 w-px" />
-          <div className="flex items-center gap-1.5">
-            <BookOpen className="size-4" />
-            <span>Viết</span>
           </div>
         </div>
       </div>

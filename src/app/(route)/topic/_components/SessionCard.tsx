@@ -11,19 +11,31 @@ import { WritingSessionListItemSchema } from '@/lib/schema/writing-session.schem
 import { cn, getLevelColor } from '@/lib/utils';
 
 import { format } from 'date-fns';
-import { Calendar, CheckCircle2, Clock, Play } from 'lucide-react';
+import { Calendar, CheckCircle2, Clock, Play, Trash2 } from 'lucide-react';
 
 interface SessionCardProps {
   session: WritingSessionListItemSchema;
+  onDelete?: (sessionId: number) => void;
+  isDeleting?: boolean;
 }
 
-const SessionCard: React.FC<SessionCardProps> = ({ session }) => {
+const SessionCard: React.FC<SessionCardProps> = ({ session, onDelete, isDeleting }) => {
   const router = useRouter();
   const isCompleted = session.status === 'completed';
 
   const handleContinue = useCallback(() => {
     router.push(`/topic/${session.id}`);
-  }, [session.id]);
+  }, [session.id, router]);
+
+  const handleDelete = useCallback(
+    (e: React.MouseEvent) => {
+      e.stopPropagation();
+      if (window.confirm('Bạn có chắc chắn muốn xóa phiên học này?')) {
+        onDelete?.(session.id);
+      }
+    },
+    [session.id, onDelete]
+  );
 
   return (
     <Card
@@ -38,7 +50,7 @@ const SessionCard: React.FC<SessionCardProps> = ({ session }) => {
       <div
         className={cn(
           'absolute top-0 left-0 h-full w-1',
-          isCompleted ? 'bg-green-500' : 'bg-primary'
+          isCompleted ? 'bg-success' : 'bg-primary'
         )}
       />
 
@@ -50,9 +62,20 @@ const SessionCard: React.FC<SessionCardProps> = ({ session }) => {
               <h4 className="text-foreground group-hover:text-primary mb-2 truncate text-lg font-bold transition-colors">
                 {session.topic}
               </h4>
-              <div className="text-muted-foreground flex items-center gap-1.5 text-xs">
-                <Calendar className="size-3.5" />
-                <span>{format(new Date(session.created_at), 'dd/MM/yyyy')}</span>
+              <div className="flex items-center gap-2">
+                <div className="text-muted-foreground flex items-center gap-1.5 text-xs">
+                  <Calendar className="size-3.5" />
+                  <span>{format(new Date(session.created_at), 'dd/MM/yyyy')}</span>
+                </div>
+                <Button
+                  variant="error-outline"
+                  size="icon"
+                  onClick={handleDelete}
+                  disabled={isDeleting}
+                  className="size-8"
+                >
+                  <Trash2 className="size-4" />
+                </Button>
               </div>
             </div>
             <div className="flex flex-wrap items-center gap-2">
