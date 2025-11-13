@@ -200,7 +200,8 @@ const VocabularyDialog = ({ textSelection, open, onOpenChange }: VocabularyDialo
               </>
             ) : (
               <>
-                Tìm hiểu và thêm từ &#34;<span className="font-semibold">{textSelection}</span>
+                Tìm hiểu và thêm từ &#34;
+                <span className="text-primary font-semibold">{textSelection}</span>
                 &#34; vào bộ từ vựng của bạn.
               </>
             )}
@@ -342,7 +343,7 @@ const VocabularyDialog = ({ textSelection, open, onOpenChange }: VocabularyDialo
           ) : (
             <div className="bg-muted/50 rounded-md border p-4">
               <h4 className="mb-2 text-lg font-semibold">{wordData.expression}</h4>
-              <div className="prose prose-sm max-w-none *:mb-0">
+              <div className="prose prose-sm text-primary-foreground max-w-none *:mb-0">
                 <ReactMarkdown remarkPlugins={[remarkBreaks]}>
                   {wordData.definitions.replace(/\\n/g, '\n')}
                 </ReactMarkdown>

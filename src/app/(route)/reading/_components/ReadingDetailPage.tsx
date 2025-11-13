@@ -50,10 +50,11 @@ const ReadingDetailPage = ({ id }: ReadingDetailPageProps) => {
   const router = useRouter();
   const sessionId = Number(id);
   const [numberOfQuestions, setNumberOfQuestions] = useState(5);
-  const [showQuestionInput, setShowQuestionInput] = useState(true);
+  const [hasReadContent, setHasReadContent] = useState(false);
+  const [showOptions, setShowOptions] = useState(false);
   const [discussions, setDiscussions] = useState<DiscussionQuestionSchema[] | null>(null);
   const [quiz, setQuiz] = useState<QuizQuestionSchema[] | null>(null);
-  const [selectedAnswers, setSelectedAnswers] = useState<Record<string, string>>({});
+  const [selectedAnswers, setSelectedAnswers] = useState<Record<number, number>>({});
   const [evaluating, setEvaluating] = useState<Record<string, boolean>>({});
   const [discussionFeedback, setDiscussionFeedback] = useState<
     Record<string, EvaluateAnswerResponseSchema>
@@ -82,7 +83,7 @@ const ReadingDetailPage = ({ id }: ReadingDetailPageProps) => {
       {
         onSuccess: (result) => {
           setDiscussions(result.questions);
-          setShowQuestionInput(false);
+          setShowOptions(false);
           toast.success(`Đã tạo ${result.questions.length} câu hỏi thảo luận!`);
         },
         onError: () => {
@@ -114,41 +115,36 @@ const ReadingDetailPage = ({ id }: ReadingDetailPageProps) => {
     [sessionId, evaluateAnswerMutation]
   );
 
-  const handleGenerateQuiz = useCallback(
-    (data: QuizGenerationRequestSchema) => {
-      generateQuizMutation.mutate(
-        { sessionId, data },
-        {
-          onSuccess: (result) => {
-            setQuiz(result.questions);
-            setSelectedAnswers({});
-            toast.success('Đã tạo bài trắc nghiệm!');
-          },
-          onError: () => {
-            toast.error('Có lỗi xảy ra khi tạo bài trắc nghiệm.');
-          },
-        }
-      );
-    },
-    [sessionId, generateQuizMutation]
-  );
+  const handleGenerateQuiz = useCallback(() => {
+    if (numberOfQuestions < 3 || numberOfQuestions > 10) {
+      toast.error('Số câu hỏi phải từ 3 đến 10');
+      return;
+    }
 
-  const handleAnswerSelect = useCallback((questionId: string, answer: string) => {
-    setSelectedAnswers((prev) => ({ ...prev, [questionId]: answer }));
+    generateQuizMutation.mutate(
+      { sessionId, data: { number_of_questions: numberOfQuestions } },
+      {
+        onSuccess: (result) => {
+          setQuiz(result.questions);
+          setSelectedAnswers({});
+          setShowOptions(false);
+          toast.success(`Đã tạo ${result.questions.length} câu hỏi trắc nghiệm!`);
+        },
+        onError: () => {
+          toast.error('Có lỗi xảy ra khi tạo bài trắc nghiệm.');
+        },
+      }
+    );
+  }, [sessionId, numberOfQuestions, generateQuizMutation]);
+
+  const handleAnswerSelect = useCallback((questionIndex: number, optionIndex: number) => {
+    setSelectedAnswers((prev) => ({ ...prev, [questionIndex]: optionIndex }));
   }, []);
 
-  const checkQuizAnswers = useCallback(() => {
-    if (!quiz) return;
-
-    let correct = 0;
-    quiz.forEach((q) => {
-      if (selectedAnswers[q.id] === q.correct_answer.correct_option) {
-        correct++;
-      }
-    });
-
-    toast.success(`Bạn trả lời đúng ${correct}/${quiz.length} câu hỏi!`);
-  }, [quiz, selectedAnswers]);
+  const handleUnderstandContent = useCallback(() => {
+    setHasReadContent(true);
+    setShowOptions(true);
+  }, []);
 
   if (isLoading) {
     return (
@@ -236,13 +232,34 @@ const ReadingDetailPage = ({ id }: ReadingDetailPageProps) => {
           </CardContent>
         </Card>
 
-        {/* Discussion Questions */}
-        {showQuestionInput && !discussions ? (
+        {/* Understand Button */}
+        {!hasReadContent && (
+          <Card>
+            <CardContent className="py-8 text-center">
+              <p className="text-muted-foreground mb-4 text-base dark:text-gray-300">
+                Hãy đọc kỹ nội dung bài đọc trước khi tiếp tục
+              </p>
+              <Button
+                onClick={handleUnderstandContent}
+                size="lg"
+                className="dark:bg-primary dark:text-primary-foreground dark:hover:bg-primary/90"
+              >
+                Tôi hiểu rồi
+              </Button>
+            </CardContent>
+          </Card>
+        )}
+
+        {/* Options Section */}
+        {hasReadContent && showOptions && !discussions && !quiz && (
           <Card className="relative">
             <CardHeader>
               <CardTitle className="text-foreground dark:text-white">
-                Tạo câu hỏi thảo luận
+                Kiểm tra độ hiểu biết
               </CardTitle>
+              <p className="text-muted-foreground text-sm dark:text-gray-400">
+                Nếu bạn đã hiểu bài rồi, có thể chọn 1 trong 2 cách sau để thử độ hiểu biết
+              </p>
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="space-y-2">
@@ -257,37 +274,53 @@ const ReadingDetailPage = ({ id }: ReadingDetailPageProps) => {
                   value={numberOfQuestions}
                   onChange={(e) => setNumberOfQuestions(Number(e.target.value))}
                   className="dark:bg-card/50"
-                  disabled={generateDiscussionMutation.isPending}
+                  disabled={generateDiscussionMutation.isPending || generateQuizMutation.isPending}
                 />
                 <p className="text-muted-foreground text-xs dark:text-gray-400">
-                  Nhập số câu hỏi bạn muốn tạo để thảo luận về bài đọc
+                  Nhập số câu hỏi bạn muốn tạo (áp dụng cho cả thảo luận và trắc nghiệm)
                 </p>
               </div>
-              <Button
-                onClick={handleGenerateDiscussion}
-                disabled={generateDiscussionMutation.isPending}
-                size="lg"
-                className="dark:bg-primary dark:text-primary-foreground dark:hover:bg-primary/90"
-              >
-                {'Tạo câu hỏi thảo luận'}
-              </Button>
+              <div className="flex gap-3">
+                <Button
+                  onClick={handleGenerateDiscussion}
+                  disabled={generateDiscussionMutation.isPending || generateQuizMutation.isPending}
+                  size="lg"
+                  className="dark:bg-primary dark:text-primary-foreground dark:hover:bg-primary/90 flex-1"
+                >
+                  Tạo câu hỏi thảo luận
+                </Button>
+                <Button
+                  onClick={handleGenerateQuiz}
+                  disabled={generateDiscussionMutation.isPending || generateQuizMutation.isPending}
+                  size="lg"
+                  variant="secondary"
+                  className="flex-1"
+                >
+                  Tạo quiz
+                </Button>
+              </div>
             </CardContent>
-            {generateDiscussionMutation.isPending && (
+            {(generateDiscussionMutation.isPending || generateQuizMutation.isPending) && (
               <LoadingWithText
-                text="Đang tạo câu hỏi thảo luận..."
+                text={
+                  generateDiscussionMutation.isPending
+                    ? 'Đang tạo câu hỏi thảo luận...'
+                    : 'Đang tạo bài trắc nghiệm...'
+                }
                 className="bg-background absolute inset-0 size-full backdrop-blur-sm"
               />
             )}
           </Card>
-        ) : (
-          discussions && (
-            <DiscussionSection
-              questions={discussions}
-              onEvaluateAnswer={handleEvaluateAnswer}
-              evaluating={evaluating}
-              feedback={discussionFeedback}
-            />
-          )
+        )}
+
+        {/* Discussion Questions */}
+        {discussions && (
+          <DiscussionSection
+            questions={discussions}
+            onEvaluateAnswer={handleEvaluateAnswer}
+            evaluating={evaluating}
+            feedback={discussionFeedback}
+          />
         )}
 
         {/* Quiz Section */}
@@ -297,23 +330,7 @@ const ReadingDetailPage = ({ id }: ReadingDetailPageProps) => {
             selectedAnswers={selectedAnswers}
             isLoading={generateQuizMutation.isPending}
             onAnswerSelect={handleAnswerSelect}
-            onCheckAnswers={checkQuizAnswers}
           />
-        )}
-
-        {/* Generate Quiz Button */}
-        {discussions && !quiz && (
-          <Card>
-            <CardContent className="py-6 text-center">
-              <Button
-                onClick={() => handleGenerateQuiz({ number_of_questions: 5 })}
-                disabled={generateQuizMutation.isPending}
-                size="lg"
-              >
-                {generateQuizMutation.isPending ? 'Đang tạo...' : 'Tạo bài trắc nghiệm'}
-              </Button>
-            </CardContent>
-          </Card>
         )}
       </div>
       {selection.isSelected && selection.position && (

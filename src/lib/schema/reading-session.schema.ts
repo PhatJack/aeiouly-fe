@@ -85,16 +85,14 @@ export const evaluateAnswerResponseSchema = z.object({
   feedback: z.string(),
 });
 
-export const correctAnswerSchema = z.object({
-  correct_option: z.string(),
-  explanation: z.string(),
-});
-
 export const quizQuestionSchema = z.object({
-  id: z.string(),
-  question: z.string(),
-  options: z.array(z.string()),
-  correct_answer: correctAnswerSchema,
+  questionEn: z.string(),
+  questionVi: z.string(),
+  optionsEn: z.array(z.string()),
+  optionsVi: z.array(z.string()),
+  correctAnswer: z.number().int().min(0),
+  explanationEn: z.string(),
+  explanationVi: z.string(),
 });
 
 export const quizResponseSchema = z.object({
@@ -119,7 +117,6 @@ export type ReadingSessionSummarySchema = z.infer<typeof readingSessionSummarySc
 export type ReadingSessionDetailSchema = z.infer<typeof readingSessionDetailSchema>;
 export type EvaluateAnswerRequestSchema = z.infer<typeof evaluateAnswerRequestSchema>;
 export type EvaluateAnswerResponseSchema = z.infer<typeof evaluateAnswerResponseSchema>;
-export type CorrectAnswerSchema = z.infer<typeof correctAnswerSchema>;
 export type QuizQuestionSchema = z.infer<typeof quizQuestionSchema>;
 export type QuizResponseSchema = z.infer<typeof quizResponseSchema>;
 export type DiscussionQuestionSchema = z.infer<typeof discussionQuestionSchema>;

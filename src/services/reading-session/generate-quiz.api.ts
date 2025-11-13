@@ -28,6 +28,9 @@ export const useGenerateQuizMutation = (
   return useMutation<QuizResponseSchema, ErrorResponseSchema, GenerateQuizParams>({
     mutationKey: ['generateQuiz'],
     mutationFn: (params) => generateQuizApi(params),
+    meta: {
+      ignoreGlobal: true,
+    },
     ...options,
   });
 };
