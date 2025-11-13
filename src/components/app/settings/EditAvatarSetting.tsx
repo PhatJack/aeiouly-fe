@@ -9,7 +9,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { ACCEPTED_IMAGE_TYPES, MAX_FILE_SIZE } from '@/constants/image';
 import { useAuthStore } from '@/contexts/AuthContext';
-import { getFallbackInitials } from '@/lib/utils';
+import { getFallbackInitials, urlToFile } from '@/lib/utils';
 import { useUpdateUserImageMutation } from '@/services/auth/update-me-avatar.api';
 
 import { Plus } from 'lucide-react';
@@ -21,6 +21,27 @@ const EditAvatarSetting = () => {
   const user = useAuthStore((state) => state.user);
 
   const userImageMutation = useUpdateUserImageMutation();
+
+  const handleAvatarClick = async (avatarUrl: string, index: number) => {
+    try {
+      const file = await urlToFile(avatarUrl, `avatar-${index + 1}.png`);
+
+      toast.promise(
+        userImageMutation.mutateAsync({
+          body: {
+            image: file,
+          },
+        }),
+        {
+          loading: 'Đang cập nhật ảnh đại diện...',
+          success: 'Cập nhật ảnh đại diện thành công!',
+          error: (e: any) => e?.detail || 'Cập nhật ảnh đại diện thất bại!',
+        }
+      );
+    } catch (error) {
+      toast.error('Không thể tải ảnh đại diện. Vui lòng thử lại.');
+    }
+  };
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -63,7 +84,9 @@ const EditAvatarSetting = () => {
             key={`avatar-option-${index}`}
             size={'lg'}
             variant={'outline'}
-            className="hover:border-primary relative size-12 overflow-hidden rounded-full border border-transparent transition-all"
+            onClick={() => handleAvatarClick(avatar.src, index)}
+            disabled={userImageMutation.isPending}
+            className="hover:border-primary dark:hover:border-primary relative size-12 overflow-hidden rounded-full border border-transparent transition-all disabled:opacity-50"
           >
             <Image
               src={avatar}

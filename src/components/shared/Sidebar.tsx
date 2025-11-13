@@ -9,7 +9,7 @@ import { useRouter } from 'nextjs-toploader/app';
 
 import { ROUTE } from '@/configs/route';
 import { useAuthStore } from '@/contexts/AuthContext';
-import { cn } from '@/lib/utils';
+import { cn, getFallbackInitials } from '@/lib/utils';
 import { useLogoutMutation } from '@/services/auth/logout.api';
 
 import {
@@ -230,7 +230,11 @@ const Sidebar = () => {
               </div>
             </div>
             <div className="flex items-center gap-3">
-              <AvatarCustom className="size-10 border" url={user.avatar_url || ''} />
+              <AvatarCustom
+                className="size-10 border"
+                url={user.avatar_url || ''}
+                fallback={getFallbackInitials(user?.full_name || user?.username || 'User')}
+              />
               <motion.span
                 animate={{ opacity: hovered ? 1 : 0, x: hovered ? 0 : -10 }}
                 transition={{ duration: 0.2 }}
