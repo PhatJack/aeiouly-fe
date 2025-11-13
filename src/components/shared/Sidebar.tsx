@@ -22,6 +22,7 @@ import {
   ListChecks,
   LogIn,
   LogOut,
+  LucideIcon,
   Mic,
   PenTool,
   Settings,
@@ -32,12 +33,17 @@ import { motion } from 'motion/react';
 import { toast } from 'sonner';
 
 import AvatarCustom from '../custom/AvatarCustom';
-import TooltipCustom from '../custom/TooltipCustom';
 import { ModeToggle } from '../mode-toggle';
 import { Button } from '../ui/button';
 import { Separator } from '../ui/separator';
 
-const menuWithImg = [
+const menuWithImg: {
+  title: string;
+  icon: LucideIcon;
+  href: string;
+  id?: string;
+  role: 'user' | 'admin' | Array<'user' | 'admin'>;
+}[] = [
   { title: 'Trang chủ', icon: Home, href: ROUTE.HOME, id: 'home', role: 'user' },
   {
     title: 'Không gian tự học',
@@ -82,13 +88,6 @@ const menuWithImg = [
     role: 'user',
   },
   {
-    title: 'Cài đặt',
-    icon: Settings,
-    href: ROUTE.SETTING.INDEX,
-    id: 'setting',
-    role: 'user',
-  },
-  {
     title: 'QL người dùng',
     icon: Users,
     href: ROUTE.ADMIN.USER_MANAGEMENT,
@@ -111,6 +110,13 @@ const menuWithImg = [
     icon: Wrench,
     href: ROUTE.ADMIN.SOLO_SPACE_MANAGEMENT.INDEX,
     role: 'admin',
+  },
+  {
+    title: 'Cài đặt',
+    icon: Settings,
+    href: ROUTE.SETTING.INDEX,
+    id: 'setting',
+    role: ['admin', 'user'],
   },
 ];
 
@@ -162,7 +168,12 @@ const Sidebar = () => {
         {menuWithImg
           .filter((item) => {
             if (!user) return false;
-            if (item.role === user.role) return true;
+            if (
+              typeof item.role === 'string'
+                ? item.role === user.role
+                : item.role.includes(user.role)
+            )
+              return true;
             return false;
           })
           .map((item, index) => (

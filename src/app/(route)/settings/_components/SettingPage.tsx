@@ -69,19 +69,19 @@ const SettingPage = () => {
                 </div>
               </div>
             </div>
-            {/* Full Name Section */}
+            {/* Username Section */}
             <div className="p-4">
               <div>
-                <Label className="font-medium text-gray-500">Full Name</Label>
-                <p className="mt-1 font-medium">{user?.full_name || 'Chưa cập nhật'}</p>
+                <Label className="font-medium text-gray-500">Username</Label>
+                <p className="mt-1 font-medium">{user?.username || 'Chưa cập nhật'}</p>
               </div>
             </div>
 
-            {/* Username Section */}
+            {/* Full Nam Section */}
             <div className="flex items-center justify-between p-4">
               <div>
-                <Label className="font-medium text-gray-500">Username</Label>
-                <p className="mt-1 font-medium">{user?.username}</p>
+                <Label className="font-medium text-gray-500">Full Name</Label>
+                <p className="mt-1 font-medium">{user?.full_name || 'Chưa cập nhật'}</p>
               </div>
               <Button variant="outline" onClick={() => setOpenFullNameDialog(true)}>
                 Sửa
@@ -92,7 +92,7 @@ const SettingPage = () => {
             <div className="flex items-center justify-between p-4">
               <div>
                 <Label className="font-medium text-gray-500">Email</Label>
-                <p className="mt-1 font-medium">{user?.email}</p>
+                <p className="mt-1 font-medium">{user?.email || 'Chưa cập nhật'}</p>
               </div>
               <Button variant="outline" onClick={() => setOpenEmailDialog(true)}>
                 Sửa
@@ -101,43 +101,44 @@ const SettingPage = () => {
           </div>
         </div>
       </div>
-
-      <div className="space-y-4">
-        <Label className="text-lg font-semibold">Thống kê học tập</Label>
-        <div className="space-y-4 divide-y">
-          <div className="flex w-full flex-col items-center justify-center gap-4 rounded-xl border p-4">
-            <p className="font-semibold">
-              Tôi đã <span className="text-primary">mở miệng nói tiếng Anh</span> được
-            </p>
-            <div className="flex aspect-square size-20 items-center justify-center rounded-full border border-gray-100 bg-gray-50 p-4">
-              <p className="text-primary text-5xl font-bold">7</p>
+      {user?.role === 'user' ? (
+        <div className="space-y-4">
+          <Label className="text-lg font-semibold">Thống kê học tập</Label>
+          <div className="space-y-4 divide-y">
+            <div className="flex w-full flex-col items-center justify-center gap-4 rounded-xl border p-4">
+              <p className="font-semibold">
+                Tôi đã <span className="text-primary">mở miệng nói tiếng Anh</span> được
+              </p>
+              <div className="bg-background flex aspect-square size-20 items-center justify-center rounded-full border p-4">
+                <p className="text-primary text-5xl font-bold">7</p>
+              </div>
+              <p className="font-semibold">lần</p>
             </div>
-            <p className="font-semibold">lần</p>
-          </div>
-          <div className="grid w-full gap-4 lg:grid-cols-2">
-            <div className="relative min-h-44 w-full overflow-hidden rounded-xl border p-4 font-semibold">
-              <p className="text-lg">
-                Tôi <span className="text-primary">sắp nói được tiếng anh</span> vì đã mở miệng được
-              </p>
-              <p className="mt-2 text-3xl font-bold">
-                <span className="text-primary">1</span> / 100 giờ
-              </p>
-              <WaveAnimation color="#ff7429" className="max-h-5" speed={20} />
-            </div>
-            <div className="relative min-h-44 w-full overflow-hidden rounded-xl border p-4 font-semibold">
-              <p className="text-lg">
-                Tôi <span className="text-secondary">đã vượt qua cơn lười học</span> của bản thân
-                được
-              </p>
-              <p className="mt-2 text-3xl font-bold">
-                <span className="text-secondary">1</span> ngày
-              </p>
-              <WaveAnimation color="#24d0a3" className="h-full max-h-12" speed={10} />
+            <div className="grid w-full gap-4 lg:grid-cols-2">
+              <div className="relative min-h-44 w-full overflow-hidden rounded-xl border p-4 font-semibold">
+                <p className="text-lg">
+                  Tôi <span className="text-primary">sắp nói được tiếng anh</span> vì đã mở miệng
+                  được
+                </p>
+                <p className="mt-2 text-3xl font-bold">
+                  <span className="text-primary">1</span> / 100 giờ
+                </p>
+                <WaveAnimation color="#ff7429" className="max-h-5" speed={20} />
+              </div>
+              <div className="relative min-h-44 w-full overflow-hidden rounded-xl border p-4 font-semibold">
+                <p className="text-lg">
+                  Tôi <span className="text-secondary">đã vượt qua cơn lười học</span> của bản thân
+                  được
+                </p>
+                <p className="mt-2 text-3xl font-bold">
+                  <span className="text-secondary">1</span> ngày
+                </p>
+                <WaveAnimation color="#24d0a3" className="h-full max-h-12" speed={10} />
+              </div>
             </div>
           </div>
         </div>
-      </div>
-
+      ) : null}
       <div className="space-y-4">
         <Label className="text-lg font-semibold">Giao diện</Label>
         <div className="rounded-xl border">

@@ -6,38 +6,52 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
+import { useAuthStore } from '@/contexts/AuthContext';
+
 import { motion } from 'motion/react';
 
-const menu = [
+const menu: {
+  title: string;
+  href: string;
+  icon: string;
+  description: string;
+  danger?: boolean;
+  role?: 'user' | 'admin' | Array<'user' | 'admin'>;
+}[] = [
   {
     title: 'Thông tin cá nhân',
     href: '/settings',
     icon: '/settingIcon/account.png',
     description: 'Quản lý hồ sơ và thông tin cá nhân',
+    role: ['user', 'admin'],
   },
   {
     title: 'Thay đổi mật khẩu',
     href: '/settings/change-password',
     icon: '/settingIcon/lock.png',
     description: 'Cập nhật mật khẩu bảo mật',
+    role: ['user', 'admin'],
   },
   {
     title: 'Chính sách bảo mật',
     href: '/settings/policy',
     icon: '/settingIcon/security.png',
     description: 'Chính sách bảo mật và quyền riêng tư',
+    role: ['user', 'admin'],
   },
   {
     title: 'Điều khoản dịch vụ',
     href: '/settings/terms',
     icon: '/settingIcon/paper.png',
     description: 'Điều khoản và điều kiện sử dụng',
+    role: ['user', 'admin'],
   },
   {
     title: 'Liên hệ',
     href: '/settings/contact',
     icon: '/settingIcon/chat.png',
     description: 'Hỗ trợ khách hàng và phản hồi',
+    role: ['user', 'admin'],
   },
   {
     title: 'Xoá tài khoản',
@@ -45,12 +59,13 @@ const menu = [
     icon: '/settingIcon/trash-bin.png',
     description: 'Xoá vĩnh viễn tài khoản của bạn',
     danger: true,
+    role: 'user',
   },
 ];
 
 const SettingNav = () => {
   const pathname = usePathname();
-
+  const user = useAuthStore((state) => state.user);
   return (
     <div className="mx-auto w-full lg:max-w-md">
       <div className="overflow-hidden rounded-2xl transition-all">
@@ -62,60 +77,71 @@ const SettingNav = () => {
         </div>
 
         <div className="flex flex-col gap-2 p-2">
-          {menu.map((item) => {
-            const isActive = pathname === item.href;
+          {menu
+            .filter((item) => {
+              if (!user) return false;
+              if (
+                typeof item.role === 'string'
+                  ? item.role === user.role
+                  : item.role?.includes(user.role)
+              )
+                return true;
+              return false;
+            })
+            .map((item) => {
+              const isActive = pathname === item.href;
 
-            return (
-              <motion.div key={item.title} className="relative">
-                <Link
-                  href={item.href}
-                  className={`group relative flex items-center gap-3 rounded-xl p-2 transition-all duration-200 ${
-                    isActive
-                      ? item.danger
-                        ? 'bg-red-50 text-red-700 dark:bg-red-950/50 dark:text-red-400'
-                        : 'bg-primary/5 text-primary dark:bg-primary/10 dark:text-primary'
-                      : 'text-foreground hover:bg-accent/50 dark:hover:bg-accent/30 dark:text-gray-300'
-                  } ${item.danger && !isActive ? 'hover:bg-red-50 hover:text-red-600 dark:hover:bg-red-950/30 dark:hover:text-red-400' : ''} `}
-                >
-                  <div
-                    className={`flex h-10 w-10 items-center justify-center rounded-lg transition-colors duration-200 ${
+              return (
+                <motion.div key={item.title} className="relative">
+                  <Link
+                    href={item.href}
+                    className={`group relative flex items-center gap-3 rounded-xl p-2 transition-all duration-200 ${
                       isActive
                         ? item.danger
-                          ? 'bg-red-100 text-red-600 dark:bg-red-900/50 dark:text-red-400'
-                          : 'bg-primary/10 text-primary dark:bg-primary/20 dark:text-primary'
-                        : 'bg-muted text-muted-foreground group-hover:bg-muted/70 dark:bg-accent/50 dark:group-hover:bg-accent/70 dark:text-gray-400'
-                    } ${item.danger && !isActive ? 'group-hover:bg-red-100 group-hover:text-red-500 dark:group-hover:bg-red-900/30 dark:group-hover:text-red-400' : ''} `}
+                          ? 'bg-red-50 text-red-700 dark:bg-red-950/50 dark:text-red-400'
+                          : 'bg-primary/5 text-primary dark:bg-primary/10 dark:text-primary'
+                        : 'text-foreground hover:bg-accent/50 dark:hover:bg-accent/30 dark:text-gray-300'
+                    } ${item.danger && !isActive ? 'hover:bg-red-50 hover:text-red-600 dark:hover:bg-red-950/30 dark:hover:text-red-400' : ''} `}
                   >
-                    <div className="relative size-5">
-                      <Image src={item.icon} alt={item.title} fill className="object-cover" />
+                    <div
+                      className={`flex h-10 w-10 items-center justify-center rounded-lg transition-colors duration-200 ${
+                        isActive
+                          ? item.danger
+                            ? 'bg-red-100 text-red-600 dark:bg-red-900/50 dark:text-red-400'
+                            : 'bg-primary/10 text-primary dark:bg-primary/20 dark:text-primary'
+                          : 'bg-muted text-muted-foreground group-hover:bg-muted/70 dark:bg-accent/50 dark:group-hover:bg-accent/70 dark:text-gray-400'
+                      } ${item.danger && !isActive ? 'group-hover:bg-red-100 group-hover:text-red-500 dark:group-hover:bg-red-900/30 dark:group-hover:text-red-400' : ''} `}
+                    >
+                      <div className="relative size-5">
+                        <Image src={item.icon} alt={item.title} fill className="object-cover" />
+                      </div>
                     </div>
-                  </div>
 
-                  <div className="min-w-0 flex-1">
-                    <div className="flex items-center justify-between">
-                      <h3 className="truncate text-sm font-medium">{item.title}</h3>
+                    <div className="min-w-0 flex-1">
+                      <div className="flex items-center justify-between">
+                        <h3 className="truncate text-sm font-medium">{item.title}</h3>
+                      </div>
+                      <p className="text-muted-foreground mt-0.5 truncate text-xs dark:text-gray-500">
+                        {item.description}
+                      </p>
                     </div>
-                    <p className="text-muted-foreground mt-0.5 truncate text-xs dark:text-gray-500">
-                      {item.description}
-                    </p>
-                  </div>
 
-                  {isActive && (
-                    <motion.div
-                      layoutId="activeBackground"
-                      className={`absolute inset-0 -z-10 rounded-xl ${item.danger ? 'bg-red-50 ring-1 ring-red-200 dark:bg-red-950/50 dark:ring-red-900/50' : 'bg-primary/5 ring-primary/20 dark:bg-primary/10 dark:ring-primary/30 ring-1'} `}
-                      initial={false}
-                      transition={{
-                        type: 'spring',
-                        bounce: 0.15,
-                        duration: 0.4,
-                      }}
-                    />
-                  )}
-                </Link>
-              </motion.div>
-            );
-          })}
+                    {isActive && (
+                      <motion.div
+                        layoutId="activeBackground"
+                        className={`absolute inset-0 -z-10 rounded-xl ${item.danger ? 'bg-red-50 ring-1 ring-red-200 dark:bg-red-950/50 dark:ring-red-900/50' : 'bg-primary/5 ring-primary/20 dark:bg-primary/10 dark:ring-primary/30 ring-1'} `}
+                        initial={false}
+                        transition={{
+                          type: 'spring',
+                          bounce: 0.15,
+                          duration: 0.4,
+                        }}
+                      />
+                    )}
+                  </Link>
+                </motion.div>
+              );
+            })}
         </div>
       </div>
     </div>
