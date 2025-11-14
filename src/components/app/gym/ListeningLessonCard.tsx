@@ -10,7 +10,7 @@ import { LessonResponseSchema } from '@/lib/schema/listening-session.schema';
 import { distanceToNowVN } from '@/lib/timezone';
 import { UrlToEmbeded, cn, getLevelColor } from '@/lib/utils';
 
-import { BookOpen, Calendar, Clock } from 'lucide-react';
+import { BookOpen, Calendar, Clock, PlayCircle } from 'lucide-react';
 
 interface ListeningLessonCardProps {
   lesson: LessonResponseSchema;
@@ -24,7 +24,7 @@ const ListeningLessonCard = ({ lesson, onClick }: ListeningLessonCardProps) => {
   return (
     <Card
       className={cn(
-        'group cursor-pointer overflow-hidden rounded-lg border border-gray-200 bg-white py-0 shadow-sm transition-shadow hover:shadow-md'
+        'group cursor-pointer overflow-hidden rounded-lg border py-0 shadow-sm transition-shadow hover:shadow-md'
       )}
       onClick={onClick}
     >
@@ -46,9 +46,7 @@ const ListeningLessonCard = ({ lesson, onClick }: ListeningLessonCardProps) => {
             </div>
             {/* Play Icon on Hover */}
             <div className="absolute inset-0 flex items-center justify-center bg-black/30 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-              <svg className="h-10 w-10 text-white" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M8 5v14l11-7z" />
-              </svg>
+              <PlayCircle strokeWidth={1} className="size-14 text-white" />
             </div>
           </div>
 

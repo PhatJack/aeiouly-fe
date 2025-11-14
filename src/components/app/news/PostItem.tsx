@@ -30,7 +30,7 @@ const PostItem = ({ post }: PostItemProps) => {
   return (
     <Card>
       <CardContent>
-        <div className="flex items-start gap-3">
+        <div className="flex items-center gap-2">
           <AvatarCustom url={post.author.avatar_url || ''} className="size-10" />
 
           <div className="flex-1">
