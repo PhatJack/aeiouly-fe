@@ -214,14 +214,14 @@ const ReadingDetailPage = ({ id }: ReadingDetailPageProps) => {
       <div className="container mx-auto max-w-4xl space-y-4 py-4">
         {/* Reading Content */}
         <AlertCustom
-          variant={'info'}
+          variant={'success'}
           icon={<CircleAlert />}
           title="Bạn có thể bôi đen từ để lưu lại và học thêm"
         />
         <Card>
           <CardContent ref={contentRef}>
             <BlockquoteCustom
-              variants="primary"
+              variants="info"
               title="Nội dung bài đọc"
               content={
                 <div className="max-w-none">

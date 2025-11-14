@@ -2,12 +2,15 @@
 
 import React, { memo, useState } from 'react';
 
+import { useRouter } from 'nextjs-toploader/app';
+
 import LoadingWithText from '@/components/LoadingWithText';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Separator } from '@/components/ui/separator';
 import { QuizQuestionSchema } from '@/lib/schema/reading-session.schema';
 
-import { Brain, Languages } from 'lucide-react';
+import { Brain, CheckCircle2, Languages, XCircle } from 'lucide-react';
 
 interface QuizSectionProps {
   quiz: QuizQuestionSchema[];
@@ -17,7 +20,8 @@ interface QuizSectionProps {
 }
 
 const QuizSection = ({ quiz, selectedAnswers, onAnswerSelect, isLoading }: QuizSectionProps) => {
-  const [language, setLanguage] = useState<'en' | 'vi'>('vi');
+  const router = useRouter();
+  const [language, setLanguage] = useState<'en' | 'vi'>('en');
 
   if (isLoading) {
     return <LoadingWithText text="Đang tạo bài trắc nghiệm..." />;
@@ -74,9 +78,9 @@ const QuizSection = ({ quiz, selectedAnswers, onAnswerSelect, isLoading }: QuizS
                           disabled={isAnswered}
                           className={`w-full rounded-lg border-2 p-2 text-left transition-all ${
                             showCorrect
-                              ? 'border-green-500 bg-green-50 dark:border-green-600 dark:bg-green-950/30'
+                              ? 'border-success bg-success/10 dark:bg-success/20'
                               : showIncorrect
-                                ? 'border-red-500 bg-red-50 dark:border-red-600 dark:bg-red-950/30'
+                                ? 'border-error bg-error/10 dark:bg-error/20'
                                 : isSelected
                                   ? 'border-primary bg-primary/5 dark:bg-primary/10'
                                   : 'border-border hover:border-primary/50 dark:border-border/50 dark:hover:border-primary/50'
@@ -84,17 +88,21 @@ const QuizSection = ({ quiz, selectedAnswers, onAnswerSelect, isLoading }: QuizS
                         >
                           <span className="flex items-center gap-2">
                             {showCorrect && (
-                              <span className="text-green-600 dark:text-green-400">✓</span>
+                              <span>
+                                <CheckCircle2 className="text-success" />
+                              </span>
                             )}
                             {showIncorrect && (
-                              <span className="text-red-600 dark:text-red-400">✗</span>
+                              <span>
+                                <XCircle className="text-error" />
+                              </span>
                             )}
                             <span
                               className={
                                 showCorrect
-                                  ? 'font-medium text-green-700 dark:text-green-300'
+                                  ? 'text-success font-medium'
                                   : showIncorrect
-                                    ? 'font-medium text-red-700 dark:text-red-300'
+                                    ? 'text-error font-medium'
                                     : ''
                               }
                             >
@@ -110,12 +118,22 @@ const QuizSection = ({ quiz, selectedAnswers, onAnswerSelect, isLoading }: QuizS
                     <div
                       className={`rounded-lg border p-3 ${
                         isCorrect
-                          ? 'border-green-200 bg-green-50 dark:border-green-800 dark:bg-green-950/30'
-                          : 'border-red-200 bg-red-50 dark:border-red-800 dark:bg-red-950/30'
+                          ? 'border-success/30 bg-success/10 dark:bg-success/20'
+                          : 'border-error/30 bg-error/10 dark:bg-error/20'
                       }`}
                     >
-                      <p className="mb-2 font-medium">
-                        {isCorrect ? '✅ Chính xác!' : '❌ Chưa đúng'}
+                      <p className="mb-2 flex items-center gap-1 font-medium">
+                        {isCorrect ? (
+                          <>
+                            <CheckCircle2 className="text-success inline" />
+                            <span>Chính xác!</span>
+                          </>
+                        ) : (
+                          <>
+                            <XCircle className="text-error inline" />
+                            <span>Chưa đúng</span>
+                          </>
+                        )}
                       </p>
                       <p className="text-muted-foreground text-sm dark:text-gray-300">
                         <strong>Giải thích:</strong> {currentExplanation}
@@ -127,6 +145,23 @@ const QuizSection = ({ quiz, selectedAnswers, onAnswerSelect, isLoading }: QuizS
             </div>
           );
         })}
+        {Object.keys(selectedAnswers).length === quiz.length && (
+          <div className="w-full space-y-2">
+            <Separator />
+            <h3 className="mb-2 text-lg font-semibold">Kết quả tổng quát:</h3>
+            <p className="text-foreground dark:text-white">
+              Bạn đã trả lời đúng{' '}
+              {
+                Object.values(selectedAnswers).filter((ans, idx) => ans === quiz[idx].correctAnswer)
+                  .length
+              }{' '}
+              trên {quiz.length} câu hỏi.
+            </p>
+            <Button className="w-full" size={'lg'} type="button" onClick={() => router.back()}>
+              Thoát
+            </Button>
+          </div>
+        )}
       </CardContent>
     </Card>
   );

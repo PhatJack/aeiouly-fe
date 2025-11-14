@@ -196,7 +196,8 @@ const VocabularyDialog = ({ textSelection, open, onOpenChange }: VocabularyDialo
           <DialogDescription>
             {isSentence ? (
               <>
-                Dịch câu &#34;<span className="font-semibold">{textSelection}</span>&#34;
+                Dịch câu &#34;<span className="text-primary font-semibold">{textSelection}</span>
+                &#34;
               </>
             ) : (
               <>
@@ -321,11 +322,15 @@ const VocabularyDialog = ({ textSelection, open, onOpenChange }: VocabularyDialo
             ) : (
               <>
                 <div className="bg-muted/50 mb-4 rounded-md border p-4">
-                  <h4 className="mb-2 text-sm font-medium text-gray-600">Câu gốc:</h4>
+                  <h4 className="mb-2 text-sm font-medium text-gray-600 dark:text-gray-400">
+                    Câu gốc:
+                  </h4>
                   <p className="text-lg">{translationData.original_text}</p>
                 </div>
                 <div className="bg-muted/50 rounded-md border p-4">
-                  <h4 className="mb-2 text-sm font-medium text-gray-600">Bản dịch:</h4>
+                  <h4 className="mb-2 text-sm font-medium text-gray-600 dark:text-gray-400">
+                    Bản dịch:
+                  </h4>
                   <p className="text-lg">{translationData.translated_text}</p>
                 </div>
               </>
