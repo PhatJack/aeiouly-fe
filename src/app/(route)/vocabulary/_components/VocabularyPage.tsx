@@ -70,7 +70,7 @@ const VocabularyPage = () => {
 
   if (isLoading) {
     return (
-      <div className="">
+      <div className="space-y-4">
         <div className="flex items-center justify-between">
           <Skeleton className="h-10 w-64" />
           <Skeleton className="h-10 w-32" />

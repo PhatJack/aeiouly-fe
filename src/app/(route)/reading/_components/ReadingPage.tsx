@@ -88,9 +88,9 @@ const ReadingPage = () => {
         {/* Left - Sessions List */}
         <div>
           {isLoading && (
-            <div className="space-y-4">
+            <div className="grid grid-cols-3 gap-4">
               {[1, 2, 3].map((i) => (
-                <Skeleton key={i} className="h-32 rounded-xl" />
+                <Skeleton key={i} className="h-28 rounded-xl" />
               ))}
             </div>
           )}
