@@ -16,6 +16,7 @@ export * from './get-current-year-stats.api';
 export * from './get-streak-stats.api';
 export * from './get-streak-history.api';
 export * from './get-streak-leaderboard.api';
+export * from './get-weekly-streak-status.api';
 
 // Online Status APIs
 export * from './check-user-online.api';

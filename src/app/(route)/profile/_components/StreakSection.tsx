@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useMemo } from 'react';
 
 import { Bagel_Fat_One } from 'next/font/google';
 import Image from 'next/image';
@@ -10,7 +10,7 @@ import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
 import { useAuthStore } from '@/contexts/AuthContext';
 import { cn, getFireProps, streakToText } from '@/lib/utils';
-import { useGetStreakHistoryQuery } from '@/services/analytics';
+import { useGetStreakStatsQuery, useGetWeeklyStreakStatusQuery } from '@/services/analytics';
 
 import { Check } from 'lucide-react';
 
@@ -21,9 +21,7 @@ const bagelFastOne = Bagel_Fat_One({
 });
 
 const StreakSection = () => {
-  // Mock data - replace with actual data from API
   const user = useAuthStore((state) => state.user);
-  const currentStreak = 4;
   const weekDays = ['M', 'T', 'W', 'T', 'F', 'S', 'S'];
 
   const stats = {
@@ -32,14 +30,20 @@ const StreakSection = () => {
     quizzes: 18,
     minutes: 231,
   };
-  const { data: streakHistory, isLoading: isLoadingStreakHistory } = useGetStreakHistoryQuery(7);
 
-  const completedDays = streakHistory?.streak_history?.map((d) => d.logged_in);
-  const dayNumbers = streakHistory?.streak_history?.map((d) => new Date(d.date).getDate());
+  const { data: streakStat, isLoading: isLoadingStreakStat } = useGetStreakStatsQuery();
+  const { data: streakHistory, isLoading: isLoadingStreakHistory } =
+    useGetWeeklyStreakStatusQuery();
 
-  const { size, imgClass } = getFireProps(currentStreak, true);
+  const completedDays = streakHistory?.map((d) => d.logged_in);
+  const dayNumbers = streakHistory?.map((d) => new Date(d.date).getDate());
 
-  if (isLoadingStreakHistory) {
+  const { size, imgClass } = useMemo(
+    () => getFireProps(streakStat?.current_streak ?? 0, true),
+    [streakStat?.current_streak]
+  );
+
+  if (isLoadingStreakHistory || isLoadingStreakStat) {
     return <LoadingWithText text="Đang tải thành tích chuỗi..." />;
   }
 
@@ -62,14 +66,14 @@ const StreakSection = () => {
             </div>
             <div className="absolute -bottom-9 left-1/2 flex -translate-x-1/2 items-center justify-center rounded-full">
               <span className={cn('text-6xl font-bold', bagelFastOne.className)}>
-                {streakHistory?.summary.current_streak}
+                {streakStat?.current_streak}
               </span>
             </div>
           </div>
 
           {/* Title and Subtitle */}
           <div className="text-center">
-            <h2 className="text-2xl font-bold">{streakToText(currentStreak)}</h2>
+            <h2 className="text-2xl font-bold">{streakToText(streakStat?.current_streak ?? 0)}</h2>
             <p className="text-muted-foreground mt-1 text-sm">
               You are doing really great, {user?.full_name}!
             </p>

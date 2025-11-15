@@ -17,6 +17,8 @@ export const useGetStreakStatsQuery = (
     meta: {
       ignoreGlobal: true,
     },
+    staleTime: 60 * 60 * 1000, // 1 hour
+    gcTime: 2 * 60 * 60 * 1000, // 2 hours
     ...options,
   });
 };
