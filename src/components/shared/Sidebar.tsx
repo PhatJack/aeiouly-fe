@@ -254,7 +254,6 @@ const Sidebar = () => {
       </ul>
 
       <div className="flex flex-1 flex-col justify-end gap-4">
-        <ModeToggle />
         {user ? (
           <>
             <div
@@ -276,7 +275,7 @@ const Sidebar = () => {
             </div>
             <div className="flex items-center gap-3">
               <AvatarCustom
-                className="size-10 border"
+                className="size-12 border"
                 url={user.avatar_url || ''}
                 fallback={getFallbackInitials(user?.full_name || user?.username || 'User')}
               />
@@ -290,18 +289,23 @@ const Sidebar = () => {
             </div>
           </>
         ) : (
-          <Button onClick={() => router.push(ROUTE.AUTH.LOGIN)}>
-            <div className="relative flex size-6 min-w-6 items-center justify-center">
-              <LogIn size={24} />
+          <div
+            onClick={() => router.push(ROUTE.AUTH.LOGIN)}
+            className="hover:bg-primary/80 bg-primary text-primary-foreground flex w-full cursor-pointer items-center rounded-full p-3 transition-all hover:text-white"
+          >
+            <div className="relative flex items-center gap-3">
+              <div className="relative flex size-6 min-w-6 items-center justify-center">
+                <LogIn size={24} />
+              </div>
+              <motion.span
+                animate={{ opacity: shouldExpand ? 1 : 0, x: shouldExpand ? 0 : -10 }}
+                transition={{ duration: 0.2 }}
+                className="text-sm font-medium whitespace-nowrap"
+              >
+                Đăng nhập
+              </motion.span>
             </div>
-            <motion.span
-              animate={{ opacity: shouldExpand ? 1 : 0, x: shouldExpand ? 0 : -10 }}
-              transition={{ duration: 0.2 }}
-              className="text-sm font-medium whitespace-nowrap"
-            >
-              Đăng nhập
-            </motion.span>
-          </Button>
+          </div>
         )}
       </div>
     </motion.aside>

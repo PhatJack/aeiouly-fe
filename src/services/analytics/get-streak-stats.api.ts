@@ -1,5 +1,6 @@
 import { apiClient } from '@/lib/client';
 import { StreakStatsResponse } from '@/lib/schema/analytics.schema';
+import { ErrorResponseSchema } from '@/lib/schema/error';
 import { UseQueryOptions, useQuery } from '@tanstack/react-query';
 
 export async function getStreakStatsApi() {
@@ -8,11 +9,14 @@ export async function getStreakStatsApi() {
 }
 
 export const useGetStreakStatsQuery = (
-  options?: Omit<UseQueryOptions<StreakStatsResponse, Error>, 'queryKey' | 'queryFn'>
+  options?: Omit<UseQueryOptions<StreakStatsResponse, ErrorResponseSchema>, 'queryKey' | 'queryFn'>
 ) => {
-  return useQuery<StreakStatsResponse, Error>({
+  return useQuery<StreakStatsResponse, ErrorResponseSchema>({
     queryKey: ['streakStats'],
     queryFn: getStreakStatsApi,
+    meta: {
+      ignoreGlobal: true,
+    },
     ...options,
   });
 };

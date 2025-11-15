@@ -1,5 +1,6 @@
 import { apiClient } from '@/lib/client';
 import { YearlyLearningStats } from '@/lib/schema/analytics.schema';
+import { ErrorResponseSchema } from '@/lib/schema/error';
 import { UseQueryOptions, useQuery } from '@tanstack/react-query';
 
 export async function getCurrentYearStatsApi() {
@@ -8,9 +9,9 @@ export async function getCurrentYearStatsApi() {
 }
 
 export const useGetCurrentYearStatsQuery = (
-  options?: Omit<UseQueryOptions<YearlyLearningStats, Error>, 'queryKey' | 'queryFn'>
+  options?: Omit<UseQueryOptions<YearlyLearningStats, ErrorResponseSchema>, 'queryKey' | 'queryFn'>
 ) => {
-  return useQuery<YearlyLearningStats, Error>({
+  return useQuery<YearlyLearningStats, ErrorResponseSchema>({
     queryKey: ['currentYearStats'],
     queryFn: getCurrentYearStatsApi,
     ...options,

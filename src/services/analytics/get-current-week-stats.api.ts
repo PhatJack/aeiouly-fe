@@ -1,5 +1,6 @@
 import { apiClient } from '@/lib/client';
 import { WeeklyLearningStats } from '@/lib/schema/analytics.schema';
+import { ErrorResponseSchema } from '@/lib/schema/error';
 import { UseQueryOptions, useQuery } from '@tanstack/react-query';
 
 export async function getCurrentWeekStatsApi() {
@@ -8,9 +9,9 @@ export async function getCurrentWeekStatsApi() {
 }
 
 export const useGetCurrentWeekStatsQuery = (
-  options?: Omit<UseQueryOptions<WeeklyLearningStats, Error>, 'queryKey' | 'queryFn'>
+  options?: Omit<UseQueryOptions<WeeklyLearningStats, ErrorResponseSchema>, 'queryKey' | 'queryFn'>
 ) => {
-  return useQuery<WeeklyLearningStats, Error>({
+  return useQuery<WeeklyLearningStats, ErrorResponseSchema>({
     queryKey: ['currentWeekStats'],
     queryFn: getCurrentWeekStatsApi,
     ...options,

@@ -1,5 +1,6 @@
 import { apiClient } from '@/lib/client';
 import { StartLearningSessionResponse } from '@/lib/schema/analytics.schema';
+import { ErrorResponseSchema } from '@/lib/schema/error';
 import { UseMutationOptions, useMutation } from '@tanstack/react-query';
 
 export async function startLearningSessionApi() {
@@ -11,9 +12,12 @@ export async function startLearningSessionApi() {
 }
 
 export const useStartLearningSessionMutation = (
-  options?: Omit<UseMutationOptions<StartLearningSessionResponse, Error>, 'mutationFn'>
+  options?: Omit<
+    UseMutationOptions<StartLearningSessionResponse, ErrorResponseSchema>,
+    'mutationFn'
+  >
 ) => {
-  return useMutation<StartLearningSessionResponse, Error>({
+  return useMutation<StartLearningSessionResponse, ErrorResponseSchema>({
     mutationFn: startLearningSessionApi,
     ...options,
   });

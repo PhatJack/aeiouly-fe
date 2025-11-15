@@ -5,10 +5,12 @@ import React from 'react';
 import { Bagel_Fat_One } from 'next/font/google';
 import Image from 'next/image';
 
+import LoadingWithText from '@/components/LoadingWithText';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
 import { useAuthStore } from '@/contexts/AuthContext';
 import { cn, getFireProps, streakToText } from '@/lib/utils';
+import { useGetStreakHistoryQuery } from '@/services/analytics';
 
 import { Check } from 'lucide-react';
 
@@ -23,8 +25,6 @@ const StreakSection = () => {
   const user = useAuthStore((state) => state.user);
   const currentStreak = 4;
   const weekDays = ['M', 'T', 'W', 'T', 'F', 'S', 'S'];
-  const completedDays = [true, true, true, true, false, false, false]; // Days completed this week
-  const dayNumbers = [25, 26, 27, 28, 29, 30, 31];
 
   const stats = {
     days: 22,
@@ -32,8 +32,16 @@ const StreakSection = () => {
     quizzes: 18,
     minutes: 231,
   };
+  const { data: streakHistory, isLoading: isLoadingStreakHistory } = useGetStreakHistoryQuery(7);
+
+  const completedDays = streakHistory?.streak_history?.map((d) => d.logged_in);
+  const dayNumbers = streakHistory?.streak_history?.map((d) => new Date(d.date).getDate());
 
   const { size, imgClass } = getFireProps(currentStreak, true);
+
+  if (isLoadingStreakHistory) {
+    return <LoadingWithText text="Đang tải thành tích chuỗi..." />;
+  }
 
   return (
     <div className="flex w-full flex-col gap-4">
@@ -54,7 +62,7 @@ const StreakSection = () => {
             </div>
             <div className="absolute -bottom-9 left-1/2 flex -translate-x-1/2 items-center justify-center rounded-full">
               <span className={cn('text-6xl font-bold', bagelFastOne.className)}>
-                {currentStreak}
+                {streakHistory?.summary.current_streak}
               </span>
             </div>
           </div>
@@ -72,13 +80,13 @@ const StreakSection = () => {
             {weekDays.map((day, index) => (
               <div key={index} className="flex flex-col items-center gap-2">
                 <span className="text-muted-foreground text-xs font-medium">{day}</span>
-                {completedDays[index] ? (
+                {completedDays?.[index] ? (
                   <div className="from-primary/20 via-primary/70 to-primary flex size-9 items-center justify-center rounded-full bg-gradient-to-br backdrop-blur-sm">
                     <Check className="text-primary-foreground h-5 w-5" />
                   </div>
                 ) : (
                   <div className="text-muted-foreground flex size-10 items-center justify-center rounded-full text-sm font-semibold">
-                    {dayNumbers[index]}
+                    {dayNumbers?.[index]}
                   </div>
                 )}
               </div>

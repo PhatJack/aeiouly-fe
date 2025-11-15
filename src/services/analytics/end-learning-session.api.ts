@@ -1,5 +1,6 @@
 import { apiClient } from '@/lib/client';
 import { EndLearningSessionResponse } from '@/lib/schema/analytics.schema';
+import { ErrorResponseSchema } from '@/lib/schema/error';
 import { UseMutationOptions, useMutation } from '@tanstack/react-query';
 
 export async function endLearningSessionApi() {
@@ -8,9 +9,9 @@ export async function endLearningSessionApi() {
 }
 
 export const useEndLearningSessionMutation = (
-  options?: Omit<UseMutationOptions<EndLearningSessionResponse, Error>, 'mutationFn'>
+  options?: Omit<UseMutationOptions<EndLearningSessionResponse, ErrorResponseSchema>, 'mutationFn'>
 ) => {
-  return useMutation<EndLearningSessionResponse, Error>({
+  return useMutation<EndLearningSessionResponse, ErrorResponseSchema>({
     mutationFn: endLearningSessionApi,
     ...options,
   });

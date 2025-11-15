@@ -7,7 +7,7 @@ import PostItem from '@/components/app/news/PostItem';
 import { useInfiniteGetAllPostsQuery } from '@/services/posts';
 import { useInfiniteQuery } from '@tanstack/react-query';
 
-import { Loader2 } from 'lucide-react';
+import LoadingWithText from './LoadingWithText';
 
 const PostsFeed = () => {
   const { ref, inView } = useInView({
@@ -26,11 +26,7 @@ const PostsFeed = () => {
   }, [inView, hasNextPage, isFetchingNextPage, fetchNextPage]);
 
   if (status === 'pending') {
-    return (
-      <div className="flex justify-center p-8">
-        <Loader2 className="animate-spin" />
-      </div>
-    );
+    return <LoadingWithText text="Đang tải các bài viết" />;
   }
 
   if (status === 'error') {

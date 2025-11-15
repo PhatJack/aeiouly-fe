@@ -1,5 +1,6 @@
 import { apiClient } from '@/lib/client';
 import { LearningStatsResponse } from '@/lib/schema/analytics.schema';
+import { ErrorResponseSchema } from '@/lib/schema/error';
 import { UseQueryOptions, useQuery } from '@tanstack/react-query';
 
 export async function getLearningStatsApi() {
@@ -8,9 +9,12 @@ export async function getLearningStatsApi() {
 }
 
 export const useGetLearningStatsQuery = (
-  options?: Omit<UseQueryOptions<LearningStatsResponse, Error>, 'queryKey' | 'queryFn'>
+  options?: Omit<
+    UseQueryOptions<LearningStatsResponse, ErrorResponseSchema>,
+    'queryKey' | 'queryFn'
+  >
 ) => {
-  return useQuery<LearningStatsResponse, Error>({
+  return useQuery<LearningStatsResponse, ErrorResponseSchema>({
     queryKey: ['learningStats'],
     queryFn: getLearningStatsApi,
     ...options,
