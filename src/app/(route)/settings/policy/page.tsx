@@ -2,8 +2,6 @@ import { Metadata } from 'next';
 
 import SettingHeader from '@/components/app/settings/SettingHeader';
 
-import { ShieldCheck } from 'lucide-react';
-
 export const metadata: Metadata = {
   title: 'Chính sách bảo mật',
   description: 'Chính sách bảo mật của chúng tôi',

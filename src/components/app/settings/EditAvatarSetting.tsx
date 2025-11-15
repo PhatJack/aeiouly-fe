@@ -72,7 +72,7 @@ const EditAvatarSetting = () => {
   };
 
   return (
-    <div className="flex gap-4">
+    <div className="flex flex-col items-center gap-4 sm:flex-row sm:items-start">
       <AvatarCustom
         url={user?.avatar_url || undefined}
         fallback={getFallbackInitials(user?.full_name || user?.username || 'User')}

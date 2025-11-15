@@ -2,14 +2,14 @@ import React from 'react';
 
 import { Metadata } from 'next';
 
-import VocabularyPage from './_components/VocabularyPage';
+import ProfilePage from './_components/ProfilePage';
 
 export const metadata: Metadata = {
-  title: 'Từ vựng',
+  title: 'Hồ sơ cá nhân',
 };
 
 const Page = () => {
-  return <VocabularyPage />;
+  return <ProfilePage />;
 };
 
 export default Page;

@@ -7,7 +7,7 @@ import Loading from '@/components/Loading';
 import { PasswordResetForm } from '../_components/PasswordResetForm';
 
 export const metadata: Metadata = {
-  title: 'Password Reset',
+  title: 'Đặt lại mật khẩu',
 };
 
 export default function PasswordResetPage() {

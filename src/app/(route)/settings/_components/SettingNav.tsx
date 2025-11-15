@@ -19,17 +19,10 @@ const menu: {
   role?: 'user' | 'admin' | Array<'user' | 'admin'>;
 }[] = [
   {
-    title: 'Thông tin cá nhân',
+    title: 'Cài đặt chung',
     href: '/settings',
-    icon: '/settingIcon/account.png',
-    description: 'Quản lý hồ sơ và thông tin cá nhân',
-    role: ['user', 'admin'],
-  },
-  {
-    title: 'Thay đổi mật khẩu',
-    href: '/settings/change-password',
     icon: '/settingIcon/lock.png',
-    description: 'Cập nhật mật khẩu bảo mật',
+    description: 'Cài đặt bảo mật và thay đổi chủ đề',
     role: ['user', 'admin'],
   },
   {

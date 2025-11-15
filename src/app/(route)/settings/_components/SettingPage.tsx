@@ -1,145 +1,62 @@
 'use client';
 
 import { useState } from 'react';
+import { useForm } from 'react-hook-form';
 
-import EditAvatarSetting from '@/components/app/settings/EditAvatarSetting';
-import EditFieldDialog from '@/components/app/settings/EditFieldDialog';
 import SettingHeader from '@/components/app/settings/SettingHeader';
 import { ModeToggle } from '@/components/mode-toggle';
-import { WaveAnimation } from '@/components/shared/WaveAnimation';
+import { PasswordStrengthMeter } from '@/components/shared/PasswordStrengthMeter';
 import { Button } from '@/components/ui/button';
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from '@/components/ui/form';
+import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { useAuthStore } from '@/contexts/AuthContext';
-import { UserUpdateSchema, userUpdateSchema } from '@/lib/schema/user.schema';
-import { useUpdateMeMutation } from '@/services/auth/update-me.api';
+import { ChangePasswordSchema, changePasswordSchema } from '@/services/auth/forgot-password.api';
+import { useChangePasswordMutation } from '@/services/auth/forgot-password.api';
+import { zodResolver } from '@hookform/resolvers/zod';
 
+import { CheckCircle, Eye, EyeOff, Lock } from 'lucide-react';
 import { toast } from 'sonner';
 
 const SettingPage = () => {
-  const user = useAuthStore((state) => state.user);
-  const [openEmailDialog, setOpenEmailDialog] = useState(false);
-  const [openFullNameDialog, setOpenFullNameDialog] = useState(false);
+  const [isShowNewPassword, setIsShowNewPassword] = useState<boolean>(false);
+  const { mutate: changePassword, isPending } = useChangePasswordMutation();
 
-  const updateMeMutation = useUpdateMeMutation();
+  const form = useForm<ChangePasswordSchema>({
+    resolver: zodResolver(changePasswordSchema),
+    defaultValues: {
+      current_password: '',
+      new_password: '',
+    },
+  });
 
-  const handleUpdateInformation = (data: UserUpdateSchema, fieldName: keyof UserUpdateSchema) => {
-    if (fieldName === 'full_name') {
-      updateMeMutation.mutate(
-        { full_name: data.full_name },
-        {
-          onSuccess: () => {
-            toast.success('Cập nhật tên thành công');
-          },
-        }
-      );
-      return;
-    }
-    if (fieldName === 'email') {
-      updateMeMutation.mutate(
-        { email: data.email },
-        {
-          onSuccess: () => {
-            toast.success('Cập nhật email thành công');
-          },
-        }
-      );
-      return;
-    }
+  const onSubmit = (data: ChangePasswordSchema) => {
+    changePassword(data, {
+      onSuccess: () => {
+        toast.success('Mật khẩu đã được thay đổi thành công');
+        form.reset();
+      },
+      onError: (error: any) => {
+        const errorMessage = error.response?.data?.message || 'Đã có lỗi xảy ra';
+        toast.error(errorMessage);
+      },
+    });
   };
 
   return (
     <div className="space-y-4">
-      {/* Header */}
-      <SettingHeader
-        title="Hồ sơ cá nhân"
-        src={'/settingIcon/account.png'}
-        description="Quản lý và chỉnh sửa thông tin tài khoản của bạn"
-      />
-
       <div className="space-y-4">
-        <Label className="text-lg font-semibold">Thông tin cá nhân</Label>
-        <div className="rounded-xl border">
-          <div className="divide-y">
-            {/* Avatar Section */}
-            <div className="p-4">
-              <div className="flex items-center justify-between">
-                <div className="flex flex-col gap-4">
-                  <Label className="font-medium text-gray-500">Ảnh đại diện</Label>
-                  <EditAvatarSetting />
-                </div>
-              </div>
-            </div>
-            {/* Username Section */}
-            <div className="p-4">
-              <div>
-                <Label className="font-medium text-gray-500">Username</Label>
-                <p className="mt-1 font-medium">{user?.username || 'Chưa cập nhật'}</p>
-              </div>
-            </div>
-
-            {/* Full Nam Section */}
-            <div className="flex items-center justify-between p-4">
-              <div>
-                <Label className="font-medium text-gray-500">Full Name</Label>
-                <p className="mt-1 font-medium">{user?.full_name || 'Chưa cập nhật'}</p>
-              </div>
-              <Button variant="outline" onClick={() => setOpenFullNameDialog(true)}>
-                Sửa
-              </Button>
-            </div>
-
-            {/* Email Section */}
-            <div className="flex items-center justify-between p-4">
-              <div>
-                <Label className="font-medium text-gray-500">Email</Label>
-                <p className="mt-1 font-medium">{user?.email || 'Chưa cập nhật'}</p>
-              </div>
-              <Button variant="outline" onClick={() => setOpenEmailDialog(true)}>
-                Sửa
-              </Button>
-            </div>
-          </div>
-        </div>
-      </div>
-      {user?.role === 'user' ? (
-        <div className="space-y-4">
-          <Label className="text-lg font-semibold">Thống kê học tập</Label>
-          <div className="space-y-4 divide-y">
-            <div className="flex w-full flex-col items-center justify-center gap-4 rounded-xl border p-4">
-              <p className="font-semibold">
-                Tôi đã <span className="text-primary">mở miệng nói tiếng Anh</span> được
-              </p>
-              <div className="bg-background flex aspect-square size-20 items-center justify-center rounded-full border p-4">
-                <p className="text-primary text-5xl font-bold">7</p>
-              </div>
-              <p className="font-semibold">lần</p>
-            </div>
-            <div className="grid w-full gap-4 lg:grid-cols-2">
-              <div className="relative min-h-44 w-full overflow-hidden rounded-xl border p-4 font-semibold">
-                <p className="text-lg">
-                  Tôi <span className="text-primary">sắp nói được tiếng anh</span> vì đã mở miệng
-                  được
-                </p>
-                <p className="mt-2 text-3xl font-bold">
-                  <span className="text-primary">1</span> / 100 giờ
-                </p>
-                <WaveAnimation color="#ff7429" className="max-h-5" speed={20} />
-              </div>
-              <div className="relative min-h-44 w-full overflow-hidden rounded-xl border p-4 font-semibold">
-                <p className="text-lg">
-                  Tôi <span className="text-secondary">đã vượt qua cơn lười học</span> của bản thân
-                  được
-                </p>
-                <p className="mt-2 text-3xl font-bold">
-                  <span className="text-secondary">1</span> ngày
-                </p>
-                <WaveAnimation color="#24d0a3" className="h-full max-h-12" speed={10} />
-              </div>
-            </div>
-          </div>
-        </div>
-      ) : null}
-      <div className="space-y-4">
+        <SettingHeader
+          title="Cài đặt"
+          src={'/settingIcon/lock.png'}
+          description="Quản lý cài đặt ứng dụng của bạn"
+        />
         <Label className="text-lg font-semibold">Giao diện</Label>
         <div className="rounded-xl border">
           <div className="divide-y">
@@ -154,32 +71,91 @@ const SettingPage = () => {
         </div>
       </div>
 
-      {/* Edit Email Dialog */}
-      <EditFieldDialog
-        open={openEmailDialog}
-        onOpenChange={setOpenEmailDialog}
-        title="Cập nhật Email"
-        fieldLabel="Email mới"
-        fieldName="email"
-        fieldType="email"
-        currentValue={user?.email || ''}
-        placeholder="Nhập email mới"
-        onSubmit={handleUpdateInformation}
-        validationSchema={userUpdateSchema.pick({ email: true })}
-      />
+      {/* Change Password Section */}
+      <div className="space-y-4">
+        <Label className="text-lg font-semibold">Bảo mật</Label>
+        <div className="rounded-xl border p-4">
+          <div className="mb-4">
+            <h3 className="text-lg font-semibold">Thay đổi mật khẩu</h3>
+            <p className="text-muted-foreground text-sm">Cập nhật mật khẩu để bảo mật tài khoản</p>
+          </div>
 
-      {/* Edit Full Name Dialog */}
-      <EditFieldDialog
-        open={openFullNameDialog}
-        onOpenChange={setOpenFullNameDialog}
-        title="Cập nhật Họ và Tên"
-        fieldLabel="Họ và Tên"
-        fieldName="full_name"
-        currentValue={user?.full_name || ''}
-        placeholder="Nhập họ và tên"
-        onSubmit={handleUpdateInformation}
-        validationSchema={userUpdateSchema.pick({ full_name: true })}
-      />
+          <Form {...form}>
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+              {/* Current Password Field */}
+              <FormField
+                control={form.control}
+                name="current_password"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="text-foreground flex items-center gap-2 text-sm font-medium">
+                      <Lock size={16} className="text-muted-foreground" />
+                      Mật khẩu hiện tại
+                    </FormLabel>
+                    <FormControl>
+                      <Input
+                        type="password"
+                        placeholder="Nhập mật khẩu hiện tại của bạn"
+                        {...field}
+                        disabled={isPending}
+                        className="border-border focus:border-primary h-10 rounded-lg"
+                      />
+                    </FormControl>
+                    <FormMessage className="text-destructive text-sm" />
+                  </FormItem>
+                )}
+              />
+
+              {/* New Password Field */}
+              <FormField
+                control={form.control}
+                name="new_password"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="text-foreground text-sm font-medium">
+                      Mật khẩu mới
+                    </FormLabel>
+                    <FormControl>
+                      <div className="relative">
+                        <Input
+                          type={isShowNewPassword ? 'text' : 'password'}
+                          placeholder="Nhập mật khẩu mới"
+                          {...field}
+                          disabled={isPending}
+                          className="border-border focus:border-primary h-10 rounded-lg"
+                        />
+                        <button
+                          type="button"
+                          tabIndex={-1}
+                          onClick={() => setIsShowNewPassword((prev) => !prev)}
+                          className="text-muted-foreground absolute top-1/2 right-3 -translate-y-1/2"
+                        >
+                          {isShowNewPassword ? (
+                            <EyeOff className="h-4 w-4" />
+                          ) : (
+                            <Eye className="h-4 w-4" />
+                          )}
+                        </button>
+                      </div>
+                    </FormControl>
+                    <FormMessage className="text-destructive text-sm" />
+                    <PasswordStrengthMeter
+                      passwordFieldName="new_password"
+                      control={form.control}
+                    />
+                  </FormItem>
+                )}
+              />
+
+              {/* Submit Button */}
+              <Button type="submit" disabled={isPending} className="w-full">
+                <CheckCircle className="h-5 w-5" />
+                Cập nhật mật khẩu
+              </Button>
+            </form>
+          </Form>
+        </div>
+      </div>
     </div>
   );
 };

@@ -270,3 +270,24 @@ export const urlToFile = async (url: string, filename: string): Promise<File> =>
   const blob = await response.blob();
   return new File([blob], filename, { type: blob.type });
 };
+
+export const streakToText = (streak: number) => {
+  if (streak <= 7) return 'Ngày liên tục';
+  if (streak <= 30) return 'Tuần bền bỉ';
+  if (streak <= 365) return 'Tháng vững mạnh';
+  return 'Năm kiên trì';
+};
+
+export const getFireProps = (streak: number, checked: boolean) => {
+  // scale kích thước theo streak, từ 40 → 80
+  const minSize = 40;
+  const maxSize = 80;
+
+  // Tăng độ lớn, max 80
+  const size = Math.min(maxSize, minSize + streak);
+
+  // grayscale nếu chưa checked
+  const imgClass = checked ? '' : 'grayscale';
+
+  return { size, imgClass };
+};

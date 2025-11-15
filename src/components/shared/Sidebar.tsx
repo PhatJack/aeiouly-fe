@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import Image from 'next/image';
 import Link from 'next/link';
@@ -15,6 +15,8 @@ import { useLogoutMutation } from '@/services/auth/logout.api';
 import {
   BookMarked,
   BookOpen,
+  ChevronLeft,
+  ChevronRight,
   FileText,
   GraduationCap,
   Headphones,
@@ -24,8 +26,11 @@ import {
   LogOut,
   LucideIcon,
   Mic,
+  PanelRightClose,
+  PanelRightOpen,
   PenTool,
   Settings,
+  User2,
   Users,
   Wrench,
 } from 'lucide-react';
@@ -33,6 +38,7 @@ import { motion } from 'motion/react';
 import { toast } from 'sonner';
 
 import AvatarCustom from '../custom/AvatarCustom';
+import TooltipCustom from '../custom/TooltipCustom';
 import { ModeToggle } from '../mode-toggle';
 import { Button } from '../ui/button';
 import { Separator } from '../ui/separator';
@@ -88,6 +94,13 @@ const menuWithImg: {
     role: 'user',
   },
   {
+    title: 'Hồ sơ cá nhân',
+    icon: User2,
+    href: ROUTE.PROFILE,
+    id: 'profile',
+    role: 'user',
+  },
+  {
     title: 'QL người dùng',
     icon: Users,
     href: ROUTE.ADMIN.USER_MANAGEMENT,
@@ -127,6 +140,21 @@ const Sidebar = () => {
   const user = useAuthStore((state) => state.user);
   const logout = useAuthStore((state) => state.logout);
   const [hovered, setHovered] = useState(false);
+  const [isExpanded, setIsExpanded] = useState(false);
+
+  // Load sidebar state from localStorage after mount to avoid hydration mismatch
+  useEffect(() => {
+    const saved = localStorage.getItem('sidebar-expanded');
+    if (saved) {
+      setIsExpanded(JSON.parse(saved));
+    }
+  }, []);
+
+  const toggleSidebar = () => {
+    const newState = !isExpanded;
+    setIsExpanded(newState);
+    localStorage.setItem('sidebar-expanded', JSON.stringify(newState));
+  };
 
   const handleLogout = async () => {
     logoutMutation.mutate(undefined, {
@@ -145,21 +173,38 @@ const Sidebar = () => {
     });
   };
 
+  const shouldExpand = isExpanded || hovered;
+
   return (
     <motion.aside
       initial={false}
-      animate={{ width: hovered ? '16rem' : '4rem' }}
+      animate={{ width: shouldExpand ? '18rem' : '4rem' }}
       transition={{ type: 'spring', stiffness: 300, damping: 30 }}
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
+      onMouseEnter={() => !isExpanded && setHovered(true)}
+      onMouseLeave={() => !isExpanded && setHovered(false)}
       className={cn('sticky top-0 flex h-screen min-w-20 flex-col gap-2 p-4')}
     >
-      {/* Logo */}
-      <Link href={ROUTE.HOME} className="flex items-center">
-        <div className="relative size-12 overflow-hidden rounded-full">
-          <Image fill quality={100} src={'/logo.png'} sizes="48px" alt={'Aeiouly logo'} />
-        </div>
-      </Link>
+      {/* Logo and Toggle Button */}
+      <div className="flex items-center justify-between">
+        <Link href={ROUTE.HOME} className="flex items-center">
+          <div className="relative size-12 overflow-hidden rounded-full">
+            <Image fill quality={100} src={'/logo.png'} sizes="48px" alt={'Aeiouly logo'} />
+          </div>
+        </Link>
+        <TooltipCustom content={isExpanded ? 'Thu gọn sidebar' : 'Mở rộng sidebar'}>
+          <Button
+            onClick={toggleSidebar}
+            variant={'outline'}
+            size={'icon'}
+            className={"[&_svg:not([class*='size-'])]:size-5"}
+            asChild
+          >
+            <motion.span animate={{ opacity: shouldExpand ? 1 : 0 }} transition={{ duration: 0.2 }}>
+              {!isExpanded ? <PanelRightClose size={20} /> : <PanelRightOpen size={20} />}
+            </motion.span>
+          </Button>
+        </TooltipCustom>
+      </div>
 
       <Separator className="my-2" />
 
@@ -188,7 +233,7 @@ const Sidebar = () => {
                 <item.icon size={24} className={cn(pathname === item.href && 'text-white')} />
               </div>
               <motion.span
-                animate={{ opacity: hovered ? 1 : 0, x: hovered ? 0 : -10 }}
+                animate={{ opacity: shouldExpand ? 1 : 0, x: shouldExpand ? 0 : -10 }}
                 transition={{ duration: 0.2 }}
                 className={cn(
                   'text-sm font-medium whitespace-nowrap',
@@ -221,7 +266,7 @@ const Sidebar = () => {
                   <LogOut size={24} />
                 </div>
                 <motion.span
-                  animate={{ opacity: hovered ? 1 : 0, x: hovered ? 0 : -10 }}
+                  animate={{ opacity: shouldExpand ? 1 : 0, x: shouldExpand ? 0 : -10 }}
                   transition={{ duration: 0.2 }}
                   className="text-sm font-medium whitespace-nowrap"
                 >
@@ -236,7 +281,7 @@ const Sidebar = () => {
                 fallback={getFallbackInitials(user?.full_name || user?.username || 'User')}
               />
               <motion.span
-                animate={{ opacity: hovered ? 1 : 0, x: hovered ? 0 : -10 }}
+                animate={{ opacity: shouldExpand ? 1 : 0, x: shouldExpand ? 0 : -10 }}
                 transition={{ duration: 0.2 }}
                 className="text-sm font-medium whitespace-nowrap"
               >
@@ -250,7 +295,7 @@ const Sidebar = () => {
               <LogIn size={24} />
             </div>
             <motion.span
-              animate={{ opacity: hovered ? 1 : 0, x: hovered ? 0 : -10 }}
+              animate={{ opacity: shouldExpand ? 1 : 0, x: shouldExpand ? 0 : -10 }}
               transition={{ duration: 0.2 }}
               className="text-sm font-medium whitespace-nowrap"
             >

@@ -1,8 +1,9 @@
-import { Metadata } from "next";
-import { ForgotPWForm } from "../_components/ForgotPWForm";
+import { Metadata } from 'next';
+
+import { ForgotPWForm } from '../_components/ForgotPWForm';
 
 export const metadata: Metadata = {
-  title: "Forgot Password",
+  title: 'Quên mật khẩu',
 };
 
 export default function ForgotPasswordPage() {

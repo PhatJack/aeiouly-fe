@@ -15,7 +15,7 @@ export default function AuthLayout({
       <div className="flex flex-col gap-4 p-6 md:p-10 xl:col-span-1">
         <div className="flex justify-center gap-2 md:justify-start">
           <div className="flex items-center gap-2 font-medium">
-            <div className="bg-primary text-primary-foreground relative flex size-16 items-center justify-center rounded-full">
+            <div className="bg-primary text-primary-foreground relative flex size-16 items-center justify-center overflow-hidden rounded-full">
               <Image src="/logo.png" alt="Aeiouly Logo" fill />
             </div>
             <span className="sr-only">Aeiouly</span>

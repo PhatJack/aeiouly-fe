@@ -1,9 +1,9 @@
-import { Metadata } from "next";
-import RegisterForm from "../_components/RegisterForm";
+import { Metadata } from 'next';
 
+import RegisterForm from '../_components/RegisterForm';
 
 export const metadata: Metadata = {
-  title: "Register",
+  title: 'Đăng ký tài khoản',
 };
 
 export default function RegisterPage() {
