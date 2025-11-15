@@ -53,7 +53,7 @@ const EditPost = ({ postId }: EditPostProps) => {
       { postId, data: rest },
       {
         onSuccess: () => {
-          if (image) {
+          if (image && typeof image !== 'string') {
             postImageMutation.mutate(
               { post_id: postId, body: { image } },
               {
@@ -83,7 +83,6 @@ const EditPost = ({ postId }: EditPostProps) => {
     <div className="relative flex w-full flex-col items-center">
       <div className="w-full space-y-8">
         <form onSubmit={editPostForm.handleSubmit(onSubmit)} className="w-full space-y-8">
-          {/* Image + Tiptap same row */}
           <FieldGroup className="grid grid-cols-1 gap-4 lg:grid-cols-12">
             <div className="space-y-4 lg:col-span-4">
               <Controller

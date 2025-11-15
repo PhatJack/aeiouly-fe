@@ -35,12 +35,19 @@ const StreakSection = () => {
   const { data: streakHistory, isLoading: isLoadingStreakHistory } =
     useGetWeeklyStreakStatusQuery();
 
-  const completedDays = streakHistory?.map((d) => d.logged_in);
-  const dayNumbers = streakHistory?.map((d) => new Date(d.date).getDate());
+  const completedDays = useMemo(() => streakHistory?.map((d) => d.logged_in), [streakHistory]);
+  const dayNumbers = useMemo(
+    () => streakHistory?.map((d) => new Date(d.date).getDate()),
+    [streakHistory]
+  );
 
   const { size, imgClass } = useMemo(
-    () => getFireProps(streakStat?.current_streak ?? 0, true),
-    [streakStat?.current_streak]
+    () =>
+      getFireProps(
+        streakStat?.current_streak ?? 0,
+        !!(streakStat?.today_logins && streakStat?.today_logins > 0) || false
+      ),
+    [streakStat?.current_streak, streakStat?.today_logins]
   );
 
   if (isLoadingStreakHistory || isLoadingStreakStat) {
@@ -64,7 +71,7 @@ const StreakSection = () => {
                 className={imgClass}
               />
             </div>
-            <div className="absolute -bottom-9 left-1/2 flex -translate-x-1/2 items-center justify-center rounded-full">
+            <div className="absolute -bottom-7 left-1/2 flex -translate-x-1/2 items-center justify-center rounded-full">
               <span className={cn('text-6xl font-bold', bagelFastOne.className)}>
                 {streakStat?.current_streak}
               </span>
@@ -72,10 +79,12 @@ const StreakSection = () => {
           </div>
 
           {/* Title and Subtitle */}
-          <div className="text-center">
-            <h2 className="text-2xl font-bold">{streakToText(streakStat?.current_streak ?? 0)}</h2>
+          <div className="mt-2 text-center">
+            <h2 className="text-xl font-bold">{streakToText(streakStat?.current_streak ?? 0)}</h2>
             <p className="text-muted-foreground mt-1 text-sm">
-              You are doing really great, {user?.full_name}!
+              {streakStat?.today_logins && streakStat?.today_logins > 0
+                ? `Bạn đã thắp sáng chuỗi hôm nay, ${user?.full_name}! 😍`
+                : `${user?.full_name} ơi, bạn chưa thắp sáng chuỗi hôm nay đấy! 😥`}
             </p>
           </div>
 
@@ -89,7 +98,14 @@ const StreakSection = () => {
                     <Check className="text-primary-foreground h-5 w-5" />
                   </div>
                 ) : (
-                  <div className="text-muted-foreground flex size-10 items-center justify-center rounded-full text-sm font-semibold">
+                  <div
+                    className={cn(
+                      'text-muted-foreground flex size-10 items-center justify-center rounded-full text-sm font-semibold',
+                      new Date().getDate() === dayNumbers?.[index]
+                        ? 'bg-primary border text-white'
+                        : ''
+                    )}
+                  >
                     {dayNumbers?.[index]}
                   </div>
                 )}
@@ -108,23 +124,23 @@ const StreakSection = () => {
             </Label>
           </div>
         </CardHeader>
-        <CardContent className="dark:bg-background space-y-4 rounded-lg bg-white py-4">
+        <CardContent className="dark:bg-background space-y-4 rounded-lg bg-white px-2 py-4">
           {/* Stats Grid */}
           <div className="grid grid-cols-4 divide-x">
             <div className="flex flex-col items-center gap-1">
-              <span className="text-muted-foreground text-xs font-semibold">Days</span>
+              <span className="text-muted-foreground text-xs font-semibold">Ngày</span>
               <span className="text-2xl font-bold">{stats.days}</span>
             </div>
             <div className="flex flex-col items-center gap-1">
-              <span className="text-muted-foreground text-xs font-semibold">Lessons</span>
+              <span className="text-muted-foreground text-xs font-semibold">Bài học</span>
               <span className="text-2xl font-bold">{stats.lessons}</span>
             </div>
             <div className="flex flex-col items-center gap-1">
-              <span className="text-muted-foreground text-xs font-semibold">Quizzes</span>
+              <span className="text-muted-foreground text-xs font-semibold">Bài kiểm tra</span>
               <span className="text-2xl font-bold">{stats.quizzes}</span>
             </div>
             <div className="flex flex-col items-center gap-1">
-              <span className="text-muted-foreground text-xs font-semibold">Minutes</span>
+              <span className="text-muted-foreground text-xs font-semibold">Phút</span>
               <span className="text-2xl font-bold">{stats.minutes}</span>
             </div>
           </div>

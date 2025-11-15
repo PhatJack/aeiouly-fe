@@ -33,19 +33,8 @@ export const createColumns = ({
       return <DataTableColumnHeader column={column} title="ID" />;
     },
     cell: ({ row }) => <div className="font-medium">{row.getValue('id')}</div>,
+    size: 10,
   },
-  // {
-  //   accessorKey: 'content',
-  //   header: 'Nội dung',
-  //   cell: ({ row }) => {
-  //     const content = row.getValue('content') as string;
-  //     return (
-  //       <div className="max-w-[500px]">
-  //         <p className="line-clamp-2 text-sm">{content}</p>
-  //       </div>
-  //     );
-  //   },
-  // },
   {
     accessorKey: 'author',
     header: ({ column }) => {
@@ -60,6 +49,7 @@ export const createColumns = ({
         </div>
       );
     },
+    minSize: 150,
   },
   {
     accessorKey: 'is_published',
@@ -77,6 +67,7 @@ export const createColumns = ({
     filterFn: (row, id, value) => {
       return value.includes(row.getValue(id));
     },
+    size: 100,
   },
   {
     accessorKey: 'likes_count',
@@ -87,6 +78,7 @@ export const createColumns = ({
       const likes = row.getValue('likes_count') as number;
       return <div className="font-medium">{likes}</div>;
     },
+    size: 100,
   },
   {
     accessorKey: 'image_url',
@@ -110,6 +102,7 @@ export const createColumns = ({
       );
     },
     enableSorting: false,
+    size: 80,
   },
   {
     accessorKey: 'created_at',
@@ -122,6 +115,20 @@ export const createColumns = ({
         <div className="text-sm">{format(new Date(date), 'dd/MM/yyyy HH:mm', { locale: vi })}</div>
       );
     },
+    size: 150,
+  },
+  {
+    accessorKey: 'updated_at',
+    header: ({ column }) => {
+      return <DataTableColumnHeader column={column} title="Ngày cập nhật" />;
+    },
+    cell: ({ row }) => {
+      const date = row.getValue('updated_at') as string | Date;
+      return (
+        <div className="text-sm">{format(new Date(date), 'dd/MM/yyyy HH:mm', { locale: vi })}</div>
+      );
+    },
+    size: 150,
   },
   {
     id: 'actions',

@@ -38,9 +38,12 @@ export const postUpdateSchema = z.object({
   content: z.string().min(1, 'Nội dung không được để trống').optional(),
   image: z
     .any()
-    .refine((file) => !file || file?.size <= MAX_FILE_SIZE, `Tối đa kích thước ảnh là 5MB.`)
     .refine(
-      (file) => !file || ACCEPTED_IMAGE_TYPES.includes(file?.type),
+      (file) => !file || typeof file === 'string' || file?.size <= MAX_FILE_SIZE,
+      `Tối đa kích thước ảnh là 5MB.`
+    )
+    .refine(
+      (file) => !file || typeof file === 'string' || ACCEPTED_IMAGE_TYPES.includes(file?.type),
       'Chỉ hỗ trợ định dạng .jpg, .jpeg, .png.'
     )
     .optional(),
