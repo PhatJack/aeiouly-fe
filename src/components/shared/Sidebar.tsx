@@ -227,7 +227,7 @@ const Sidebar = () => {
               id={item.id}
               onClick={() => router.push(item.href)}
               data-navigation
-              className="hover:bg-secondary/20 relative flex cursor-pointer items-center gap-3 rounded-full p-3 transition-all"
+              className="hover:bg-primary/20 relative flex cursor-pointer items-center gap-3 rounded-full p-3 transition-all"
             >
               <div className="relative flex size-6 min-w-6 items-center justify-center">
                 <item.icon size={24} className={cn(pathname === item.href && 'text-white')} />

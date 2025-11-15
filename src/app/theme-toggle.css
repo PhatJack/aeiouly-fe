@@ -30,7 +30,7 @@
 }
 
 ::view-transition-old(root),
-.dark::view-transition-old(root) {
+.aeiouly-dark::view-transition-old(root) {
 	animation: scale 1s;
 	transform-origin: bottom left;
 	z-index: -1;
