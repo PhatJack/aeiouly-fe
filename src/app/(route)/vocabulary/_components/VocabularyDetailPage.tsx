@@ -1,16 +1,22 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 
 import { useRouter } from 'nextjs-toploader/app';
 
 import LoadingWithText from '@/components/LoadingWithText';
+import VocabularyFlashcardSection from '@/components/app/vocabulary/VocabularyFlashcardSection';
 import VocabularyItemCard from '@/components/app/vocabulary/VocabularyItemCard';
+import VocabularyQuizSection from '@/components/app/vocabulary/VocabularyQuizSection';
 import AlertCustom from '@/components/custom/AlertCustom';
 import PaginationCustom from '@/components/custom/PaginationCustom';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
+import {
+  FlashcardResponseSchema,
+  MultipleChoiceQuestionSchema,
+} from '@/lib/schema/vocabulary.schema';
 import {
   useCreateFlashcardSessionMutation,
   useCreateMultipleChoiceSessionMutation,
@@ -30,6 +36,12 @@ const VocabularyDetailPage = ({ id }: VocabularyDetailPageProps) => {
   const router = useRouter();
   const [page, setPage] = useState(1);
   const setId = Number(id);
+  const [quizQuestions, setQuizQuestions] = useState<MultipleChoiceQuestionSchema[] | null>(null);
+  const [selectedAnswers, setSelectedAnswers] = useState<Record<number, string>>({});
+  const [showResults, setShowResults] = useState(false);
+  const [showQuizMode, setShowQuizMode] = useState(false);
+  const [flashcards, setFlashcards] = useState<FlashcardResponseSchema[] | null>(null);
+  const [showFlashcardMode, setShowFlashcardMode] = useState(false);
 
   const { data: vocabularySetData, isLoading: isLoadingSet } = useGetVocabularySetQuery(setId);
   const { data: vocabularyItemsData, isLoading: isLoadingItems } = useGetVocabularyItemsQuery(
@@ -57,32 +69,56 @@ const VocabularyDetailPage = ({ id }: VocabularyDetailPageProps) => {
   };
 
   const handleFlashcardPractice = () => {
-    toast.promise(
-      createFlashcardMutation.mutateAsync({ vocabulary_set_id: setId, max_items: 20 }),
+    createFlashcardMutation.mutate(
+      { vocabulary_set_id: setId, max_items: 20 },
       {
-        loading: 'Đang tạo phiên luyện tập Flashcard...',
-        success: () => {
-          router.push(`/vocabulary/${setId}/flashcards`);
-          return 'Đang chuyển đến phiên luyện tập Flashcard!';
+        onSuccess: (data) => {
+          setFlashcards(data.cards);
+          setShowFlashcardMode(true);
+          toast.success(`Đã tạo ${data.cards.length} thẻ flashcard!`);
         },
-        error: (error) => error.detail || 'Có lỗi xảy ra khi tạo phiên luyện tập',
+        onError: (error) => {
+          toast.error(error.detail || 'Có lỗi xảy ra khi tạo phiên luyện tập');
+        },
       }
     );
   };
 
   const handleMultipleChoicePractice = () => {
-    toast.promise(
-      createMultipleChoiceMutation.mutateAsync({ vocabulary_set_id: setId, max_items: 20 }),
+    createMultipleChoiceMutation.mutate(
+      { vocabulary_set_id: setId, max_items: 20 },
       {
-        loading: 'Đang tạo phiên luyện tập Multiple Choice...',
-        success: () => {
-          router.push(`/vocabulary/${setId}/multiple-choices`);
-          return 'Đang chuyển đến phiên luyện tập Multiple Choice!';
+        onSuccess: (data) => {
+          setQuizQuestions(data.questions);
+          setSelectedAnswers({});
+          setShowResults(false);
+          setShowQuizMode(true);
+          toast.success(`Đã tạo ${data.questions.length} câu hỏi trắc nghiệm!`);
         },
-        error: (error) => error.detail || 'Có lỗi xảy ra khi tạo phiên luyện tập',
+        onError: (error) => {
+          toast.error(error.detail || 'Có lỗi xảy ra khi tạo phiên luyện tập');
+        },
       }
     );
   };
+
+  const handleAnswerSelect = useCallback((questionIndex: number, optionId: string) => {
+    setSelectedAnswers((prev) => ({ ...prev, [questionIndex]: optionId }));
+  }, []);
+
+  const handleSubmitQuiz = useCallback(() => {
+    setShowResults(true);
+    toast.success('Đã nộp bài!');
+  }, []);
+
+  const handleBackToList = useCallback(() => {
+    setShowQuizMode(false);
+    setQuizQuestions(null);
+    setSelectedAnswers({});
+    setShowResults(false);
+    setShowFlashcardMode(false);
+    setFlashcards(null);
+  }, []);
 
   if (isLoadingSet) {
     return (
@@ -131,7 +167,9 @@ const VocabularyDetailPage = ({ id }: VocabularyDetailPageProps) => {
         <Button
           variant="ghost"
           size="lg"
-          onClick={() => router.push('/vocabulary')}
+          onClick={() =>
+            showQuizMode || showFlashcardMode ? handleBackToList() : router.push('/vocabulary')
+          }
           className="dark:hover:bg-accent/50"
         >
           <ArrowLeft className="h-6 w-6" />
@@ -163,77 +201,139 @@ const VocabularyDetailPage = ({ id }: VocabularyDetailPageProps) => {
           </div>
         </div>
       </div>
-      <AlertCustom
-        variant={'warning'}
-        title="Chú ý: bạn được học tối đa 20 từ mới một ngày. Đây là lượng từ phù hợp để bạn có thể học hiệu quả."
-      />
-      {/* Practice Buttons */}
-      {totalItems > 0 && (
-        <div className="grid gap-4">
-          {/* Flashcard Practice */}
-          <Button
-            size={'lg'}
-            disabled={createFlashcardMutation.isPending}
-            onClick={handleFlashcardPractice}
-            className="dark:bg-primary dark:text-primary-foreground dark:hover:bg-primary/90"
-          >
-            <Layers className="text-primary-foreground h-6 w-6 dark:text-white" />
-            <h3 className="font-semibold">Luyện tập với Flashcard</h3>
-          </Button>
+      {!showQuizMode && !showFlashcardMode && (
+        <>
+          <AlertCustom
+            variant={'warning'}
+            title="Chú ý: bạn được học tối đa 20 từ mới một ngày. Đây là lượng từ phù hợp để bạn có thể học hiệu quả."
+          />
+          {/* Practice Buttons */}
+          {totalItems > 0 && (
+            <div className="grid gap-4">
+              {/* Flashcard Practice */}
+              <Button
+                size={'lg'}
+                disabled={createFlashcardMutation.isPending}
+                onClick={handleFlashcardPractice}
+                className="dark:bg-primary dark:text-primary-foreground dark:hover:bg-primary/90"
+              >
+                <Layers className="text-primary-foreground h-6 w-6 dark:text-white" />
+                <h3 className="font-semibold">Luyện tập với Flashcard</h3>
+              </Button>
 
-          {/* Multiple Choice Practice */}
-          <Button
-            variant="secondary-outline"
-            size={'lg'}
-            disabled={createMultipleChoiceMutation.isPending}
-            onClick={handleMultipleChoicePractice}
-            className="dark:border-secondary/50 dark:bg-secondary/10 dark:text-secondary dark:hover:bg-secondary/20"
-          >
-            <BrainCircuit className="text-secondary h-6 w-6" />
-            <h3 className="font-semibold">Luyện tập Multiple Choice</h3>
-          </Button>
+              {/* Multiple Choice Practice */}
+              <Button
+                variant="secondary-outline"
+                size={'lg'}
+                disabled={createMultipleChoiceMutation.isPending}
+                onClick={handleMultipleChoicePractice}
+                className="dark:border-secondary/50 dark:bg-secondary/10 dark:text-secondary dark:hover:bg-secondary/20"
+              >
+                <BrainCircuit className="text-secondary h-6 w-6" />
+                <h3 className="font-semibold">Luyện tập Multiple Choice</h3>
+              </Button>
+            </div>
+          )}
+        </>
+      )}
+
+      {/* Flashcard Section */}
+      {showFlashcardMode && flashcards && (
+        <div className="relative">
+          <VocabularyFlashcardSection cards={flashcards} />
+          <Card className="mt-4">
+            <CardContent className="text-center">
+              <Button
+                onClick={handleBackToList}
+                size="lg"
+                className="dark:bg-primary dark:text-primary-foreground dark:hover:bg-primary/90"
+              >
+                Quay lại danh sách từ
+              </Button>
+            </CardContent>
+          </Card>
+          {createFlashcardMutation.isPending && (
+            <LoadingWithText
+              text="Đang tạo flashcard..."
+              className="bg-background absolute inset-0 size-full backdrop-blur-sm"
+            />
+          )}
+        </div>
+      )}
+
+      {/* Quiz Section */}
+      {showQuizMode && quizQuestions && (
+        <div className="relative">
+          <VocabularyQuizSection
+            questions={quizQuestions}
+            selectedAnswers={selectedAnswers}
+            onAnswerSelect={handleAnswerSelect}
+            onSubmit={handleSubmitQuiz}
+            showResults={showResults}
+          />
+          {showResults && (
+            <Card>
+              <CardContent className="text-center">
+                <Button
+                  onClick={handleBackToList}
+                  size="lg"
+                  className="dark:bg-primary dark:text-primary-foreground dark:hover:bg-primary/90"
+                >
+                  Quay lại danh sách từ
+                </Button>
+              </CardContent>
+            </Card>
+          )}
+          {createMultipleChoiceMutation.isPending && (
+            <LoadingWithText
+              text="Đang tạo bài trắc nghiệm..."
+              className="bg-background absolute inset-0 size-full backdrop-blur-sm"
+            />
+          )}
         </div>
       )}
 
       {/* Vocabulary Items */}
-      {isLoadingItems ? (
-        <div className="space-y-4">
-          {[1, 2, 3].map((i) => (
-            <Skeleton key={i} className="h-32" />
-          ))}
-        </div>
-      ) : vocabularyItemsData && vocabularyItemsData.items.length > 0 ? (
-        <>
+      {!showQuizMode &&
+        !showFlashcardMode &&
+        (isLoadingItems ? (
           <div className="space-y-4">
-            {vocabularyItemsData.items.map((item) => (
-              <VocabularyItemCard key={item.id} item={item} onRemove={handleRemoveItem} />
+            {[1, 2, 3].map((i) => (
+              <Skeleton key={i} className="h-32" />
             ))}
           </div>
-
-          {/* Pagination */}
-          {totalPages > 1 && (
-            <div className="flex justify-center">
-              <PaginationCustom
-                currentPage={page}
-                totalPages={vocabularyItemsData?.pages || 1}
-                onPageChange={setPage}
-              />
+        ) : vocabularyItemsData && vocabularyItemsData.items.length > 0 ? (
+          <>
+            <div className="space-y-4">
+              {vocabularyItemsData.items.map((item) => (
+                <VocabularyItemCard key={item.id} item={item} onRemove={handleRemoveItem} />
+              ))}
             </div>
-          )}
-        </>
-      ) : (
-        <Card className="dark:bg-card/50 dark:border-border/30 dark:backdrop-blur-sm">
-          <CardContent className="flex min-h-[300px] flex-col items-center justify-center py-12">
-            <BookOpen className="text-muted-foreground mb-4 h-16 w-16 dark:text-gray-500" />
-            <h3 className="text-foreground mb-2 text-lg font-semibold dark:text-white">
-              Chưa có từ vựng nào
-            </h3>
-            <p className="text-muted-foreground text-center dark:text-gray-400">
-              Thêm từ vựng vào bộ từ này để bắt đầu học
-            </p>
-          </CardContent>
-        </Card>
-      )}
+
+            {/* Pagination */}
+            {totalPages > 1 && (
+              <div className="flex justify-center">
+                <PaginationCustom
+                  currentPage={page}
+                  totalPages={vocabularyItemsData?.pages || 1}
+                  onPageChange={setPage}
+                />
+              </div>
+            )}
+          </>
+        ) : (
+          <Card className="dark:bg-card/50 dark:border-border/30 dark:backdrop-blur-sm">
+            <CardContent className="flex min-h-[300px] flex-col items-center justify-center py-12">
+              <BookOpen className="text-muted-foreground mb-4 h-16 w-16 dark:text-gray-500" />
+              <h3 className="text-foreground mb-2 text-lg font-semibold dark:text-white">
+                Chưa có từ vựng nào
+              </h3>
+              <p className="text-muted-foreground text-center dark:text-gray-400">
+                Thêm từ vựng vào bộ từ này để bắt đầu học
+              </p>
+            </CardContent>
+          </Card>
+        ))}
 
       {/* Loading Overlays */}
       {removeItemMutation.isPending && (

@@ -254,6 +254,7 @@ const Sidebar = () => {
       </ul>
 
       <div className="flex flex-1 flex-col justify-end gap-4">
+        <ModeToggle />
         {user ? (
           <>
             <div
