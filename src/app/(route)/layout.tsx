@@ -1,20 +1,28 @@
-import { cookies } from 'next/headers';
-import { permanentRedirect } from 'next/navigation';
+'use client';
 
+import { usePathname } from 'next/navigation';
+
+import Header from '@/components/shared/Header';
+import Sidebar from '@/components/shared/Sidebar';
 import { ROUTE } from '@/configs/route';
-import { COOKIE_KEY_ACCESS_TOKEN, COOKIE_KEY_REFRESH_TOKEN } from '@/constants/cookies';
+import { cn } from '@/lib/utils';
 
-export default async function RootLayout({
+export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const refreshToken = (await cookies()).get(COOKIE_KEY_REFRESH_TOKEN)?.value;
-  const accessToken = (await cookies()).get(COOKIE_KEY_ACCESS_TOKEN)?.value;
+  const location = usePathname();
 
-  if (!refreshToken && !accessToken) {
-    permanentRedirect(ROUTE.AUTH.LOGIN);
-  }
-
-  return <>{children}</>;
+  return (
+    <>
+      <Sidebar />
+      <main
+        className={cn('relative size-full min-h-screen rounded-l-3xl bg-white dark:bg-[#121212]')}
+      >
+        {location !== ROUTE.SPACE && <Header />}
+        <div className={'p-4'}>{children}</div>
+      </main>
+    </>
+  );
 }

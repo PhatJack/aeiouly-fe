@@ -44,7 +44,7 @@ const LoginForm = () => {
       onSuccess: (data) => {
         const userInfo = jwtDecode(data.access_token) as any;
         toast.success('Đăng nhập thành công!');
-        router.push(userInfo.username === 'admin' ? ROUTE.ADMIN.USER_MANAGEMENT : ROUTE.HOME, {
+        router.push(userInfo.username === 'admin' ? ROUTE.ADMIN.USER_MANAGEMENT : ROUTE.APP, {
           scroll: false,
         });
       },

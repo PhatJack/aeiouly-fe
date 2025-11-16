@@ -9,21 +9,16 @@ import { useRouter } from 'nextjs-toploader/app';
 
 import { ROUTE } from '@/configs/route';
 import { useAuthStore } from '@/contexts/AuthContext';
-import { cn, getFallbackInitials } from '@/lib/utils';
-import { useLogoutMutation } from '@/services/auth/logout.api';
+import { cn } from '@/lib/utils';
 
 import {
   BookMarked,
   BookOpen,
-  ChevronLeft,
-  ChevronRight,
   FileText,
   GraduationCap,
   Headphones,
   Home,
   ListChecks,
-  LogIn,
-  LogOut,
   LucideIcon,
   Mic,
   PanelRightClose,
@@ -35,11 +30,8 @@ import {
   Wrench,
 } from 'lucide-react';
 import { motion } from 'motion/react';
-import { toast } from 'sonner';
 
-import AvatarCustom from '../custom/AvatarCustom';
 import TooltipCustom from '../custom/TooltipCustom';
-import { ModeToggle } from '../mode-toggle';
 import { Button } from '../ui/button';
 import { Separator } from '../ui/separator';
 
@@ -50,7 +42,7 @@ const menuWithImg: {
   id?: string;
   role: 'user' | 'admin' | Array<'user' | 'admin'>;
 }[] = [
-  { title: 'Trang chủ', icon: Home, href: ROUTE.HOME, id: 'home', role: 'user' },
+  { title: 'Trang chủ', icon: Home, href: ROUTE.APP, id: 'app', role: 'user' },
   {
     title: 'Không gian tự học',
     icon: GraduationCap,
@@ -98,7 +90,7 @@ const menuWithImg: {
     icon: User2,
     href: ROUTE.PROFILE,
     id: 'profile',
-    role: 'user',
+    role: ['user', 'admin'],
   },
   {
     title: 'QL người dùng',
@@ -135,10 +127,8 @@ const menuWithImg: {
 
 const Sidebar = () => {
   const pathname = usePathname();
-  const logoutMutation = useLogoutMutation();
   const router = useRouter();
   const user = useAuthStore((state) => state.user);
-  const logout = useAuthStore((state) => state.logout);
   const [hovered, setHovered] = useState(false);
   const [isExpanded, setIsExpanded] = useState(false);
 

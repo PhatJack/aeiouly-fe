@@ -19,7 +19,7 @@ import { useAuthStore } from '@/contexts/AuthContext';
 import { getFallbackInitials } from '@/lib/utils';
 import { useLogoutMutation } from '@/services/auth/logout.api';
 
-import { LogIn, LogOut, Settings, User2 } from 'lucide-react';
+import { LogOut, Settings, User2 } from 'lucide-react';
 import { toast } from 'sonner';
 
 import { ModeToggle } from '../mode-toggle';
@@ -28,7 +28,6 @@ import HeaderShortcutStreak from './streak/HeaderShortcutStreak';
 const Header = () => {
   const router = useRouter();
   const user = useAuthStore((state) => state.user);
-  const logout = useAuthStore((state) => state.logout);
   const logoutMutation = useLogoutMutation();
 
   const handleLogout = async () => {
@@ -36,12 +35,10 @@ const Header = () => {
       onSuccess: () => {
         window.location.href = ROUTE.AUTH.LOGIN;
         toast.success('Đăng xuất thành công');
-        // logout();
       },
       onError: () => {
         window.location.href = ROUTE.AUTH.LOGIN;
         toast.success('Đăng xuất thành công');
-        // logout();
       },
     });
   };
@@ -60,7 +57,7 @@ const Header = () => {
         <ModeToggle />
         {user ? (
           <>
-            <HeaderShortcutStreak />
+            {user.role === 'user' ? <HeaderShortcutStreak /> : null}
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button variant="ghost" size={'icon'} className="relative size-12 rounded-full">
@@ -95,12 +92,7 @@ const Header = () => {
               </DropdownMenuContent>
             </DropdownMenu>
           </>
-        ) : (
-          <Button size={'lg'} onClick={() => router.push(ROUTE.AUTH.LOGIN)}>
-            <LogIn className="mr-2 h-4 w-4" />
-            Đăng nhập
-          </Button>
-        )}
+        ) : null}
       </div>
     </header>
   );

@@ -3,10 +3,11 @@
 import React, { useEffect } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 
+import dynamic from 'next/dynamic';
 import { useRouter } from 'nextjs-toploader/app';
 
 import { ImageUpload } from '@/components/ImageUpload';
-import TiptapEditor from '@/components/editor/tiptap-editor';
+import LoadingWithText from '@/components/LoadingWithText';
 import { Button } from '@/components/ui/button';
 import { Field, FieldError, FieldGroup, FieldLabel } from '@/components/ui/field';
 import { Switch } from '@/components/ui/switch';
@@ -20,6 +21,11 @@ import { toast } from 'sonner';
 interface EditPostProps {
   postId: number;
 }
+
+const Editor = dynamic(() => import('@/components/editor/tiptap-editor'), {
+  ssr: false,
+  loading: () => <LoadingWithText text="Đang tải trình soạn thảo..." />,
+});
 
 const EditPost = ({ postId }: EditPostProps) => {
   const router = useRouter();
@@ -119,7 +125,7 @@ const EditPost = ({ postId }: EditPostProps) => {
                 render={({ field, fieldState }) => (
                   <Field className="w-full">
                     <FieldLabel>Nội dung bài viết</FieldLabel>
-                    <TiptapEditor
+                    <Editor
                       content={field.value}
                       onChange={field.onChange}
                       placeholder="Nội dung bài viết..."

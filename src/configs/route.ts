@@ -1,5 +1,6 @@
 export const ROUTE = {
   HOME: '/',
+  APP: '/app',
   TOPIC: '/topic',
   LEARN: '/learn',
   ONION: '/onion',
