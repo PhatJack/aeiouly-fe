@@ -156,23 +156,6 @@ const Sidebar = () => {
     localStorage.setItem('sidebar-expanded', JSON.stringify(newState));
   };
 
-  const handleLogout = async () => {
-    logoutMutation.mutate(undefined, {
-      onSuccess: () => {
-        router.replace(ROUTE.AUTH.LOGIN);
-        router.refresh();
-        toast.success('Đăng xuất thành công');
-        logout();
-      },
-      onError: () => {
-        router.push(ROUTE.AUTH.LOGIN);
-        router.refresh();
-        toast.success('Đăng xuất thành công');
-        logout();
-      },
-    });
-  };
-
   const shouldExpand = isExpanded || hovered;
 
   return (
@@ -182,6 +165,7 @@ const Sidebar = () => {
       transition={{ type: 'spring', stiffness: 300, damping: 30 }}
       onMouseEnter={() => !isExpanded && setHovered(true)}
       onMouseLeave={() => !isExpanded && setHovered(false)}
+      id="sidebar"
       className={cn('sticky top-0 flex h-screen min-w-20 flex-col gap-2 p-4')}
     >
       {/* Logo and Toggle Button */}
@@ -252,63 +236,6 @@ const Sidebar = () => {
             </motion.li>
           ))}
       </ul>
-
-      <div className="flex flex-1 flex-col justify-end gap-4">
-        <ModeToggle />
-        {user ? (
-          <>
-            <div
-              onClick={handleLogout}
-              className="hover:bg-destructive/80 flex w-full cursor-pointer items-center rounded-full p-3 transition-all hover:text-white"
-            >
-              <div className="relative flex items-center gap-3">
-                <div className="relative flex size-6 min-w-6 items-center justify-center">
-                  <LogOut size={24} />
-                </div>
-                <motion.span
-                  animate={{ opacity: shouldExpand ? 1 : 0, x: shouldExpand ? 0 : -10 }}
-                  transition={{ duration: 0.2 }}
-                  className="text-sm font-medium whitespace-nowrap"
-                >
-                  Đăng xuất
-                </motion.span>
-              </div>
-            </div>
-            <div className="flex items-center gap-3">
-              <AvatarCustom
-                className="size-12 border"
-                url={user.avatar_url || ''}
-                fallback={getFallbackInitials(user?.full_name || user?.username || 'User')}
-              />
-              <motion.span
-                animate={{ opacity: shouldExpand ? 1 : 0, x: shouldExpand ? 0 : -10 }}
-                transition={{ duration: 0.2 }}
-                className="text-sm font-medium whitespace-nowrap"
-              >
-                {user.full_name}
-              </motion.span>
-            </div>
-          </>
-        ) : (
-          <div
-            onClick={() => router.push(ROUTE.AUTH.LOGIN)}
-            className="hover:bg-primary/80 bg-primary text-primary-foreground flex w-full cursor-pointer items-center rounded-full p-3 transition-all hover:text-white"
-          >
-            <div className="relative flex items-center gap-3">
-              <div className="relative flex size-6 min-w-6 items-center justify-center">
-                <LogIn size={24} />
-              </div>
-              <motion.span
-                animate={{ opacity: shouldExpand ? 1 : 0, x: shouldExpand ? 0 : -10 }}
-                transition={{ duration: 0.2 }}
-                className="text-sm font-medium whitespace-nowrap"
-              >
-                Đăng nhập
-              </motion.span>
-            </div>
-          </div>
-        )}
-      </div>
     </motion.aside>
   );
 };

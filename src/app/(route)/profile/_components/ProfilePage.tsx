@@ -49,11 +49,29 @@ const ProfilePage = () => {
   };
 
   return (
-    <div className="mx-auto grid w-full gap-4 lg:grid-cols-12">
-      <div className="w-full lg:col-span-3">
+    <div className="mx-auto grid w-full gap-4 xl:grid-cols-12">
+      <div className="w-full space-y-4 xl:col-span-4">
         <StreakSection />
+        <div className="relative min-h-44 w-full overflow-hidden rounded-xl border p-4 font-semibold">
+          <p className="text-lg">
+            Tôi <span className="text-primary">sắp nói được tiếng anh</span> vì đã mở miệng được
+          </p>
+          <p className="mt-2 text-3xl font-bold">
+            <span className="text-primary">1</span> / 100 giờ
+          </p>
+          <WaveAnimation color="#ff7429" className="max-h-5" speed={20} />
+        </div>
+        <div className="relative min-h-44 w-full overflow-hidden rounded-xl border p-4 font-semibold">
+          <p className="text-lg">
+            Tôi <span className="text-secondary">đã vượt qua cơn lười học</span> của bản thân được
+          </p>
+          <p className="mt-2 text-3xl font-bold">
+            <span className="text-secondary">1</span> ngày
+          </p>
+          <WaveAnimation color="#24d0a3" className="h-full max-h-12" speed={10} />
+        </div>
       </div>
-      <div className="space-y-4 lg:col-span-6">
+      <div className="space-y-4 xl:col-span-8">
         <div className="space-y-4">
           <div className="rounded-xl border">
             <div className="divide-y">
@@ -112,32 +130,9 @@ const ProfilePage = () => {
               </div>
               <p className="font-semibold">lần</p>
             </div>
-            <div className="grid w-full gap-4 sm:grid-cols-2">
-              <div className="relative min-h-44 w-full overflow-hidden rounded-xl border p-4 font-semibold">
-                <p className="text-lg">
-                  Tôi <span className="text-primary">sắp nói được tiếng anh</span> vì đã mở miệng
-                  được
-                </p>
-                <p className="mt-2 text-3xl font-bold">
-                  <span className="text-primary">1</span> / 100 giờ
-                </p>
-                <WaveAnimation color="#ff7429" className="max-h-5" speed={20} />
-              </div>
-              <div className="relative min-h-44 w-full overflow-hidden rounded-xl border p-4 font-semibold">
-                <p className="text-lg">
-                  Tôi <span className="text-secondary">đã vượt qua cơn lười học</span> của bản thân
-                  được
-                </p>
-                <p className="mt-2 text-3xl font-bold">
-                  <span className="text-secondary">1</span> ngày
-                </p>
-                <WaveAnimation color="#24d0a3" className="h-full max-h-12" speed={10} />
-              </div>
-            </div>
           </div>
         ) : null}
       </div>
-      <div className="lg:col-span-3"></div>
       {/* Edit Email Dialog */}
       <EditFieldDialog
         open={openEmailDialog}

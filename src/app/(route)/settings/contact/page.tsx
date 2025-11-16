@@ -22,7 +22,7 @@ export default function ContactPage() {
       <SettingHeader
         title="Liên hệ hỗ trợ"
         description="Chúng tôi luôn sẵn sàng hỗ trợ bạn"
-        src={`/settingIcon/chat.png`}
+        icon={MessageCircle}
       />
 
       <div className="grid grid-cols-1 gap-4">

@@ -52,11 +52,7 @@ const SettingPage = () => {
   return (
     <div className="space-y-4">
       <div className="space-y-4">
-        <SettingHeader
-          title="Cài đặt"
-          src={'/settingIcon/lock.png'}
-          description="Quản lý cài đặt ứng dụng của bạn"
-        />
+        <SettingHeader title="Cài đặt" icon={Lock} description="Quản lý cài đặt ứng dụng của bạn" />
         <Label className="text-lg font-semibold">Giao diện</Label>
         <div className="rounded-xl border">
           <div className="divide-y">

@@ -15,7 +15,7 @@ export default function TermsPage() {
       <SettingHeader
         title="Điều khoản dịch vụ"
         description="Có hiệu lực từ ngày 13/09/2024"
-        src={'/settingIcon/paper.png'}
+        icon={FileText}
       />
 
       <div className="space-y-4">

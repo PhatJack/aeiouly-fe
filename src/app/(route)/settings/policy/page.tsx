@@ -2,6 +2,8 @@ import { Metadata } from 'next';
 
 import SettingHeader from '@/components/app/settings/SettingHeader';
 
+import { Lock } from 'lucide-react';
+
 export const metadata: Metadata = {
   title: 'Chính sách bảo mật',
   description: 'Chính sách bảo mật của chúng tôi',
@@ -13,7 +15,7 @@ export default function PolicyPage() {
       <SettingHeader
         title="Chính sách bảo mật"
         description="Cập nhật lần cuối: 13/09/2024"
-        src={'/settingIcon/security.png'}
+        icon={Lock}
       />
 
       <div className="space-y-4">

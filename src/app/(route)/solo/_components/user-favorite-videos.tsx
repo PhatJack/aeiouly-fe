@@ -4,6 +4,7 @@ import { useInView } from 'react-intersection-observer';
 import Image from 'next/image';
 import Link from 'next/link';
 
+import LoadingWithText from '@/components/LoadingWithText';
 import AddFavoriteVideoModal from '@/components/app/solo/AddFavouriteVideo';
 import DeleteFavoriteVideo from '@/components/app/solo/DeleteFavouriteVideo';
 import { Button } from '@/components/ui/button';
@@ -20,7 +21,12 @@ const UserFavoriteVideos = () => {
   const { ref, inView } = useInView();
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const { backgroundURL, setBackground } = useSoloStore();
-  const { data, fetchNextPage, isFetchingNextPage } = useInfiniteQuery(
+  const {
+    data,
+    fetchNextPage,
+    isFetchingNextPage,
+    isLoading: isQueryLoading,
+  } = useInfiniteQuery(
     useInfiniteGetAllUserFavoriteVideosQuery({
       size: 12,
     })
@@ -65,6 +71,7 @@ const UserFavoriteVideos = () => {
             <Plus />
           </Button>
         </AddFavoriteVideoModal>
+        {isQueryLoading && <LoadingWithText text="Đang tải video yêu thích..." />}
         {data?.items.map((backgroundVideo) => (
           <HoverCard key={backgroundVideo.id}>
             <HoverCardTrigger asChild>

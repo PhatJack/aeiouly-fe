@@ -10,7 +10,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useDeleteAccountMutation } from '@/services/auth/delete-account.api';
 
-import { ShieldAlert } from 'lucide-react';
+import { ShieldAlert, Trash2 } from 'lucide-react';
 import { toast } from 'sonner';
 
 export default function DeleteAccountPage() {
@@ -45,7 +45,7 @@ export default function DeleteAccountPage() {
       <SettingHeader
         title="Xóa tài khoản"
         description="Hành động này không thể hoàn tác"
-        src={'/settingIcon/trash-bin.png'}
+        icon={Trash2}
         className="text-destructive"
       />
 

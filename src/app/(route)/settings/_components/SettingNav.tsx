@@ -2,18 +2,18 @@
 
 import React from 'react';
 
-import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
 import { useAuthStore } from '@/contexts/AuthContext';
 
+import { FileText, Lock, MessageCircle, Trash2 } from 'lucide-react';
 import { motion } from 'motion/react';
 
 const menu: {
   title: string;
   href: string;
-  icon: string;
+  icon: React.ElementType;
   description: string;
   danger?: boolean;
   role?: 'user' | 'admin' | Array<'user' | 'admin'>;
@@ -21,35 +21,35 @@ const menu: {
   {
     title: 'Cài đặt chung',
     href: '/settings',
-    icon: '/settingIcon/lock.png',
+    icon: Lock,
     description: 'Cài đặt bảo mật và thay đổi chủ đề',
     role: ['user', 'admin'],
   },
   {
     title: 'Chính sách bảo mật',
     href: '/settings/policy',
-    icon: '/settingIcon/security.png',
+    icon: Lock,
     description: 'Chính sách bảo mật và quyền riêng tư',
     role: ['user', 'admin'],
   },
   {
     title: 'Điều khoản dịch vụ',
     href: '/settings/terms',
-    icon: '/settingIcon/paper.png',
+    icon: FileText,
     description: 'Điều khoản và điều kiện sử dụng',
     role: ['user', 'admin'],
   },
   {
     title: 'Liên hệ',
     href: '/settings/contact',
-    icon: '/settingIcon/chat.png',
+    icon: MessageCircle,
     description: 'Hỗ trợ khách hàng và phản hồi',
     role: ['user', 'admin'],
   },
   {
     title: 'Xoá tài khoản',
     href: '/settings/delete-account',
-    icon: '/settingIcon/trash-bin.png',
+    icon: Trash2,
     description: 'Xoá vĩnh viễn tài khoản của bạn',
     danger: true,
     role: 'user',
@@ -59,6 +59,7 @@ const menu: {
 const SettingNav = () => {
   const pathname = usePathname();
   const user = useAuthStore((state) => state.user);
+
   return (
     <div className="mx-auto w-full lg:max-w-md">
       <div className="overflow-hidden rounded-2xl transition-all">
@@ -83,6 +84,7 @@ const SettingNav = () => {
             })
             .map((item) => {
               const isActive = pathname === item.href;
+              const Icon = item.icon;
 
               return (
                 <motion.div key={item.title} className="relative">
@@ -94,7 +96,7 @@ const SettingNav = () => {
                           ? 'bg-red-50 text-red-700 dark:bg-red-950/50 dark:text-red-400'
                           : 'bg-primary/5 text-primary dark:bg-primary/10 dark:text-primary'
                         : 'text-foreground hover:bg-accent/50 dark:hover:bg-accent/30 dark:text-gray-300'
-                    } ${item.danger && !isActive ? 'hover:bg-red-50 hover:text-red-600 dark:hover:bg-red-950/30 dark:hover:text-red-400' : ''} `}
+                    } ${item.danger && !isActive ? 'hover:bg-red-50 hover:text-red-600 dark:hover:bg-red-950/30 dark:hover:text-red-400' : ''}`}
                   >
                     <div
                       className={`flex h-10 w-10 items-center justify-center rounded-lg transition-colors duration-200 ${
@@ -103,11 +105,9 @@ const SettingNav = () => {
                             ? 'bg-red-100 text-red-600 dark:bg-red-900/50 dark:text-red-400'
                             : 'bg-primary/10 text-primary dark:bg-primary/20 dark:text-primary'
                           : 'bg-muted text-muted-foreground group-hover:bg-muted/70 dark:bg-accent/50 dark:group-hover:bg-accent/70 dark:text-gray-400'
-                      } ${item.danger && !isActive ? 'group-hover:bg-red-100 group-hover:text-red-500 dark:group-hover:bg-red-900/30 dark:group-hover:text-red-400' : ''} `}
+                      } ${item.danger && !isActive ? 'group-hover:bg-red-100 group-hover:text-red-500 dark:group-hover:bg-red-900/30 dark:group-hover:text-red-400' : ''}`}
                     >
-                      <div className="relative size-5">
-                        <Image src={item.icon} alt={item.title} fill className="object-cover" />
-                      </div>
+                      <Icon className="size-5 transition-transform group-hover:scale-110" />
                     </div>
 
                     <div className="min-w-0 flex-1">
@@ -122,7 +122,11 @@ const SettingNav = () => {
                     {isActive && (
                       <motion.div
                         layoutId="activeBackground"
-                        className={`absolute inset-0 -z-10 rounded-xl ${item.danger ? 'bg-red-50 ring-1 ring-red-200 dark:bg-red-950/50 dark:ring-red-900/50' : 'bg-primary/5 ring-primary/20 dark:bg-primary/10 dark:ring-primary/30 ring-1'} `}
+                        className={`absolute inset-0 -z-10 rounded-xl ring-1 ${
+                          item.danger
+                            ? 'bg-red-50 ring-red-200 dark:bg-red-950/50 dark:ring-red-900/50'
+                            : 'bg-primary/5 ring-primary/20 dark:bg-primary/10 dark:ring-primary/30'
+                        }`}
                         initial={false}
                         transition={{
                           type: 'spring',

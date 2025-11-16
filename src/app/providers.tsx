@@ -8,6 +8,7 @@ import NextTopLoader from 'nextjs-toploader';
 
 import GlobalQueryLoading from '@/components/GlobalLoading';
 import NavigationBlocker from '@/components/NavigationBlocker';
+import Header from '@/components/shared/Header';
 import Sidebar from '@/components/shared/Sidebar';
 import { ThemeProvider } from '@/components/theme-provider';
 import { Toaster } from '@/components/ui/sonner';
@@ -35,6 +36,7 @@ const Providers = ({
   const { setTheme, resolvedTheme } = useTheme();
   const location = usePathname();
   const excludedPaths = [...Object.values(ROUTE.AUTH)];
+
   useEffect(() => {
     const theme = localStorage.getItem('aeiouly-theme');
     if (!theme) {
@@ -49,6 +51,20 @@ const Providers = ({
           autoHideSuspend: false,
         },
       });
+      const sidebar = document.getElementById('sidebar');
+      if (sidebar) {
+        OverlayScrollbars(sidebar, {
+          scrollbars: {
+            theme: 'scrollbar-base scrollbar-auto py-1',
+            autoHide: 'move',
+            autoHideDelay: 500,
+            autoHideSuspend: false,
+          },
+          overflow: {
+            x: 'hidden',
+          },
+        });
+      }
     }
   }, [setTheme]);
 
@@ -65,10 +81,16 @@ const Providers = ({
                   <main
                     className={cn(
                       'relative size-full min-h-screen overflow-hidden bg-white dark:bg-[#121212]',
-                      !excludedPaths.includes(location) ? 'rounded-l-3xl p-4' : ''
+                      !excludedPaths.includes(location) ? 'rounded-l-3xl' : ''
                     )}
                   >
-                    {children}
+                    {!excludedPaths.includes(location) &&
+                    !(location === ROUTE.SPACE || location === ROUTE.PROFILE) ? (
+                      <Header />
+                    ) : null}
+                    <div className={cn(!excludedPaths.includes(location) ? 'p-4' : '')}>
+                      {children}
+                    </div>
                   </main>
                 </SoloSoundProvider>
               </SpeechProvider>

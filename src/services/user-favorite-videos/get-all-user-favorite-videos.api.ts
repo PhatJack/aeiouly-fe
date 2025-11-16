@@ -31,6 +31,9 @@ export const useInfiniteGetAllUserFavoriteVideosQuery = (params?: PaginationRequ
       const previousPage = firstPage.page - 1;
       return previousPage < 1 ? undefined : previousPage;
     },
+    meta: {
+      ignoreGlobal: true,
+    },
     initialPageParam: 1,
     refetchOnWindowFocus: false,
     staleTime: 30 * 60 * 1000, // 30 minutes

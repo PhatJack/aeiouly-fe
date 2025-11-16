@@ -6,6 +6,7 @@ import { Bagel_Fat_One } from 'next/font/google';
 import Image from 'next/image';
 
 import LoadingWithText from '@/components/LoadingWithText';
+import WeekdayProgress from '@/components/shared/streak/WeekdayProgress';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
 import { useAuthStore } from '@/contexts/AuthContext';
@@ -89,29 +90,7 @@ const StreakSection = () => {
           </div>
 
           {/* Week Days Progress */}
-          <div className="flex gap-2">
-            {weekDays.map((day, index) => (
-              <div key={index} className="flex flex-col items-center gap-2">
-                <span className="text-muted-foreground text-xs font-medium">{day}</span>
-                {completedDays?.[index] ? (
-                  <div className="from-primary/20 via-primary/70 to-primary flex size-9 items-center justify-center rounded-full bg-gradient-to-br backdrop-blur-sm">
-                    <Check className="text-primary-foreground h-5 w-5" />
-                  </div>
-                ) : (
-                  <div
-                    className={cn(
-                      'text-muted-foreground flex size-10 items-center justify-center rounded-full text-sm font-semibold',
-                      new Date().getDate() === dayNumbers?.[index]
-                        ? 'bg-primary border text-white'
-                        : ''
-                    )}
-                  >
-                    {dayNumbers?.[index]}
-                  </div>
-                )}
-              </div>
-            ))}
-          </div>
+          <WeekdayProgress completedDays={completedDays || []} dayNumbers={dayNumbers || []} />
         </CardContent>
       </Card>
 
