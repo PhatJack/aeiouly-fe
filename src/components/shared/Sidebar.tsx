@@ -183,7 +183,11 @@ const Sidebar = () => {
             className={"[&_svg:not([class*='size-'])]:size-5"}
             asChild
           >
-            <motion.span animate={{ opacity: shouldExpand ? 1 : 0 }} transition={{ duration: 0.2 }}>
+            <motion.span
+              initial={{ opacity: shouldExpand ? 1 : 0 }}
+              animate={{ opacity: shouldExpand ? 1 : 0 }}
+              transition={{ duration: 0.2 }}
+            >
               {!isExpanded ? <PanelRightClose size={20} /> : <PanelRightOpen size={20} />}
             </motion.span>
           </Button>

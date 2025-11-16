@@ -84,8 +84,7 @@ const Providers = ({
                       !excludedPaths.includes(location) ? 'rounded-l-3xl' : ''
                     )}
                   >
-                    {!excludedPaths.includes(location) &&
-                    !(location === ROUTE.SPACE || location === ROUTE.PROFILE) ? (
+                    {!excludedPaths.includes(location) && !(location === ROUTE.SPACE) ? (
                       <Header />
                     ) : null}
                     <div className={cn(!excludedPaths.includes(location) ? 'p-4' : '')}>

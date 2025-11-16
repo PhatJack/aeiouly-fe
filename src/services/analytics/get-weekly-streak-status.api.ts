@@ -4,8 +4,6 @@ import { UseQueryOptions, useQuery } from '@tanstack/react-query';
 
 type WeeklyStreakDay = {
   date: string;
-  login_count: number;
-  current_streak: number;
   logged_in: boolean;
 };
 

@@ -23,7 +23,6 @@ const bagelFastOne = Bagel_Fat_One({
 
 const StreakSection = () => {
   const user = useAuthStore((state) => state.user);
-  const weekDays = ['M', 'T', 'W', 'T', 'F', 'S', 'S'];
 
   const stats = {
     days: 22,
