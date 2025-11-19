@@ -18,6 +18,7 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
+import { ROUTE } from '@/configs/route';
 import { cn } from '@/lib/utils';
 import {
   RegisterBodySchema,
@@ -46,9 +47,9 @@ const RegisterForm = () => {
 
   const onSubmit = (data: RegisterBodySchema) => {
     registerMutate.mutate(data, {
-      onSuccess: (data) => {
+      onSuccess: () => {
         toast.success('Đăng ký thành công!');
-        router.push('/login', {});
+        router.push(ROUTE.AUTH.LOGIN, {});
       },
       onError: (error) => {
         toast.error((error as any).detail || 'Đăng ký thất bại!');
@@ -156,7 +157,7 @@ const RegisterForm = () => {
         </div>
 
         {/* Google login */}
-        <LoginWithGoogleButton onSuccess={() => {}} text="signup_with" />
+        <LoginWithGoogleButton onSuccess={() => router.push(ROUTE.APP)} text="signup_with" />
 
         {/* Footer */}
         <div className="text-center text-sm">

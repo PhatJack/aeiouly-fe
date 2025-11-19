@@ -129,7 +129,7 @@ const LoginForm = () => {
               Hoặc tiếp tục với
             </span>
           </div>
-          <LoginWithGoogleButton onSuccess={() => router.push(ROUTE.HOME)} />
+          <LoginWithGoogleButton onSuccess={() => router.push(ROUTE.APP)} />
         </div>
 
         {/* Footer */}
