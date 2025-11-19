@@ -156,7 +156,7 @@ const Sidebar = () => {
       onMouseEnter={() => !isExpanded && setHovered(true)}
       onMouseLeave={() => !isExpanded && setHovered(false)}
       id="sidebar"
-      className={cn('sticky top-0 flex h-screen min-w-20 flex-col gap-2 p-4')}
+      className={cn('sticky top-0 flex min-h-full min-w-20 flex-col gap-2 p-4')}
     >
       {/* Logo and Toggle Button */}
       <div className="flex items-center justify-between">

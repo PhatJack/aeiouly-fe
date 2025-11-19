@@ -43,8 +43,6 @@ const Header = () => {
     });
   };
 
-  if (!user) return null;
-
   return (
     <header className="bg-background z-50 flex items-center justify-between border-b px-6 py-2">
       <div className="flex items-center gap-4">

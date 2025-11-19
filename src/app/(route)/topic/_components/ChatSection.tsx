@@ -8,32 +8,38 @@ import MessageItem from '@/components/shared/chat/MessageItem';
 import { WritingSessionContext } from '@/contexts/WritingSessionContext';
 import { ChatMessageResponseSchema } from '@/lib/schema/writing-session.schema';
 import { cn } from '@/lib/utils';
-import { sendChatMessageApi } from '@/services/writing-session';
+import { sendChatMessageApi, useGetChatHistoryQuery } from '@/services/writing-session';
 
 import { useContextSelector } from 'use-context-selector';
 
 interface ChatSectionProps {
   sessionId: number;
-  messages: ChatMessageResponseSchema[];
   className?: string;
 }
 
-const ChatSection = ({ sessionId, messages, className }: ChatSectionProps) => {
+const ChatSection = ({ sessionId, className }: ChatSectionProps) => {
   const handleSelectedSentenceIndex = useContextSelector(
     WritingSessionContext,
     (ctx) => ctx!.handleSelectedSentenceIndex
   );
-  const [localMessages, setLocalMessages] = useState<ChatMessageResponseSchema[]>(messages);
+
+  const { data: chatHistory } = useGetChatHistoryQuery(sessionId, {
+    refetchOnWindowFocus: false,
+  });
+
+  const [localMessages, setLocalMessages] = useState<ChatMessageResponseSchema[]>([]);
   const [isLoadingResponse, setIsLoadingResponse] = useState(false);
   const [historyMessageIds, setHistoryMessageIds] = useState<Set<string>>(new Set());
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
-  // Update local messages when messages prop changes
+  // Update local messages when chat history loads
   useEffect(() => {
-    setLocalMessages(messages);
-    // Track the IDs of messages from chat history (disable typing for these)
-    setHistoryMessageIds(new Set(messages.map((m) => `${m.session_id}_${m.role}_${m.id}`)));
-  }, [messages]);
+    if (chatHistory && chatHistory.length > 0) {
+      setLocalMessages(chatHistory);
+      // Track the IDs of messages from chat history (disable typing for these)
+      setHistoryMessageIds(new Set(chatHistory.map((m) => `${m.session_id}_${m.role}_${m.id}`)));
+    }
+  }, [chatHistory]);
 
   // Auto scroll to bottom when new messages arrive
   useEffect(() => {
@@ -79,7 +85,7 @@ const ChatSection = ({ sessionId, messages, className }: ChatSectionProps) => {
       >
         {isLoadingResponse && (
           <MessageItem
-            content="Thinking..."
+            content="Đang suy nghĩ..."
             senderRole="assistant"
             index={-1}
             isLoading={true}

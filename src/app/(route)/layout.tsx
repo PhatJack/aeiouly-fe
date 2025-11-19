@@ -15,14 +15,16 @@ export default function RootLayout({
   const location = usePathname();
 
   return (
-    <>
+    <div className="flex h-screen w-full overflow-hidden">
       <Sidebar />
       <main
-        className={cn('relative size-full min-h-screen rounded-l-3xl bg-white dark:bg-[#121212]')}
+        className={cn(
+          'relative min-h-screen w-full flex-1 overflow-auto rounded-l-3xl bg-white dark:bg-[#121212]'
+        )}
       >
         {location !== ROUTE.SPACE && <Header />}
         <div className={'p-4'}>{children}</div>
       </main>
-    </>
+    </div>
   );
 }

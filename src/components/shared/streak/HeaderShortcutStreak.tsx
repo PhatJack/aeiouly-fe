@@ -38,7 +38,7 @@ const HeaderShortcutStreak = () => {
         <div className="rounded-full p-1">
           <div className="relative flex size-12 cursor-pointer place-content-center rounded-full border p-1">
             <Image
-              src={isLoggedToday ? '/streak/fire_active.gif' : '/streak/fire_inactive.png'}
+              src={'/streak/fire_active.gif'}
               alt="Streak icon"
               className={cn('size-10', isLoggedToday ? '' : 'grayscale')}
               width={40}

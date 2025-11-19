@@ -31,8 +31,8 @@ const PageHeader: React.FC<PageHeaderProps> = ({
 }) => {
   return (
     <div className={cn('border-b', className)}>
-      <div className="mb-4 flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
-        <div className="flex items-start gap-5">
+      <div className="mb-4 flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+        <div className="flex items-start gap-4">
           {/* Icon */}
           <div className="group relative">
             <div

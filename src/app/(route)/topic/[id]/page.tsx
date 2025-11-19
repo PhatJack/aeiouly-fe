@@ -9,24 +9,24 @@ import { WritingSessionResponseSchema } from '@/lib/schema/writing-session.schem
 
 import TopicDetailPage from '../_components/TopicDetailPage';
 
-export const generateMetadata = async ({ params }: { params: Promise<{ id: string }> }) => {
-  const { id } = await params;
-  const accessToken = (await cookies()).get(COOKIE_KEY_ACCESS_TOKEN)?.value || '';
-  const result = await serverAxios.get<WritingSessionResponseSchema>(`/writing-sessions/${id}`, {
-    headers: {
-      Authorization: `Bearer ${accessToken}`,
-    },
-  });
+// export const generateMetadata = async ({ params }: { params: Promise<{ id: string }> }) => {
+//   const { id } = await params;
+//   const accessToken = (await cookies()).get(COOKIE_KEY_ACCESS_TOKEN)?.value || '';
+//   const result = await serverAxios.get<WritingSessionResponseSchema>(`/writing-sessions/${id}`, {
+//     headers: {
+//       Authorization: `Bearer ${accessToken}`,
+//     },
+//   });
 
-  const session = result.data;
+//   const session = result.data;
 
-  return {
-    title: `${session.topic} - ${session.level}`,
-    openGraph: {
-      title: `${session.topic} - ${session.level}`,
-    },
-  };
-};
+//   return {
+//     title: `${session.topic} - ${session.level}`,
+//     openGraph: {
+//       title: `${session.topic} - ${session.level}`,
+//     },
+//   };
+// };
 const Page = async ({ params }: { params: Promise<{ id: string }> }) => {
   const { id } = await params;
   return <TopicDetailPage id={id} />;
