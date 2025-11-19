@@ -32,11 +32,11 @@ const TopicInfoSection = ({ writingSession }: TopicInfoSectionProps) => {
       : text;
 
   return (
-    <div className="border-border/50 relative flex w-1/2 flex-col overflow-hidden rounded-2xl border bg-gray-50">
+    <div className="border-border/50 dark:bg-background relative flex flex-col overflow-hidden rounded-2xl border bg-gray-50 xl:w-1/2">
       <div className="flex h-full flex-col items-center justify-between pb-16">
         <div className="w-full overflow-y-auto">
           {/* Stats Grid */}
-          <div className="grid grid-cols-3 gap-2 divide-x border-b bg-white">
+          <div className="dark:bg-muted grid grid-cols-3 gap-2 divide-x border-b bg-white">
             <div className="flex items-center space-x-1 p-4">
               <span className="text-muted-foreground">Chủ đề:</span>
               <p className="text-success font-medium">{writingSession.topic}</p>
@@ -73,10 +73,10 @@ const TopicInfoSection = ({ writingSession }: TopicInfoSectionProps) => {
               }
               variants="success"
             />
-            <HintButton id={writingSession.id} />
+            <HintButton id={writingSession.id} currentSentenceIndex={currentSentenceIndex} />
           </div>
         </div>
-        <div className="absolute bottom-0 z-40 w-full border-t bg-gray-50 p-4">
+        <div className="dark:bg-background absolute bottom-0 z-40 w-full border-t bg-gray-50 p-4">
           <EndSessionButton id={writingSession.id} />
         </div>
       </div>

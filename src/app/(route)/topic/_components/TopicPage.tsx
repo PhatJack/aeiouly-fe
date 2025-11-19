@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useCallback, useState } from 'react';
+import React, { useState } from 'react';
 
 import PageHeader from '@/components/PageHeader';
 import {
@@ -10,7 +10,6 @@ import {
   TabsList,
   TabsTrigger,
 } from '@/components/animate-ui/components/animate/tabs';
-import { WritingSessionCreateSchema } from '@/lib/schema/writing-session.schema';
 
 import { History, Sparkles } from 'lucide-react';
 
@@ -18,20 +17,7 @@ import RandomTopics from './RandomTopics';
 import RecentSessions from './RecentSessions';
 
 const TopicPage = () => {
-  const [selectedTopic, setSelectedTopic] = useState<WritingSessionCreateSchema | undefined>(
-    undefined
-  );
   const [activeTab, setActiveTab] = useState<string>('recent');
-
-  const handleTopicSelect = useCallback((topic: WritingSessionCreateSchema) => {
-    setSelectedTopic({
-      topic: topic.topic,
-      level: topic.level,
-      total_sentences: topic.total_sentences,
-    });
-    setActiveTab('create');
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  }, []);
 
   return (
     <div className="space-y-4">
@@ -57,11 +43,11 @@ const TopicPage = () => {
         </TabsList>
         <TabsContents className="mt-4">
           <TabsContent value="recent">
-            <RecentSessions selectedTopic={selectedTopic} />
+            <RecentSessions />
           </TabsContent>
 
           <TabsContent value="explore">
-            <RandomTopics onTopicSelect={handleTopicSelect} />
+            <RandomTopics />
           </TabsContent>
         </TabsContents>
       </Tabs>

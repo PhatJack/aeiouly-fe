@@ -1,36 +1,45 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { memo, useCallback, useEffect, useRef, useState } from 'react';
 import Markdown from 'react-markdown';
 
 import BlockquoteCustom from '@/components/custom/BlockquoteCustom';
 import { Button } from '@/components/ui/button';
 import { HintResponseSchema } from '@/lib/schema/writing-session.schema';
-import { getTranslationHintApi, useGetTranslationHintQuery } from '@/services/writing-session';
+import { getTranslationHintApi } from '@/services/writing-session';
 
 import { Loader2 } from 'lucide-react';
 
 interface HintButtonProps {
   id?: number;
+  currentSentenceIndex?: number;
 }
 
-const HintButton = ({ id }: HintButtonProps) => {
+const HintButton = ({ id, currentSentenceIndex }: HintButtonProps) => {
+  const [currentIndex, setCurrentIndex] = useState<number | null>(currentSentenceIndex ?? null);
   const [data, setData] = useState<HintResponseSchema | null>(null);
   const [isLoading, setIsLoading] = useState(false);
+  const historyResult = useRef<HintResponseSchema | null>(null);
 
-  const handleClick = async () => {
+  const handleClick = useCallback(async () => {
     setIsLoading(true);
     try {
       const result = await getTranslationHintApi(id ?? 0);
-      console.log(result);
       setData(result);
+      historyResult.current = result;
       setIsLoading(false);
     } catch (error) {
       console.error(error);
     } finally {
       setIsLoading(false);
     }
-  };
+  }, [id, currentIndex]);
+
+  useEffect(() => {
+    if (currentSentenceIndex !== undefined && currentSentenceIndex !== currentIndex) {
+      setCurrentIndex(currentSentenceIndex);
+    }
+  }, [currentSentenceIndex]);
 
   return (
     <div className="w-full space-y-2">
@@ -52,4 +61,4 @@ const HintButton = ({ id }: HintButtonProps) => {
   );
 };
 
-export default HintButton;
+export default memo(HintButton);

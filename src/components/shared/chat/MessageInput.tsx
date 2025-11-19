@@ -3,7 +3,8 @@ import { useForm } from 'react-hook-form';
 
 import { Button } from '@/components/ui/button';
 import { Form, FormControl, FormField, FormItem } from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
+import { Textarea } from '@/components/ui/textarea';
+import { cn } from '@/lib/utils';
 
 import { ArrowUp } from 'lucide-react';
 
@@ -38,23 +39,40 @@ const MessageInput = ({
     [onSendMessage, disabled, messageForm]
   );
 
+  // Determine if textarea is multiline (more than 1 line)
+  const isMultiline =
+    (messageForm.watch('message') || '').split('\n').length > 1 ||
+    (messageForm.watch('message') || '').length > 90;
+
   return (
     <Form {...messageForm}>
       <form
         onSubmit={messageForm.handleSubmit(onSubmit)}
-        className="relative mt-auto flex w-full gap-2"
+        className={cn(
+          `dark:bg-accent relative mt-auto grid w-full grid-cols-12 gap-2 border-2 bg-white`,
+          isMultiline ? 'rounded-xl p-4' : 'rounded-full'
+        )}
       >
         <FormField
           control={messageForm.control}
           name="message"
           render={({ field }) => (
-            <FormItem className="w-full">
+            <FormItem className={cn(isMultiline ? 'col-span-12' : 'col-span-11', 'transition-all')}>
               <FormControl className="w-full">
-                <Input
+                <Textarea
                   {...field}
                   placeholder={placeholder}
                   disabled={disabled}
-                  className="border-border/50 focus-visible:ring-primary/50 h-14 rounded-full border-2 bg-white py-5 pr-14 pl-5 text-base shadow-none transition-all focus-visible:border-transparent focus-visible:ring-2"
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter') {
+                      e.preventDefault();
+                      onSubmit({ message: field.value });
+                    }
+                  }}
+                  className={cn(
+                    `min-h-14 resize-none border-none shadow-none transition-all focus-visible:border-transparent focus-visible:ring-0 md:text-base`,
+                    isMultiline ? 'p-0' : 'p-4'
+                  )}
                 />
               </FormControl>
             </FormItem>
@@ -62,15 +80,22 @@ const MessageInput = ({
         />
 
         {/* Send Button */}
-        <Button
-          type="submit"
-          size="icon"
-          variant="default"
-          disabled={disabled || !messageForm.watch('message')?.trim()}
-          className="absolute top-1/2 right-2 size-10 -translate-y-1/2 rounded-full [&_svg:not([class*='size-'])]:size-5"
+        <div
+          className={cn(
+            'flex items-center transition-all',
+            isMultiline ? 'col-span-12 justify-end' : 'col-span-1 justify-center'
+          )}
         >
-          <ArrowUp />
-        </Button>
+          <Button
+            type="submit"
+            size="icon"
+            variant="default"
+            disabled={disabled || !messageForm.watch('message')?.trim()}
+            className={`size-10 rounded-full [&_svg:not([class*='size-'])]:size-5`}
+          >
+            <ArrowUp />
+          </Button>
+        </div>
       </form>
     </Form>
   );

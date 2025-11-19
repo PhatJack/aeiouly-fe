@@ -23,8 +23,8 @@ const TopicDetailPage = ({ id }: TopicDetailPageProps) => {
   }
 
   return (
-    <div className="flex h-[calc(100vh-3rem)] flex-col gap-6">
-      <div className="flex min-h-0 flex-1 gap-6">
+    <div className="flex flex-col gap-6 xl:h-[calc(100vh-2rem)]">
+      <div className="flex min-h-0 flex-1 flex-col gap-6 xl:flex-row">
         {/* Left side - Chat */}
         <ChatSection sessionId={Number(id)} className="flex-1" />
 

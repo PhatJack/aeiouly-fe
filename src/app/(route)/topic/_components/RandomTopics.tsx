@@ -2,6 +2,8 @@
 
 import React, { useCallback, useEffect, useState } from 'react';
 
+import { useRouter } from 'nextjs-toploader/app';
+
 import { Button } from '@/components/ui/button';
 import {
   Select,
@@ -12,18 +14,18 @@ import {
 } from '@/components/ui/select';
 import { WritingSessionCreateSchema } from '@/lib/schema/writing-session.schema';
 import { imagesForTopics, levels, topics } from '@/lib/topic';
+import { useCreateWritingSessionMutation } from '@/services/writing-session';
 
 import { Dices, Filter } from 'lucide-react';
+import { toast } from 'sonner';
 
 import TopicCard from './TopicCard';
 
-interface RandomTopicsProps {
-  onTopicSelect: (topic: WritingSessionCreateSchema) => void;
-}
-
-const RandomTopics: React.FC<RandomTopicsProps> = ({ onTopicSelect }) => {
+const RandomTopics = () => {
   const [randomTopics, setRandomTopics] = useState<any[]>([]);
   const [levelFilter, setLevelFilter] = useState<string>('all');
+  const router = useRouter();
+  const createWritingSessionMutation = useCreateWritingSessionMutation();
 
   const generateRandomTopics = useCallback(() => {
     const data = Array.from({ length: 25 }, (_, i) => ({
@@ -41,16 +43,14 @@ const RandomTopics: React.FC<RandomTopicsProps> = ({ onTopicSelect }) => {
     generateRandomTopics();
   }, [generateRandomTopics]);
 
-  const handleTopicClick = useCallback(
-    (topic: WritingSessionCreateSchema) => {
-      onTopicSelect({
-        topic: topic.topic,
-        level: topic.level,
-        total_sentences: topic.total_sentences,
-      });
-    },
-    [onTopicSelect]
-  );
+  const handleTopicClick = useCallback((topic: WritingSessionCreateSchema) => {
+    createWritingSessionMutation.mutate(topic, {
+      onSuccess: (data) => {
+        toast.success('Tạo phiên viết thành công!');
+        router.push(`/topic/${data.id}`);
+      },
+    });
+  }, []);
 
   const filteredTopics =
     levelFilter === 'all' ? randomTopics : randomTopics.filter((t) => t.level === levelFilter);

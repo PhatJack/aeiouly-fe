@@ -8,7 +8,7 @@ import MessageItem from '@/components/shared/chat/MessageItem';
 import { WritingSessionContext } from '@/contexts/WritingSessionContext';
 import { ChatMessageResponseSchema } from '@/lib/schema/writing-session.schema';
 import { cn } from '@/lib/utils';
-import { sendChatMessageApi, useGetChatHistoryQuery } from '@/services/writing-session';
+import { useGetChatHistoryQuery, useSendChatMessageMutation } from '@/services/writing-session';
 
 import { useContextSelector } from 'use-context-selector';
 
@@ -18,6 +18,10 @@ interface ChatSectionProps {
 }
 
 const ChatSection = ({ sessionId, className }: ChatSectionProps) => {
+  const currentSentenceIndex = useContextSelector(
+    WritingSessionContext,
+    (ctx) => ctx?.currentSentenceIndex ?? 0
+  );
   const handleSelectedSentenceIndex = useContextSelector(
     WritingSessionContext,
     (ctx) => ctx!.handleSelectedSentenceIndex
@@ -28,23 +32,22 @@ const ChatSection = ({ sessionId, className }: ChatSectionProps) => {
   });
 
   const [localMessages, setLocalMessages] = useState<ChatMessageResponseSchema[]>([]);
-  const [isLoadingResponse, setIsLoadingResponse] = useState(false);
+  const sendChatMutation = useSendChatMessageMutation();
   const [historyMessageIds, setHistoryMessageIds] = useState<Set<string>>(new Set());
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
-  // Update local messages when chat history loads
   useEffect(() => {
     if (chatHistory && chatHistory.length > 0) {
       setLocalMessages(chatHistory);
+      handleSelectedSentenceIndex?.(chatHistory[chatHistory.length - 1].sentence_index ?? 0);
       // Track the IDs of messages from chat history (disable typing for these)
       setHistoryMessageIds(new Set(chatHistory.map((m) => `${m.session_id}_${m.role}_${m.id}`)));
     }
   }, [chatHistory]);
 
-  // Auto scroll to bottom when new messages arrive
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-  }, [localMessages, isLoadingResponse]);
+  }, [localMessages]);
 
   const handleSendMessage = async (content: string) => {
     if (!content.trim()) return;
@@ -60,43 +63,47 @@ const ChatSection = ({ sessionId, className }: ChatSectionProps) => {
     };
 
     setLocalMessages((prev) => [...prev, optimisticUserMessage]);
-    setIsLoadingResponse(true);
-
     // Send message to API
-    const res = await sendChatMessageApi(sessionId, { content: content.trim() });
-    if (res) {
-      if (handleSelectedSentenceIndex && res.sentence_index !== null) {
-        handleSelectedSentenceIndex(res.sentence_index);
-      }
-      setLocalMessages((prev) => [...prev, res]);
-      setIsLoadingResponse(false);
-    }
+    sendChatMutation
+      .mutateAsync({ sessionId, message: { content: content.trim() } })
+      .then((res) => {
+        if (
+          handleSelectedSentenceIndex &&
+          res.sentence_index !== null &&
+          res.sentence_index > currentSentenceIndex
+        ) {
+          handleSelectedSentenceIndex(res.sentence_index);
+        }
+        setLocalMessages((prev) => [...prev, res]);
+      });
   };
 
   return (
     <div
-      className={cn('border-border/50 flex flex-col rounded-2xl border bg-gray-50 p-6', className)}
+      className={cn(
+        'border-border/50 dark:bg-background flex flex-col rounded-2xl border bg-gray-50 p-4',
+        className
+      )}
     >
       {/* Messages Container */}
       <MessageContainer
         messages={localMessages}
         historyMessageIds={historyMessageIds}
-        className="mb-6 flex-1"
+        className="mb-4 flex-1"
       >
-        {isLoadingResponse && (
+        {sendChatMutation.isPending && (
           <MessageItem
             content="Đang suy nghĩ..."
             senderRole="assistant"
             index={-1}
             isLoading={true}
-            translationAvailable={false}
           />
         )}
         <div ref={messagesEndRef} />
       </MessageContainer>
 
       {/* Message Input */}
-      <MessageInput onSendMessage={handleSendMessage} disabled={isLoadingResponse} />
+      <MessageInput onSendMessage={handleSendMessage} disabled={sendChatMutation.isPending} />
     </div>
   );
 };

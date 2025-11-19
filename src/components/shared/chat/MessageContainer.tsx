@@ -24,7 +24,7 @@ const MessageContainer = ({
   return (
     <div
       className={cn(
-        'scrollbar-thin scrollbar-thumb-border/50 scrollbar-track-transparent flex h-full flex-col space-y-3 overflow-y-auto rounded-xl bg-gray-50 p-4',
+        'scrollbar-thin scrollbar-thumb-border/50 scrollbar-track-transparent dark:bg-background flex h-full flex-col space-y-3 overflow-y-auto rounded-xl bg-gray-50',
         className
       )}
     >
@@ -37,7 +37,6 @@ const MessageContainer = ({
             index={message.id || index}
             content={message.content}
             senderRole={message.role}
-            translationAvailable={false}
             disableTyping={
               historyMessageIds
                 ? historyMessageIds.has(`${message.session_id}_${message.role}_${message.id}`)

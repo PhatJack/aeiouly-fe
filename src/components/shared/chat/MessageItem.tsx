@@ -1,13 +1,13 @@
 'use client';
 
-import React, { useCallback, useMemo } from 'react';
+import React, { memo } from 'react';
 
 import IndicatorLoading from '@/components/IndicatorLoading';
+import { useCopyToClipboard } from '@/components/editor/tiptap-editor/hooks/use-copy-to-clipboard';
 import { Button } from '@/components/ui/button';
-import { useSpeechContext } from '@/contexts/SpeechContext';
 import { cn } from '@/lib/utils';
 
-import { Languages, StopCircle, Volume2 } from 'lucide-react';
+import { Check, Copy } from 'lucide-react';
 
 import MarkdownRender from '../MarkdownRender';
 
@@ -16,7 +16,6 @@ interface MessageItemProps {
   senderRole?: 'user' | 'assistant';
   index?: number;
   isLoading?: boolean;
-  translationAvailable?: boolean;
   disableTyping?: boolean;
 }
 
@@ -25,30 +24,9 @@ const MessageItem: React.FC<MessageItemProps> = ({
   senderRole,
   index,
   isLoading = false,
-  translationAvailable = true,
   disableTyping = false,
 }) => {
-  const { selectedVoice, voices, speaking, speak, cancel, speakingMessageId } = useSpeechContext();
-
-  const messageId = `message-${index}`;
-  const selectedVoiceObject = useMemo(
-    () => voices.find((v) => v.name === selectedVoice),
-    [voices, selectedVoice]
-  );
-
-  const isThisMessageSpeaking = speaking && speakingMessageId === messageId;
-
-  const handleSpeakClick = useCallback(() => {
-    if (isThisMessageSpeaking) {
-      cancel();
-    } else {
-      speak({
-        text: content,
-        voice: selectedVoiceObject,
-        messageId: messageId,
-      });
-    }
-  }, [isThisMessageSpeaking, cancel, speak, content, selectedVoiceObject, messageId]);
+  const { copy, isCopied } = useCopyToClipboard();
 
   return (
     <div
@@ -61,13 +39,13 @@ const MessageItem: React.FC<MessageItemProps> = ({
         className={cn(
           'w-fit max-w-sm rounded-lg p-3 break-words',
           senderRole === 'user'
-            ? 'bg-primary/85 self-end text-white'
-            : 'self-start bg-gray-200 text-gray-800'
+            ? 'bg-primary/85 dark:bg-primary self-end text-white'
+            : 'dark:bg-muted self-start bg-gray-200 text-gray-800 dark:text-gray-200'
         )}
       >
         <div>
           {isLoading ? (
-            <IndicatorLoading text={'Thinking'} />
+            <IndicatorLoading text={'Đang suy nghĩ...'} />
           ) : senderRole === 'user' ? (
             content
           ) : (
@@ -75,32 +53,17 @@ const MessageItem: React.FC<MessageItemProps> = ({
           )}
         </div>
       </div>
-      {senderRole === 'assistant' && !isLoading && (
-        <>
-          <Button
-            onClick={handleSpeakClick}
-            type="button"
-            size={'icon'}
-            className={`size-7 rounded-full ${isThisMessageSpeaking ? 'bg-red-500 hover:bg-red-600' : ''}`}
-            variant={'secondary'}
-          >
-            {isThisMessageSpeaking ? <StopCircle /> : <Volume2 />}
-          </Button>
-          {translationAvailable && (
-            <Button
-              // onClick={handleSpeakClick}
-              type="button"
-              size={'icon'}
-              className={`size-7 rounded-full`}
-              variant={'error'}
-            >
-              <Languages />
-            </Button>
-          )}
-        </>
-      )}
+      <Button
+        onClick={() => copy(content)}
+        type="button"
+        size={'icon'}
+        className={cn(`size-7 rounded-full`, senderRole === 'user' ? '-order-1' : 'order-1')}
+        variant={'secondary'}
+      >
+        {isCopied ? <Check /> : <Copy />}
+      </Button>
     </div>
   );
 };
 
-export default React.memo(MessageItem);
+export default memo(MessageItem);

@@ -28,6 +28,9 @@ export const useSendChatMessageMutation = (
   return useMutation<ChatMessageResponseSchema, ErrorResponseSchema, SendChatMessageParams>({
     mutationKey: ['sendChatMessage'],
     mutationFn: ({ sessionId, message }) => sendChatMessageApi(sessionId, message),
+    meta: {
+      ignoreGlobal: true,
+    },
     ...options,
   });
 };
