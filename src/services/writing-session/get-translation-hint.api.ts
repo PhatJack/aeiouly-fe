@@ -16,6 +16,9 @@ export const useGetTranslationHintQuery = (
     queryKey: ['translationHint', sessionId],
     queryFn: () => getTranslationHintApi(sessionId),
     enabled: !!sessionId,
+    meta: {
+      ignoreGlobal: true,
+    },
     ...options,
   });
 };

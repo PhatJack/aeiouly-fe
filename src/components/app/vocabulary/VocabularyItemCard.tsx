@@ -9,7 +9,7 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { CambridgeDictionaryResponse } from '@/lib/schema/dictionary.schema';
 import { VocabularyItemResponseSchema } from '@/lib/schema/vocabulary.schema';
 
-import { Trash, Volume2 } from 'lucide-react';
+import { Trash } from 'lucide-react';
 import remarkBreaks from 'remark-breaks';
 
 import PronunciationPlayer from '../gym/detail/PronunciationPlayer';

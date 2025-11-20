@@ -1,9 +1,11 @@
 'use client';
 
-import React from 'react';
+import React, { useRef, useState } from 'react';
 
-import Loading from '@/components/Loading';
 import LoadingWithText from '@/components/LoadingWithText';
+import TextSelectionModal from '@/components/shared/TextSelectionModal';
+import VocabularyDialog from '@/components/shared/VocabularyDialog';
+import useContentTextSelection from '@/hooks/use-text-selection';
 import { useGetWritingSessionQuery } from '@/services/writing-session';
 
 import ChatSection from './ChatSection';
@@ -14,6 +16,12 @@ interface TopicDetailPageProps {
 }
 
 const TopicDetailPage = ({ id }: TopicDetailPageProps) => {
+  const contentRef = useRef<HTMLDivElement | null>(null);
+  const tooltipRef = useRef<HTMLDivElement | null>(null);
+  const selection = useContentTextSelection({
+    ref: contentRef,
+  });
+  const [open, setOpen] = useState<boolean>(false);
   const { data: writingSession, isLoading } = useGetWritingSessionQuery(Number(id), {
     refetchOnWindowFocus: false,
   });
@@ -23,14 +31,22 @@ const TopicDetailPage = ({ id }: TopicDetailPageProps) => {
   }
 
   return (
-    <div className="flex flex-col gap-6 xl:h-[calc(100vh-2rem)]">
-      <div className="flex min-h-0 flex-1 flex-col gap-6 xl:flex-row">
+    <div ref={contentRef} className="flex flex-col gap-4 xl:h-[calc(100vh-2rem)]">
+      <div className="flex min-h-0 flex-1 flex-col gap-4 xl:flex-row">
         {/* Left side - Chat */}
         <ChatSection sessionId={Number(id)} className="flex-1" />
 
         {/* Right side - Topic Details */}
         <TopicInfoSection writingSession={writingSession} />
       </div>
+      {selection.isSelected && selection.position && (
+        <TextSelectionModal selection={selection} tooltipRef={tooltipRef} setOpen={setOpen} />
+      )}
+      <VocabularyDialog
+        textSelection={selection.persistedText}
+        open={open}
+        onOpenChange={setOpen}
+      />
     </div>
   );
 };

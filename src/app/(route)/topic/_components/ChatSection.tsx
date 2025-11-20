@@ -2,12 +2,28 @@
 
 import React, { memo, useEffect, useRef, useState } from 'react';
 
+import { useRouter } from 'nextjs-toploader/app';
+
+import LoadingWithText from '@/components/LoadingWithText';
+import FinalEvaluation from '@/components/app/topic/FinalEvaluation';
+import SessionCompleteDialog from '@/components/app/topic/SessionCompleteDialog';
 import MessageContainer from '@/components/shared/chat/MessageContainer';
 import MessageInput from '@/components/shared/chat/MessageInput';
 import MessageItem from '@/components/shared/chat/MessageItem';
+import { Button } from '@/components/ui/button';
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from '@/components/ui/dialog';
+import { Progress } from '@/components/ui/progress';
 import { WritingSessionContext } from '@/contexts/WritingSessionContext';
 import { ChatMessageResponseSchema } from '@/lib/schema/writing-session.schema';
+import { getScoreColor, getScoreLabel } from '@/lib/utils';
 import { cn } from '@/lib/utils';
+import { useGetFinalEvaluationQuery } from '@/services/writing-session';
 import { useGetChatHistoryQuery, useSendChatMessageMutation } from '@/services/writing-session';
 
 import { useContextSelector } from 'use-context-selector';
@@ -30,11 +46,18 @@ const ChatSection = ({ sessionId, className }: ChatSectionProps) => {
   const { data: chatHistory } = useGetChatHistoryQuery(sessionId, {
     refetchOnWindowFocus: false,
   });
-
+  const router = useRouter();
   const [localMessages, setLocalMessages] = useState<ChatMessageResponseSchema[]>([]);
   const sendChatMutation = useSendChatMessageMutation();
   const [historyMessageIds, setHistoryMessageIds] = useState<Set<string>>(new Set());
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const [showSessionComplete, setShowSessionComplete] = useState(false);
+  const [showEvaluation, setShowEvaluation] = useState(false);
+  const {
+    data: finalEvaluation,
+    refetch: refetchFinalEvaluation,
+    isLoading: isLoadingEvaluation,
+  } = useGetFinalEvaluationQuery(sessionId, { enabled: false });
 
   useEffect(() => {
     if (chatHistory && chatHistory.length > 0) {
@@ -75,36 +98,72 @@ const ChatSection = ({ sessionId, className }: ChatSectionProps) => {
           handleSelectedSentenceIndex(res.sentence_index);
         }
         setLocalMessages((prev) => [...prev, res]);
+        if (res.status === 'completed') {
+          setShowSessionComplete(true);
+        }
       });
   };
 
   return (
-    <div
-      className={cn(
-        'border-border/50 dark:bg-background flex flex-col rounded-2xl border bg-gray-50 p-4',
-        className
-      )}
-    >
-      {/* Messages Container */}
-      <MessageContainer
-        messages={localMessages}
-        historyMessageIds={historyMessageIds}
-        className="mb-4 flex-1"
-      >
-        {sendChatMutation.isPending && (
-          <MessageItem
-            content="Đang suy nghĩ..."
-            senderRole="assistant"
-            index={-1}
-            isLoading={true}
-          />
+    <>
+      <div
+        className={cn(
+          'border-border/50 dark:bg-background flex flex-col rounded-2xl border bg-gray-50 p-4',
+          className
         )}
-        <div ref={messagesEndRef} />
-      </MessageContainer>
+      >
+        {/* Messages Container */}
+        <MessageContainer
+          messages={localMessages}
+          historyMessageIds={historyMessageIds}
+          className="mb-4 flex-1"
+        >
+          {sendChatMutation.isPending && (
+            <MessageItem
+              content="Đang suy nghĩ..."
+              senderRole="assistant"
+              index={-1}
+              isLoading={true}
+            />
+          )}
+          <div ref={messagesEndRef} />
+        </MessageContainer>
 
-      {/* Message Input */}
-      <MessageInput onSendMessage={handleSendMessage} disabled={sendChatMutation.isPending} />
-    </div>
+        {/* Message Input */}
+        <MessageInput onSendMessage={handleSendMessage} disabled={sendChatMutation.isPending} />
+      </div>
+
+      {/* Session Complete Popup */}
+      <SessionCompleteDialog
+        open={showSessionComplete}
+        onOpenChange={setShowSessionComplete}
+        onViewResult={() => {
+          setShowSessionComplete(false);
+          setShowEvaluation(true);
+          refetchFinalEvaluation();
+        }}
+      />
+
+      {/* Final Evaluation Dialog (reuse from EndSessionButton) */}
+      <Dialog open={showEvaluation} onOpenChange={setShowEvaluation}>
+        <DialogContent className="max-h-[90vh] max-w-3xl min-w-3xl overflow-y-auto">
+          <DialogHeader>
+            <DialogTitle className="text-2xl font-bold">Kết quả đánh giá</DialogTitle>
+            <DialogDescription>Dưới đây là kết quả chi tiết về phiên học của bạn</DialogDescription>
+          </DialogHeader>
+          {isLoadingEvaluation && <LoadingWithText text="Đang tải kết quả đánh giá..." />}
+          {finalEvaluation && (
+            <FinalEvaluation
+              data={finalEvaluation}
+              onClose={() => {
+                router.replace('/topic');
+                setShowEvaluation(false);
+              }}
+            />
+          )}
+        </DialogContent>
+      </Dialog>
+    </>
   );
 };
 

@@ -22,7 +22,7 @@ export default function RootLayout({
           'relative min-h-screen w-full flex-1 overflow-auto rounded-l-3xl bg-white dark:bg-[#121212]'
         )}
       >
-        {location !== ROUTE.SPACE && <Header />}
+        {/* {location !== ROUTE.SPACE && <Header />} */}
         <div className={'p-4'}>{children}</div>
       </main>
     </div>

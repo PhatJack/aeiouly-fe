@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { use } from 'react';
 
 import { Metadata } from 'next';
 import { cookies } from 'next/headers';
@@ -9,8 +9,8 @@ import { WritingSessionResponseSchema } from '@/lib/schema/writing-session.schem
 
 import TopicDetailPage from '../_components/TopicDetailPage';
 
-// export const generateMetadata = async ({ params }: { params: Promise<{ id: string }> }) => {
-//   const { id } = await params;
+// export const generateMetadata = async ({ params }: { params: { id: string } }): Promise<Metadata> => {
+//   const { id } = params;
 //   const accessToken = (await cookies()).get(COOKIE_KEY_ACCESS_TOKEN)?.value || '';
 //   const result = await serverAxios.get<WritingSessionResponseSchema>(`/writing-sessions/${id}`, {
 //     headers: {

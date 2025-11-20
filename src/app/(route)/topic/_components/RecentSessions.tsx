@@ -2,6 +2,7 @@
 
 import React, { memo } from 'react';
 
+import LoadingWithText from '@/components/LoadingWithText';
 import { WritingSessionCreateSchema } from '@/lib/schema/writing-session.schema';
 import {
   useDeleteWritingSessionMutation,
@@ -21,19 +22,19 @@ interface RecentSessionsProps {
 const RecentSessions: React.FC<RecentSessionsProps> = ({ selectedTopic }) => {
   const { data, isLoading } = useGetWritingSessionsQuery({ page: 1, size: 99 });
 
-  const deleteMutation = useDeleteWritingSessionMutation({
-    onSuccess: () => {
-      toast.success('Đã xóa phiên học thành công!');
-    },
-    onError: () => {
-      toast.error('Không thể xóa phiên học. Vui lòng thử lại!');
-    },
-  });
+  const deleteMutation = useDeleteWritingSessionMutation();
 
   const sessions = data?.items || [];
 
   const handleDelete = (sessionId: number) => {
-    deleteMutation.mutate(sessionId);
+    deleteMutation.mutate(sessionId, {
+      onSuccess: () => {
+        toast.success('Đã xóa phiên học thành công!');
+      },
+      onError: () => {
+        toast.error('Không thể xóa phiên học. Vui lòng thử lại!');
+      },
+    });
   };
 
   return (
@@ -42,12 +43,7 @@ const RecentSessions: React.FC<RecentSessionsProps> = ({ selectedTopic }) => {
         <CreateSessionSection selectedTopic={selectedTopic} />
       </div>
       <div className="col-span-12 space-y-4 lg:col-span-8">
-        {isLoading && (
-          <div className="flex items-center justify-center py-16">
-            <Loader2 className="text-primary mx-auto mb-4 size-8 animate-spin" />
-            <p className="text-muted-foreground text-sm">Đang tải phiên học...</p>
-          </div>
-        )}
+        {isLoading && <LoadingWithText text="Đang tải các phiên học gần đây..." />}
         {sessions.length === 0 ? (
           <div className="border-muted-foreground/25 bg-muted/30 rounded-lg border-2 border-dashed p-12 text-center">
             <Sparkles className="text-primary mx-auto mb-4 size-12" />

@@ -23,8 +23,9 @@ const MessageContainer = ({
 }: MessageContainerProps) => {
   return (
     <div
+      id="message-container"
       className={cn(
-        'scrollbar-thin scrollbar-thumb-border/50 scrollbar-track-transparent dark:bg-background flex h-full flex-col space-y-3 overflow-y-auto rounded-xl bg-gray-50',
+        'dark:bg-background flex h-full flex-col space-y-3 overflow-y-auto rounded-xl bg-gray-50',
         className
       )}
     >

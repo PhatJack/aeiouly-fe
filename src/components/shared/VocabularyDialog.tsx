@@ -271,7 +271,7 @@ const VocabularyDialog = ({ textSelection, open, onOpenChange }: VocabularyDialo
             </form>
             {/* Create Vocabulary Set Form - Accordion Style */}
             {showCreateForm && (
-              <div className="animate-in slide-in-from-top-2 rounded-lg border bg-white p-4">
+              <div className="animate-in slide-in-from-top-2 dark:bg-background rounded-lg border bg-white p-4">
                 <h4 className="text-primary mb-3 text-sm font-semibold">Tạo bộ từ vựng mới</h4>
                 <div className="space-y-3">
                   <Controller
@@ -347,8 +347,10 @@ const VocabularyDialog = ({ textSelection, open, onOpenChange }: VocabularyDialo
             />
           ) : (
             <div className="bg-muted/50 rounded-md border p-4">
-              <h4 className="mb-2 text-lg font-semibold">{wordData.expression}</h4>
-              <div className="prose prose-sm text-primary-foreground max-w-none *:mb-0">
+              <div className="flex gap-2">
+                <h4 className="mb-2 text-lg font-semibold">{wordData.expression}</h4>
+              </div>
+              <div className="prose prose-sm text-accent-foreground max-w-none *:mb-0">
                 <ReactMarkdown remarkPlugins={[remarkBreaks]}>
                   {wordData.definitions.replace(/\\n/g, '\n')}
                 </ReactMarkdown>
