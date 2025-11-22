@@ -1,9 +1,4 @@
 import Image from 'next/image';
-import Link from 'next/link';
-
-import { AuroraBackground } from '@/components/acternity-ui/aurora-background';
-
-import { BrainCircuit } from 'lucide-react';
 
 export default function AuthLayout({
   children,

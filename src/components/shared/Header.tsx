@@ -19,13 +19,19 @@ import { useAuthStore } from '@/contexts/AuthContext';
 import { getFallbackInitials } from '@/lib/utils';
 import { useLogoutMutation } from '@/services/auth/logout.api';
 
-import { LogOut, Settings, User2 } from 'lucide-react';
+import { LogOut, PanelRightClose, Settings, User2 } from 'lucide-react';
 import { toast } from 'sonner';
 
+import TooltipCustom from '../custom/TooltipCustom';
 import { ModeToggle } from '../mode-toggle';
 import HeaderShortcutStreak from './streak/HeaderShortcutStreak';
 
-const Header = () => {
+interface HeaderProps {
+  isExpanded: boolean;
+  handleToggleExpand: () => void;
+}
+
+const Header = ({ isExpanded, handleToggleExpand }: HeaderProps) => {
   const router = useRouter();
   const user = useAuthStore((state) => state.user);
   const logoutMutation = useLogoutMutation();
@@ -46,6 +52,11 @@ const Header = () => {
   return (
     <header className="bg-background z-50 flex items-center justify-between border-b px-6 py-2">
       <div className="flex items-center gap-4">
+        <TooltipCustom content={isExpanded ? 'Thu gọn sidebar' : 'Mở rộng sidebar'}>
+          <Button variant={isExpanded ? 'default' : 'outline'} onClick={handleToggleExpand}>
+            {isExpanded ? <PanelRightClose className="rotate-180" /> : <PanelRightClose />}
+          </Button>
+        </TooltipCustom>
         <h1 className="text-xl font-semibold">
           Xin chào, {user?.full_name || user?.username || 'User'}
         </h1>

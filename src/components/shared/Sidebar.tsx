@@ -125,63 +125,29 @@ const menuWithImg: {
   },
 ];
 
-const Sidebar = () => {
+interface SidebarProps {
+  isExpanded?: boolean;
+}
+
+const Sidebar = ({ isExpanded }: SidebarProps) => {
   const pathname = usePathname();
   const router = useRouter();
   const user = useAuthStore((state) => state.user);
-  const [hovered, setHovered] = useState(false);
-  const [isExpanded, setIsExpanded] = useState(false);
-
-  // Load sidebar state from localStorage after mount to avoid hydration mismatch
-  useEffect(() => {
-    const saved = localStorage.getItem('sidebar-expanded');
-    if (saved) {
-      setIsExpanded(JSON.parse(saved));
-    }
-  }, []);
-
-  const toggleSidebar = () => {
-    const newState = !isExpanded;
-    setIsExpanded(newState);
-    localStorage.setItem('sidebar-expanded', JSON.stringify(newState));
-  };
-
-  const shouldExpand = isExpanded || hovered;
 
   return (
-    <motion.aside
-      initial={false}
-      animate={{ width: shouldExpand ? '18rem' : '4rem' }}
-      transition={{ type: 'spring', stiffness: 300, damping: 30 }}
-      onMouseEnter={() => !isExpanded && setHovered(true)}
-      onMouseLeave={() => !isExpanded && setHovered(false)}
+    <aside
       id="sidebar"
-      className={cn('sticky top-0 flex min-h-full min-w-20 flex-col gap-2 p-4')}
+      className={cn(
+        'sticky top-0 flex min-h-full min-w-20 flex-col gap-2 p-4 transition-[width] duration-300 ease-in-out',
+        isExpanded ? 'w-60 max-w-60' : 'w-20'
+      )}
     >
-      {/* Logo and Toggle Button */}
       <div className="flex items-center justify-between">
         <Link href={ROUTE.HOME} className="flex items-center">
           <div className="relative size-12 overflow-hidden rounded-full">
             <Image fill quality={100} src={'/logo.png'} sizes="48px" alt={'Aeiouly logo'} />
           </div>
         </Link>
-        <TooltipCustom content={isExpanded ? 'Thu gọn sidebar' : 'Mở rộng sidebar'}>
-          <Button
-            onClick={toggleSidebar}
-            variant={'outline'}
-            size={'icon'}
-            className={"[&_svg:not([class*='size-'])]:size-5"}
-            asChild
-          >
-            <motion.span
-              initial={{ opacity: shouldExpand ? 1 : 0 }}
-              animate={{ opacity: shouldExpand ? 1 : 0 }}
-              transition={{ duration: 0.2 }}
-            >
-              {!isExpanded ? <PanelRightClose size={20} /> : <PanelRightOpen size={20} />}
-            </motion.span>
-          </Button>
-        </TooltipCustom>
       </div>
 
       <Separator className="my-2" />
@@ -211,7 +177,7 @@ const Sidebar = () => {
                 <item.icon size={24} className={cn(pathname === item.href && 'text-white')} />
               </div>
               <motion.span
-                animate={{ opacity: shouldExpand ? 1 : 0, x: shouldExpand ? 0 : -10 }}
+                animate={{ opacity: isExpanded ? 1 : 0, x: isExpanded ? 0 : -10 }}
                 transition={{ duration: 0.2 }}
                 className={cn(
                   'text-sm font-medium whitespace-nowrap',
@@ -230,7 +196,7 @@ const Sidebar = () => {
             </motion.li>
           ))}
       </ul>
-    </motion.aside>
+    </aside>
   );
 };
 
