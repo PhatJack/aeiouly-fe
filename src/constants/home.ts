@@ -10,44 +10,135 @@ export const benefits = [
 export const reviews = [
   {
     name: 'Nguyễn Minh Anh',
-    avatar: '/logo.png',
+    avatar: 'https://xsgames.co/randomusers/assets/avatars/female/1.jpg',
     rating: 5,
     comment: 'Aeiouly đã giúp mình cải thiện tiếng Anh rất nhiều! Giao diện đẹp, dễ sử dụng.',
     role: 'Sinh viên',
   },
   {
     name: 'Trần Hoàng Long',
-    avatar: '/logo.png',
+    avatar: 'https://xsgames.co/randomusers/assets/avatars/male/2.jpg',
     rating: 5,
     comment: 'Tính năng luyện nói với AI thật tuyệt vời. Mình tự tin hơn rất nhiều khi giao tiếp.',
     role: 'Nhân viên văn phòng',
   },
   {
     name: 'Phạm Thu Hà',
-    avatar: '/logo.png',
+    avatar: 'https://xsgames.co/randomusers/assets/avatars/female/3.jpg',
     rating: 5,
     comment: 'Cách học linh hoạt, phù hợp với lịch trình bận rộn. Highly recommended!',
     role: 'Giáo viên',
   },
   {
     name: 'Lê Quang Huy',
-    avatar: '/logo.png',
+    avatar: 'https://xsgames.co/randomusers/assets/avatars/male/4.jpg',
     rating: 5,
     comment: 'Bài học được cá nhân hóa theo trình độ rất tốt. Học hiệu quả hơn nhiều.',
     role: 'Học sinh',
   },
   {
     name: 'Võ Thị Mai',
-    avatar: '/logo.png',
+    avatar: 'https://xsgames.co/randomusers/assets/avatars/female/5.jpg',
     rating: 5,
     comment: 'Flashcard và quiz rất hữu ích cho việc ghi nhớ từ vựng. Love it!',
     role: 'Freelancer',
   },
   {
     name: 'Đặng Văn Nam',
-    avatar: '/logo.png',
+    avatar: 'https://xsgames.co/randomusers/assets/avatars/male/6.jpg',
     rating: 5,
     comment: 'Tính năng luyện viết với phản hồi chi tiết giúp mình tiến bộ nhanh chóng.',
     role: 'Developer',
+  },
+];
+export const reviews2 = [
+  {
+    name: 'Nguyễn Khánh Vy',
+    avatar: 'https://xsgames.co/randomusers/assets/avatars/female/7.jpg',
+    rating: 5,
+    comment: 'Khóa luyện phát âm giúp mình sửa được rất nhiều lỗi nhỏ mà trước đây không hề để ý.',
+    role: 'Content Creator',
+  },
+  {
+    name: 'Bùi Thanh Tâm',
+    avatar: 'https://xsgames.co/randomusers/assets/avatars/male/8.jpg',
+    rating: 5,
+    comment:
+      'Ứng dụng hỗ trợ học theo mục tiêu hàng ngày khiến mình duy trì được thói quen đều đặn.',
+    role: 'Marketing Specialist',
+  },
+  {
+    name: 'Hoàng Gia Hân',
+    avatar: 'https://xsgames.co/randomusers/assets/avatars/female/9.jpg',
+    rating: 5,
+    comment:
+      'Các đoạn hội thoại mô phỏng tình huống thực tế rất hữu ích khi đi du lịch nước ngoài.',
+    role: 'Travel Blogger',
+  },
+  {
+    name: 'Đào Minh Trí',
+    avatar: 'https://xsgames.co/randomusers/assets/avatars/male/10.jpg',
+    rating: 5,
+    comment: 'AI sửa lỗi viết của mình cực chi tiết, giống như có gia sư riêng vậy.',
+    role: 'Data Analyst',
+  },
+  {
+    name: 'Lâm Thảo My',
+    avatar: 'https://xsgames.co/randomusers/assets/avatars/female/11.jpg',
+    rating: 5,
+    comment: 'Giao diện tối rất đẹp và dễ nhìn. Mình thích phần gợi ý từ vựng thông minh.',
+    role: 'Graphic Designer',
+  },
+  {
+    name: 'Phan Đức Lợi',
+    avatar: 'https://xsgames.co/randomusers/assets/avatars/male/12.jpg',
+    rating: 5,
+    comment: 'Tính năng nghe–nhắc lại giúp cải thiện phản xạ tiếng Anh của mình đáng kể.',
+    role: 'Logistics Coordinator',
+  },
+];
+export const reviews3 = [
+  {
+    name: 'Trịnh Nhật Linh',
+    avatar: 'https://xsgames.co/randomusers/assets/avatars/female/13.jpg',
+    rating: 5,
+    comment: 'Phần luyện nghe theo tốc độ thực tế giúp mình quen với giọng bản xứ nhanh chóng.',
+    role: 'HR Executive',
+  },
+  {
+    name: 'Lưu Phúc Khánh',
+    avatar: 'https://xsgames.co/randomusers/assets/avatars/male/14.jpg',
+    rating: 5,
+    comment: 'Mình thích nhất là tính năng tạo bài học theo chủ đề mình chọn. Rất linh hoạt!',
+    role: 'Kỹ sư cơ khí',
+  },
+  {
+    name: 'Võ Gia Nghi',
+    avatar: 'https://xsgames.co/randomusers/assets/avatars/female/15.jpg',
+    rating: 5,
+    comment: 'Bài kiểm tra nhỏ sau mỗi buổi học giúp mình nhớ bài lâu hơn mà không bị quá tải.',
+    role: 'Sinh viên Y khoa',
+  },
+  {
+    name: 'Hồ Minh Tuấn',
+    avatar: 'https://xsgames.co/randomusers/assets/avatars/male/16.jpg',
+    rating: 5,
+    comment: 'AI giải thích ngữ pháp cực dễ hiểu, phù hợp cho người mới bắt đầu như mình.',
+    role: 'Tài xế công nghệ',
+  },
+  {
+    name: 'Tạ Bảo Nguyên',
+    avatar: 'https://xsgames.co/randomusers/assets/avatars/male/17.jpg',
+    rating: 5,
+    comment:
+      'Các bài hội thoại theo ngữ cảnh công việc giúp mình tự tin giao tiếp với đối tác nước ngoài.',
+    role: 'Project Manager',
+  },
+  {
+    name: 'Ngô Hạ Phương',
+    avatar: 'https://xsgames.co/randomusers/assets/avatars/female/18.jpg',
+    rating: 5,
+    comment: 'Học trên mobile rất tiện. Mỗi lúc rảnh 5–10 phút cũng có thể luyện tập nhanh.',
+    role: 'Nail Artist',
   },
 ];

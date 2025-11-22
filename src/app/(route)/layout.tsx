@@ -21,7 +21,7 @@ export default function RootLayout({
   const location = usePathname();
 
   return (
-    <div className="flex h-screen w-full overflow-hidden">
+    <div className="flex min-h-screen w-full overflow-hidden">
       <Sidebar isExpanded={isExpanded} />
       <main
         className={cn(
