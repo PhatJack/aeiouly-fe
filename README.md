@@ -1,10 +1,10 @@
 <div align="center">
-  <!-- <a href="https://aeiouly.vercel.app/" target="_blank">
+  <a href="https://aeiouly.vercel.app/" target="_blank">
     <img
       src="https://img.shields.io/website?label=Live%20Demo&style=for-the-badge&url=https%3A%2F%2Faeiouly.vercel.app%2F&up_color=06B6D4"
       alt="Live Demo"
     />
-  </a> -->
+  </a>
   <img
     src="https://img.shields.io/github/languages/code-size/PhatJack/aeiouly-fe?style=for-the-badge&color=8B5CF6"
     alt="Code Size"
@@ -21,7 +21,7 @@
   </a>
 </div>
 
-## ⚡ Getting Started
+## Getting Started
 
 1. **Clone the repo**
 
