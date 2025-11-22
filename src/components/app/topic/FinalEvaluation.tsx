@@ -59,7 +59,7 @@ const FinalEvaluation = ({ data, onClose }: FinalEvaluationProps) => {
       {data.feedback && (
         <div className="space-y-2">
           <h3 className="text-lg font-semibold">Nhận xét</h3>
-          <div className="border-border rounded-lg border bg-white p-4">
+          <div className="border-border dark:bg-background rounded-lg border bg-white p-4">
             <p className="text-sm leading-relaxed">{data.feedback}</p>
           </div>
         </div>

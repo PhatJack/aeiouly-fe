@@ -49,7 +49,7 @@ const MessageInput = ({
       <form
         onSubmit={messageForm.handleSubmit(onSubmit)}
         className={cn(
-          `dark:bg-accent relative mt-auto grid w-full grid-cols-12 gap-2 border-2 bg-white`,
+          `relative mt-auto grid w-full grid-cols-12 gap-2 border-2 bg-white dark:bg-transparent`,
           isMultiline ? 'rounded-xl p-4' : 'rounded-full'
         )}
       >
@@ -70,7 +70,7 @@ const MessageInput = ({
                     }
                   }}
                   className={cn(
-                    `min-h-14 resize-none border-none shadow-none transition-all focus-visible:border-transparent focus-visible:ring-0 md:text-base`,
+                    `min-h-14 resize-none border-none shadow-none transition-all focus-visible:border-transparent focus-visible:ring-0 md:text-base dark:bg-transparent`,
                     isMultiline ? 'p-0' : 'p-4'
                   )}
                 />
