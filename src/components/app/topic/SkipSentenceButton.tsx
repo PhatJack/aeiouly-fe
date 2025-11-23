@@ -24,7 +24,7 @@ const SkipSentenceButton = ({ id }: SkipSentenceButtonProps) => {
   const skipSentenceMutation = useSkipCurrentSentenceMutation();
   const handleClick = useCallback(async () => {
     await skipSentenceMutation.mutateAsync({ sessionId: id ?? 0 }, {});
-  }, [id]);
+  }, [id, skipSentenceMutation]);
 
   return (
     <AlertDialog>
