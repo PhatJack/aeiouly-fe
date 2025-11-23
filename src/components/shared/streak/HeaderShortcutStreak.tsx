@@ -43,6 +43,7 @@ const HeaderShortcutStreak = () => {
               className={cn('size-8 sm:size-10', isLoggedToday ? '' : 'grayscale')}
               width={40}
               height={40}
+              unoptimized
             />
           </div>
         </div>
