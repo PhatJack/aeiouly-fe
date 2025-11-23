@@ -6,7 +6,6 @@ import { usePathname } from 'next/navigation';
 
 import Header from '@/components/shared/Header';
 import Sidebar from '@/components/shared/Sidebar';
-import { Sheet } from '@/components/ui/sheet';
 import { ROUTE } from '@/configs/route';
 import { cn } from '@/lib/utils';
 

@@ -16,8 +16,6 @@ import {
 import { Button } from '@/components/ui/button';
 import { useSkipCurrentSentenceMutation } from '@/services/writing-session/skip-current-sentence.api';
 
-import { Loader2 } from 'lucide-react';
-
 interface SkipSentenceButtonProps {
   id?: number;
 }
@@ -26,7 +24,7 @@ const SkipSentenceButton = ({ id }: SkipSentenceButtonProps) => {
   const skipSentenceMutation = useSkipCurrentSentenceMutation();
   const handleClick = useCallback(async () => {
     await skipSentenceMutation.mutateAsync({ sessionId: id ?? 0 }, {});
-  }, [id]);
+  }, [id, skipSentenceMutation]);
 
   return (
     <AlertDialog>
