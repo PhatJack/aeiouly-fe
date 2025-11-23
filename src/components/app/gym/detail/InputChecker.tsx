@@ -6,7 +6,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { SentenceResponseSchema } from '@/lib/schema/listening-session.schema';
 import { normalizeText } from '@/lib/utils';
 
-import { CheckCircle2, RefreshCcw, TriangleAlert } from 'lucide-react';
+import { CheckCircle2, TriangleAlert } from 'lucide-react';
 
 import { computeWordDiff } from '../helpers/input-check';
 import PronounCard from './PronounCard';
