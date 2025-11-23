@@ -21,17 +21,18 @@ export default function RootLayout({
   const location = usePathname();
 
   return (
-    <div className="flex h-screen w-full overflow-hidden">
-      <Sidebar isExpanded={isExpanded} />
+    <div className="flex size-full overflow-y-auto">
+      <Sidebar isExpanded={isExpanded} handleToggleExpand={handleToggleExpand} />
       <main
         className={cn(
-          'relative min-h-screen w-full flex-1 overflow-auto rounded-l-3xl bg-white dark:bg-[#121212]'
+          'relative min-h-screen w-full flex-1 rounded-l-3xl bg-white transition-[margin] dark:bg-[#121212]',
+          isExpanded ? 'lg:ml-60' : 'lg:ml-20'
         )}
       >
         {location !== ROUTE.SPACE && (
           <Header isExpanded={isExpanded} handleToggleExpand={handleToggleExpand} />
         )}
-        <div className={'p-4'}>{children}</div>
+        <div className={'w-full overflow-hidden p-4'}>{children}</div>
       </main>
     </div>
   );

@@ -189,7 +189,7 @@
 	--success-foreground: oklch(100% 0.00011 271.152);
 
 	--warning: oklch(68% 0.18 85);
-	--warning-foreground: oklch(28.565% 0.06391 53.801);
+	--warning-foreground: oklch(100% 0.00011 271.152);
 
 	--error: oklch(68.622% 0.18635 27.891);
 	--error-foreground: oklch(100% 0.00011 271.152);

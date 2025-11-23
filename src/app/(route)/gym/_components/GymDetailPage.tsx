@@ -155,7 +155,7 @@ const GymDetailPage = ({ id }: GymDetailPageProps) => {
 
   return (
     <div>
-      <div className="grid gap-6 lg:grid-cols-2">
+      <div className="grid gap-4 lg:grid-cols-2">
         <div className="space-y-4">
           <VideoPlayer />
 
@@ -167,7 +167,7 @@ const GymDetailPage = ({ id }: GymDetailPageProps) => {
           {!isStarted ? (
             // Start Learning Button
             <div className="flex h-full min-h-[400px] items-center justify-center">
-              <div className="space-y-6 text-center">
+              <div className="space-y-4 text-center">
                 <div className="from-primary to-secondary mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-gradient-to-br shadow-lg">
                   <Play className="h-8 w-8 text-white" />
                 </div>

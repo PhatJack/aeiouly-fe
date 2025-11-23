@@ -23,6 +23,12 @@ const nextConfig: NextConfig = {
         pathname: '/**',
         hostname: 'i.ytimg.com',
       },
+      {
+        protocol: 'https',
+        hostname: 'xsgames.co',
+        port: '',
+        pathname: '/randomusers/assets/avatars/**',
+      },
     ],
   },
 };

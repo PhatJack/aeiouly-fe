@@ -10,7 +10,7 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { ROUTE } from '@/configs/route';
-import { benefits, reviews } from '@/constants/home';
+import { benefits, reviews, reviews2, reviews3 } from '@/constants/home';
 import { cn } from '@/lib/utils';
 
 import {
@@ -100,8 +100,8 @@ export default function Home() {
 
   return (
     <div className="min-h-screen w-full overflow-hidden bg-white dark:bg-[#121212]">
-      <div className="container mx-auto">
-        <section className="relative overflow-hidden py-20 md:py-32">
+      <div className="container mx-auto space-y-16 px-4 py-10 sm:px-0 sm:py-16">
+        <section className="relative overflow-hidden">
           <motion.div className="absolute inset-0 -z-10" style={{ y }}>
             <div className="from-primary/5 absolute inset-0 bg-gradient-to-br via-purple-500/5 to-pink-500/5" />
             <motion.div
@@ -150,7 +150,7 @@ export default function Home() {
                 </motion.div>
 
                 <motion.h1
-                  className="text-foreground text-5xl leading-tight font-bold md:text-6xl lg:text-7xl dark:text-white"
+                  className="text-foreground text-5xl leading-tight font-bold md:text-6xl lg:text-7xl dark:text-white dark:[-webkit-text-stroke:2px_white]"
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.3 }}
@@ -186,8 +186,8 @@ export default function Home() {
                 </motion.div>
               </motion.div>
 
-              <div className="relative flex justify-end">
-                <div className="relative aspect-square size-3/4 overflow-hidden rounded-3xl">
+              <div className="relative flex justify-center sm:justify-end">
+                <div className="relative aspect-square size-full overflow-hidden rounded-3xl sm:size-3/4">
                   <Image
                     src="/mockup/hero-banner.png"
                     alt="Aeiouly Platform"
@@ -202,7 +202,7 @@ export default function Home() {
         </section>
 
         {/* Stats Section */}
-        <section className="relative overflow-hidden py-24">
+        <section className="relative overflow-hidden">
           {/* Animated background elements */}
           <div className="absolute inset-0 overflow-hidden">
             <motion.div
@@ -254,7 +254,7 @@ export default function Home() {
                     />
 
                     {/* Card content */}
-                    <div className="border-border/50 group-hover:border-border group-hover:bg-card/90 relative flex h-full flex-col items-center justify-center gap-6 rounded-2xl border p-8 backdrop-blur-sm transition-all duration-300 group-hover:shadow-2xl">
+                    <div className="bg-accent border-border/50 group-hover:border-border group-hover:bg-card/90 relative flex h-full flex-col items-center justify-center gap-6 rounded-2xl border p-8 transition-all duration-300">
                       {/* Icon with gradient background */}
                       <motion.div
                         whileHover={{ rotate: [0, -10, 10, -10, 0], scale: 1.1 }}
@@ -372,7 +372,7 @@ export default function Home() {
         </section>
 
         {/* Benefits Section */}
-        <section className="py-20">
+        <section>
           <div className="">
             <div className="grid items-center gap-16 lg:grid-cols-2">
               <motion.div
@@ -430,7 +430,7 @@ export default function Home() {
         </section>
 
         {/* Reviews Section (Chat-style) */}
-        <section className="py-20">
+        <section>
           <div className="mx-auto w-full">
             <motion.div
               className="mb-16 text-center"
@@ -449,76 +449,220 @@ export default function Home() {
                 Hàng nghìn học viên đã tin tưởng và đạt được mục tiêu với Aeiouly
               </p>
             </motion.div>
-            <Marquee vertical className="max-h-[600px]">
-              {reviews.map((review, index) => {
-                const isRight = index % 2 === 1;
-                return (
-                  <div
-                    key={index}
-                    className={cn(
-                      'flex w-full items-start gap-5',
-                      isRight ? 'justify-end' : 'justify-start'
-                    )}
-                  >
-                    {/* Avatar */}
-                    {!isRight && (
-                      <div className="ring-primary/30 relative size-14 shrink-0 overflow-hidden rounded-full ring-2">
-                        <Image
-                          src={review.avatar}
-                          alt={review.name}
-                          fill
-                          className="object-cover"
-                        />
-                      </div>
-                    )}
-
-                    {/* Bubble */}
+            <div className="relative flex max-h-[600px] w-full flex-col items-center justify-center gap-4 overflow-hidden sm:flex-row">
+              <Marquee vertical>
+                {reviews.map((review, index) => {
+                  const isRight = index % 2 === 1;
+                  return (
                     <div
+                      key={index}
                       className={cn(
-                        'border-border relative max-w-[70%] rounded-2xl border bg-white p-6 shadow-sm dark:border-neutral-700 dark:bg-neutral-900',
-                        'after:absolute after:top-8 after:h-4 after:w-4 after:rotate-45 after:bg-white dark:after:bg-neutral-900',
-                        !isRight
-                          ? 'after:border-border after:-left-2 after:border-t after:border-l dark:after:border-neutral-700'
-                          : 'after:border-border after:-right-2 after:border-t after:border-r dark:after:border-neutral-700'
+                        'flex w-full items-start gap-5',
+                        isRight ? 'justify-end' : 'justify-start'
                       )}
                     >
-                      <div className="mb-3 flex items-center justify-between gap-4">
-                        <div>
-                          <p className="text-foreground text-base font-bold dark:text-white">
-                            {review.name}
-                          </p>
-                          <p className="text-muted-foreground text-xs dark:text-gray-400">
-                            {review.role}
-                          </p>
+                      {/* Avatar */}
+                      {!isRight && (
+                        <div className="ring-primary/30 relative size-14 shrink-0 overflow-hidden rounded-full ring-2">
+                          <Image
+                            src={review.avatar}
+                            alt={review.name}
+                            fill
+                            className="object-cover"
+                          />
                         </div>
-                        <div className="flex gap-0.5">
-                          {Array.from({ length: review.rating }).map((_, i) => (
-                            <Star
-                              key={i}
-                              className="h-4 w-4 fill-yellow-400 text-yellow-400 drop-shadow-sm"
-                            />
-                          ))}
-                        </div>
-                      </div>
-                      <p className="text-muted-foreground text-sm leading-relaxed dark:text-gray-300">
-                        {review.comment}
-                      </p>
-                    </div>
+                      )}
 
-                    {isRight && (
-                      <div className="ring-primary/30 relative size-14 shrink-0 overflow-hidden rounded-full ring-2">
-                        <Image
-                          src={review.avatar}
-                          alt={review.name}
-                          fill
-                          className="object-cover"
-                        />
+                      {/* Bubble */}
+                      <div
+                        className={cn(
+                          'border-border relative max-w-[70%] rounded-2xl border bg-white p-4 shadow-sm dark:border-neutral-700 dark:bg-neutral-900',
+                          'after:absolute after:top-5 after:h-4 after:w-4 after:rotate-45 after:bg-white dark:after:bg-neutral-900',
+                          !isRight
+                            ? 'after:border-border after:-left-[9px] after:border-b after:border-l dark:after:border-neutral-700'
+                            : 'after:border-border after:-right-[9px] after:border-t after:border-r dark:after:border-neutral-700'
+                        )}
+                      >
+                        <div className="mb-3 flex items-center justify-between gap-4">
+                          <div>
+                            <p className="text-foreground text-base font-bold dark:text-white">
+                              {review.name}
+                            </p>
+                            <p className="text-muted-foreground text-xs dark:text-gray-400">
+                              {review.role}
+                            </p>
+                          </div>
+                          <div className="flex gap-0.5">
+                            {Array.from({ length: review.rating }).map((_, i) => (
+                              <Star
+                                key={i}
+                                className="h-4 w-4 fill-yellow-400 text-yellow-400 drop-shadow-sm"
+                              />
+                            ))}
+                          </div>
+                        </div>
+                        <p className="text-muted-foreground text-sm leading-relaxed dark:text-gray-300">
+                          {review.comment}
+                        </p>
                       </div>
-                    )}
-                  </div>
-                );
-              })}
-            </Marquee>
+
+                      {isRight && (
+                        <div className="ring-primary/30 relative size-14 shrink-0 overflow-hidden rounded-full ring-2">
+                          <Image
+                            src={review.avatar}
+                            alt={review.name}
+                            fill
+                            className="object-cover"
+                          />
+                        </div>
+                      )}
+                    </div>
+                  );
+                })}
+              </Marquee>
+              <Marquee reverse className="hidden [--duration:20s] md:block" vertical>
+                {reviews2.map((review, index) => {
+                  const isRight = index % 2 === 1;
+                  return (
+                    <div
+                      key={index}
+                      className={cn(
+                        'flex w-full items-start gap-5',
+                        isRight ? 'justify-end' : 'justify-start'
+                      )}
+                    >
+                      {/* Avatar */}
+                      {!isRight && (
+                        <div className="ring-primary/30 relative size-14 shrink-0 overflow-hidden rounded-full ring-2">
+                          <Image
+                            src={review.avatar}
+                            alt={review.name}
+                            fill
+                            className="object-cover"
+                          />
+                        </div>
+                      )}
+
+                      {/* Bubble */}
+                      <div
+                        className={cn(
+                          'border-border relative max-w-[70%] rounded-2xl border bg-white p-4 shadow-sm dark:border-neutral-700 dark:bg-neutral-900',
+                          'after:absolute after:top-5 after:h-4 after:w-4 after:rotate-45 after:bg-white dark:after:bg-neutral-900',
+                          !isRight
+                            ? 'after:border-border after:-left-[9px] after:border-b after:border-l dark:after:border-neutral-700'
+                            : 'after:border-border after:-right-[9px] after:border-t after:border-r dark:after:border-neutral-700'
+                        )}
+                      >
+                        <div className="mb-3 flex items-center justify-between gap-4">
+                          <div>
+                            <p className="text-foreground text-base font-bold dark:text-white">
+                              {review.name}
+                            </p>
+                            <p className="text-muted-foreground text-xs dark:text-gray-400">
+                              {review.role}
+                            </p>
+                          </div>
+                          <div className="flex gap-0.5">
+                            {Array.from({ length: review.rating }).map((_, i) => (
+                              <Star
+                                key={i}
+                                className="h-4 w-4 fill-yellow-400 text-yellow-400 drop-shadow-sm"
+                              />
+                            ))}
+                          </div>
+                        </div>
+                        <p className="text-muted-foreground text-sm leading-relaxed dark:text-gray-300">
+                          {review.comment}
+                        </p>
+                      </div>
+
+                      {isRight && (
+                        <div className="ring-primary/30 relative size-14 shrink-0 overflow-hidden rounded-full ring-2">
+                          <Image
+                            src={review.avatar}
+                            alt={review.name}
+                            fill
+                            className="object-cover"
+                          />
+                        </div>
+                      )}
+                    </div>
+                  );
+                })}
+              </Marquee>
+              <Marquee vertical className="hidden md:block">
+                {reviews3.map((review, index) => {
+                  const isRight = index % 2 === 1;
+                  return (
+                    <div
+                      key={index}
+                      className={cn(
+                        'flex w-full items-start gap-5',
+                        isRight ? 'justify-end' : 'justify-start'
+                      )}
+                    >
+                      {/* Avatar */}
+                      {!isRight && (
+                        <div className="ring-primary/30 relative size-14 shrink-0 overflow-hidden rounded-full ring-2">
+                          <Image
+                            src={review.avatar}
+                            alt={review.name}
+                            fill
+                            className="object-cover"
+                          />
+                        </div>
+                      )}
+
+                      {/* Bubble */}
+                      <div
+                        className={cn(
+                          'border-border relative max-w-[70%] rounded-2xl border bg-white p-4 shadow-sm dark:border-neutral-700 dark:bg-neutral-900',
+                          'after:absolute after:top-5 after:h-4 after:w-4 after:rotate-45 after:bg-white dark:after:bg-neutral-900',
+                          !isRight
+                            ? 'after:border-border after:-left-[9px] after:border-b after:border-l dark:after:border-neutral-700'
+                            : 'after:border-border after:-right-[9px] after:border-t after:border-r dark:after:border-neutral-700'
+                        )}
+                      >
+                        <div className="mb-3 flex items-center justify-between gap-4">
+                          <div>
+                            <p className="text-foreground text-base font-bold dark:text-white">
+                              {review.name}
+                            </p>
+                            <p className="text-muted-foreground text-xs dark:text-gray-400">
+                              {review.role}
+                            </p>
+                          </div>
+                          <div className="flex gap-0.5">
+                            {Array.from({ length: review.rating }).map((_, i) => (
+                              <Star
+                                key={i}
+                                className="h-4 w-4 fill-yellow-400 text-yellow-400 drop-shadow-sm"
+                              />
+                            ))}
+                          </div>
+                        </div>
+                        <p className="text-muted-foreground text-sm leading-relaxed dark:text-gray-300">
+                          {review.comment}
+                        </p>
+                      </div>
+
+                      {isRight && (
+                        <div className="ring-primary/30 relative size-14 shrink-0 overflow-hidden rounded-full ring-2">
+                          <Image
+                            src={review.avatar}
+                            alt={review.name}
+                            fill
+                            className="object-cover"
+                          />
+                        </div>
+                      )}
+                    </div>
+                  );
+                })}
+              </Marquee>
+              <div className="pointer-events-none absolute inset-x-0 top-0 h-1/4 bg-gradient-to-b from-white dark:from-[#121212]"></div>
+              <div className="pointer-events-none absolute inset-x-0 bottom-0 h-1/4 bg-gradient-to-t from-white dark:from-[#121212]"></div>
+            </div>
           </div>
         </section>
       </div>

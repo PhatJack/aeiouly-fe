@@ -127,76 +127,95 @@ const menuWithImg: {
 
 interface SidebarProps {
   isExpanded?: boolean;
+  handleToggleExpand?: () => void;
 }
 
-const Sidebar = ({ isExpanded }: SidebarProps) => {
+const Sidebar = ({ isExpanded, handleToggleExpand }: SidebarProps) => {
   const pathname = usePathname();
   const router = useRouter();
   const user = useAuthStore((state) => state.user);
 
   return (
-    <aside
-      id="sidebar"
-      className={cn(
-        'sticky top-0 flex min-h-full min-w-20 flex-col gap-2 p-4 transition-[width] duration-300 ease-in-out',
-        isExpanded ? 'w-60 max-w-60' : 'w-20'
-      )}
-    >
-      <div className="flex items-center justify-between">
-        <Link href={ROUTE.HOME} className="flex items-center">
-          <div className="relative size-12 overflow-hidden rounded-full">
-            <Image fill quality={100} src={'/logo.png'} sizes="48px" alt={'Aeiouly logo'} />
-          </div>
-        </Link>
-      </div>
+    <>
+      <aside
+        id="sidebar"
+        className={cn(
+          'bg-background fixed top-0 left-0 z-50 flex min-h-full min-w-20 flex-col px-4 py-2 transition-[width,translate] duration-300 ease-in-out lg:gap-2',
+          isExpanded
+            ? 'w-60 max-w-60 translate-x-0'
+            : 'w-60 -translate-x-60 lg:w-20 lg:translate-x-0'
+        )}
+      >
+        <div className="flex items-center">
+          <Link href={ROUTE.HOME} className="flex items-center">
+            <div className="relative size-10 overflow-hidden rounded-full sm:size-12">
+              <Image
+                fill
+                quality={100}
+                src={'/logo.png'}
+                sizes="(max-width: 640px) 40px,48px"
+                alt={'Aeiouly logo'}
+              />
+            </div>
+          </Link>
+          <h1 className="ml-2 inline-block text-lg font-bold lg:hidden">Aeiouly</h1>
+        </div>
 
-      <Separator className="my-2" />
+        <Separator className="my-2" />
 
-      {/* Menu */}
-      <ul className="relative flex flex-col gap-2">
-        {menuWithImg
-          .filter((item) => {
-            if (!user) return false;
-            if (
-              typeof item.role === 'string'
-                ? item.role === user.role
-                : item.role.includes(user.role)
-            )
-              return true;
-            return false;
-          })
-          .map((item, index) => (
-            <motion.li
-              key={`menu_item_${index}`}
-              id={item.id}
-              onClick={() => router.push(item.href)}
-              data-navigation
-              className="hover:bg-primary/20 relative flex cursor-pointer items-center gap-3 rounded-full p-3 transition-all"
-            >
-              <div className="relative flex size-6 min-w-6 items-center justify-center">
-                <item.icon size={24} className={cn(pathname === item.href && 'text-white')} />
-              </div>
-              <motion.span
-                animate={{ opacity: isExpanded ? 1 : 0, x: isExpanded ? 0 : -10 }}
-                transition={{ duration: 0.2 }}
-                className={cn(
-                  'text-sm font-medium whitespace-nowrap',
-                  pathname === item.href && 'text-secondary-foreground'
-                )}
+        {/* Menu */}
+        <ul className="relative flex flex-col gap-2">
+          {menuWithImg
+            .filter((item) => {
+              if (!user) return false;
+              if (
+                typeof item.role === 'string'
+                  ? item.role === user.role
+                  : item.role.includes(user.role)
+              )
+                return true;
+              return false;
+            })
+            .map((item, index) => (
+              <motion.li
+                key={`menu_item_${index}`}
+                id={item.id}
+                onClick={() => router.push(item.href)}
+                data-navigation
+                className="hover:bg-primary/20 relative flex cursor-pointer items-center gap-3 rounded-full p-3 transition-all"
               >
-                {item.title}
-              </motion.span>
-              {pathname === item.href && (
-                <motion.div
-                  className="bg-primary absolute inset-0 -z-10 rounded-full"
-                  layoutId="background"
-                  transition={{ type: 'spring', stiffness: 300, damping: 30 }}
-                />
-              )}
-            </motion.li>
-          ))}
-      </ul>
-    </aside>
+                <div className="relative flex size-6 min-w-6 items-center justify-center">
+                  <item.icon size={24} className={cn(pathname === item.href && 'text-white')} />
+                </div>
+                <motion.span
+                  animate={{ opacity: isExpanded ? 1 : 0, x: isExpanded ? 0 : -10 }}
+                  transition={{ duration: 0.2 }}
+                  className={cn(
+                    'text-sm font-medium whitespace-nowrap',
+                    pathname === item.href && 'text-secondary-foreground'
+                  )}
+                >
+                  {item.title}
+                </motion.span>
+                {pathname === item.href && (
+                  <motion.div
+                    className="bg-primary absolute inset-0 -z-10 rounded-full"
+                    layoutId="background"
+                    transition={{ type: 'spring', stiffness: 300, damping: 30 }}
+                  />
+                )}
+              </motion.li>
+            ))}
+        </ul>
+      </aside>
+      <div
+        onClick={handleToggleExpand}
+        className={cn(
+          'fixed inset-0 z-30 block bg-black/50 transition-[display] lg:hidden',
+          isExpanded ? 'block' : 'hidden'
+        )}
+      ></div>
+    </>
   );
 };
 

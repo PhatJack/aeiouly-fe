@@ -25,7 +25,7 @@ export function ModeToggle() {
   };
 
   if (!mounted) {
-    return <Button variant="ghost" size="icon" className="size-12" />;
+    return <Button variant="ghost" size="icon" className="size-10 sm:size-12" />;
   }
 
   const isDark = theme === 'dark';
@@ -35,7 +35,7 @@ export function ModeToggle() {
       variant="outline"
       size="icon"
       onClick={toggleTheme}
-      className="relative size-12 overflow-hidden rounded-full [&_svg:not([class*='size-'])]:size-5"
+      className="relative size-10 overflow-hidden rounded-full sm:size-12 [&_svg:not([class*='size-'])]:size-4 sm:[&_svg:not([class*='size-'])]:size-5"
       aria-label="Toggle theme"
     >
       <Sun

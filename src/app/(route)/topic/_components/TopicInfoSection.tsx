@@ -4,8 +4,8 @@ import React, { memo } from 'react';
 
 import EndSessionButton from '@/components/app/topic/EndSessionButton';
 import HintButton from '@/components/app/topic/HintButton';
+import SkipSentenceButton from '@/components/app/topic/SkipSentenceButton';
 import BlockquoteCustom from '@/components/custom/BlockquoteCustom';
-import { Button } from '@/components/ui/button';
 import { WritingSessionContext } from '@/contexts/WritingSessionContext';
 import { WritingSessionResponseSchema } from '@/lib/schema/writing-session.schema';
 
@@ -73,6 +73,7 @@ const TopicInfoSection = ({ writingSession }: TopicInfoSectionProps) => {
               }
               variants="success"
             />
+            <SkipSentenceButton id={writingSession.id} />
             <HintButton id={writingSession.id} currentSentenceIndex={currentSentenceIndex} />
           </div>
         </div>
