@@ -150,7 +150,7 @@ export default function Home() {
                 </motion.div>
 
                 <motion.h1
-                  className="text-foreground text-5xl leading-tight font-bold md:text-6xl lg:text-7xl dark:text-white"
+                  className="text-foreground text-5xl leading-tight font-bold md:text-6xl lg:text-7xl dark:text-white dark:[-webkit-text-stroke:2px_white]"
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.3 }}

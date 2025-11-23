@@ -49,20 +49,6 @@ const Providers = ({
           autoHideSuspend: false,
         },
       });
-      const sidebarEl = document.getElementById('sidebar');
-      if (sidebarEl) {
-        OverlayScrollbars(sidebarEl, {
-          scrollbars: {
-            theme: 'scrollbar-base scrollbar-auto py-1',
-            autoHide: 'move',
-            autoHideDelay: 500,
-            autoHideSuspend: false,
-          },
-          overflow: {
-            x: 'hidden',
-          },
-        });
-      }
       const messageContainer = document.getElementById('message-container');
       if (messageContainer) {
         OverlayScrollbars(messageContainer, {
