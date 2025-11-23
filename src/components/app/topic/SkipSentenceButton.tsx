@@ -16,8 +16,6 @@ import {
 import { Button } from '@/components/ui/button';
 import { useSkipCurrentSentenceMutation } from '@/services/writing-session/skip-current-sentence.api';
 
-import { Loader2 } from 'lucide-react';
-
 interface SkipSentenceButtonProps {
   id?: number;
 }
