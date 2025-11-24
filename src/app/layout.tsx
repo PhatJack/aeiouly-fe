@@ -1,6 +1,8 @@
 import type { Metadata } from 'next';
 import { Be_Vietnam_Pro, Geist } from 'next/font/google';
 
+import { GoogleAnalytics, GoogleTagManager } from '@next/third-parties/google';
+
 import './globals.css';
 import Providers from './providers';
 
@@ -66,7 +68,7 @@ export const metadata: Metadata = {
     ],
   },
   verification: {
-    google: 'cZNWDNvfb1eBjhJBoIU77GPztU1w-j5v5IjaUca_3Z8',
+    google: 'UQXZPYf8olCx-BLqPMIZKz_ofNDD6vRWB9qGTjIwr2I',
   },
 };
 
@@ -80,6 +82,8 @@ export default function RootLayout({
       <body className={`${beVietNamPro.variable} ${geistSans.variable} flex antialiased`}>
         <Providers>{children}</Providers>
       </body>
+      <GoogleAnalytics gaId="G-J5TMBGYNY4" />
+      <GoogleTagManager gtmId="GTM-MQ65G5KB" />
     </html>
   );
 }
