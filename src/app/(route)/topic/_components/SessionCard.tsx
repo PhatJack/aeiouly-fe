@@ -40,19 +40,14 @@ const SessionCard: React.FC<SessionCardProps> = ({ session, onDelete, isDeleting
   return (
     <Card
       className={cn(
-        'group relative overflow-hidden border-2 py-0 shadow-none transition-all',
+        'group relative overflow-hidden border py-0 transition-all',
         isCompleted
-          ? 'to-background border-green-200 bg-gradient-to-br from-green-50/50 dark:border-green-800 dark:from-green-950/20'
+          ? 'to-background border-success from-success-foreground/10 dark:from-success-foreground/20 bg-gradient-to-br'
           : 'border-border/50 from-background to-muted/20 hover:border-primary/50 bg-gradient-to-br'
       )}
     >
       {/* Status Indicator */}
-      <div
-        className={cn(
-          'absolute top-0 left-0 h-full w-1',
-          isCompleted ? 'bg-success' : 'bg-primary'
-        )}
-      />
+      <div className={cn('absolute top-0 left-0 h-full w-1', isCompleted ? 'bg-success' : '')} />
 
       <div className="p-4">
         {/* Header */}

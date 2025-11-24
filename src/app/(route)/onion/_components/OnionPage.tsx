@@ -162,7 +162,7 @@ const OnionPage = () => {
   };
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen space-y-4">
       <PageHeader
         title="Luyện Nói"
         description="Thực hành giao tiếp tiếng Anh trong các tình huống thực tế với AI Coach thông minh"
@@ -176,45 +176,19 @@ const OnionPage = () => {
       />
 
       {/* Content */}
-      <div className="space-y-16 py-8">
-        {/* Situations Grid */}
-        <div>
-          <h2 className="text-foreground mb-6 text-2xl font-bold">
-            Các tình huống luyện tập phổ biến
-          </h2>
-          <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-            {situations.map((situation) => (
-              <SituationCard
-                key={situation.id}
-                situation={situation}
-                onStart={() => handleStartPractice(situation.id)}
-              />
-            ))}
-          </div>
-        </div>
-
-        {/* Features Section */}
-        <div>
-          <h2 className="text-foreground mb-8 text-center text-2xl font-bold md:text-3xl">
-            Tại sao luyện tập với AI Coach?
-          </h2>
-          <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
-            <FeatureCard
-              icon={<MessageCircle className="text-primary h-8 w-8" />}
-              title="Phản hồi thời gian thực"
-              description="Nhận phản hồi tức thì về cách phát âm, độ trôi chảy và kỹ năng hội thoại của bạn."
+      {/* Situations Grid */}
+      <div className="space-y-4">
+        <h2 className="text-foreground text-xl font-bold lg:text-2xl">
+          Các tình huống luyện tập phổ biến
+        </h2>
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+          {situations.map((situation) => (
+            <SituationCard
+              key={situation.id}
+              situation={situation}
+              onStart={() => handleStartPractice(situation.id)}
             />
-            <FeatureCard
-              icon={<Target className="text-primary h-8 w-8" />}
-              title="Luyện tập cá nhân hóa"
-              description="Các tình huống thích ứng điều chỉnh theo trình độ kỹ năng và tốc độ học của bạn."
-            />
-            <FeatureCard
-              icon={<Star className="text-primary h-8 w-8" />}
-              title="Theo dõi tiến độ"
-              description="Giám sát sự cải thiện của bạn qua các tình huống và kỹ năng khác nhau."
-            />
-          </div>
+          ))}
         </div>
       </div>
     </div>

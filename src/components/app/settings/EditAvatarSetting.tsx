@@ -78,7 +78,7 @@ const EditAvatarSetting = () => {
         fallback={getFallbackInitials(user?.full_name || user?.username || 'User')}
         className="size-20 border"
       />
-      <div className="flex flex-wrap gap-2">
+      <div className="flex flex-wrap justify-center gap-1.5 sm:justify-start sm:gap-2">
         {AVATAR_VIBRANT.map((avatar, index) => (
           <Button
             key={`avatar-option-${index}`}
@@ -87,7 +87,7 @@ const EditAvatarSetting = () => {
             onClick={() => handleAvatarClick(avatar.src, index)}
             disabled={userImageMutation.isPending}
             title={`Chọn ảnh đại diện ${index + 1}`}
-            className="hover:border-primary dark:hover:border-primary relative size-12 overflow-hidden rounded-full border border-transparent transition-all disabled:opacity-50"
+            className="hover:border-primary dark:hover:border-primary relative size-12 overflow-hidden rounded-full border border-transparent px-0 transition-all disabled:opacity-50"
           >
             <Image
               src={avatar}
@@ -108,7 +108,7 @@ const EditAvatarSetting = () => {
             onClick={() => handleAvatarClick(avatar.src, index)}
             disabled={userImageMutation.isPending}
             title={`Chọn ảnh đại diện zodiac ${index + 1}`}
-            className="hover:border-primary dark:hover:border-primary relative size-12 overflow-hidden rounded-full border border-transparent transition-all disabled:opacity-50"
+            className="hover:border-primary dark:hover:border-primary relative size-12 overflow-hidden rounded-full border border-transparent px-0 transition-all disabled:opacity-50"
           >
             <Image
               src={avatar}

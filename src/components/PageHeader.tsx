@@ -37,7 +37,7 @@ const PageHeader: React.FC<PageHeaderProps> = ({
           <div className="group relative">
             <div
               className={cn(
-                'bg-background dark:bg-card/50 dark:ring-offset-background relative flex h-20 w-20 items-center justify-center rounded-2xl ring-2 transition-all dark:shadow-lg dark:ring-offset-2',
+                'dark:ring-offset-background relative flex h-20 w-20 items-center justify-center rounded-2xl ring-2 transition-all dark:shadow-lg dark:ring-offset-2',
                 ringColor
               )}
             >
