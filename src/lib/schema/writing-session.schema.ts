@@ -1,11 +1,7 @@
 import z from 'zod';
 
+import { CEFRLevelSchema, MessageRoleSchema, SessionStatusSchema } from './enum.schema';
 import { createListResponseSchema } from './pagination';
-
-// Enums
-export const CEFRLevelSchema = z.enum(['A1', 'A2', 'B1', 'B2', 'C1', 'C2']);
-export const SessionStatusSchema = z.enum(['active', 'completed']);
-export const MessageRoleSchema = z.enum(['user', 'assistant']);
 
 // Create schemas
 export const writingSessionCreateSchema = z.object({
@@ -82,10 +78,6 @@ export const writingSessionListResponseSchema = createListResponseSchema(
 );
 
 // Types
-export type CEFRLevel = z.infer<typeof CEFRLevelSchema>;
-export type SessionStatus = z.infer<typeof SessionStatusSchema>;
-export type MessageRole = z.infer<typeof MessageRoleSchema>;
-
 export type WritingSessionCreateSchema = z.infer<typeof writingSessionCreateSchema>;
 export type ChatMessageCreateSchema = z.infer<typeof chatMessageCreateSchema>;
 export type SessionCompleteRequestSchema = z.infer<typeof sessionCompleteRequestSchema>;

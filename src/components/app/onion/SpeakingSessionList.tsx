@@ -8,11 +8,7 @@ import { useDeleteSpeakingSessionMutation } from '@/services/speaking-session';
 
 import { toast } from 'sonner';
 
-interface SpeakingSessionListProps {
-  refreshKey?: number; // trigger refetch
-}
-
-export const SpeakingSessionList: React.FC<SpeakingSessionListProps> = ({ refreshKey }) => {
+export const SpeakingSessionList = () => {
   const { data, isLoading, isError } = useGetSpeakingSessionsQuery({ page: 1, size: 50 });
   const deleteMutation = useDeleteSpeakingSessionMutation({
     onSuccess: () => {

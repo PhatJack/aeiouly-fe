@@ -1,7 +1,7 @@
 import z from 'zod';
 
+import { CEFRLevelSchema, MessageRoleSchema, SessionStatusSchema } from './enum.schema';
 import { createListResponseSchema } from './pagination';
-import { CEFRLevelSchema, MessageRoleSchema, SessionStatusSchema } from './writing-session.schema';
 
 export const speakingSessionCreateSchema = z.object({
   my_character: z.string().min(1).max(255),

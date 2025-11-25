@@ -24,9 +24,8 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
+import { CEFRLevelSchema, ReadingGenreSchema } from '@/lib/schema/enum.schema';
 import {
-  CEFRLevelSchema,
-  ReadingGenreSchema,
   ReadingSessionCreateSchema,
   readingSessionCreateSchema,
 } from '@/lib/schema/reading-session.schema';

@@ -10,7 +10,6 @@ import SessionCompleteDialog from '@/components/app/topic/SessionCompleteDialog'
 import MessageContainer from '@/components/shared/chat/MessageContainer';
 import MessageInput from '@/components/shared/chat/MessageInput';
 import MessageItem from '@/components/shared/chat/MessageItem';
-import { Button } from '@/components/ui/button';
 import {
   Dialog,
   DialogContent,
@@ -18,10 +17,8 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog';
-import { Progress } from '@/components/ui/progress';
 import { WritingSessionContext } from '@/contexts/WritingSessionContext';
 import { ChatMessageResponseSchema } from '@/lib/schema/writing-session.schema';
-import { getScoreColor, getScoreLabel } from '@/lib/utils';
 import { cn } from '@/lib/utils';
 import { useGetFinalEvaluationQuery } from '@/services/writing-session';
 import { useGetChatHistoryQuery, useSendChatMessageMutation } from '@/services/writing-session';

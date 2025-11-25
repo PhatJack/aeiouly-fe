@@ -2,8 +2,6 @@
 
 import React, { useCallback, useState } from 'react';
 
-import { useRouter } from 'nextjs-toploader/app';
-
 import PageHeader from '@/components/PageHeader';
 import {
   SpeakingSampleScenarios,
@@ -13,17 +11,10 @@ import { SpeakingSessionForm } from '@/components/app/onion/SpeakingSessionForm'
 import { SpeakingSessionList } from '@/components/app/onion/SpeakingSessionList';
 
 const OnionPage = () => {
-  const router = useRouter();
-
   const [selectedScenario, setSelectedScenario] = useState<SpeakingScenario | null>(null);
-  const [refreshSessions, setRefreshSessions] = useState(0);
 
   const handleSelectScenario = useCallback((scenario: SpeakingScenario) => {
     setSelectedScenario(scenario);
-  }, []);
-
-  const handleCreated = useCallback(() => {
-    setRefreshSessions((v) => v + 1);
   }, []);
 
   return (
@@ -41,12 +32,13 @@ const OnionPage = () => {
       />
 
       {/* Content */}
-      <div className="grid gap-6 lg:grid-cols-3">
-        <div className="space-y-6 lg:col-span-2">
+      <div className="grid gap-4 lg:grid-cols-3">
+        <div className="space-y-4 lg:col-span-2">
           <SpeakingSampleScenarios onSelect={handleSelectScenario} />
-          <SpeakingSessionList refreshKey={refreshSessions} />
+          <SpeakingSessionList />
         </div>
-        <div className="space-y-6">
+        <div className="space-y-4">
+          <h2 className="text-xl font-bold lg:text-2xl">Tự tạo tình huống</h2>
           <SpeakingSessionForm
             initialValues={
               selectedScenario
@@ -58,7 +50,6 @@ const OnionPage = () => {
                   }
                 : undefined
             }
-            onCreated={handleCreated}
           />
         </div>
       </div>

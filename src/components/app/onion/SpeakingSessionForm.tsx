@@ -14,6 +14,7 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
+import { CEFRLevel } from '@/lib/schema/enum.schema';
 import { useCreateSpeakingSessionMutation } from '@/services/speaking-session';
 import { zodResolver } from '@hookform/resolvers/zod';
 
@@ -44,7 +45,7 @@ export const SpeakingSessionForm: React.FC<SpeakingSessionFormProps> = ({
       my_character: initialValues?.my_character || '',
       ai_character: initialValues?.ai_character || '',
       scenario: initialValues?.scenario || '',
-      level: (initialValues?.level as any) || 'A1',
+      level: (initialValues?.level as CEFRLevel) || 'A1',
     },
   });
 
@@ -54,9 +55,8 @@ export const SpeakingSessionForm: React.FC<SpeakingSessionFormProps> = ({
         my_character: initialValues.my_character || '',
         ai_character: initialValues.ai_character || '',
         scenario: initialValues.scenario || '',
-        level: (initialValues.level as any) || 'A1',
+        level: (initialValues.level as CEFRLevel) || 'A1',
       });
-      // focus first field for better UX
       setTimeout(() => form.setFocus('my_character'), 50);
     }
   }, [initialValues, form]);
@@ -80,9 +80,12 @@ export const SpeakingSessionForm: React.FC<SpeakingSessionFormProps> = ({
               name="my_character"
               render={({ field, fieldState }) => (
                 <Field>
-                  <FieldLabel>Nhân vật của bạn</FieldLabel>
+                  <FieldLabel htmlFor="form-create-speaking-session-my-character">
+                    Nhân vật của bạn
+                  </FieldLabel>
                   <Input
                     {...field}
+                    id="form-create-speaking-session-my-character"
                     aria-invalid={fieldState.invalid}
                     placeholder="Ví dụ: Khách hàng"
                   />
@@ -95,9 +98,12 @@ export const SpeakingSessionForm: React.FC<SpeakingSessionFormProps> = ({
               name="ai_character"
               render={({ field, fieldState }) => (
                 <Field>
-                  <FieldLabel>Nhân vật AI</FieldLabel>
+                  <FieldLabel htmlFor="form-create-speaking-session-ai-character">
+                    Nhân vật AI
+                  </FieldLabel>
                   <Input
                     {...field}
+                    id="form-create-speaking-session-ai-character"
                     aria-invalid={fieldState.invalid}
                     placeholder="Ví dụ: Nhân viên pha chế"
                   />
@@ -110,11 +116,16 @@ export const SpeakingSessionForm: React.FC<SpeakingSessionFormProps> = ({
               name="scenario"
               render={({ field, fieldState }) => (
                 <Field>
-                  <FieldLabel>Tình huống</FieldLabel>
+                  <FieldLabel htmlFor="form-create-speaking-session-scenario">
+                    Tình huống
+                  </FieldLabel>
                   <Textarea
                     {...field}
+                    id="form-create-speaking-session-scenario"
                     aria-invalid={fieldState.invalid}
                     placeholder="Mô tả ngắn về tình huống..."
+                    className="min-h-[135px]"
+                    rows={4}
                   />
                   {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
                 </Field>
@@ -125,9 +136,14 @@ export const SpeakingSessionForm: React.FC<SpeakingSessionFormProps> = ({
               name="level"
               render={({ field, fieldState }) => (
                 <Field orientation="responsive" data-invalid={fieldState.invalid}>
-                  <FieldLabel>Cấp độ (CEFR)</FieldLabel>
+                  <FieldLabel htmlFor="form-create-speaking-session-level">
+                    Cấp độ (CEFR)
+                  </FieldLabel>
                   <Select value={field.value} onValueChange={field.onChange}>
-                    <SelectTrigger aria-invalid={fieldState.invalid}>
+                    <SelectTrigger
+                      id="form-create-speaking-session-level"
+                      aria-invalid={fieldState.invalid}
+                    >
                       <SelectValue placeholder="Chọn cấp độ" />
                     </SelectTrigger>
                     <SelectContent position="item-aligned">

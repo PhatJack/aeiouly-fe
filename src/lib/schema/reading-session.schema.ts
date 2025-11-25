@@ -1,20 +1,7 @@
 import z from 'zod';
 
+import { CEFRLevelSchema, ReadingGenreSchema } from './enum.schema';
 import { createListResponseSchema } from './pagination';
-
-// Enums
-export const CEFRLevelSchema = z.enum(['A1', 'A2', 'B1', 'B2', 'C1', 'C2']);
-
-export const ReadingGenreSchema = z.enum([
-  'Bài báo',
-  'Email/Thư từ',
-  'Truyện ngắn',
-  'Hội thoại',
-  'Bài luận',
-  'Đánh giá sản phẩm',
-  'Bài mạng xã hội',
-  'Hướng dẫn sử dụng',
-]);
 
 // Create schemas
 export const readingSessionCreateSchema = z.object({
@@ -105,9 +92,6 @@ export const readingSessionListResponseSchema = createListResponseSchema(
 );
 
 // Types
-export type CEFRLevel = z.infer<typeof CEFRLevelSchema>;
-export type ReadingGenre = z.infer<typeof ReadingGenreSchema>;
-
 export type ReadingSessionCreateSchema = z.infer<typeof readingSessionCreateSchema>;
 export type QuizGenerationRequestSchema = z.infer<typeof quizGenerationRequestSchema>;
 export type DiscussionGenerationRequestSchema = z.infer<typeof discussionGenerationRequestSchema>;
