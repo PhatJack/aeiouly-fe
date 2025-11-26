@@ -1,6 +1,8 @@
 import React, { useEffect } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 
+import { useRouter } from 'nextjs-toploader/app';
+
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardFooter } from '@/components/ui/card';
 import { Field, FieldError, FieldGroup, FieldLabel } from '@/components/ui/field';
@@ -32,13 +34,10 @@ export type SpeakingSessionFormValues = z.infer<typeof schema>;
 
 interface SpeakingSessionFormProps {
   initialValues?: Partial<SpeakingSessionFormValues>;
-  onCreated?: () => void;
 }
 
-export const SpeakingSessionForm: React.FC<SpeakingSessionFormProps> = ({
-  initialValues,
-  onCreated,
-}) => {
+export const SpeakingSessionForm: React.FC<SpeakingSessionFormProps> = ({ initialValues }) => {
+  const router = useRouter();
   const form = useForm<SpeakingSessionFormValues>({
     resolver: zodResolver(schema),
     defaultValues: {
@@ -62,9 +61,10 @@ export const SpeakingSessionForm: React.FC<SpeakingSessionFormProps> = ({
   }, [initialValues, form]);
 
   const mutation = useCreateSpeakingSessionMutation({
-    onSuccess: () => {
+    onSuccess: (data) => {
       toast.success('Tạo phiên luyện nói thành công');
-      onCreated?.();
+      router.push(`/onion/${data.id}`);
+      form.reset();
     },
   });
 

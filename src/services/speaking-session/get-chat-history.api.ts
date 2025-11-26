@@ -1,10 +1,10 @@
 import { apiClient } from '@/lib/client';
 import { ErrorResponseSchema } from '@/lib/schema/error';
-import { ChatMessageResponseSchema } from '@/lib/schema/speaking-session.schema';
+import { SpeakingChatMessageResponseSchema } from '@/lib/schema/speaking-session.schema';
 import { UseQueryOptions, useQuery } from '@tanstack/react-query';
 
 export async function getSpeakingChatHistoryApi(sessionId: number) {
-  const response = await apiClient.get<ChatMessageResponseSchema[]>(
+  const response = await apiClient.get<SpeakingChatMessageResponseSchema[]>(
     `/speaking-sessions/${sessionId}/chat`
   );
   return response.data;
@@ -13,11 +13,11 @@ export async function getSpeakingChatHistoryApi(sessionId: number) {
 export const useGetSpeakingChatHistoryQuery = (
   sessionId: number,
   options?: Omit<
-    UseQueryOptions<ChatMessageResponseSchema[], ErrorResponseSchema>,
+    UseQueryOptions<SpeakingChatMessageResponseSchema[], ErrorResponseSchema>,
     'queryKey' | 'queryFn'
   >
 ) => {
-  return useQuery<ChatMessageResponseSchema[], ErrorResponseSchema>({
+  return useQuery<SpeakingChatMessageResponseSchema[], ErrorResponseSchema>({
     queryKey: ['speakingChatHistory', sessionId],
     queryFn: () => getSpeakingChatHistoryApi(sessionId),
     enabled: !!sessionId,

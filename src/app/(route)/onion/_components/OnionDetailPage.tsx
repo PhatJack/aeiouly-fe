@@ -6,12 +6,10 @@ import LoadingWithText from '@/components/LoadingWithText';
 import DetailRightPanel from '@/components/app/onion/DetailRightPanel';
 import TextSelectionModal from '@/components/shared/TextSelectionModal';
 import VocabularyDialog from '@/components/shared/VocabularyDialog';
-import { useRecorder } from '@/hooks/use-recorder';
 import useTextSelection from '@/hooks/use-text-selection';
-import { cn } from '@/lib/utils';
 import { useGetSpeakingSessionQuery } from '@/services/speaking-session';
 
-import { Mic, Pause } from 'lucide-react';
+import ChatSection from './ChatSection';
 
 interface OnionDetailPageProps {
   id: string;
@@ -33,10 +31,15 @@ const OnionDetailPage = ({ id }: OnionDetailPageProps) => {
   }
 
   return (
-    <div ref={contentRef} className="flex h-[calc(100vh-3rem)] w-full gap-6">
-      <div className="relative flex size-full flex-col lg:w-3/5"></div>
-      <div className="w-full lg:w-2/5">
-        <DetailRightPanel />
+    <div ref={contentRef} className="flex flex-col gap-4 xl:h-[calc(100vh-2rem)]">
+      <div className="flex min-h-0 flex-1 flex-col gap-4 xl:flex-row">
+        {/* Left side - Chat */}
+        <ChatSection sessionId={Number(id)} className="flex-1" />
+
+        {/* Right side - Details */}
+        <div className="w-full xl:w-[40%]">
+          <DetailRightPanel />
+        </div>
       </div>
       {selection.isSelected && selection.position && (
         <TextSelectionModal selection={selection} tooltipRef={tooltipRef} setOpen={setOpen} />

@@ -20,8 +20,11 @@ import {
 import { WritingSessionContext } from '@/contexts/WritingSessionContext';
 import { ChatMessageResponseSchema } from '@/lib/schema/writing-session.schema';
 import { cn } from '@/lib/utils';
-import { useGetFinalEvaluationQuery } from '@/services/writing-session';
-import { useGetChatHistoryQuery, useSendChatMessageMutation } from '@/services/writing-session';
+import {
+  useGetFinalEvaluationQuery,
+  useGetWritingChatHistoryQuery,
+} from '@/services/writing-session';
+import { useSendChatMessageMutation } from '@/services/writing-session';
 
 import { useContextSelector } from 'use-context-selector';
 
@@ -40,7 +43,7 @@ const ChatSection = ({ sessionId, className }: ChatSectionProps) => {
     (ctx) => ctx!.handleSelectedSentenceIndex
   );
 
-  const { data: chatHistory } = useGetChatHistoryQuery(sessionId, {
+  const { data: chatHistory } = useGetWritingChatHistoryQuery(sessionId, {
     refetchOnWindowFocus: false,
   });
   const router = useRouter();
