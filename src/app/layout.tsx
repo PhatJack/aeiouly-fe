@@ -38,11 +38,11 @@ export const metadata: Metadata = {
     },
     description:
       'Lộ trình chinh phục tiếng Anh cùng Aeiouly sẽ vừa thú vị vừa hiệu quả. Công cụ, bài học và phương pháp cá nhân hóa của chúng tôi giúp bạn tự tin giao tiếp tiếng Anh.',
-    url: 'https://aeiouly.site',
+    url: 'https://aeiouly.online',
     siteName: 'Aeiouly',
     images: [
       {
-        url: 'https://aeiouly.site/banner-auth.png',
+        url: 'https://aeiouly.online/banner-auth.png',
         width: 1200,
         height: 630,
         alt: 'Aeiouly',
@@ -60,7 +60,7 @@ export const metadata: Metadata = {
       'Lộ trình chinh phục tiếng Anh cùng Aeiouly sẽ vừa thú vị vừa hiệu quả. Công cụ, bài học và phương pháp cá nhân hóa của chúng tôi giúp bạn tự tin giao tiếp tiếng Anh.',
     images: [
       {
-        url: 'https://aeiouly.site/banner-auth.png',
+        url: 'https://aeiouly.online/banner-auth.png',
         width: 1200,
         height: 630,
         alt: 'Aeiouly',
