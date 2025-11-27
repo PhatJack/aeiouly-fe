@@ -1,6 +1,8 @@
 import React, { useCallback } from 'react';
+import type { RefObject } from 'react';
 import { useForm } from 'react-hook-form';
 
+import { Visualizer } from '@/components/app/onion/Visualizer';
 import TooltipCustom from '@/components/custom/TooltipCustom';
 import { Button } from '@/components/ui/button';
 import { Form, FormControl, FormField, FormItem } from '@/components/ui/form';
@@ -16,6 +18,8 @@ interface MessageInputProps {
   showAudioButton?: boolean; // toggle mic visibility
   isRecording?: boolean; // current recording state
   onAudioClick?: () => void; // handler to start/stop recording
+  recorderStream?: MediaStream | null; // stream for visualizer
+  mediaRecorderRef?: RefObject<MediaRecorder | null>; // media recorder ref
 }
 
 interface MessageFormData {
@@ -29,6 +33,8 @@ const MessageInput = ({
   showAudioButton = false,
   isRecording = false,
   onAudioClick,
+  recorderStream,
+  mediaRecorderRef,
 }: MessageInputProps) => {
   const messageForm = useForm<MessageFormData>({
     defaultValues: {
@@ -85,6 +91,18 @@ const MessageInput = ({
             "group-data-[expand=true]/composer:[grid-template-areas:'header_header_header'_'primary_primary_primary'_'leading_footer_trailing']"
           )}
         >
+          {/* Visualizer area – shows only while recording */}
+          {isRecording && recorderStream && mediaRecorderRef && (
+            <div className="mb-2 [grid-area:header]">
+              <div className="dark:bg-muted h-16 w-full overflow-hidden rounded-md border bg-gray-50">
+                <Visualizer
+                  stream={recorderStream}
+                  isRecording={isRecording}
+                  mediaRecorderRef={mediaRecorderRef}
+                />
+              </div>
+            </div>
+          )}
           <div className="[grid-area:leading]">{renderAudioButton}</div>
           <FormField
             control={messageForm.control}

@@ -12,7 +12,6 @@ import { cn } from '@/lib/utils';
 import {
   useGetSpeakingChatHistoryQuery,
   useSendSpeakingChatMessageMutation,
-  useSpeechToTextMutation,
 } from '@/services/speaking-session';
 
 import { Mic, Square } from 'lucide-react';
@@ -29,12 +28,19 @@ const ChatSection = ({ sessionId, className }: ChatSectionProps) => {
 
   const [localMessages, setLocalMessages] = useState<SpeakingChatMessageResponseSchema[]>([]);
   const sendChatMutation = useSendSpeakingChatMessageMutation();
-  const sttMutation = useSpeechToTextMutation();
   const [historyMessageIds, setHistoryMessageIds] = useState<Set<string>>(new Set());
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   // Recorder hook
-  const { startRecording, stopRecording, isRecording, audioBlob, resetRecorder } = useRecorder();
+  const {
+    startRecording,
+    stopRecording,
+    isRecording,
+    audioBlob,
+    resetRecorder,
+    stream,
+    recorderRef,
+  } = useRecorder();
 
   useEffect(() => {
     if (chatHistory && chatHistory.length > 0) {
@@ -72,19 +78,11 @@ const ChatSection = ({ sessionId, className }: ChatSectionProps) => {
       if (!audioBlob) return;
       const file = new File([audioBlob], `recording-${Date.now()}.webm`, { type: 'audio/webm' });
 
-      let transcribed = '';
-      try {
-        const stt = await sttMutation.mutateAsync({ audioFile: file });
-        transcribed = stt?.text || '';
-      } catch (_) {
-        // ignore STT errors to not block sending
-      }
-
       const optimisticUserMessage: SpeakingChatMessageResponseSchema = {
         id: Date.now(),
         session_id: sessionId,
         role: 'user',
-        content: transcribed || '[Voice message] — sending...',
+        content: '[Voice message] — sending...',
         is_audio: true,
         audio_url: null,
         translation_sentence: null,
@@ -121,7 +119,7 @@ const ChatSection = ({ sessionId, className }: ChatSectionProps) => {
         historyMessageIds={historyMessageIds}
         className="mb-4 flex-1"
       >
-        {(sendChatMutation.isPending || sttMutation.isPending) && (
+        {sendChatMutation.isPending && (
           <MessageItem
             content="Đang suy nghĩ..."
             senderRole="assistant"
@@ -139,6 +137,8 @@ const ChatSection = ({ sessionId, className }: ChatSectionProps) => {
         showAudioButton
         isRecording={isRecording}
         onAudioClick={() => (isRecording ? stopRecording() : startRecording())}
+        recorderStream={stream}
+        mediaRecorderRef={recorderRef}
       />
     </div>
   );
