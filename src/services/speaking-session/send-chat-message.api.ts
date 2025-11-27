@@ -18,18 +18,20 @@ export async function sendSpeakingChatMessageApi(
   audioFile?: File
 ) {
   let data: any = body;
-  let config: any = undefined;
   if (audioFile || !body.content) {
     const form = new FormData();
     if (body.content) form.append('content', body.content);
     if (audioFile) form.append('audio_file', audioFile);
     data = form;
-    config = { headers: { 'Content-Type': 'multipart/form-data' } };
   }
   const response = await apiClient.post<SpeakingChatMessageResponseSchema, typeof data>(
     `/speaking-sessions/${sessionId}/chat`,
     data,
-    config
+    {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    }
   );
   return response.data;
 }

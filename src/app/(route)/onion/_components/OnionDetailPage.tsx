@@ -38,7 +38,7 @@ const OnionDetailPage = ({ id }: OnionDetailPageProps) => {
 
         {/* Right side - Details */}
         <div className="w-full xl:w-[40%]">
-          <DetailRightPanel />
+          <DetailRightPanel speakingSession={speakingSession} />
         </div>
       </div>
       {selection.isSelected && selection.position && (

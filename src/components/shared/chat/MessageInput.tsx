@@ -16,7 +16,6 @@ interface MessageInputProps {
   showAudioButton?: boolean; // toggle mic visibility
   isRecording?: boolean; // current recording state
   onAudioClick?: () => void; // handler to start/stop recording
-  audioButtonPosition?: 'start' | 'end'; // optional positioning (future use)
 }
 
 interface MessageFormData {
@@ -30,7 +29,6 @@ const MessageInput = ({
   showAudioButton = false,
   isRecording = false,
   onAudioClick,
-  audioButtonPosition = 'start',
 }: MessageInputProps) => {
   const messageForm = useForm<MessageFormData>({
     defaultValues: {
