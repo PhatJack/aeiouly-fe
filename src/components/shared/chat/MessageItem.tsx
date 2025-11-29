@@ -7,7 +7,7 @@ import { useCopyToClipboard } from '@/components/editor/tiptap-editor/hooks/use-
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 
-import { Check, Copy } from 'lucide-react';
+import { Check, Copy, Languages } from 'lucide-react';
 
 import MarkdownRender from '../MarkdownRender';
 
@@ -17,6 +17,7 @@ interface MessageItemProps {
   index?: number;
   isLoading?: boolean;
   disableTyping?: boolean;
+  translation_sentence?: string;
 }
 
 const MessageItem: React.FC<MessageItemProps> = ({
@@ -24,51 +25,78 @@ const MessageItem: React.FC<MessageItemProps> = ({
   senderRole,
   isLoading = false,
   disableTyping = false,
+  translation_sentence = '',
 }) => {
+  const [isShowTranslated, setIsShowTranslated] = useState(false);
   const [hover, setHover] = useState(false);
   const { copy, isCopied } = useCopyToClipboard();
 
   return (
-    <div
-      className={cn(
-        'relative flex w-full items-center gap-2',
-        senderRole === 'user' ? 'justify-end' : 'justify-start'
-      )}
-      onMouseEnter={() => setHover(true)}
-      onMouseLeave={() => setHover(false)}
-    >
+    <>
       <div
         className={cn(
-          'w-fit max-w-md px-4 py-2 break-words',
-          senderRole === 'user'
-            ? 'bg-primary/85 dark:bg-primary self-end rounded-tl-2xl rounded-tr-sm rounded-b-2xl text-white'
-            : 'dark:bg-muted self-start rounded-tl-sm rounded-tr-2xl rounded-b-2xl bg-gray-200 text-gray-800 dark:text-gray-200'
+          'relative flex w-full items-center gap-2',
+          senderRole === 'user' ? 'justify-end' : 'justify-start'
         )}
+        onMouseEnter={() => setHover(true)}
+        onMouseLeave={() => setHover(false)}
       >
-        {isLoading ? (
-          <IndicatorLoading text={'Đang suy nghĩ...'} />
-        ) : senderRole === 'user' ? (
-          content
-        ) : (
-          <MarkdownRender disableTyping={disableTyping}>{content}</MarkdownRender>
+        <div
+          className={cn(
+            'w-fit max-w-md px-4 py-2 break-words sm:max-w-lg',
+            senderRole === 'user'
+              ? 'bg-primary/85 dark:bg-primary self-end rounded-tl-2xl rounded-tr-sm rounded-b-2xl text-white'
+              : 'dark:bg-muted self-start rounded-tl-sm rounded-tr-2xl rounded-b-2xl bg-gray-200 text-gray-800 dark:text-gray-200'
+          )}
+        >
+          {isLoading ? (
+            <IndicatorLoading text={'Đang suy nghĩ...'} />
+          ) : senderRole === 'user' ? (
+            content
+          ) : (
+            <MarkdownRender disableTyping={disableTyping}>{content}</MarkdownRender>
+          )}
+          {isShowTranslated && translation_sentence && (
+            <div className={cn('mt-2 w-full')}>
+              <strong>Bản dịch:</strong>
+              <p className="mt-1">{translation_sentence}</p>
+            </div>
+          )}
+        </div>
+
+        {/* Copy button – chỉ hiện khi hover */}
+        {!isLoading && (
+          <Button
+            onClick={() => copy(content)}
+            type="button"
+            size="icon"
+            variant="secondary"
+            className={cn(
+              `size-7 rounded-full transition-all duration-200`,
+              senderRole === 'user' ? '-order-1' : 'order-1',
+              hover ? 'scale-100 opacity-100' : 'pointer-events-none scale-90 opacity-0'
+            )}
+          >
+            {isCopied ? <Check /> : <Copy />}
+          </Button>
+        )}
+        {translation_sentence && (
+          <Button
+            onClick={() => setIsShowTranslated(!isShowTranslated)}
+            type="button"
+            size="icon"
+            variant={isShowTranslated ? 'default' : 'destructive'}
+            className={cn(
+              `size-7 rounded-full transition-all duration-200`,
+              senderRole === 'user' ? '-order-1' : 'order-1',
+              hover ? 'scale-100 opacity-100' : 'pointer-events-none scale-90 opacity-0'
+            )}
+          >
+            <Languages />
+          </Button>
         )}
       </div>
-
-      {/* Copy button – chỉ hiện khi hover */}
-      <Button
-        onClick={() => copy(content)}
-        type="button"
-        size="icon"
-        variant="secondary"
-        className={cn(
-          `size-7 rounded-full transition-all duration-200`,
-          senderRole === 'user' ? '-order-1' : 'order-1',
-          hover ? 'scale-100 opacity-100' : 'pointer-events-none scale-90 opacity-0'
-        )}
-      >
-        {isCopied ? <Check /> : <Copy />}
-      </Button>
-    </div>
+    </>
   );
 };
 

@@ -1,7 +1,7 @@
 import z from 'zod';
 
+import { CEFRLevelSchema, MessageRoleSchema, SessionStatusSchema } from './enum.schema';
 import { createListResponseSchema } from './pagination';
-import { CEFRLevelSchema, MessageRoleSchema, SessionStatusSchema } from './writing-session.schema';
 
 export const speakingSessionCreateSchema = z.object({
   my_character: z.string().min(1).max(255),
@@ -41,12 +41,15 @@ export const speakingSessionListItemSchema = z.object({
   created_at: z.string().or(z.date()),
 });
 
-export const chatMessageResponseSchema = z.object({
+export const speakingChatMessageResponseSchema = z.object({
   id: z.number(),
   session_id: z.number(),
   role: MessageRoleSchema,
   content: z.string(),
   is_audio: z.boolean(),
+  audio_url: z.string().nullable().optional(),
+  translation_sentence: z.string().nullable().optional(),
+  session: speakingSessionResponseSchema.optional(),
   created_at: z.string().or(z.date()),
 });
 
@@ -82,7 +85,7 @@ export type ChatMessageCreateSchema = z.infer<typeof chatMessageCreateSchema>;
 export type SpeechToTextRequestSchema = z.infer<typeof speechToTextRequestSchema>;
 export type SpeakingSessionResponseSchema = z.infer<typeof speakingSessionResponseSchema>;
 export type SpeakingSessionListItemSchema = z.infer<typeof speakingSessionListItemSchema>;
-export type ChatMessageResponseSchema = z.infer<typeof chatMessageResponseSchema>;
+export type SpeakingChatMessageResponseSchema = z.infer<typeof speakingChatMessageResponseSchema>;
 export type HintResponseSchema = z.infer<typeof hintResponseSchema>;
 export type FinalEvaluationResponseSchema = z.infer<typeof finalEvaluationResponseSchema>;
 export type SpeechToTextResponseSchema = z.infer<typeof speechToTextResponseSchema>;

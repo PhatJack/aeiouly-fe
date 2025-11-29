@@ -3,14 +3,14 @@ import { ErrorResponseSchema } from '@/lib/schema/error';
 import { ChatMessageResponseSchema } from '@/lib/schema/writing-session.schema';
 import { UseQueryOptions, useQuery } from '@tanstack/react-query';
 
-export async function getChatHistoryApi(sessionId: number) {
+export async function getWritingChatHistoryApi(sessionId: number) {
   const response = await apiClient.get<ChatMessageResponseSchema[]>(
     `/writing-sessions/${sessionId}/chat`
   );
   return response.data;
 }
 
-export const useGetChatHistoryQuery = (
+export const useGetWritingChatHistoryQuery = (
   sessionId: number,
   options?: Omit<
     UseQueryOptions<ChatMessageResponseSchema[], ErrorResponseSchema>,
@@ -19,7 +19,7 @@ export const useGetChatHistoryQuery = (
 ) => {
   return useQuery<ChatMessageResponseSchema[], ErrorResponseSchema>({
     queryKey: ['chatHistory', sessionId],
-    queryFn: () => getChatHistoryApi(sessionId),
+    queryFn: () => getWritingChatHistoryApi(sessionId),
     enabled: !!sessionId,
     ...options,
   });

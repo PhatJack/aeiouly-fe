@@ -37,7 +37,7 @@ const TextSelectionModal = ({ selection, tooltipRef, setOpen }: TextSelectionMod
         transform: 'translate(-100%, -100%)',
       }}
     >
-      <div className="rounded-lg border border-gray-200 bg-white px-4 py-2 shadow-lg">
+      <div className="dark:bg-accent rounded-lg border bg-white px-4 py-2 shadow-lg">
         <TooltipCustom content="Dịch từ và lưu vào list từ" side="top">
           <Button size={'sm'} variant={'primary-outline'} type="button" onClick={handleOpenModal}>
             <Languages />

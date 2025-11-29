@@ -102,102 +102,77 @@ export default function Home() {
     <div className="min-h-screen w-full overflow-hidden bg-white dark:bg-[#121212]">
       <div className="container mx-auto space-y-16 px-4 py-10 sm:px-0 sm:py-16">
         <section className="relative overflow-hidden">
-          <motion.div className="absolute inset-0 -z-10" style={{ y }}>
-            <div className="from-primary/5 absolute inset-0 bg-gradient-to-br via-purple-500/5 to-pink-500/5" />
+          <div className="grid items-center gap-12 lg:grid-cols-2">
             <motion.div
-              className="bg-primary/10 absolute top-1/4 left-1/4 h-96 w-96 rounded-full blur-3xl"
-              animate={{
-                scale: [1, 1.2, 1],
-                opacity: [0.3, 0.5, 0.3],
-              }}
-              transition={{
-                duration: 8,
-                repeat: Infinity,
-                ease: 'easeInOut',
-              }}
-            />
-            <motion.div
-              className="absolute right-1/4 bottom-1/4 h-96 w-96 rounded-full bg-purple-500/10 blur-3xl"
-              animate={{
-                scale: [1.2, 1, 1.2],
-                opacity: [0.5, 0.3, 0.5],
-              }}
-              transition={{
-                duration: 8,
-                repeat: Infinity,
-                ease: 'easeInOut',
-              }}
-            />
-          </motion.div>
-
-          <div className="">
-            <div className="grid items-center gap-12 lg:grid-cols-2">
+              className="space-y-8"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8 }}
+            >
               <motion.div
-                className="space-y-8"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8 }}
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ delay: 0.2 }}
               >
-                <motion.div
-                  initial={{ opacity: 0, scale: 0.9 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  transition={{ delay: 0.2 }}
-                >
-                  <Badge className="border-primary/20 bg-primary/5 w-fit" variant="outline">
-                    <Sparkles className="mr-1 h-3 w-3" />
-                    Nền tảng học tiếng Anh thông minh
-                  </Badge>
-                </motion.div>
-
-                <motion.h1
-                  className="text-foreground text-5xl leading-tight font-bold md:text-6xl lg:text-7xl dark:text-white dark:[-webkit-text-stroke:2px_white]"
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.3 }}
-                >
-                  Chinh phục tiếng Anh cùng{' '}
-                  <span className="from-primary bg-gradient-to-r via-purple-600 to-pink-600 bg-clip-text text-transparent">
-                    Aeiouly
-                  </span>
-                </motion.h1>
-
-                <motion.p
-                  className="text-muted-foreground text-lg leading-relaxed md:text-xl dark:text-gray-300"
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.4 }}
-                >
-                  Học tiếng Anh hiệu quả với công nghệ AI, nội dung cá nhân hóa và phương pháp học
-                  tập khoa học. Tự tin giao tiếp chỉ sau vài tuần!
-                </motion.p>
-
-                <motion.div
-                  className="flex flex-wrap gap-4"
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.5 }}
-                >
-                  <Link href={ROUTE.AUTH.LOGIN}>
-                    <Button size="lg" className="group shadow-primary/25 text-base shadow-lg">
-                      Bắt đầu học ngay
-                      <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
-                    </Button>
-                  </Link>
-                </motion.div>
+                <Badge className="border-primary/20 bg-primary/5 w-fit" variant="outline">
+                  <Sparkles className="mr-1 h-3 w-3" />
+                  Nền tảng học tiếng Anh thông minh
+                </Badge>
               </motion.div>
 
-              <div className="relative flex justify-center sm:justify-end">
-                <div className="relative aspect-square size-full overflow-hidden rounded-3xl sm:size-3/4">
-                  <Image
-                    src="/mockup/hero-banner.png"
-                    alt="Aeiouly Platform"
-                    fill
-                    className="object-cover"
-                    priority
-                  />
-                </div>
+              <motion.h1
+                className="text-foreground text-3xl leading-tight font-bold md:text-6xl lg:text-7xl dark:text-white"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.3 }}
+              >
+                Chinh phục tiếng Anh cùng{' '}
+                <span className="from-primary bg-gradient-to-r via-purple-600 to-pink-600 bg-clip-text text-transparent">
+                  Aeiouly
+                </span>
+              </motion.h1>
+
+              <motion.p
+                className="text-muted-foreground leading-relaxed md:text-xl dark:text-gray-300"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.4 }}
+              >
+                Học tiếng Anh hiệu quả với công nghệ AI, nội dung cá nhân hóa và phương pháp học tập
+                khoa học. Tự tin giao tiếp chỉ sau vài tuần!
+              </motion.p>
+
+              <motion.div
+                className="flex flex-wrap gap-4"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.5 }}
+              >
+                <Link href={ROUTE.AUTH.LOGIN}>
+                  <Button size="lg" className="group shadow-primary/25">
+                    Bắt đầu học ngay
+                    <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
+                  </Button>
+                </Link>
+              </motion.div>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8 }}
+              className="relative flex justify-center lg:justify-end"
+            >
+              <div className="relative aspect-square size-3/4 overflow-hidden rounded-3xl">
+                <Image
+                  src="/mockup/hero-banner.png"
+                  alt="Aeiouly Platform"
+                  fill
+                  className="object-cover"
+                  priority
+                />
               </div>
-            </div>
+            </motion.div>
           </div>
         </section>
 
@@ -467,6 +442,7 @@ export default function Home() {
                           <Image
                             src={review.avatar}
                             alt={review.name}
+                            sizes="56px"
                             fill
                             className="object-cover"
                           />
@@ -538,6 +514,7 @@ export default function Home() {
                             src={review.avatar}
                             alt={review.name}
                             fill
+                            sizes="56px"
                             className="object-cover"
                           />
                         </div>
@@ -608,6 +585,7 @@ export default function Home() {
                             src={review.avatar}
                             alt={review.name}
                             fill
+                            sizes="56px"
                             className="object-cover"
                           />
                         </div>

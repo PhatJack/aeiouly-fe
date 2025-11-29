@@ -1,26 +1,25 @@
 'use client';
 
-import React from 'react';
+import React, { memo } from 'react';
 
-import { ChatMessageResponseSchema } from '@/lib/schema/writing-session.schema';
 import { cn } from '@/lib/utils';
 
 import MessageItem from './MessageItem';
 
 interface MessageContainerProps {
-  messages: ChatMessageResponseSchema[];
+  messages: any[];
   senderId?: number;
   historyMessageIds?: Set<string>;
   children?: React.ReactNode;
   className?: string;
 }
 
-const MessageContainer = ({
+function MessageContainer({
   messages,
   historyMessageIds,
   children,
   className,
-}: MessageContainerProps) => {
+}: MessageContainerProps) {
   return (
     <div
       id="message-container"
@@ -38,6 +37,7 @@ const MessageContainer = ({
             index={message.id || index}
             content={message.content}
             senderRole={message.role}
+            translation_sentence={message.translation_sentence}
             disableTyping={
               historyMessageIds
                 ? historyMessageIds.has(`${message.session_id}_${message.role}_${message.id}`)
@@ -49,6 +49,6 @@ const MessageContainer = ({
       {children}
     </div>
   );
-};
+}
 
-export default React.memo(MessageContainer);
+export default memo(MessageContainer);

@@ -1,11 +1,8 @@
 import { apiClient } from '@/lib/client';
+import { CEFRLevel, ReadingGenre } from '@/lib/schema/enum.schema';
 import { ErrorResponseSchema } from '@/lib/schema/error';
 import { PaginationRequestSchema } from '@/lib/schema/pagination';
-import {
-  CEFRLevel,
-  ReadingGenre,
-  ReadingSessionListResponseSchema,
-} from '@/lib/schema/reading-session.schema';
+import { ReadingSessionListResponseSchema } from '@/lib/schema/reading-session.schema';
 import { UseQueryOptions, useQuery } from '@tanstack/react-query';
 
 export interface GetReadingSessionsParams extends PaginationRequestSchema {

@@ -7,10 +7,10 @@ export default function AuthLayout({
 }>) {
   return (
     <div className="grid max-h-svh min-h-svh w-full overflow-x-hidden overflow-y-auto bg-white p-4 xl:grid-cols-4 dark:bg-[#121212]">
-      <div className="flex flex-col gap-4 p-6 md:p-10 xl:col-span-1">
+      <div className="flex flex-col p-6 sm:gap-4 md:p-10 xl:col-span-1">
         <div className="flex justify-center gap-2 md:justify-start">
           <div className="flex items-center gap-2 font-medium">
-            <div className="bg-primary text-primary-foreground relative flex size-16 items-center justify-center overflow-hidden rounded-full">
+            <div className="bg-primary text-primary-foreground relative flex size-20 items-center justify-center overflow-hidden rounded-full md:size-16">
               <Image src="/logo.png" alt="Aeiouly Logo" fill />
             </div>
             <span className="sr-only">Aeiouly</span>

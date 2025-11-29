@@ -9,8 +9,9 @@ export const metadata: Metadata = {
   description: 'Luyện nói tiếng Anh',
 };
 
-const Page = () => {
-  return <OnionDetailPage />;
+const Page = async ({ params }: { params: Promise<{ id: string }> }) => {
+  const { id } = await params;
+  return <OnionDetailPage id={id} />;
 };
 
 export default Page;

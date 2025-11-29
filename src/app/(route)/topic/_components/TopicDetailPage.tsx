@@ -5,7 +5,7 @@ import React, { useRef, useState } from 'react';
 import LoadingWithText from '@/components/LoadingWithText';
 import TextSelectionModal from '@/components/shared/TextSelectionModal';
 import VocabularyDialog from '@/components/shared/VocabularyDialog';
-import useContentTextSelection from '@/hooks/use-text-selection';
+import useTextSelection from '@/hooks/use-text-selection';
 import { useGetWritingSessionQuery } from '@/services/writing-session';
 
 import ChatSection from './ChatSection';
@@ -18,7 +18,7 @@ interface TopicDetailPageProps {
 const TopicDetailPage = ({ id }: TopicDetailPageProps) => {
   const contentRef = useRef<HTMLDivElement | null>(null);
   const tooltipRef = useRef<HTMLDivElement | null>(null);
-  const selection = useContentTextSelection({
+  const selection = useTextSelection({
     ref: contentRef,
   });
   const [open, setOpen] = useState<boolean>(false);

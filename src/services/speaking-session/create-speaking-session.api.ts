@@ -1,3 +1,4 @@
+import { getQueryClient } from '@/app/get-query-client';
 import { apiClient } from '@/lib/client';
 import { ErrorResponseSchema } from '@/lib/schema/error';
 import {
@@ -24,6 +25,7 @@ export const useCreateSpeakingSessionMutation = (
     'mutationKey' | 'mutationFn'
   >
 ) => {
+  const queryClient = getQueryClient();
   return useMutation<
     SpeakingSessionResponseSchema,
     ErrorResponseSchema,
@@ -31,6 +33,12 @@ export const useCreateSpeakingSessionMutation = (
   >({
     mutationKey: ['createSpeakingSession'],
     mutationFn: (body) => createSpeakingSessionApi(body),
+    onSuccess: (data) => {
+      queryClient.setQueriesData({ queryKey: ['speakingSessions'] }, (oldData: any) => {
+        if (!oldData) return oldData;
+        return { ...oldData, items: [data, ...oldData.items] };
+      });
+    },
     ...options,
   });
 };

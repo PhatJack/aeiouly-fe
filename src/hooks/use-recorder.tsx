@@ -13,9 +13,6 @@ export const useRecorder = () => {
 
   const recorderRef = useRef<MediaRecorder | null>(null);
 
-  // * Create audio URL from stream
-  const chunksRef = useRef<Blob[]>([]); // 👈 nơi lưu dữ liệu ghi
-
   // * Get all devices
   const { devices, selectedDeviceId, setSelectedDeviceId } = useGetDevice();
 
@@ -28,12 +25,9 @@ export const useRecorder = () => {
       if (!streamRef.current) return;
       recorderRef.current = new MediaRecorder(streamRef.current);
       recorderRef.current.start();
-      chunksRef.current = []; // 👈 reset chunks khi bắt đầu ghi
 
-      recorderRef.current.ondataavailable = (event) => {
-        if (event.data.size > 0) {
-          chunksRef.current.push(event.data); // 👈 thêm dữ liệu mới vào chunk
-        }
+      recorderRef.current.ondataavailable = ({ data: transcript }) => {
+        setAudioBlob(transcript);
       };
       setIsRecording(true);
     } catch (error) {
@@ -59,13 +53,9 @@ export const useRecorder = () => {
     if (!recorderRef.current) return;
     recorderRef.current.stop();
     setIsRecording(false);
-    recorderRef.current.onstop = () => {
-      const blob = new Blob(chunksRef.current, { type: 'audio/webm' });
-      setAudioBlob(blob); // * save blob for playback or upload
-    };
+    recorderRef.current.onstop = () => {};
     streamRef.current?.getTracks().forEach((t) => t.stop());
     recorderRef.current = null;
-
     resetRecorderState();
   };
 
