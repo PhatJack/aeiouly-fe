@@ -1,6 +1,6 @@
 'use client';
 
-import React, { memo, useEffect, useMemo, useRef, useState } from 'react';
+import React, { memo, useEffect, useMemo, useState } from 'react';
 
 import MessageContainer from '@/components/shared/chat/MessageContainer';
 import MessageInput from '@/components/shared/chat/MessageInput';
@@ -14,6 +14,7 @@ import {
   useSendSpeakingChatMessageMutation,
   useSpeechToTextMutation,
 } from '@/services/speaking-session';
+import puter from '@heyputer/puter.js';
 
 import { toast } from 'sonner';
 
@@ -73,13 +74,16 @@ const ChatSection = ({ sessionId, className }: ChatSectionProps) => {
     sendChatMutation
       .mutateAsync({ sessionId, message: { content: content.trim() } })
       .then((res) => {
-        speak({
-          text: res.content,
-          voice: selectedVoiceObject,
-          pitch: 1.2,
-          messageId: `message-${res.id}`,
-        });
-        setLocalMessages((prev) => [...prev, res]);
+        puter.ai
+          .txt2speech(res.content, {
+            voice: 'fable',
+            language: 'en-US',
+            provider: 'openai',
+          })
+          .then((audio) => {
+            audio.play();
+            setLocalMessages((prev) => [...prev, res]);
+          });
       });
   };
 

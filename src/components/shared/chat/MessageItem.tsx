@@ -7,6 +7,7 @@ import { useCopyToClipboard } from '@/components/editor/tiptap-editor/hooks/use-
 import { Button } from '@/components/ui/button';
 import { useSpeechContext } from '@/contexts/SpeechContext';
 import { cn } from '@/lib/utils';
+import puter from '@heyputer/puter.js';
 
 import { Check, Copy, Languages, Pause, Volume2 } from 'lucide-react';
 
@@ -45,16 +46,25 @@ const MessageItem: React.FC<MessageItemProps> = ({
   const isThisMessageSpeaking = speaking && speakingMessageId === messageId;
 
   const handleSpeakClick = useCallback(() => {
-    if (isThisMessageSpeaking) {
-      cancel();
-    } else {
-      speak({
-        text: content,
-        voice: selectedVoiceObject,
-        messageId: messageId,
+    puter.ai
+      .txt2speech(content, {
+        voice: 'shimmer',
+        language: 'en-US',
+        provider: 'openai',
+      })
+      .then((audio) => {
+        audio.play();
       });
-    }
-  }, [isThisMessageSpeaking, cancel, speak, content, selectedVoiceObject, messageId]);
+    // if (isThisMessageSpeaking) {
+    //   cancel();
+    // } else {
+    //   speak({
+    //     text: content,
+    //     voice: selectedVoiceObject,
+    //     messageId: messageId,
+    //   });
+    // }
+  }, [content]);
 
   return (
     <>

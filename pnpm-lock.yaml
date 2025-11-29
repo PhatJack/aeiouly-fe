@@ -17,6 +17,9 @@ importers:
       '@floating-ui/react-dom':
         specifier: ^2.1.6
         version: 2.1.6(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
+      '@heyputer/puter.js':
+        specifier: ^2.1.7
+        version: 2.1.7
       '@hookform/resolvers':
         specifier: ^5.2.1
         version: 5.2.1(react-hook-form@7.62.0(react@19.2.0))
@@ -499,6 +502,15 @@ packages:
 
   '@floating-ui/utils@0.2.10':
     resolution: {integrity: sha512-aGTxbpbg8/b5JfU1HXSrbH3wXZuLPJcNEcZQFMxLs3oSzgtVu6nFPkbbGGUvBcUjKV2YyB9Wxxabo+HEH9tcRQ==}
+
+  '@heyputer/kv.js@0.2.1':
+    resolution: {integrity: sha512-YhVtzz7ZA/HmuaDvzZZhhUyQWBvp3/TXeY4jULssTdLJwT+tEM4BTYHXttORX+V5auvrYinjj8dNFQnby5T82w==}
+
+  '@heyputer/puter.js@2.1.7':
+    resolution: {integrity: sha512-HibUxc1eC9diDCkQNpE0Wc8HR3B8xPap6V1+EI5AEW6KpIqu0KYLL0gyndkMEVwuF5BalenX1KaWwGxjVhjlig==}
+
+  '@heyputer/putility@1.1.1':
+    resolution: {integrity: sha512-auedlVnHli2o8VtyR3Uj8JjlyaC1OPWHtcTgYdsMF46i+/lHz2iXK47Pwq2J9fdgM6sJX9lGtDZL6T10xJRrOA==}
 
   '@hookform/resolvers@5.2.1':
     resolution: {integrity: sha512-u0+6X58gkjMcxur1wRWokA7XsiiBJ6aK17aPZxhkoYiK5J+HcTx0Vhu9ovXe6H+dVpO6cjrn2FkJTryXEMlryQ==}
@@ -4759,6 +4771,15 @@ snapshots:
       tabbable: 6.3.0
 
   '@floating-ui/utils@0.2.10': {}
+
+  '@heyputer/kv.js@0.2.1': {}
+
+  '@heyputer/puter.js@2.1.7':
+    dependencies:
+      '@heyputer/kv.js': 0.2.1
+      '@heyputer/putility': 1.1.1
+
+  '@heyputer/putility@1.1.1': {}
 
   '@hookform/resolvers@5.2.1(react-hook-form@7.62.0(react@19.2.0))':
     dependencies:
