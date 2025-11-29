@@ -50,7 +50,7 @@ const MessageItem: React.FC<MessageItemProps> = ({
           )}
         >
           {isLoading ? (
-            <IndicatorLoading text={'Đang suy nghĩ...'} />
+            <IndicatorLoading text={content ? content : 'Đang suy nghĩ...'} />
           ) : senderRole === 'user' ? (
             content
           ) : (

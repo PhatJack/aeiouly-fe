@@ -16,6 +16,7 @@ import {
 } from '@/services/speaking-session';
 
 import { Mic, Square } from 'lucide-react';
+import { toast } from 'sonner';
 
 interface ChatSectionProps {
   sessionId: number;
@@ -78,31 +79,31 @@ const ChatSection = ({ sessionId, className }: ChatSectionProps) => {
 
   useEffect(() => {
     const sendAudio = async () => {
-      if (!audioBlob) return;
+      try {
+        if (!audioBlob) return;
 
-      const file = new File([audioBlob], `recording-${Date.now()}.mp3`, { type: 'audio/mp3' });
+        const file = new File([audioBlob], `recording-${Date.now()}.wav`, { type: 'audio/wav' });
 
-      console.log(file);
+        const result = await speechToTextMutation.mutateAsync({
+          audioFile: file,
+          isSave: true,
+          autoDetect: true,
+        });
+        resetRecorder();
+        resetStream();
 
-      const result = await speechToTextMutation.mutateAsync({
-        audioFile: file,
-        isSave: true,
-        autoDetect: true,
-      });
-      resetRecorder();
-      resetStream();
-      console.log(result);
-
-      // try {
-      //   const res = await sendChatMutation.mutateAsync({
-      //     sessionId,
-      //     message: {},
-      //     audioFile: file,
-      //   });
-      //    setLocalMessages((prev) => [...prev, res]);
-      // } finally {
-      //    resetRecorder();
-      // }
+        const res = await sendChatMutation.mutateAsync({
+          sessionId,
+          message: { content: result.text },
+          audioFile: file,
+        });
+        setLocalMessages((prev) => [...prev, res]);
+      } catch (error) {
+        toast.error('Không thể nhận dạng giọng nói. Vui lòng thử lại.');
+      } finally {
+        resetRecorder();
+        resetStream();
+      }
     };
 
     sendAudio();
@@ -125,6 +126,14 @@ const ChatSection = ({ sessionId, className }: ChatSectionProps) => {
           <MessageItem
             content="Đang suy nghĩ..."
             senderRole="assistant"
+            index={-1}
+            isLoading={true}
+          />
+        )}
+        {speechToTextMutation.isPending && (
+          <MessageItem
+            content="Đang phân tích âm thanh..."
+            senderRole="user"
             index={-1}
             isLoading={true}
           />
