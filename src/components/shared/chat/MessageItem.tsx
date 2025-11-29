@@ -19,6 +19,7 @@ interface MessageItemProps {
   isLoading?: boolean;
   disableTyping?: boolean;
   translation_sentence?: string;
+  audioUrl?: string;
 }
 
 const MessageItem: React.FC<MessageItemProps> = ({
@@ -28,8 +29,10 @@ const MessageItem: React.FC<MessageItemProps> = ({
   disableTyping = false,
   translation_sentence = '',
   index = 0,
+  audioUrl = '',
 }) => {
   const messageId = `message-${index}`;
+  const [isPlayAudio, setIsPlayAudio] = useState(false);
   const [isShowTranslated, setIsShowTranslated] = useState(false);
   const [hover, setHover] = useState(false);
   const { copy, isCopied } = useCopyToClipboard();
@@ -122,6 +125,31 @@ const MessageItem: React.FC<MessageItemProps> = ({
               <Copy className="animate-in zoom-in-25" />
             )}
           </Button>
+        )}
+        {senderRole === 'user' && audioUrl && (
+          <>
+            <Button
+              onClick={() => setIsPlayAudio(!isPlayAudio)}
+              type="button"
+              size="icon"
+              variant={isThisMessageSpeaking ? 'destructive' : 'warning'}
+              className={cn(
+                `size-7 rounded-full transition-all duration-200`,
+                '-order-1',
+                hover ? 'scale-100 opacity-100' : 'pointer-events-none scale-90 opacity-0'
+              )}
+            >
+              {isThisMessageSpeaking ? <Pause /> : <Volume2 />}
+            </Button>
+            {isPlayAudio && (
+              <audio
+                src={audioUrl}
+                autoPlay
+                onEnded={() => setIsPlayAudio(false)}
+                className="sr-only"
+              />
+            )}
+          </>
         )}
         {translation_sentence && (
           <Button

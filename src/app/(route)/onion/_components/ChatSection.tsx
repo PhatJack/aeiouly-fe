@@ -31,7 +31,6 @@ const ChatSection = ({ sessionId, className }: ChatSectionProps) => {
   const sendChatMutation = useSendSpeakingChatMessageMutation();
   const speechToTextMutation = useSpeechToTextMutation();
   const [historyMessageIds, setHistoryMessageIds] = useState<Set<string>>(new Set());
-  const messagesEndRef = useRef<HTMLDivElement>(null);
   const selectedVoiceObject = useMemo(
     () => voices.find((v) => v.name === selectedVoice),
     [voices, selectedVoice]
@@ -55,10 +54,6 @@ const ChatSection = ({ sessionId, className }: ChatSectionProps) => {
       setHistoryMessageIds(new Set(chatHistory.map((m) => `${m.session_id}_${m.role}_${m.id}`)));
     }
   }, [chatHistory, setSelectedVoice]);
-
-  useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-  }, [localMessages]);
 
   const handleSendTextMessage = async (content: string) => {
     if (!content.trim()) return;
@@ -95,16 +90,34 @@ const ChatSection = ({ sessionId, className }: ChatSectionProps) => {
 
         const file = new File([audioBlob], `recording-${Date.now()}.wav`, { type: 'audio/wav' });
 
-        const result = await speechToTextMutation.mutateAsync({
-          audioFile: file,
-          isSave: true,
-          autoDetect: true,
-        });
+        const result = await speechToTextMutation.mutateAsync(
+          {
+            audioFile: file,
+            isSave: true,
+            autoDetect: true,
+          },
+          {
+            onSuccess: (data) => {
+              const optimisticUserMessage: SpeakingChatMessageResponseSchema = {
+                id: Date.now(),
+                session_id: sessionId,
+                role: 'user',
+                content: data.text,
+                is_audio: false,
+                audio_url: data.audio_url,
+                translation_sentence: null,
+                created_at: new Date().toISOString(),
+              };
+
+              setLocalMessages((prev) => [...prev, optimisticUserMessage]);
+            },
+          }
+        );
 
         const res = await sendChatMutation.mutateAsync({
           sessionId,
           message: { content: result.text },
-          audioFile: file,
+          audioFile: result.audio_url || '',
         });
         speak({
           text: res.content,
@@ -153,7 +166,6 @@ const ChatSection = ({ sessionId, className }: ChatSectionProps) => {
             isLoading={true}
           />
         )}
-        <div ref={messagesEndRef} />
       </MessageContainer>
 
       <MessageInput

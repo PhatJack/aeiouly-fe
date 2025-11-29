@@ -6,7 +6,6 @@ import LoadingWithText from '@/components/LoadingWithText';
 import DetailRightPanel from '@/components/app/onion/DetailRightPanel';
 import TextSelectionModal from '@/components/shared/TextSelectionModal';
 import VocabularyDialog from '@/components/shared/VocabularyDialog';
-import { useSpeechContext } from '@/contexts/SpeechContext';
 import useTextSelection from '@/hooks/use-text-selection';
 import { useGetSpeakingSessionQuery } from '@/services/speaking-session';
 

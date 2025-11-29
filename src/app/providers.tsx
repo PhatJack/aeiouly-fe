@@ -3,7 +3,6 @@
 import React, { useEffect } from 'react';
 
 import { useTheme } from 'next-themes';
-import { usePathname } from 'next/navigation';
 import NextTopLoader from 'nextjs-toploader';
 
 import GlobalQueryLoading from '@/components/GlobalLoading';
@@ -12,12 +11,10 @@ import Header from '@/components/shared/Header';
 import { ThemeProvider } from '@/components/theme-provider';
 import { Toaster } from '@/components/ui/sonner';
 import { TooltipProvider } from '@/components/ui/tooltip';
-import { ROUTE } from '@/configs/route';
 import { AuthProvider } from '@/contexts/AuthContext';
 import { SpeechProvider } from '@/contexts/SpeechContext';
 import { WritingSessionProvider } from '@/contexts/WritingSessionContext';
 import { SoloSoundProvider } from '@/hooks/use-solo-sound-store';
-import { cn } from '@/lib/utils';
 import { QueryClientProvider } from '@tanstack/react-query';
 
 import { OverlayScrollbars } from 'overlayscrollbars';
@@ -49,20 +46,6 @@ const Providers = ({
           autoHideSuspend: false,
         },
       });
-      const messageContainer = document.getElementById('message-container');
-      if (messageContainer) {
-        OverlayScrollbars(messageContainer, {
-          scrollbars: {
-            theme: 'scrollbar-base scrollbar-auto py-1',
-            autoHide: 'move',
-            autoHideDelay: 500,
-            autoHideSuspend: false,
-          },
-          overflow: {
-            x: 'hidden',
-          },
-        });
-      }
     }
   }, [setTheme]);
 

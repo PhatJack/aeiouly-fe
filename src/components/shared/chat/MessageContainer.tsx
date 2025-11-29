@@ -1,6 +1,6 @@
 'use client';
 
-import React, { memo } from 'react';
+import React, { memo, useEffect, useRef } from 'react';
 
 import { cn } from '@/lib/utils';
 
@@ -20,11 +20,18 @@ function MessageContainer({
   children,
   className,
 }: MessageContainerProps) {
+  const messagesEndRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    messagesEndRef.current?.scrollTo({
+      behavior: 'smooth',
+    });
+  }, [messages]);
+
   return (
     <div
       id="message-container"
       className={cn(
-        'dark:bg-background flex h-full flex-col space-y-3 overflow-y-auto rounded-xl bg-gray-50',
+        'dark:bg-background flex h-full max-h-dvh flex-col space-y-3 overflow-y-auto rounded-xl bg-gray-50 lg:max-h-full',
         className
       )}
     >
@@ -37,6 +44,7 @@ function MessageContainer({
             index={message.id || index}
             content={message.content}
             senderRole={message.role}
+            audioUrl={message.audio_url}
             translation_sentence={message.translation_sentence}
             disableTyping={
               historyMessageIds
@@ -47,6 +55,7 @@ function MessageContainer({
         </div>
       ))}
       {children}
+      <div ref={messagesEndRef} />
     </div>
   );
 }

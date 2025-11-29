@@ -80,6 +80,9 @@ export const finalEvaluationResponseSchema = z.object({
 
 export const speechToTextResponseSchema = z.object({
   text: z.string(),
+  audio_url: z.string().nullable().optional(),
+  is_saved: z.boolean(),
+  detected_language: z.string().nullable().optional(),
 });
 
 export const speakingSessionListResponseSchema = createListResponseSchema(
