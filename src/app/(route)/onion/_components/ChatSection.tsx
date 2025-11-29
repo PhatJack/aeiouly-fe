@@ -5,7 +5,6 @@ import React, { memo, useEffect, useMemo, useRef, useState } from 'react';
 import MessageContainer from '@/components/shared/chat/MessageContainer';
 import MessageInput from '@/components/shared/chat/MessageInput';
 import MessageItem from '@/components/shared/chat/MessageItem';
-import { Button } from '@/components/ui/button';
 import { useSpeechContext } from '@/contexts/SpeechContext';
 import { useRecorder } from '@/hooks/use-recorder';
 import { SpeakingChatMessageResponseSchema } from '@/lib/schema/speaking-session.schema';
@@ -16,7 +15,6 @@ import {
   useSpeechToTextMutation,
 } from '@/services/speaking-session';
 
-import { Mic, Square } from 'lucide-react';
 import { toast } from 'sonner';
 
 interface ChatSectionProps {
@@ -55,13 +53,8 @@ const ChatSection = ({ sessionId, className }: ChatSectionProps) => {
     if (chatHistory && chatHistory.length > 0) {
       setLocalMessages(chatHistory);
       setHistoryMessageIds(new Set(chatHistory.map((m) => `${m.session_id}_${m.role}_${m.id}`)));
-      setSelectedVoice(
-        chatHistory[0]?.session?.ai_gender === 'male'
-          ? 'Microsoft Mark - English (United States)'
-          : 'Microsoft Zira - English (United States)'
-      );
     }
-  }, [chatHistory]);
+  }, [chatHistory, setSelectedVoice]);
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -88,7 +81,7 @@ const ChatSection = ({ sessionId, className }: ChatSectionProps) => {
         speak({
           text: res.content,
           voice: selectedVoiceObject,
-          rate: 1.4,
+          pitch: 1.2,
           messageId: `message-${res.id}`,
         });
         setLocalMessages((prev) => [...prev, res]);
@@ -115,7 +108,7 @@ const ChatSection = ({ sessionId, className }: ChatSectionProps) => {
         });
         speak({
           text: res.content,
-
+          pitch: 1.2,
           voice: selectedVoiceObject,
           messageId: `message-${res.id}`,
         });

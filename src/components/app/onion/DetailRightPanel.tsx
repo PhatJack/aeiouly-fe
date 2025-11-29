@@ -1,9 +1,9 @@
 'use client';
 
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import BlockquoteCustom from '@/components/custom/BlockquoteCustom';
-import InputDeviceSelect from '@/components/shared/chat/InputDeviceSelect';
+import { useSpeechContext } from '@/contexts/SpeechContext';
 import { SpeakingSessionResponseSchema } from '@/lib/schema/speaking-session.schema';
 
 import EndSessionButton from './EndSessionButton';
@@ -14,11 +14,20 @@ interface DetailRightPanelProps {
 }
 
 const DetailRightPanel = ({ speakingSession }: DetailRightPanelProps) => {
+  const { setSelectedVoice } = useSpeechContext();
+
+  useEffect(() => {
+    if (speakingSession) {
+      setSelectedVoice(
+        speakingSession.ai_gender === 'male'
+          ? 'Microsoft David - English (United States)'
+          : 'Microsoft Zira - English (United States)'
+      );
+    }
+  }, [speakingSession, setSelectedVoice]);
+
   return (
     <div className="border-border/50 dark:bg-background flex h-full w-full flex-col rounded-2xl border bg-gray-50">
-      <div className="flex w-full items-center justify-between gap-2 border-b">
-        <InputDeviceSelect />
-      </div>
       <div className="dark:bg-muted grid grid-cols-3 gap-2 divide-x rounded-t-2xl border-b">
         <div className="flex flex-col space-y-1 px-4 py-2">
           <span className="text-muted-foreground">Nhân vật của bạn:</span>
