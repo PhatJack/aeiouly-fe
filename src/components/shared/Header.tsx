@@ -37,20 +37,18 @@ const Header = ({ isExpanded, handleToggleExpand }: HeaderProps) => {
   const logoutMutation = useLogoutMutation();
 
   const handleLogout = async () => {
-    logoutMutation.mutate(undefined, {
-      onSuccess: () => {
-        window.location.href = ROUTE.AUTH.LOGIN;
-        toast.success('Đăng xuất thành công');
-      },
-      onError: () => {
-        window.location.href = ROUTE.AUTH.LOGIN;
-        toast.success('Đăng xuất thành công');
-      },
-    });
+    try {
+      await logoutMutation.mutateAsync();
+      toast.success('Đăng xuất thành công');
+      window.location.href = ROUTE.AUTH.LOGIN;
+    } catch (error) {
+      toast.error('Đăng xuất thất bại');
+      window.location.href = ROUTE.AUTH.LOGIN;
+    }
   };
 
   return (
-    <header className="bg-background z-50 flex w-full items-center justify-between rounded-tl-3xl border-b px-4 py-2">
+    <header className="bg-background z-50 flex w-full items-center justify-between border-b px-4 py-2 lg:rounded-tl-3xl">
       <div className="flex items-center gap-4">
         <TooltipCustom content={isExpanded ? 'Thu gọn sidebar' : 'Mở rộng sidebar'}>
           <Button variant={isExpanded ? 'default' : 'outline'} onClick={handleToggleExpand}>

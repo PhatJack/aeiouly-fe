@@ -1,13 +1,15 @@
 'use client';
 
-import React, { memo, useCallback } from 'react';
+import React, { memo, useCallback, useEffect, useRef, useState } from 'react';
 
 import Image from 'next/image';
 
 import AvatarCustom from '@/components/custom/AvatarCustom';
+import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { PostResponseSchema } from '@/lib/schema/post.schema';
 import { distanceToNowVN } from '@/lib/timezone';
+import { cn } from '@/lib/utils';
 import { togglePostLikeApi } from '@/services/posts';
 
 import LikeButton from './LikeButton';
@@ -17,6 +19,11 @@ interface PostItemProps {
 }
 
 const PostItem = ({ post }: PostItemProps) => {
+  const contentRef = useRef<HTMLDivElement>(null);
+  const [isExpanded, setIsExpanded] = useState(false);
+  const [needsClamp, setNeedsClamp] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+
   const handleLikeToggle = useCallback(async () => {
     try {
       const data = await togglePostLikeApi(post.id);
@@ -26,6 +33,29 @@ const PostItem = ({ post }: PostItemProps) => {
       console.error('Error toggling like:', error);
     }
   }, [post.id]);
+
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(typeof window !== 'undefined' && window.innerWidth < 768);
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
+  useEffect(() => {
+    const measure = () => {
+      if (!contentRef.current) return;
+      const fullHeight = contentRef.current.scrollHeight;
+      setNeedsClamp(isMobile && fullHeight > 300);
+    };
+    // Initial measure
+    measure();
+    // Observe dynamic content changes
+    const ro = typeof ResizeObserver !== 'undefined' ? new ResizeObserver(measure) : null;
+    if (ro && contentRef.current) ro.observe(contentRef.current);
+    return () => {
+      if (ro) ro.disconnect();
+    };
+  }, [isMobile, post.content]);
 
   return (
     <Card>
@@ -66,10 +96,28 @@ const PostItem = ({ post }: PostItemProps) => {
           </div>
         )}
 
-        <div
-          className="prose prose-sm dark:prose-invert prose-p:text-foreground dark:prose-p:text-gray-300 prose-strong:text-foreground dark:prose-strong:text-white prose-headings:text-foreground dark:prose-headings:text-white mt-3 max-w-none leading-relaxed *:mb-0"
-          dangerouslySetInnerHTML={{ __html: post.content || '' }}
-        />
+        <div className="relative mt-3">
+          <div
+            ref={contentRef}
+            className={cn(
+              'prose prose-sm dark:prose-invert prose-p:text-foreground dark:prose-p:text-gray-300 prose-strong:text-foreground dark:prose-strong:text-white prose-headings:text-foreground dark:prose-headings:text-white max-w-none leading-relaxed *:mb-0',
+              needsClamp && !isExpanded ? 'max-h-[300px] overflow-hidden' : ''
+            )}
+            dangerouslySetInnerHTML={{ __html: post.content || '' }}
+          />
+
+          {needsClamp && !isExpanded && (
+            <div className="dark:from-background pointer-events-none absolute right-0 bottom-8 left-0 h-12 bg-gradient-to-t from-white to-transparent" />
+          )}
+
+          {needsClamp && (
+            <div>
+              <Button variant="ghost" size="sm" onClick={() => setIsExpanded((v) => !v)}>
+                {isExpanded ? 'Thu gọn' : 'Xem thêm'}
+              </Button>
+            </div>
+          )}
+        </div>
       </CardContent>
     </Card>
   );

@@ -25,7 +25,7 @@ export default function RootLayout({
       <Sidebar isExpanded={isExpanded} handleToggleExpand={handleToggleExpand} />
       <main
         className={cn(
-          'relative min-h-screen w-full flex-1 rounded-l-3xl border-l bg-white transition-[margin] dark:bg-[#121212]',
+          'relative min-h-screen w-full flex-1 rounded-l-3xl bg-white transition-[margin] lg:border-l dark:bg-[#121212]',
           isExpanded ? 'lg:ml-60' : 'lg:ml-20'
         )}
       >
