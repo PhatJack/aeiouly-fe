@@ -1,11 +1,12 @@
 'use client';
 
-import React, { memo, useEffect, useRef, useState } from 'react';
+import React, { memo, useEffect, useMemo, useRef, useState } from 'react';
 
 import MessageContainer from '@/components/shared/chat/MessageContainer';
 import MessageInput from '@/components/shared/chat/MessageInput';
 import MessageItem from '@/components/shared/chat/MessageItem';
 import { Button } from '@/components/ui/button';
+import { useSpeechContext } from '@/contexts/SpeechContext';
 import { useRecorder } from '@/hooks/use-recorder';
 import { SpeakingChatMessageResponseSchema } from '@/lib/schema/speaking-session.schema';
 import { cn } from '@/lib/utils';
@@ -27,12 +28,16 @@ const ChatSection = ({ sessionId, className }: ChatSectionProps) => {
   const { data: chatHistory } = useGetSpeakingChatHistoryQuery(sessionId, {
     refetchOnWindowFocus: false,
   });
-
+  const { speak, setSelectedVoice, selectedVoice, voices } = useSpeechContext();
   const [localMessages, setLocalMessages] = useState<SpeakingChatMessageResponseSchema[]>([]);
   const sendChatMutation = useSendSpeakingChatMessageMutation();
   const speechToTextMutation = useSpeechToTextMutation();
   const [historyMessageIds, setHistoryMessageIds] = useState<Set<string>>(new Set());
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const selectedVoiceObject = useMemo(
+    () => voices.find((v) => v.name === selectedVoice),
+    [voices, selectedVoice]
+  );
 
   // Recorder hook
   const {
@@ -50,6 +55,11 @@ const ChatSection = ({ sessionId, className }: ChatSectionProps) => {
     if (chatHistory && chatHistory.length > 0) {
       setLocalMessages(chatHistory);
       setHistoryMessageIds(new Set(chatHistory.map((m) => `${m.session_id}_${m.role}_${m.id}`)));
+      setSelectedVoice(
+        chatHistory[0]?.session?.ai_gender === 'male'
+          ? 'Microsoft Mark - English (United States)'
+          : 'Microsoft Zira - English (United States)'
+      );
     }
   }, [chatHistory]);
 
@@ -74,7 +84,15 @@ const ChatSection = ({ sessionId, className }: ChatSectionProps) => {
     setLocalMessages((prev) => [...prev, optimisticUserMessage]);
     sendChatMutation
       .mutateAsync({ sessionId, message: { content: content.trim() } })
-      .then((res) => setLocalMessages((prev) => [...prev, res]));
+      .then((res) => {
+        speak({
+          text: res.content,
+          voice: selectedVoiceObject,
+          rate: 1.4,
+          messageId: `message-${res.id}`,
+        });
+        setLocalMessages((prev) => [...prev, res]);
+      });
   };
 
   useEffect(() => {
@@ -89,13 +107,17 @@ const ChatSection = ({ sessionId, className }: ChatSectionProps) => {
           isSave: true,
           autoDetect: true,
         });
-        resetRecorder();
-        resetStream();
 
         const res = await sendChatMutation.mutateAsync({
           sessionId,
           message: { content: result.text },
           audioFile: file,
+        });
+        speak({
+          text: res.content,
+
+          voice: selectedVoiceObject,
+          messageId: `message-${res.id}`,
         });
         setLocalMessages((prev) => [...prev, res]);
       } catch (error) {

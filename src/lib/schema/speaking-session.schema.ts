@@ -1,11 +1,17 @@
 import z from 'zod';
 
-import { CEFRLevelSchema, MessageRoleSchema, SessionStatusSchema } from './enum.schema';
+import {
+  CEFRLevelSchema,
+  MessageRoleSchema,
+  SessionStatusSchema,
+  genderSchema,
+} from './enum.schema';
 import { createListResponseSchema } from './pagination';
 
 export const speakingSessionCreateSchema = z.object({
   my_character: z.string().min(1).max(255),
   ai_character: z.string().min(1).max(255),
+  ai_gender: genderSchema,
   scenario: z.string().min(1),
   level: CEFRLevelSchema,
 });
@@ -24,6 +30,7 @@ export const speakingSessionResponseSchema = z.object({
   user_id: z.number(),
   my_character: z.string(),
   ai_character: z.string(),
+  ai_gender: genderSchema,
   scenario: z.string(),
   level: CEFRLevelSchema,
   status: SessionStatusSchema,

@@ -17,32 +17,27 @@ import {
 } from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
 import { CEFRLevel } from '@/lib/schema/enum.schema';
+import {
+  SpeakingSessionCreateSchema,
+  speakingSessionCreateSchema,
+} from '@/lib/schema/speaking-session.schema';
 import { useCreateSpeakingSessionMutation } from '@/services/speaking-session';
 import { zodResolver } from '@hookform/resolvers/zod';
 
 import { toast } from 'sonner';
-import { z } from 'zod';
-
-const schema = z.object({
-  my_character: z.string().min(1, 'Bắt buộc'),
-  ai_character: z.string().min(1, 'Bắt buộc'),
-  scenario: z.string().min(1, 'Bắt buộc'),
-  level: z.enum(['A1', 'A2', 'B1', 'B2', 'C1', 'C2']),
-});
-
-export type SpeakingSessionFormValues = z.infer<typeof schema>;
 
 interface SpeakingSessionFormProps {
-  initialValues?: Partial<SpeakingSessionFormValues>;
+  initialValues?: Partial<SpeakingSessionCreateSchema>;
 }
 
 export const SpeakingSessionForm: React.FC<SpeakingSessionFormProps> = ({ initialValues }) => {
   const router = useRouter();
-  const form = useForm<SpeakingSessionFormValues>({
-    resolver: zodResolver(schema),
+  const form = useForm<SpeakingSessionCreateSchema>({
+    resolver: zodResolver(speakingSessionCreateSchema),
     defaultValues: {
       my_character: initialValues?.my_character || '',
       ai_character: initialValues?.ai_character || '',
+      ai_gender: initialValues?.ai_gender || 'male',
       scenario: initialValues?.scenario || '',
       level: (initialValues?.level as CEFRLevel) || 'A1',
     },
@@ -53,6 +48,7 @@ export const SpeakingSessionForm: React.FC<SpeakingSessionFormProps> = ({ initia
       form.reset({
         my_character: initialValues.my_character || '',
         ai_character: initialValues.ai_character || '',
+        ai_gender: initialValues.ai_gender || 'male',
         scenario: initialValues.scenario || '',
         level: (initialValues.level as CEFRLevel) || 'A1',
       });
@@ -68,7 +64,7 @@ export const SpeakingSessionForm: React.FC<SpeakingSessionFormProps> = ({ initia
     },
   });
 
-  const onSubmit = (values: SpeakingSessionFormValues) => mutation.mutate(values);
+  const onSubmit = (values: SpeakingSessionCreateSchema) => mutation.mutate(values);
 
   return (
     <Card className="mx-auto w-full shadow-none">
@@ -107,6 +103,30 @@ export const SpeakingSessionForm: React.FC<SpeakingSessionFormProps> = ({ initia
                     aria-invalid={fieldState.invalid}
                     placeholder="Ví dụ: Nhân viên pha chế"
                   />
+                  {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+                </Field>
+              )}
+            />
+            <Controller
+              control={form.control}
+              name="ai_gender"
+              render={({ field, fieldState }) => (
+                <Field orientation="responsive" data-invalid={fieldState.invalid}>
+                  <FieldLabel htmlFor="form-create-speaking-session-ai-gender">
+                    Giới tính AI
+                  </FieldLabel>
+                  <Select value={field.value} onValueChange={field.onChange}>
+                    <SelectTrigger
+                      id="form-create-speaking-session-ai-gender"
+                      aria-invalid={fieldState.invalid}
+                    >
+                      <SelectValue placeholder="Chọn giới tính" />
+                    </SelectTrigger>
+                    <SelectContent position="item-aligned">
+                      <SelectItem value="male">Nam</SelectItem>
+                      <SelectItem value="female">Nữ</SelectItem>
+                    </SelectContent>
+                  </Select>
                   {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
                 </Field>
               )}

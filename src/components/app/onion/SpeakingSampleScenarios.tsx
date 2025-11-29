@@ -23,6 +23,7 @@ export interface SpeakingScenario {
   ai_character: string;
   scenario: string;
   level: 'A1' | 'A2' | 'B1' | 'B2' | 'C1' | 'C2';
+  ai_gender: 'male' | 'female';
 }
 
 interface SpeakingSampleScenariosProps {
@@ -37,6 +38,7 @@ const scenarios: SpeakingScenario[] = [
     ai_character: 'Nhân viên pha chế',
     scenario: 'Bạn bước vào quán cà phê đông đúc giờ cao điểm và gọi đồ uống yêu thích của mình.',
     level: 'A2',
+    ai_gender: 'female',
   },
   {
     id: 2,
@@ -46,6 +48,7 @@ const scenarios: SpeakingScenario[] = [
     scenario:
       'Bạn tham gia buổi phỏng vấn chuyên nghiệp cho vị trí mong muốn, được hỏi về kinh nghiệm và mục tiêu.',
     level: 'B2',
+    ai_gender: 'male',
   },
   {
     id: 3,
@@ -55,6 +58,7 @@ const scenarios: SpeakingScenario[] = [
     scenario:
       'Buổi hẹn đầu tiên tại nhà hàng ấm cúng, hai bên tìm hiểu sở thích và câu chuyện cá nhân.',
     level: 'B1',
+    ai_gender: 'female',
   },
   {
     id: 4,
@@ -63,6 +67,7 @@ const scenarios: SpeakingScenario[] = [
     ai_character: 'Giáo sư',
     scenario: 'Bạn thuyết trình nghiên cứu trước lớp và trả lời câu hỏi từ giáo sư.',
     level: 'C1',
+    ai_gender: 'male',
   },
   {
     id: 5,
@@ -71,6 +76,7 @@ const scenarios: SpeakingScenario[] = [
     ai_character: 'Nhân viên check-in',
     scenario: 'Bạn làm thủ tục tại sân bay quốc tế và hỏi về hành lý cũng như thay đổi chỗ ngồi.',
     level: 'B1',
+    ai_gender: 'female',
   },
   {
     id: 6,
@@ -79,6 +85,7 @@ const scenarios: SpeakingScenario[] = [
     ai_character: 'Quản lý dự án',
     scenario: 'Cuộc họp nhóm hàng tuần để báo cáo tiến độ và thảo luận giải pháp cho vấn đề mới.',
     level: 'B2',
+    ai_gender: 'male',
   },
   {
     id: 7,
@@ -87,6 +94,7 @@ const scenarios: SpeakingScenario[] = [
     ai_character: 'Nhân viên bán hàng',
     scenario: 'Bạn tìm kiếm một sản phẩm cụ thể và hỏi về các lựa chọn thay thế hoặc bảo hành.',
     level: 'A2',
+    ai_gender: 'female',
   },
   {
     id: 8,
@@ -95,6 +103,7 @@ const scenarios: SpeakingScenario[] = [
     ai_character: 'Bác sĩ',
     scenario: 'Bạn mô tả triệu chứng trong buổi tái khám và hỏi về lựa chọn điều trị.',
     level: 'B1',
+    ai_gender: 'male',
   },
 ];
 
@@ -126,6 +135,12 @@ export const SpeakingSampleScenarios: React.FC<SpeakingSampleScenariosProps> = (
                   className={cn('border font-semibold', getLevelColor(s.level))}
                 >
                   {s.level}
+                </Badge>
+              </div>
+              <div className="text-xs opacity-70">
+                Giới tính:{' '}
+                <Badge variant="outline" className="border font-semibold">
+                  {s.ai_gender === 'male' ? 'Nam' : 'Nữ'}
                 </Badge>
               </div>
             </div>
