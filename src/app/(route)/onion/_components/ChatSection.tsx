@@ -12,6 +12,7 @@ import { cn } from '@/lib/utils';
 import {
   useGetSpeakingChatHistoryQuery,
   useSendSpeakingChatMessageMutation,
+  useSpeechToTextMutation,
 } from '@/services/speaking-session';
 
 import { Mic, Square } from 'lucide-react';
@@ -28,6 +29,7 @@ const ChatSection = ({ sessionId, className }: ChatSectionProps) => {
 
   const [localMessages, setLocalMessages] = useState<SpeakingChatMessageResponseSchema[]>([]);
   const sendChatMutation = useSendSpeakingChatMessageMutation();
+  const speechToTextMutation = useSpeechToTextMutation();
   const [historyMessageIds, setHistoryMessageIds] = useState<Set<string>>(new Set());
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
@@ -38,6 +40,7 @@ const ChatSection = ({ sessionId, className }: ChatSectionProps) => {
     isRecording,
     audioBlob,
     resetRecorder,
+    resetStream,
     stream,
     recorderRef,
   } = useRecorder();
@@ -76,31 +79,30 @@ const ChatSection = ({ sessionId, className }: ChatSectionProps) => {
   useEffect(() => {
     const sendAudio = async () => {
       if (!audioBlob) return;
-      const file = new File([audioBlob], `recording-${Date.now()}.webm`, { type: 'audio/webm' });
 
-      const optimisticUserMessage: SpeakingChatMessageResponseSchema = {
-        id: Date.now(),
-        session_id: sessionId,
-        role: 'user',
-        content: '[Voice message] — sending...',
-        is_audio: true,
-        audio_url: null,
-        translation_sentence: null,
-        created_at: new Date().toISOString(),
-      };
-      setLocalMessages((prev) => [...prev, optimisticUserMessage]);
+      const file = new File([audioBlob], `recording-${Date.now()}.mp3`, { type: 'audio/mp3' });
 
-      try {
-        const res = await sendChatMutation.mutateAsync({
-          sessionId,
-          message: {},
-          audioFile: file,
-        });
-        setLocalMessages((prev) => [...prev, res]);
-      } finally {
-        // clear recorder state for next recording
-        resetRecorder();
-      }
+      console.log(file);
+
+      const result = await speechToTextMutation.mutateAsync({
+        audioFile: file,
+        isSave: true,
+        autoDetect: true,
+      });
+      resetRecorder();
+      resetStream();
+      console.log(result);
+
+      // try {
+      //   const res = await sendChatMutation.mutateAsync({
+      //     sessionId,
+      //     message: {},
+      //     audioFile: file,
+      //   });
+      //    setLocalMessages((prev) => [...prev, res]);
+      // } finally {
+      //    resetRecorder();
+      // }
     };
 
     sendAudio();

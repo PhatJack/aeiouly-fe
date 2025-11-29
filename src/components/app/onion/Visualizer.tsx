@@ -11,82 +11,84 @@ interface VisualizerProps {
 export const Visualizer: FC<VisualizerProps> = ({ stream, isRecording, mediaRecorderRef }) => {
   const { theme } = useTheme();
 
-  const animationRef = useRef<any>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const animationRef = useRef<number | null>(null);
   const analyserRef = useRef<AnalyserNode | null>(null);
 
   useEffect(() => {
     if (!canvasRef.current || !stream) return;
 
-    const AudioContext = window.AudioContext;
+    // AudioContext
     const audioCtx = new AudioContext();
-    analyserRef.current = audioCtx.createAnalyser();
-    const source = audioCtx.createMediaStreamSource(stream);
-    source.connect(analyserRef.current);
+    const analyser = audioCtx.createAnalyser();
+    analyser.fftSize = 2048; // high detail
+    analyser.smoothingTimeConstant = 0.75; // smooth waveform
 
+    analyserRef.current = analyser;
+
+    // Connect stream → analyser
+    const source = audioCtx.createMediaStreamSource(stream);
+    source.connect(analyser);
+
+    // Canvas
     const canvas = canvasRef.current;
-    const canvasCtx = canvas.getContext('2d');
+    const ctx = canvas.getContext('2d')!;
     const WIDTH = canvas.width;
     const HEIGHT = canvas.height;
 
-    const drawWaveform = (dataArray: Uint8Array) => {
-      if (!canvasCtx) return;
-      canvasCtx.clearRect(0, 0, WIDTH, HEIGHT);
-      canvasCtx.fillStyle = '#939393';
+    const bufferLength = analyser.frequencyBinCount;
+    const dataArray = new Uint8Array(bufferLength);
 
-      const barWidth = 1;
-      const spacing = 1;
-      const maxBarHeight = HEIGHT / 2.5;
-      const numBars = Math.floor(WIDTH / (barWidth + spacing));
-
-      for (let i = 0; i < numBars; i++) {
-        const barHeight = Math.pow(dataArray[i] / 128.0, 8) * maxBarHeight;
-        const x = (barWidth + spacing) * i;
-        const y = HEIGHT / 2 - barHeight / 2;
-        canvasCtx.fillRect(x, y, barWidth, barHeight);
+    const draw = () => {
+      if (!isRecording) {
+        cancelAnimationFrame(animationRef.current!);
+        return;
       }
+
+      animationRef.current = requestAnimationFrame(draw);
+
+      analyser.getByteTimeDomainData(dataArray);
+
+      ctx.clearRect(0, 0, WIDTH, HEIGHT);
+      ctx.lineWidth = 2;
+      ctx.strokeStyle = theme === 'dark' ? '#ffffff' : '#000000';
+
+      ctx.beginPath();
+
+      const sliceWidth = WIDTH / bufferLength;
+      let x = 0;
+
+      for (let i = 0; i < bufferLength; i++) {
+        let v = (dataArray[i] - 128) / 128; // normalize -1 → 1
+
+        // Noise filter
+        if (Math.abs(v) < 0.02) v = 0;
+
+        const y = HEIGHT / 2 + v * (HEIGHT / 3);
+
+        if (i === 0) ctx.moveTo(x, y);
+        else ctx.lineTo(x, y);
+
+        x += sliceWidth;
+      }
+
+      ctx.stroke();
     };
 
-    const visualizeVolume = () => {
-      if (!mediaRecorderRef.current?.stream?.getAudioTracks()[0]?.getSettings().sampleRate) return;
-
-      const bufferLength =
-        (mediaRecorderRef.current?.stream?.getAudioTracks()[0]?.getSettings()
-          .sampleRate as number) / 100;
-
-      const dataArray = new Uint8Array(bufferLength);
-
-      const draw = () => {
-        if (!isRecording) {
-          cancelAnimationFrame(animationRef.current || 0);
-          return;
-        }
-        animationRef.current = requestAnimationFrame(draw);
-        analyserRef.current?.getByteTimeDomainData(dataArray);
-        drawWaveform(dataArray);
-      };
-
-      draw();
-    };
-
-    if (isRecording) {
-      visualizeVolume();
-    } else {
-      handleStop();
-      cancelAnimationFrame(animationRef.current || 0);
-    }
+    if (isRecording) draw();
+    else clearCanvas();
 
     return () => {
-      cancelAnimationFrame(animationRef.current || 0);
+      cancelAnimationFrame(animationRef.current!);
     };
-  }, [isRecording, theme, stream, canvasRef.current]);
+  }, [isRecording, stream, theme]);
 
-  const handleStop = () => {
-    if (!canvasRef.current) return;
-    canvasRef.current
-      .getContext('2d')
-      ?.clearRect(0, 0, canvasRef.current?.width, canvasRef.current.height);
+  const clearCanvas = () => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    ctx?.clearRect(0, 0, canvas.width, canvas.height);
   };
 
-  return <canvas ref={canvasRef} className="bg-background flex h-full w-full" />;
+  return <canvas ref={canvasRef} className="bg-background h-full w-full" />;
 };

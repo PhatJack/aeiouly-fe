@@ -442,6 +442,7 @@ export default function Home() {
                           <Image
                             src={review.avatar}
                             alt={review.name}
+                            sizes="56px"
                             fill
                             className="object-cover"
                           />
@@ -513,6 +514,7 @@ export default function Home() {
                             src={review.avatar}
                             alt={review.name}
                             fill
+                            sizes="56px"
                             className="object-cover"
                           />
                         </div>
@@ -583,6 +585,7 @@ export default function Home() {
                             src={review.avatar}
                             alt={review.name}
                             fill
+                            sizes="56px"
                             className="object-cover"
                           />
                         </div>

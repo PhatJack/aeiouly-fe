@@ -21,7 +21,7 @@ export async function sendSpeakingChatMessageApi(
   if (audioFile || !body.content) {
     const form = new FormData();
     if (body.content) form.append('content', body.content);
-    if (audioFile) form.append('audio_file', audioFile);
+    if (audioFile) form.append('audio_url', audioFile);
     data = form;
   }
   const response = await apiClient.post<SpeakingChatMessageResponseSchema, typeof data>(

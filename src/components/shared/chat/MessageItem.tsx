@@ -43,7 +43,7 @@ const MessageItem: React.FC<MessageItemProps> = ({
       >
         <div
           className={cn(
-            'w-fit max-w-md px-4 py-2 break-words',
+            'w-fit max-w-md px-4 py-2 break-words sm:max-w-lg',
             senderRole === 'user'
               ? 'bg-primary/85 dark:bg-primary self-end rounded-tl-2xl rounded-tr-sm rounded-b-2xl text-white'
               : 'dark:bg-muted self-start rounded-tl-sm rounded-tr-2xl rounded-b-2xl bg-gray-200 text-gray-800 dark:text-gray-200'
@@ -54,9 +54,13 @@ const MessageItem: React.FC<MessageItemProps> = ({
           ) : senderRole === 'user' ? (
             content
           ) : (
-            <MarkdownRender disableTyping={disableTyping}>
-              {isShowTranslated ? translation_sentence : content}
-            </MarkdownRender>
+            <MarkdownRender disableTyping={disableTyping}>{content}</MarkdownRender>
+          )}
+          {isShowTranslated && translation_sentence && (
+            <div className={cn('mt-2 w-full')}>
+              <strong>Bản dịch:</strong>
+              <p className="mt-1">{translation_sentence}</p>
+            </div>
           )}
         </div>
 
