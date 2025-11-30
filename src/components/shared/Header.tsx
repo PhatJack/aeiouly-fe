@@ -40,10 +40,12 @@ const Header = ({ isExpanded, handleToggleExpand }: HeaderProps) => {
     try {
       await logoutMutation.mutateAsync();
       toast.success('Đăng xuất thành công');
-      window.location.href = ROUTE.AUTH.LOGIN;
+      router.push(ROUTE.AUTH.LOGIN);
+      router.refresh();
     } catch (error) {
       toast.error('Đăng xuất thất bại');
-      window.location.href = ROUTE.AUTH.LOGIN;
+      router.push(ROUTE.AUTH.LOGIN);
+      router.refresh();
     }
   };
 
