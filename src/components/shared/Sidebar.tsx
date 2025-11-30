@@ -21,8 +21,6 @@ import {
   ListChecks,
   LucideIcon,
   Mic,
-  PanelRightClose,
-  PanelRightOpen,
   PenTool,
   Settings,
   User2,
@@ -30,10 +28,6 @@ import {
   Wrench,
 } from 'lucide-react';
 import { motion } from 'motion/react';
-
-import TooltipCustom from '../custom/TooltipCustom';
-import { Button } from '../ui/button';
-import { Separator } from '../ui/separator';
 
 const menuWithImg: {
   title: string;
@@ -140,31 +134,35 @@ const Sidebar = ({ isExpanded, handleToggleExpand }: SidebarProps) => {
       <aside
         id="sidebar"
         className={cn(
-          'bg-background fixed top-0 left-0 z-50 flex min-h-full min-w-20 flex-col px-4 py-2 transition-[width,translate] duration-300 ease-in-out lg:gap-2',
+          'bg-background fixed top-0 left-0 z-50 flex min-h-full min-w-[72px] flex-col px-3 py-2 transition-[width,translate] duration-300 ease-in-out lg:gap-2',
           isExpanded
             ? 'w-60 max-w-60 translate-x-0'
-            : 'w-60 -translate-x-60 lg:w-20 lg:translate-x-0'
+            : 'w-60 -translate-x-60 lg:w-[72px] lg:translate-x-0'
         )}
       >
-        <div className="flex items-center">
+        <div className="flex items-center p-1">
           <Link href={ROUTE.HOME} className="flex items-center">
-            <div className="relative size-10 overflow-hidden rounded-full sm:size-12">
+            <div className="relative size-10 overflow-hidden rounded-full">
               <Image
                 fill
                 quality={100}
                 src={'/logo.png'}
-                sizes="(max-width: 640px) 40px,48px"
+                sizes="(max-width: 640px) 100px,200px"
                 alt={'Aeiouly logo'}
               />
             </div>
           </Link>
-          <h1 className="ml-2 inline-block text-lg font-bold lg:hidden">Aeiouly</h1>
+          <motion.span
+            animate={{ opacity: isExpanded ? 1 : 0, x: isExpanded ? 0 : -10 }}
+            transition={{ duration: 0.2 }}
+            className={cn('text-lg font-medium whitespace-nowrap', isExpanded ? 'block' : 'hidden')}
+          >
+            Aeiouly
+          </motion.span>
         </div>
 
-        <Separator className="my-2" />
-
         {/* Menu */}
-        <ul className="relative flex flex-col gap-2">
+        <ul className="relative flex flex-col gap-1">
           {menuWithImg
             .filter((item) => {
               if (!user) return false;
@@ -182,13 +180,13 @@ const Sidebar = ({ isExpanded, handleToggleExpand }: SidebarProps) => {
                 id={item.id}
                 onClick={() => router.push(item.href)}
                 data-navigation
-                className="hover:bg-primary/20 relative flex cursor-pointer items-center gap-3 rounded-full p-3 transition-all"
+                className="hover:bg-primary/20 relative flex w-full cursor-pointer items-center rounded-2xl px-3.5 py-2.5 transition-all"
               >
-                <div className="relative flex size-6 min-w-6 items-center justify-center">
-                  <item.icon size={24} className={cn(pathname === item.href && 'text-white')} />
+                <div className="relative flex size-5 min-w-5 items-center justify-center">
+                  <item.icon size={20} className={cn(pathname === item.href && 'text-white')} />
                 </div>
                 <motion.span
-                  animate={{ opacity: isExpanded ? 1 : 0, x: isExpanded ? 0 : -10 }}
+                  animate={{ opacity: isExpanded ? 1 : 0, x: isExpanded ? 8 : 0 }}
                   transition={{ duration: 0.2 }}
                   className={cn(
                     'text-sm font-medium whitespace-nowrap',

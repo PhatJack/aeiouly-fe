@@ -14,7 +14,6 @@ import {
   useSendSpeakingChatMessageMutation,
   useSpeechToTextMutation,
 } from '@/services/speaking-session';
-import puter from '@heyputer/puter.js';
 
 import { toast } from 'sonner';
 
@@ -74,16 +73,7 @@ const ChatSection = ({ sessionId, className }: ChatSectionProps) => {
     sendChatMutation
       .mutateAsync({ sessionId, message: { content: content.trim() } })
       .then((res) => {
-        puter.ai
-          .txt2speech(res.content, {
-            voice: 'fable',
-            language: 'en-US',
-            provider: 'openai',
-          })
-          .then((audio) => {
-            audio.play();
-            setLocalMessages((prev) => [...prev, res]);
-          });
+        setLocalMessages((prev) => [...prev, res]);
       });
   };
 

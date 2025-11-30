@@ -29,18 +29,18 @@ const HeaderShortcutStreak = () => {
   );
 
   if (isLoadingStreakHistory) {
-    return <Skeleton className="size-10 rounded-full sm:size-12" />;
+    return <Skeleton className="size-10 rounded-full" />;
   }
 
   return (
     <Popover>
       <PopoverTrigger asChild>
         <div className="rounded-full p-1">
-          <div className="relative flex size-10 cursor-pointer place-content-center rounded-full border p-1 sm:size-12">
+          <div className="relative flex size-10 cursor-pointer place-content-center rounded-full border p-1">
             <Image
               src={'/streak/fire_active.gif'}
               alt="Streak icon"
-              className={cn('size-8 sm:size-10', isLoggedToday ? '' : 'grayscale')}
+              className={cn('size-8', isLoggedToday ? '' : 'grayscale')}
               width={40}
               height={40}
               unoptimized

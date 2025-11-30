@@ -48,14 +48,14 @@ const Header = ({ isExpanded, handleToggleExpand }: HeaderProps) => {
   };
 
   return (
-    <header className="bg-background z-50 flex w-full items-center justify-between border-b px-4 py-2 lg:rounded-tl-3xl">
+    <header className="z-50 flex w-full items-center justify-between border-b px-4 py-1">
       <div className="flex items-center gap-4">
         <TooltipCustom content={isExpanded ? 'Thu gọn sidebar' : 'Mở rộng sidebar'}>
           <Button variant={isExpanded ? 'default' : 'outline'} onClick={handleToggleExpand}>
             {isExpanded ? <PanelRightClose className="rotate-180" /> : <PanelRightClose />}
           </Button>
         </TooltipCustom>
-        <h1 className="text-sm font-semibold sm:text-xl">
+        <h1 className="text-sm font-semibold sm:text-lg">
           Xin chào, {user?.full_name || user?.username || 'User'}
         </h1>
       </div>
@@ -67,13 +67,9 @@ const Header = ({ isExpanded, handleToggleExpand }: HeaderProps) => {
             {user.role === 'user' ? <HeaderShortcutStreak /> : null}
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button
-                  variant="ghost"
-                  size={'icon'}
-                  className="relative size-10 rounded-full sm:size-12"
-                >
+                <Button variant="ghost" size={'icon'} className="relative size-10 rounded-full">
                   <AvatarCustom
-                    className="size-10 border sm:size-12"
+                    className="size-10 border"
                     url={user.avatar_url || ''}
                     fallback={getFallbackInitials(user?.full_name || user?.username || 'User')}
                   />
