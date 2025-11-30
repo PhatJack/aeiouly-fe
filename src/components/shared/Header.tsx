@@ -73,7 +73,7 @@ const Header = ({ isExpanded, handleToggleExpand }: HeaderProps) => {
               <DropdownMenuTrigger asChild>
                 <Button variant="ghost" size={'icon'} className="relative size-10 rounded-full">
                   <AvatarCustom
-                    className="size-10 border"
+                    className="size-10"
                     url={user.avatar_url || ''}
                     fallback={getFallbackInitials(user?.full_name || user?.username || 'User')}
                   />

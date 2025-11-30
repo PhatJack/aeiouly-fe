@@ -36,7 +36,7 @@ const SpacePage = () => {
   ];
 
   return (
-    <div className="flex flex-col overflow-hidden">
+    <div className="flex w-full flex-col overflow-hidden">
       <div className="mb-6">
         <h1 className="text-2xl font-bold">Quản lý Không gian tự học</h1>
         <p className="text-muted-foreground text-sm">

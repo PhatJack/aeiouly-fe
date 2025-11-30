@@ -66,7 +66,7 @@ const ReadingPage = () => {
   }, [data]);
 
   return (
-    <div className="min-h-screen">
+    <div className="h-full">
       <PageHeader
         title="Luyện Đọc"
         description="Cải thiện kỹ năng đọc hiểu tiếng Anh qua các bài đọc đa dạng hoặc văn bản tự chọn"

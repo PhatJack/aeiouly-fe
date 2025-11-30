@@ -197,7 +197,7 @@ const Sidebar = ({ isExpanded, handleToggleExpand }: SidebarProps) => {
                 </motion.span>
                 {pathname === item.href && (
                   <motion.div
-                    className="bg-primary absolute inset-0 -z-10 rounded-full"
+                    className="bg-primary absolute inset-0 -z-10 rounded-2xl"
                     layoutId="background"
                     transition={{ type: 'spring', stiffness: 300, damping: 30 }}
                   />
