@@ -153,7 +153,7 @@ const Sidebar = ({ isExpanded, handleToggleExpand }: SidebarProps) => {
             </div>
           </Link>
           <motion.span
-            animate={{ opacity: isExpanded ? 1 : 0, x: isExpanded ? 0 : -10 }}
+            animate={{ opacity: isExpanded ? 1 : 0, x: isExpanded ? 8 : -10 }}
             transition={{ duration: 0.2 }}
             className={cn('text-lg font-medium whitespace-nowrap', isExpanded ? 'block' : 'hidden')}
           >

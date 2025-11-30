@@ -134,7 +134,7 @@ const ChatSection = ({ sessionId, className }: ChatSectionProps) => {
   return (
     <div
       className={cn(
-        'border-border/50 dark:bg-background flex flex-col rounded-2xl border bg-gray-50 p-4',
+        'border-border/50 dark:bg-background flex flex-col rounded-2xl border bg-gray-50 py-4',
         className
       )}
     >
@@ -161,17 +161,18 @@ const ChatSection = ({ sessionId, className }: ChatSectionProps) => {
           />
         )}
       </MessageContainer>
-
-      <MessageInput
-        onSendMessage={handleSendTextMessage}
-        disabled={sendChatMutation.isPending}
-        placeholder="Nhập tin nhắn hoặc dùng mic để nói..."
-        showAudioButton
-        isRecording={isRecording}
-        onAudioClick={() => (isRecording ? stopRecording() : startRecording())}
-        recorderStream={stream}
-        mediaRecorderRef={recorderRef}
-      />
+      <div className="px-4">
+        <MessageInput
+          onSendMessage={handleSendTextMessage}
+          disabled={sendChatMutation.isPending}
+          placeholder="Nhập tin nhắn hoặc dùng mic để nói..."
+          showAudioButton
+          isRecording={isRecording}
+          onAudioClick={() => (isRecording ? stopRecording() : startRecording())}
+          recorderStream={stream}
+          mediaRecorderRef={recorderRef}
+        />
+      </div>
     </div>
   );
 };

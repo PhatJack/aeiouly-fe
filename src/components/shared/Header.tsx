@@ -48,10 +48,14 @@ const Header = ({ isExpanded, handleToggleExpand }: HeaderProps) => {
   };
 
   return (
-    <header className="z-50 flex w-full items-center justify-between border-b px-4 py-1">
+    <header className="z-50 flex w-full items-center justify-between border-b px-4 py-2">
       <div className="flex items-center gap-4">
         <TooltipCustom content={isExpanded ? 'Thu gọn sidebar' : 'Mở rộng sidebar'}>
-          <Button variant={isExpanded ? 'default' : 'outline'} onClick={handleToggleExpand}>
+          <Button
+            variant={isExpanded ? 'default' : 'outline'}
+            className="h-10 [&_svg:not([class*='size-'])]:size-4 sm:[&_svg:not([class*='size-'])]:size-5"
+            onClick={handleToggleExpand}
+          >
             {isExpanded ? <PanelRightClose className="rotate-180" /> : <PanelRightClose />}
           </Button>
         </TooltipCustom>

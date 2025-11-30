@@ -1,6 +1,6 @@
 'use client';
 
-import React, { memo, useEffect, useRef } from 'react';
+import React, { memo, useLayoutEffect, useRef } from 'react';
 
 import { cn } from '@/lib/utils';
 
@@ -21,17 +21,17 @@ function MessageContainer({
   className,
 }: MessageContainerProps) {
   const messagesEndRef = useRef<HTMLDivElement>(null);
-  useEffect(() => {
-    messagesEndRef.current?.scrollTo({
-      behavior: 'smooth',
+  useLayoutEffect(() => {
+    // Use rAF to ensure DOM/layout is settled before scrolling
+    requestAnimationFrame(() => {
+      messagesEndRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
     });
-  }, [messages]);
+  }, [messages.length]);
 
   return (
     <div
-      id="message-container"
       className={cn(
-        'dark:bg-background flex h-full max-h-dvh flex-col space-y-3 overflow-y-auto rounded-xl bg-gray-50 lg:max-h-full',
+        'dark:bg-background flex h-full max-h-dvh scroll-mr-1 flex-col space-y-3 overflow-y-auto rounded-xl bg-gray-50 px-4 lg:max-h-full',
         className
       )}
     >
