@@ -3,11 +3,10 @@
 import React, { useEffect } from 'react';
 import { useInView } from 'react-intersection-observer';
 
+import LoadingWithText from '@/components/LoadingWithText';
 import PostItem from '@/components/app/news/PostItem';
 import { useInfiniteGetAllPostsQuery } from '@/services/posts';
 import { useInfiniteQuery } from '@tanstack/react-query';
-
-import LoadingWithText from './LoadingWithText';
 
 const PostsFeed = () => {
   const { ref, inView } = useInView({

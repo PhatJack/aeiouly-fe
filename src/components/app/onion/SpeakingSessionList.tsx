@@ -66,7 +66,7 @@ export const SpeakingSessionList = () => {
   return (
     <div className="space-y-2">
       <h2 className="text-xl font-bold lg:text-2xl">Phiên đã tạo</h2>
-      <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-3">
+      <div className="grid gap-3 md:grid-cols-2">
         {data.items.map((item: any) => {
           const createdAt = new Date(item.created_at).toLocaleString();
           const initials = (name: string) =>

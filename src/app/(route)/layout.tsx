@@ -5,6 +5,7 @@ import React, { useCallback, useState } from 'react';
 import { usePathname } from 'next/navigation';
 
 import Header from '@/components/shared/Header';
+import ScrollToTop from '@/components/shared/ScrollToTop';
 import Sidebar from '@/components/shared/Sidebar';
 import { ROUTE } from '@/configs/route';
 import { cn } from '@/lib/utils';
@@ -34,6 +35,7 @@ export default function RootLayout({
         )}
         <div className={'w-full overflow-hidden p-4'}>{children}</div>
       </main>
+      <ScrollToTop />
     </div>
   );
 }

@@ -45,7 +45,7 @@ export const metadata: Metadata = {
         url: 'https://aeiouly.online/banner-auth.png',
         width: 1200,
         height: 630,
-        alt: 'Aeiouly',
+        alt: 'Aeiouly Social Banner',
       },
     ],
     type: 'website',
@@ -54,7 +54,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: {
       template: '%s - Aeiouly',
-      default: 'Home',
+      default: 'Trang chủ',
     },
     description:
       'Lộ trình chinh phục tiếng Anh cùng Aeiouly sẽ vừa thú vị vừa hiệu quả. Công cụ, bài học và phương pháp cá nhân hóa của chúng tôi giúp bạn tự tin giao tiếp tiếng Anh.',
@@ -63,7 +63,7 @@ export const metadata: Metadata = {
         url: 'https://aeiouly.online/banner-auth.png',
         width: 1200,
         height: 630,
-        alt: 'Aeiouly',
+        alt: 'Aeiouly Social Banner',
       },
     ],
   },
