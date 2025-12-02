@@ -12,6 +12,7 @@ import { ThemeProvider } from '@/components/theme-provider';
 import { Toaster } from '@/components/ui/sonner';
 import { TooltipProvider } from '@/components/ui/tooltip';
 import { AuthProvider } from '@/contexts/AuthContext';
+import { SpeakingSessionProvider } from '@/contexts/SpeakingSessionContext';
 import { SpeechProvider } from '@/contexts/SpeechContext';
 import { WritingSessionProvider } from '@/contexts/WritingSessionContext';
 import { SoloSoundProvider } from '@/hooks/use-solo-sound-store';
@@ -56,9 +57,11 @@ const Providers = ({
         <TooltipProvider>
           <AuthProvider>
             <WritingSessionProvider>
-              <SpeechProvider>
-                <SoloSoundProvider>{children}</SoloSoundProvider>
-              </SpeechProvider>
+              <SpeakingSessionProvider>
+                <SpeechProvider>
+                  <SoloSoundProvider>{children}</SoloSoundProvider>
+                </SpeechProvider>
+              </SpeakingSessionProvider>
             </WritingSessionProvider>
           </AuthProvider>
         </TooltipProvider>

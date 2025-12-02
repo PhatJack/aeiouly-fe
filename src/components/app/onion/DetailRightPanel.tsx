@@ -8,6 +8,7 @@ import { SpeakingSessionResponseSchema } from '@/lib/schema/speaking-session.sch
 
 import EndSessionButton from './EndSessionButton';
 import HintButton from './HintButton';
+import SkipSentenceButton from './SkipSentenceButton';
 
 interface DetailRightPanelProps {
   speakingSession?: SpeakingSessionResponseSchema;
@@ -54,7 +55,7 @@ const DetailRightPanel = ({ speakingSession }: DetailRightPanelProps) => {
             }
           />
 
-          {/* Hint button */}
+          <SkipSentenceButton id={speakingSession?.id} />
           <HintButton id={speakingSession?.id} />
         </div>
       </div>
