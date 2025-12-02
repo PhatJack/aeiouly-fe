@@ -42,7 +42,7 @@ export const metadata: Metadata = {
     siteName: 'Aeiouly',
     images: [
       {
-        url: 'https://aeiouly.online/banner-auth.png',
+        url: 'https://aeiouly.online/banner-auth.webp',
         width: 1200,
         height: 630,
         alt: 'Aeiouly Social Banner',
@@ -60,7 +60,7 @@ export const metadata: Metadata = {
       'Lộ trình chinh phục tiếng Anh cùng Aeiouly sẽ vừa thú vị vừa hiệu quả. Công cụ, bài học và phương pháp cá nhân hóa của chúng tôi giúp bạn tự tin giao tiếp tiếng Anh.',
     images: [
       {
-        url: 'https://aeiouly.online/banner-auth.png',
+        url: 'https://aeiouly.online/banner-auth.webp',
         width: 1200,
         height: 630,
         alt: 'Aeiouly Social Banner',
