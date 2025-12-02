@@ -23,7 +23,7 @@ export default function AuthLayout({
       <div className="bg-muted relative hidden overflow-hidden rounded-lg xl:col-span-3 xl:block">
         <div className="relative size-full">
           <Image
-            src={'/banner-auth.png'}
+            src={'/banner-auth.webp'}
             quality={100}
             priority
             fill
