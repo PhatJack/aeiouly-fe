@@ -8,25 +8,25 @@ import { SessionDetailResponseSchema } from '@/lib/schema/listening-session.sche
 
 import GymDetailPage from '../_components/GymDetailPage';
 
-export const generateMetadata = async ({ params }: { params: Promise<{ id: string }> }) => {
-  const { id } = await params;
-  const accessToken = (await cookies()).get(COOKIE_KEY_ACCESS_TOKEN)?.value || '';
+// export const generateMetadata = async ({ params }: { params: Promise<{ id: string }> }) => {
+//   const { id } = await params;
+//   const accessToken = (await cookies()).get(COOKIE_KEY_ACCESS_TOKEN)?.value || '';
 
-  const result = await serverAxios.get<SessionDetailResponseSchema>(`/listening-sessions/${id}`, {
-    headers: {
-      Authorization: `Bearer ${accessToken}`,
-    },
-  });
+//   const result = await serverAxios.get<SessionDetailResponseSchema>(`/listening-sessions/${id}`, {
+//     headers: {
+//       Authorization: `Bearer ${accessToken}`,
+//     },
+//   });
 
-  const session = result.data;
+//   const session = result.data;
 
-  return {
-    title: session.lesson.title,
-    openGraph: {
-      title: session.lesson.title,
-    },
-  };
-};
+//   return {
+//     title: session.lesson.title,
+//     openGraph: {
+//       title: session.lesson.title,
+//     },
+//   };
+// };
 
 const Page = async ({ params }: { params: Promise<{ id: string }> }) => {
   const { id } = await params;

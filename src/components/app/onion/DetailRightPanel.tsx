@@ -1,18 +1,32 @@
 'use client';
 
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import BlockquoteCustom from '@/components/custom/BlockquoteCustom';
+import { useSpeechContext } from '@/contexts/SpeechContext';
 import { SpeakingSessionResponseSchema } from '@/lib/schema/speaking-session.schema';
 
 import EndSessionButton from './EndSessionButton';
 import HintButton from './HintButton';
+import SkipSentenceButton from './SkipSentenceButton';
 
 interface DetailRightPanelProps {
   speakingSession?: SpeakingSessionResponseSchema;
 }
 
 const DetailRightPanel = ({ speakingSession }: DetailRightPanelProps) => {
+  const { setSelectedVoice } = useSpeechContext();
+
+  useEffect(() => {
+    if (speakingSession) {
+      setSelectedVoice(
+        speakingSession.ai_gender === 'male'
+          ? 'Microsoft David - English (United States)'
+          : 'Microsoft Zira - English (United States)'
+      );
+    }
+  }, [speakingSession, setSelectedVoice]);
+
   return (
     <div className="border-border/50 dark:bg-background flex h-full w-full flex-col rounded-2xl border bg-gray-50">
       <div className="dark:bg-muted grid grid-cols-3 gap-2 divide-x rounded-t-2xl border-b">
@@ -41,7 +55,7 @@ const DetailRightPanel = ({ speakingSession }: DetailRightPanelProps) => {
             }
           />
 
-          {/* Hint button */}
+          <SkipSentenceButton id={speakingSession?.id} />
           <HintButton id={speakingSession?.id} />
         </div>
       </div>

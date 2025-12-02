@@ -1,6 +1,6 @@
 'use client';
 
-import React, { memo } from 'react';
+import React, { memo, useLayoutEffect, useRef } from 'react';
 
 import { cn } from '@/lib/utils';
 
@@ -20,11 +20,18 @@ function MessageContainer({
   children,
   className,
 }: MessageContainerProps) {
+  const messagesEndRef = useRef<HTMLDivElement>(null);
+  useLayoutEffect(() => {
+    // Use rAF to ensure DOM/layout is settled before scrolling
+    requestAnimationFrame(() => {
+      messagesEndRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  }, [messages.length]);
+
   return (
     <div
-      id="message-container"
       className={cn(
-        'dark:bg-background flex h-full flex-col space-y-3 overflow-y-auto rounded-xl bg-gray-50',
+        'dark:bg-background flex h-full max-h-dvh scroll-mr-1 flex-col space-y-3 overflow-y-auto rounded-xl bg-gray-50 px-4 lg:max-h-full',
         className
       )}
     >
@@ -37,6 +44,7 @@ function MessageContainer({
             index={message.id || index}
             content={message.content}
             senderRole={message.role}
+            audioUrl={message.audio_url}
             translation_sentence={message.translation_sentence}
             disableTyping={
               historyMessageIds
@@ -47,6 +55,7 @@ function MessageContainer({
         </div>
       ))}
       {children}
+      <div ref={messagesEndRef} />
     </div>
   );
 }

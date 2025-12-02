@@ -1,26 +1,13 @@
 import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
 
-import { COOKIE_KEY_ACCESS_TOKEN } from '@/constants/cookies';
-import { serverAxios } from '@/lib/client';
-import { UserSchema } from '@/lib/schema/user.schema';
-import { getMeApi } from '@/services/auth/get-me.api';
+import { ROUTE } from '@/configs/route';
+import { COOKIE_KEY_ACCESS_TOKEN, COOKIE_KEY_REFRESH_TOKEN } from '@/constants/cookies';
 
-export default async function AdminLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+export default async function AdminLayout({ children }: { children: React.ReactNode }) {
   const accessToken = (await cookies()).get(COOKIE_KEY_ACCESS_TOKEN)?.value;
-  const user = await serverAxios.get<UserSchema>('/auth/me', {
-    headers: {
-      Authorization: `Bearer ${accessToken}`,
-    },
-  });
-
-  if (user.data.role !== 'admin') {
-    redirect('/');
-  }
+  const refreshToken = (await cookies()).get(COOKIE_KEY_REFRESH_TOKEN)?.value;
+  if (!accessToken && !refreshToken) redirect(ROUTE.AUTH.LOGIN);
 
   return <>{children}</>;
 }

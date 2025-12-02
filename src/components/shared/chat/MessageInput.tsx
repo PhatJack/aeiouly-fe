@@ -94,7 +94,7 @@ const MessageInput = ({
           {/* Visualizer area – shows only while recording */}
           {isRecording && recorderStream && mediaRecorderRef && (
             <div className="mb-2 [grid-area:header]">
-              <div className="dark:bg-muted h-16 w-full overflow-hidden rounded-md border bg-gray-50">
+              <div className="dark:bg-muted h-16 w-full overflow-hidden rounded-xl border bg-gray-50">
                 <Visualizer
                   stream={recorderStream}
                   isRecording={isRecording}

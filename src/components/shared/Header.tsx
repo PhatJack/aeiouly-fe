@@ -40,22 +40,28 @@ const Header = ({ isExpanded, handleToggleExpand }: HeaderProps) => {
     try {
       await logoutMutation.mutateAsync();
       toast.success('Đăng xuất thành công');
-      window.location.href = ROUTE.AUTH.LOGIN;
+      router.push(ROUTE.AUTH.LOGIN);
+      router.refresh();
     } catch (error) {
       toast.error('Đăng xuất thất bại');
-      window.location.href = ROUTE.AUTH.LOGIN;
+      router.push(ROUTE.AUTH.LOGIN);
+      router.refresh();
     }
   };
 
   return (
-    <header className="bg-background z-50 flex w-full items-center justify-between border-b px-4 py-2 lg:rounded-tl-3xl">
+    <header className="z-50 flex w-full items-center justify-between border-b px-4 py-2">
       <div className="flex items-center gap-4">
         <TooltipCustom content={isExpanded ? 'Thu gọn sidebar' : 'Mở rộng sidebar'}>
-          <Button variant={isExpanded ? 'default' : 'outline'} onClick={handleToggleExpand}>
+          <Button
+            variant={isExpanded ? 'default' : 'outline'}
+            className="h-10 [&_svg:not([class*='size-'])]:size-4 sm:[&_svg:not([class*='size-'])]:size-5"
+            onClick={handleToggleExpand}
+          >
             {isExpanded ? <PanelRightClose className="rotate-180" /> : <PanelRightClose />}
           </Button>
         </TooltipCustom>
-        <h1 className="text-sm font-semibold sm:text-xl">
+        <h1 className="text-sm font-semibold sm:text-lg">
           Xin chào, {user?.full_name || user?.username || 'User'}
         </h1>
       </div>
@@ -67,13 +73,9 @@ const Header = ({ isExpanded, handleToggleExpand }: HeaderProps) => {
             {user.role === 'user' ? <HeaderShortcutStreak /> : null}
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button
-                  variant="ghost"
-                  size={'icon'}
-                  className="relative size-10 rounded-full sm:size-12"
-                >
+                <Button variant="ghost" size={'icon'} className="relative size-10 rounded-full">
                   <AvatarCustom
-                    className="size-10 border sm:size-12"
+                    className="size-10"
                     url={user.avatar_url || ''}
                     fallback={getFallbackInitials(user?.full_name || user?.username || 'User')}
                   />

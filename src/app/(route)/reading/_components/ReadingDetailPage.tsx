@@ -103,7 +103,11 @@ const ReadingDetailPage = ({ id }: ReadingDetailPageProps) => {
             setDiscussionFeedback((prev) => ({ ...prev, [questionId]: result }));
             toast.success('Đã phân tích câu trả lời!');
           },
-          onError: () => {
+          onError: (error: any) => {
+            if (error?.detail?.[0]?.type === 'string_too_short') {
+              toast.error('Vui lòng nhập ít nhất 20 ký tự cho câu trả lời.');
+              return;
+            }
             toast.error('Có lỗi xảy ra khi phân tích câu trả lời.');
           },
           onSettled: () => {

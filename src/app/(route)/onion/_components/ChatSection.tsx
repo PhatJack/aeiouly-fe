@@ -1,21 +1,35 @@
 'use client';
 
-import React, { memo, useEffect, useRef, useState } from 'react';
+import React, { memo, useEffect, useMemo, useState } from 'react';
 
+import { useRouter } from 'nextjs-toploader/app';
+
+import FinalEvaluation from '@/components/app/onion/FinalEvaluation';
+import SessionCompleteDialog from '@/components/app/topic/SessionCompleteDialog';
 import MessageContainer from '@/components/shared/chat/MessageContainer';
 import MessageInput from '@/components/shared/chat/MessageInput';
 import MessageItem from '@/components/shared/chat/MessageItem';
-import { Button } from '@/components/ui/button';
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from '@/components/ui/dialog';
+import { SpeakingSessionContext } from '@/contexts/SpeakingSessionContext';
+import { useSpeechContext } from '@/contexts/SpeechContext';
 import { useRecorder } from '@/hooks/use-recorder';
 import { SpeakingChatMessageResponseSchema } from '@/lib/schema/speaking-session.schema';
 import { cn } from '@/lib/utils';
 import {
   useGetSpeakingChatHistoryQuery,
+  useGetSpeakingFinalEvaluationQuery,
   useSendSpeakingChatMessageMutation,
   useSpeechToTextMutation,
 } from '@/services/speaking-session';
 
-import { Mic, Square } from 'lucide-react';
+import { toast } from 'sonner';
+import { useContextSelector } from 'use-context-selector';
 
 interface ChatSectionProps {
   sessionId: number;
@@ -23,15 +37,30 @@ interface ChatSectionProps {
 }
 
 const ChatSection = ({ sessionId, className }: ChatSectionProps) => {
+  const router = useRouter();
   const { data: chatHistory } = useGetSpeakingChatHistoryQuery(sessionId, {
     refetchOnWindowFocus: false,
   });
-
+  const handleSelectedSentenceIndex = useContextSelector(
+    SpeakingSessionContext,
+    (ctx) => ctx!.handleSelectedSentenceIndex
+  );
+  const { speak, setSelectedVoice, selectedVoice, voices } = useSpeechContext();
   const [localMessages, setLocalMessages] = useState<SpeakingChatMessageResponseSchema[]>([]);
+  const { data: finalEvaluation, refetch: refetchFinalEvaluation } =
+    useGetSpeakingFinalEvaluationQuery(sessionId, {
+      refetchOnWindowFocus: false,
+      enabled: false,
+    });
   const sendChatMutation = useSendSpeakingChatMessageMutation();
   const speechToTextMutation = useSpeechToTextMutation();
   const [historyMessageIds, setHistoryMessageIds] = useState<Set<string>>(new Set());
-  const messagesEndRef = useRef<HTMLDivElement>(null);
+  const selectedVoiceObject = useMemo(
+    () => voices.find((v) => v.name === selectedVoice),
+    [voices, selectedVoice]
+  );
+  const [showSessionComplete, setShowSessionComplete] = useState(false);
+  const [showEvaluation, setShowEvaluation] = useState(false);
 
   // Recorder hook
   const {
@@ -50,11 +79,7 @@ const ChatSection = ({ sessionId, className }: ChatSectionProps) => {
       setLocalMessages(chatHistory);
       setHistoryMessageIds(new Set(chatHistory.map((m) => `${m.session_id}_${m.role}_${m.id}`)));
     }
-  }, [chatHistory]);
-
-  useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-  }, [localMessages]);
+  }, [chatHistory, setSelectedVoice]);
 
   const handleSendTextMessage = async (content: string) => {
     if (!content.trim()) return;
@@ -73,76 +98,158 @@ const ChatSection = ({ sessionId, className }: ChatSectionProps) => {
     setLocalMessages((prev) => [...prev, optimisticUserMessage]);
     sendChatMutation
       .mutateAsync({ sessionId, message: { content: content.trim() } })
-      .then((res) => setLocalMessages((prev) => [...prev, res]));
+      .then((res) => {
+        handleSelectedSentenceIndex(res.id);
+        setLocalMessages((prev) => [...prev, res]);
+        speak({
+          text: res.content,
+          pitch: 1.4,
+          voice: selectedVoiceObject,
+          messageId: `message-${res.id}`,
+        });
+        if (res.session?.status === 'completed') {
+          refetchFinalEvaluation();
+        }
+      });
   };
 
   useEffect(() => {
     const sendAudio = async () => {
-      if (!audioBlob) return;
+      try {
+        if (!audioBlob) return;
 
-      const file = new File([audioBlob], `recording-${Date.now()}.mp3`, { type: 'audio/mp3' });
+        const file = new File([audioBlob], `recording-${Date.now()}.wav`, { type: 'audio/wav' });
 
-      console.log(file);
+        const result = await speechToTextMutation.mutateAsync(
+          {
+            audioFile: file,
+            isSave: true,
+            autoDetect: true,
+          },
+          {
+            onSuccess: (data) => {
+              const optimisticUserMessage: SpeakingChatMessageResponseSchema = {
+                id: Date.now(),
+                session_id: sessionId,
+                role: 'user',
+                content: data.text,
+                is_audio: false,
+                audio_url: data.audio_url,
+                translation_sentence: null,
+                created_at: new Date().toISOString(),
+              };
 
-      const result = await speechToTextMutation.mutateAsync({
-        audioFile: file,
-        isSave: true,
-        autoDetect: true,
-      });
-      resetRecorder();
-      resetStream();
-      console.log(result);
+              setLocalMessages((prev) => [...prev, optimisticUserMessage]);
+            },
+          }
+        );
 
-      // try {
-      //   const res = await sendChatMutation.mutateAsync({
-      //     sessionId,
-      //     message: {},
-      //     audioFile: file,
-      //   });
-      //    setLocalMessages((prev) => [...prev, res]);
-      // } finally {
-      //    resetRecorder();
-      // }
+        const res = await sendChatMutation.mutateAsync(
+          {
+            sessionId,
+            message: { content: result.text },
+            audioFile: result.audio_url || '',
+          },
+          {
+            onSuccess: (res) => {
+              speak({
+                text: res.content,
+                pitch: 1.4,
+                voice: selectedVoiceObject,
+                messageId: `message-${res.id}`,
+              });
+              setLocalMessages((prev) => [...prev, res]);
+              if (res.session?.status === 'completed') {
+                refetchFinalEvaluation();
+              }
+            },
+          }
+        );
+      } catch (error) {
+        toast.error('Không thể nhận dạng giọng nói. Vui lòng thử lại.');
+      } finally {
+        resetRecorder();
+        resetStream();
+      }
     };
 
     sendAudio();
   }, [audioBlob]);
 
   return (
-    <div
-      className={cn(
-        'border-border/50 dark:bg-background flex flex-col rounded-2xl border bg-gray-50 p-4',
-        className
-      )}
-    >
-      {/* Messages Container */}
-      <MessageContainer
-        messages={localMessages as any}
-        historyMessageIds={historyMessageIds}
-        className="mb-4 flex-1"
-      >
-        {sendChatMutation.isPending && (
-          <MessageItem
-            content="Đang suy nghĩ..."
-            senderRole="assistant"
-            index={-1}
-            isLoading={true}
-          />
+    <>
+      <div
+        className={cn(
+          'border-border/50 dark:bg-background flex flex-col rounded-2xl border bg-gray-50 py-4',
+          className
         )}
-        <div ref={messagesEndRef} />
-      </MessageContainer>
-
-      <MessageInput
-        onSendMessage={handleSendTextMessage}
-        disabled={sendChatMutation.isPending}
-        placeholder="Nhập tin nhắn hoặc dùng mic để nói..."
-        showAudioButton
-        isRecording={isRecording}
-        onAudioClick={() => (isRecording ? stopRecording() : startRecording())}
-        recorderStream={stream}
-        mediaRecorderRef={recorderRef}
+      >
+        {/* Messages Container */}
+        <MessageContainer
+          messages={localMessages as any}
+          historyMessageIds={historyMessageIds}
+          className="mb-4 flex-1"
+        >
+          {sendChatMutation.isPending && (
+            <MessageItem
+              content="Đang suy nghĩ..."
+              senderRole="assistant"
+              index={-1}
+              isLoading={true}
+            />
+          )}
+          {speechToTextMutation.isPending && (
+            <MessageItem
+              content="Đang phân tích âm thanh..."
+              senderRole="user"
+              index={-1}
+              isLoading={true}
+            />
+          )}
+        </MessageContainer>
+        <div className="px-4">
+          <MessageInput
+            onSendMessage={handleSendTextMessage}
+            disabled={sendChatMutation.isPending}
+            placeholder="Nhập tin nhắn hoặc dùng mic để nói..."
+            showAudioButton
+            isRecording={isRecording}
+            onAudioClick={() => (isRecording ? stopRecording() : startRecording())}
+            recorderStream={stream}
+            mediaRecorderRef={recorderRef}
+          />
+        </div>
+      </div>
+      <SessionCompleteDialog
+        open={showSessionComplete}
+        onOpenChange={setShowSessionComplete}
+        onViewResult={() => {
+          setShowSessionComplete(false);
+          setShowEvaluation(true);
+          refetchFinalEvaluation();
+        }}
       />
-    </div>
+      <Dialog open={showEvaluation} onOpenChange={setShowEvaluation}>
+        <DialogContent
+          onInteractOutside={(e) => e.preventDefault()}
+          className="max-h-[90vh] max-w-3xl min-w-3xl overflow-y-auto"
+        >
+          <DialogHeader>
+            <DialogTitle className="text-2xl font-bold">Kết quả đánh giá</DialogTitle>
+            <DialogDescription>Chi tiết kết quả phiên luyện nói của bạn</DialogDescription>
+          </DialogHeader>
+          {finalEvaluation && (
+            <FinalEvaluation
+              data={finalEvaluation}
+              onClose={() => {
+                setShowEvaluation(false);
+                router.push('/onion');
+              }}
+            />
+          )}
+        </DialogContent>
+      </Dialog>
+    </>
   );
 };
 

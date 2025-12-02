@@ -64,11 +64,11 @@ const StreakSection = () => {
             <div className="bg-background flex size-28 items-center justify-center rounded-full border">
               <Image
                 src={'/streak/fire_active.gif'}
-                quality={100}
                 alt="fire streak"
                 width={size}
                 height={size}
                 className={imgClass}
+                unoptimized
               />
             </div>
             <div className="absolute -bottom-7 left-1/2 flex -translate-x-1/2 items-center justify-center rounded-full">

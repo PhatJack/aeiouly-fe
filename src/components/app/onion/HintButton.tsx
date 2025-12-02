@@ -5,16 +5,22 @@ import Markdown from 'react-markdown';
 
 import BlockquoteCustom from '@/components/custom/BlockquoteCustom';
 import { Button } from '@/components/ui/button';
+import { SpeakingSessionContext } from '@/contexts/SpeakingSessionContext';
 import { HintResponseSchema } from '@/lib/schema/speaking-session.schema';
 import { useGetConversationHintQuery } from '@/services/speaking-session';
 
 import { Loader2 } from 'lucide-react';
+import { useContextSelector } from 'use-context-selector';
 
 interface HintButtonProps {
   id?: number;
 }
 
 const HintButton = ({ id }: HintButtonProps) => {
+  const currentSentenceIndex = useContextSelector(
+    SpeakingSessionContext,
+    (ctx) => ctx?.currentSentenceIndex ?? 0
+  );
   const [data, setData] = useState<HintResponseSchema | null>(null);
   const historyLoaded = useRef<boolean>(false);
 
@@ -31,7 +37,7 @@ const HintButton = ({ id }: HintButtonProps) => {
       setData(result.data);
       historyLoaded.current = true;
     }
-  }, [refetch, data]);
+  }, [refetch, data, currentSentenceIndex]);
 
   return (
     <div className="w-full space-y-2">

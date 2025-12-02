@@ -129,7 +129,9 @@ const LoginForm = () => {
               Hoặc tiếp tục với
             </span>
           </div>
-          <LoginWithGoogleButton onSuccess={() => router.push(ROUTE.APP)} />
+          <div className="flex w-full justify-center">
+            <LoginWithGoogleButton onSuccess={() => router.push(ROUTE.APP)} />
+          </div>
         </div>
 
         {/* Footer */}

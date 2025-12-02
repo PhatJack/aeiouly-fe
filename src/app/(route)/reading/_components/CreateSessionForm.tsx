@@ -98,10 +98,10 @@ const CreateSessionForm = memo(({ onSuccess }: CreateSessionFormProps) => {
             <TabsTrigger value="custom">Văn bản tự chọn</TabsTrigger>
           </TabsList>
 
-          <form onSubmit={form.handleSubmit(onSubmit, onError)} className="mt-4 space-y-4">
+          <form onSubmit={form.handleSubmit(onSubmit, onError)} className="mt-2 space-y-2">
             <TabsContents>
               <TabsContent value="ai" className="mt-0">
-                <FieldGroup className="gap-4">
+                <FieldGroup className="gap-4 p-2">
                   <Controller
                     control={form.control}
                     name="level"
@@ -187,7 +187,14 @@ const CreateSessionForm = memo(({ onSuccess }: CreateSessionFormProps) => {
                           type="number"
                           min={100}
                           max={1000}
-                          onChange={(e) => field.onChange(parseInt(e.target.value))}
+                          onChange={(e) => {
+                            const value = e.target.value;
+                            if (value === '') {
+                              field.onChange(undefined);
+                              return;
+                            }
+                            field.onChange(parseInt(value));
+                          }}
                           aria-invalid={fieldState.invalid}
                           autoComplete="off"
                         />
@@ -199,7 +206,7 @@ const CreateSessionForm = memo(({ onSuccess }: CreateSessionFormProps) => {
               </TabsContent>
 
               <TabsContent value="custom" className="mt-0">
-                <FieldGroup className="gap-4">
+                <FieldGroup className="gap-4 p-2">
                   <Controller
                     control={form.control}
                     name="custom_text"

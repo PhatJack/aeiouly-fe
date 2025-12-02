@@ -14,9 +14,11 @@ export const ReadingGenreSchema = z.enum([
   'Bài mạng xã hội',
   'Hướng dẫn sử dụng',
 ]);
+export const genderSchema = z.enum(['male', 'female']);
 
 // Types
 export type CEFRLevel = z.infer<typeof CEFRLevelSchema>;
 export type SessionStatus = z.infer<typeof SessionStatusSchema>;
 export type MessageRole = z.infer<typeof MessageRoleSchema>;
 export type ReadingGenre = z.infer<typeof ReadingGenreSchema>;
+export type Gender = z.infer<typeof genderSchema>;

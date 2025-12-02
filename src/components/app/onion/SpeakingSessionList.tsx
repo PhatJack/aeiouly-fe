@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 
 import { useRouter } from 'nextjs-toploader/app';
 
@@ -18,25 +18,29 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
-import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 import { cn, getLevelColor } from '@/lib/utils';
 import { useGetSpeakingSessionsQuery } from '@/services/speaking-session';
 import { useDeleteSpeakingSessionMutation } from '@/services/speaking-session';
 
-import { CalendarClock, Eye, MessageSquare, MoveRight, Trash2 } from 'lucide-react';
+import { CalendarClock, MessageSquare, MoveRight, Trash2 } from 'lucide-react';
 import { toast } from 'sonner';
 
 export const SpeakingSessionList = () => {
   const router = useRouter();
   const { data, isLoading, isError } = useGetSpeakingSessionsQuery({ page: 1, size: 50 });
   const [pendingDeleteId, setPendingDeleteId] = useState<number | null>(null);
-  const deleteMutation = useDeleteSpeakingSessionMutation({
-    onSuccess: () => {
-      toast.success('Đã xóa phiên');
-      setPendingDeleteId(null);
+  const deleteMutation = useDeleteSpeakingSessionMutation();
+
+  const handleDelete = useCallback(
+    async (id: number) => {
+      toast.promise(deleteMutation.mutateAsync(id), {
+        loading: 'Đang xoá ...',
+        success: 'Xoá phiên thành công!',
+        error: (e: any) => e?.detail || 'Xoá phiên thất bại. Vui lòng thử lại.',
+      });
     },
-    onError: () => setPendingDeleteId(null),
-  });
+    [deleteMutation]
+  );
 
   if (isLoading) {
     return (
@@ -62,10 +66,9 @@ export const SpeakingSessionList = () => {
   return (
     <div className="space-y-2">
       <h2 className="text-xl font-bold lg:text-2xl">Phiên đã tạo</h2>
-      <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-3">
+      <div className="grid gap-3 md:grid-cols-2">
         {data.items.map((item: any) => {
           const createdAt = new Date(item.created_at).toLocaleString();
-          const statusVariant = item.status === 'completed' ? 'secondary' : 'outline';
           const initials = (name: string) =>
             (name || '')
               .split(' ')
@@ -134,7 +137,7 @@ export const SpeakingSessionList = () => {
                       disabled={deleteMutation.isPending && pendingDeleteId === item.id}
                       onClick={(e) => {
                         e.stopPropagation();
-                        setPendingDeleteId(item.id);
+                        handleDelete(item.id);
                       }}
                       aria-label={`Xóa phiên #${item.id}`}
                     >

@@ -17,7 +17,11 @@ export const useDeleteSpeakingSessionMutation = (
   return useMutation<void, ErrorResponseSchema, number>({
     mutationKey: ['deleteSpeakingSession'],
     mutationFn: (sessionId) => deleteSpeakingSessionApi(sessionId),
+    meta: {
+      ignoreGlobal: true,
+    },
     onSuccess: (_, variables) => {
+      console.log(variables);
       queryClient.setQueriesData({ queryKey: ['speakingSessions'] }, (oldData: any) => {
         if (!oldData) return oldData;
         return { ...oldData, items: oldData.items.filter((item: any) => item.id !== variables) };

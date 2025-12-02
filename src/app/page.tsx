@@ -121,7 +121,7 @@ export default function Home() {
               </motion.div>
 
               <motion.h1
-                className="text-foreground text-3xl leading-tight font-bold md:text-6xl lg:text-7xl dark:text-white"
+                className="text-foreground text-3xl leading-tight font-bold md:text-6xl dark:text-white"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.3 }}
@@ -487,6 +487,7 @@ export default function Home() {
                           <Image
                             src={review.avatar}
                             alt={review.name}
+                            sizes="56px"
                             fill
                             className="object-cover"
                           />
@@ -559,6 +560,7 @@ export default function Home() {
                             src={review.avatar}
                             alt={review.name}
                             fill
+                            sizes="56px"
                             className="object-cover"
                           />
                         </div>

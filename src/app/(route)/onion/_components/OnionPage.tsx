@@ -45,6 +45,7 @@ const OnionPage = () => {
                 ? {
                     my_character: selectedScenario.my_character,
                     ai_character: selectedScenario.ai_character,
+                    ai_gender: selectedScenario.ai_gender,
                     scenario: selectedScenario.scenario,
                     level: selectedScenario.level,
                   }

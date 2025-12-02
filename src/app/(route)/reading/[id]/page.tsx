@@ -13,25 +13,25 @@ interface PageProps {
   params: Promise<{ id: string }>;
 }
 
-export const generateMetadata = async ({ params }: { params: Promise<{ id: string }> }) => {
-  const { id } = await params;
-  const accessToken = (await cookies()).get(COOKIE_KEY_ACCESS_TOKEN)?.value || '';
+// export const generateMetadata = async ({ params }: { params: Promise<{ id: string }> }) => {
+//   const { id } = await params;
+//   const accessToken = (await cookies()).get(COOKIE_KEY_ACCESS_TOKEN)?.value || '';
 
-  const result = await serverAxios.get<ReadingSessionDetailSchema>(`/reading-sessions/${id}`, {
-    headers: {
-      Authorization: `Bearer ${accessToken}`,
-    },
-  });
+//   const result = await serverAxios.get<ReadingSessionDetailSchema>(`/reading-sessions/${id}`, {
+//     headers: {
+//       Authorization: `Bearer ${accessToken}`,
+//     },
+//   });
 
-  const session = result.data;
+//   const session = result.data;
 
-  return {
-    title: `${session.topic} - ${session.level}`,
-    openGraph: {
-      title: `${session.topic} - ${session.level}`,
-    },
-  };
-};
+//   return {
+//     title: `${session.topic} - ${session.level}`,
+//     openGraph: {
+//       title: `${session.topic} - ${session.level}`,
+//     },
+//   };
+// };
 
 const Page = async ({ params }: PageProps) => {
   const { id } = await params;

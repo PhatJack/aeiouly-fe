@@ -9,13 +9,13 @@ import { UseMutationOptions, useMutation } from '@tanstack/react-query';
 interface SendSpeakingChatMessageParams {
   sessionId: number;
   message: ChatMessageCreateSchema;
-  audioFile?: File; // optional audio upload
+  audioFile?: string;
 }
 
 export async function sendSpeakingChatMessageApi(
   sessionId: number,
   body: ChatMessageCreateSchema,
-  audioFile?: File
+  audioFile?: string
 ) {
   let data: any = body;
   if (audioFile || !body.content) {

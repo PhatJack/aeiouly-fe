@@ -10,7 +10,9 @@ import { Card, CardContent } from '@/components/ui/card';
 import { PostResponseSchema } from '@/lib/schema/post.schema';
 import { distanceToNowVN } from '@/lib/timezone';
 import { cn } from '@/lib/utils';
-import { togglePostLikeApi } from '@/services/posts';
+import { useTogglePostLikeMutation } from '@/services/posts';
+
+import { toast } from 'sonner';
 
 import LikeButton from './LikeButton';
 
@@ -24,14 +26,19 @@ const PostItem = ({ post }: PostItemProps) => {
   const [needsClamp, setNeedsClamp] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
 
-  const handleLikeToggle = useCallback(async () => {
-    try {
-      const data = await togglePostLikeApi(post.id);
-      post.is_liked_by_user = data.is_liked;
-      post.likes_count = data.likes_count;
-    } catch (error) {
-      console.error('Error toggling like:', error);
-    }
+  const toggleLikeMutation = useTogglePostLikeMutation();
+
+  const handleLikeToggle = useCallback(() => {
+    toggleLikeMutation.mutate(post.id, {
+      onSuccess: (data) => {
+        post.is_liked_by_user = data.is_liked;
+        post.likes_count = data.likes_count;
+      },
+      onError: (error: any) => {
+        toast.error(error?.detail || 'Đã có lỗi xảy ra khi thích bài viết.');
+        // Optionally handle error (e.g., show a toast)
+      },
+    });
   }, [post.id]);
 
   useEffect(() => {
