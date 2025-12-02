@@ -74,6 +74,12 @@ const ChatSection = ({ sessionId, className }: ChatSectionProps) => {
       .mutateAsync({ sessionId, message: { content: content.trim() } })
       .then((res) => {
         setLocalMessages((prev) => [...prev, res]);
+        speak({
+          text: res.content,
+          pitch: 1.4,
+          voice: selectedVoiceObject,
+          messageId: `message-${res.id}`,
+        });
       });
   };
 
@@ -115,7 +121,7 @@ const ChatSection = ({ sessionId, className }: ChatSectionProps) => {
         });
         speak({
           text: res.content,
-          pitch: 1.2,
+          pitch: 1.4,
           voice: selectedVoiceObject,
           messageId: `message-${res.id}`,
         });

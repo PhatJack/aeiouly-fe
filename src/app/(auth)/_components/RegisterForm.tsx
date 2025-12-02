@@ -157,7 +157,9 @@ const RegisterForm = () => {
         </div>
 
         {/* Google login */}
-        <LoginWithGoogleButton onSuccess={() => router.push(ROUTE.APP)} text="signup_with" />
+        <div className="flex w-full justify-center">
+          <LoginWithGoogleButton onSuccess={() => router.push(ROUTE.APP)} text="signup_with" />
+        </div>
 
         {/* Footer */}
         <div className="text-center text-sm">
