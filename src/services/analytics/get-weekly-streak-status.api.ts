@@ -8,7 +8,7 @@ type WeeklyStreakDay = {
 };
 
 export const getWeeklyStreakStatusApi = async () => {
-  const response = await apiClient.get<WeeklyStreakDay[]>(`/analytics/streak/weekly`);
+  const response = await apiClient.get<WeeklyStreakDay[]>(`/online/streak/weekly`);
   return response.data;
 };
 
