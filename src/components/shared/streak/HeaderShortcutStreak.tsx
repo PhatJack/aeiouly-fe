@@ -2,6 +2,7 @@
 
 import React, { useMemo } from 'react';
 
+import { Bagel_Fat_One } from 'next/font/google';
 import Image from 'next/image';
 
 import { Popover, PopoverContent } from '@/components/ui/popover';
@@ -12,42 +13,67 @@ import { PopoverTrigger } from '@radix-ui/react-popover';
 
 import WeekdayProgress from './WeekdayProgress';
 
+const bagelFastOne = Bagel_Fat_One({
+  variable: '--font-bagel-fat-one',
+  subsets: ['latin'],
+  weight: ['400'],
+});
+
 const HeaderShortcutStreak = () => {
   const { data: streakHistory, isLoading: isLoadingStreakHistory } =
     useGetWeeklyStreakStatusQuery();
 
-  const isLoggedToday = useMemo(() => {
-    if (!streakHistory || streakHistory.length === 0) return false;
-    const today = new Date();
-    const todayStr = today.toISOString().split('T')[0];
-    return streakHistory.some((entry) => entry.date === todayStr && entry.logged_in);
-  }, [streakHistory]);
-  const completedDays = useMemo(() => streakHistory?.map((d) => d.logged_in), [streakHistory]);
+  const completedDays = useMemo(
+    () => streakHistory?.days?.map((d) => d.has_streak),
+    [streakHistory]
+  );
   const dayNumbers = useMemo(
-    () => streakHistory?.map((d) => new Date(d.date).getDate()),
+    () => streakHistory?.days?.map((d) => new Date(d.date).getDate()),
     [streakHistory]
   );
 
   if (isLoadingStreakHistory) {
-    return <Skeleton className="size-10 rounded-full" />;
+    return <Skeleton className="h-10 w-16 rounded-full" />;
   }
 
   return (
     <Popover>
       <PopoverTrigger asChild>
-        <div className="relative flex size-10 cursor-pointer place-content-center rounded-full border p-1">
-          <Image
-            src={'/streak/fire_active.gif'}
-            alt="Streak icon"
-            className={cn('size-8', isLoggedToday ? '' : 'grayscale')}
-            width={40}
-            height={40}
-            unoptimized
-          />
+        <div className="flex cursor-pointer items-center gap-2">
+          {/* Streak Number - Outside container */}
+          <span
+            className={cn(
+              'text-lg font-bold',
+              streakHistory?.today_has_streak ? 'text-orange-500' : 'text-gray-500',
+              bagelFastOne.className
+            )}
+          >
+            {streakHistory?.current_streak || 0}
+          </span>
+
+          {/* Original Fire Icon Container */}
+          <div className="relative flex size-10 place-content-center rounded-full border p-1">
+            <Image
+              src={'/streak/fire_active.gif'}
+              alt="Streak icon"
+              className={cn('size-8', streakHistory?.today_has_streak ? '' : 'grayscale')}
+              width={40}
+              height={40}
+              unoptimized
+            />
+          </div>
         </div>
       </PopoverTrigger>
       <PopoverContent className="w-fit">
-        <WeekdayProgress completedDays={completedDays || []} dayNumbers={dayNumbers || []} />
+        <div className="space-y-2">
+          <div className="text-center">
+            <p className="text-sm font-medium">Chuỗi học tập</p>
+            <p className="text-muted-foreground text-xs">
+              {streakHistory?.current_streak || 0} ngày liên tiếp
+            </p>
+          </div>
+          <WeekdayProgress completedDays={completedDays || []} dayNumbers={dayNumbers || []} />
+        </div>
       </PopoverContent>
     </Popover>
   );

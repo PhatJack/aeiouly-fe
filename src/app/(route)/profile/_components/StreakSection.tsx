@@ -11,7 +11,7 @@ import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
 import { useAuthStore } from '@/contexts/AuthContext';
 import { cn, getFireProps, streakToText } from '@/lib/utils';
-import { useGetStreakStatsQuery, useGetWeeklyStreakStatusQuery } from '@/services/analytics';
+import { useGetWeeklyStreakStatusQuery } from '@/services/analytics';
 
 import { Check } from 'lucide-react';
 
@@ -31,26 +31,25 @@ const StreakSection = () => {
     minutes: 231,
   };
 
-  const { data: streakStat, isLoading: isLoadingStreakStat } = useGetStreakStatsQuery();
   const { data: streakHistory, isLoading: isLoadingStreakHistory } =
     useGetWeeklyStreakStatusQuery();
 
-  const completedDays = useMemo(() => streakHistory?.map((d) => d.logged_in), [streakHistory]);
+  const completedDays = useMemo(
+    () => streakHistory?.days?.map((d) => d.has_streak),
+    [streakHistory]
+  );
   const dayNumbers = useMemo(
-    () => streakHistory?.map((d) => new Date(d.date).getDate()),
+    () => streakHistory?.days?.map((d) => new Date(d.date).getDate()),
     [streakHistory]
   );
 
   const { size, imgClass } = useMemo(
     () =>
-      getFireProps(
-        streakStat?.current_streak ?? 0,
-        !!(streakStat?.today_logins && streakStat?.today_logins > 0) || false
-      ),
-    [streakStat?.current_streak, streakStat?.today_logins]
+      getFireProps(streakHistory?.current_streak ?? 0, streakHistory?.today_has_streak || false),
+    [streakHistory?.current_streak, streakHistory?.today_has_streak]
   );
 
-  if (isLoadingStreakHistory || isLoadingStreakStat) {
+  if (isLoadingStreakHistory) {
     return <LoadingWithText text="Đang tải thành tích chuỗi..." />;
   }
 
@@ -59,8 +58,14 @@ const StreakSection = () => {
       {/* Streak Display Card */}
       <Card className="shadow-none dark:bg-transparent">
         <CardContent className="flex flex-col items-center justify-center gap-4">
-          {/* Fire Icon with Streak Number */}
-          <div className="relative mb-5">
+          {/* Fire Icon with Streak Number - Simple Layout */}
+          <div className="flex items-center justify-center gap-4">
+            {/* Streak Number - Outside container */}
+            <span className={cn('text-4xl font-bold text-orange-500', bagelFastOne.className)}>
+              {streakHistory?.current_streak}
+            </span>
+
+            {/* Original Fire Icon Container */}
             <div className="bg-background flex size-28 items-center justify-center rounded-full border">
               <Image
                 src={'/streak/fire_active.gif'}
@@ -71,18 +76,15 @@ const StreakSection = () => {
                 unoptimized
               />
             </div>
-            <div className="absolute -bottom-7 left-1/2 flex -translate-x-1/2 items-center justify-center rounded-full">
-              <span className={cn('text-6xl font-bold', bagelFastOne.className)}>
-                {streakStat?.current_streak}
-              </span>
-            </div>
           </div>
 
           {/* Title and Subtitle */}
           <div className="mt-2 text-center">
-            <h2 className="text-xl font-bold">{streakToText(streakStat?.current_streak ?? 0)}</h2>
+            <h2 className="text-xl font-bold">
+              {streakToText(streakHistory?.current_streak ?? 0)}
+            </h2>
             <p className="text-muted-foreground mt-1 text-sm">
-              {streakStat?.today_logins && streakStat?.today_logins > 0
+              {streakHistory?.today_has_streak
                 ? `Bạn đã thắp sáng chuỗi hôm nay, ${user?.full_name}! 😍`
                 : `${user?.full_name} ơi, bạn chưa thắp sáng chuỗi hôm nay đấy! 😥`}
             </p>
