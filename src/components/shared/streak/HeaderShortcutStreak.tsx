@@ -2,7 +2,6 @@
 
 import React, { useMemo } from 'react';
 
-import { Bagel_Fat_One } from 'next/font/google';
 import Image from 'next/image';
 
 import { Popover, PopoverContent } from '@/components/ui/popover';
@@ -12,12 +11,6 @@ import { useGetWeeklyStreakStatusQuery } from '@/services/analytics';
 import { PopoverTrigger } from '@radix-ui/react-popover';
 
 import WeekdayProgress from './WeekdayProgress';
-
-const bagelFastOne = Bagel_Fat_One({
-  variable: '--font-bagel-fat-one',
-  subsets: ['latin'],
-  weight: ['400'],
-});
 
 const HeaderShortcutStreak = () => {
   const { data: streakHistory, isLoading: isLoadingStreakHistory } =
@@ -39,20 +32,9 @@ const HeaderShortcutStreak = () => {
   return (
     <Popover>
       <PopoverTrigger asChild>
-        <div className="flex cursor-pointer items-center gap-2">
-          {/* Streak Number - Outside container */}
-          <span
-            className={cn(
-              'text-lg font-bold',
-              streakHistory?.today_has_streak ? 'text-orange-500' : 'text-gray-500',
-              bagelFastOne.className
-            )}
-          >
-            {streakHistory?.current_streak || 0}
-          </span>
-
+        <div className="flex cursor-pointer items-center gap-2 rounded-full border border-y pr-2">
           {/* Original Fire Icon Container */}
-          <div className="relative flex size-10 place-content-center rounded-full border p-1">
+          <div className="bg-muted relative flex size-10 items-center justify-center rounded-full">
             <Image
               src={'/streak/fire_active.gif'}
               alt="Streak icon"
@@ -62,13 +44,21 @@ const HeaderShortcutStreak = () => {
               unoptimized
             />
           </div>
+          <span
+            className={cn(
+              'text-xl font-bold',
+              streakHistory?.today_has_streak ? 'text-primary' : 'text-gray-500'
+            )}
+          >
+            {streakHistory?.current_streak || 0}
+          </span>
         </div>
       </PopoverTrigger>
       <PopoverContent className="w-fit">
         <div className="space-y-2">
           <div className="text-center">
             <p className="text-sm font-medium">Chuỗi học tập</p>
-            <p className="text-muted-foreground text-xs">
+            <p className="text-muted-foreground">
               {streakHistory?.current_streak || 0} ngày liên tiếp
             </p>
           </div>

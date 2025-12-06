@@ -58,13 +58,7 @@ const StreakSection = () => {
       {/* Streak Display Card */}
       <Card className="shadow-none dark:bg-transparent">
         <CardContent className="flex flex-col items-center justify-center gap-4">
-          {/* Fire Icon with Streak Number - Simple Layout */}
-          <div className="flex items-center justify-center gap-4">
-            {/* Streak Number - Outside container */}
-            <span className={cn('text-4xl font-bold text-orange-500', bagelFastOne.className)}>
-              {streakHistory?.current_streak}
-            </span>
-
+          <div className="relative mb-5">
             {/* Original Fire Icon Container */}
             <div className="bg-background flex size-28 items-center justify-center rounded-full border">
               <Image
@@ -75,6 +69,11 @@ const StreakSection = () => {
                 className={imgClass}
                 unoptimized
               />
+            </div>
+            <div className="absolute -bottom-7 left-1/2 flex -translate-x-1/2 items-center justify-center rounded-full">
+              <span className={cn('text-6xl font-bold', bagelFastOne.className)}>
+                {streakHistory?.current_streak}
+              </span>
             </div>
           </div>
 

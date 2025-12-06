@@ -1,5 +1,9 @@
 import type { NextConfig } from 'next';
 
+const apiUrl = process.env.NEXT_PUBLIC_DJANGO_SERVER_URL_DEFAULT || 'http://localhost:8000';
+
+const target = apiUrl.replace(/\/api\/v1$/, '').replace(/\/api$/, '') || 'http://localhost:8000';
+
 const nextConfig: NextConfig = {
   /* config options here */
   devIndicators: false,
@@ -30,6 +34,18 @@ const nextConfig: NextConfig = {
         pathname: '/randomusers/assets/avatars/**',
       },
     ],
+  },
+  async rewrites() {
+    return [
+      {
+        source: '/api/v1/:path*',
+        destination: `${target}/api/v1/:path*`,
+      },
+      {
+        source: '/online/ws/:path*',
+        destination: `${target}/online/ws/:path*`,
+      },
+    ];
   },
 };
 
