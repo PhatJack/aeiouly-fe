@@ -16,6 +16,7 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
+import { ROUTE } from '@/configs/route';
 import { CEFRLevel } from '@/lib/schema/enum.schema';
 import {
   SpeakingSessionCreateSchema,
@@ -59,7 +60,7 @@ export const SpeakingSessionForm: React.FC<SpeakingSessionFormProps> = ({ initia
   const mutation = useCreateSpeakingSessionMutation({
     onSuccess: (data) => {
       toast.success('Tạo phiên luyện nói thành công');
-      router.push(`/onion/${data.id}`);
+      router.push(`${ROUTE.ONION}/${data.id}`);
       form.reset();
     },
   });

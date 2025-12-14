@@ -1,14 +1,16 @@
-import { Home } from "lucide-react";
-import Link from "next/link";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import Link from 'next/link';
+
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+
+import { Home } from 'lucide-react';
 
 const NotFound = () => {
   return (
-    <div className="min-h-screen flex items-center justify-center">
-      <Card className="w-full max-w-md border-border">
+    <div className="flex min-h-dvh w-full items-center justify-center">
+      <Card className="border-border w-full max-w-md">
         <CardHeader>
-          <CardTitle className="text-2xl text-center text-foreground">
+          <CardTitle className="text-foreground text-center text-2xl">
             404 - Không Tìm Thấy Trang
           </CardTitle>
         </CardHeader>
@@ -17,8 +19,8 @@ const NotFound = () => {
             Trang bạn đang tìm kiếm không tồn tại hoặc đã bị di chuyển.
           </p>
           <Button asChild variant="default">
-            <Link href="/">
-              <Home className="w-4 h-4 mr-2" />
+            <Link href="/app">
+              <Home className="mr-2 h-4 w-4" />
               Trở Về Trang Chủ
             </Link>
           </Button>

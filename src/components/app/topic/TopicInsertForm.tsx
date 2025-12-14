@@ -17,6 +17,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
+import { ROUTE } from '@/configs/route';
 import {
   WritingSessionCreateSchema,
   writingSessionCreateSchema,
@@ -65,7 +66,7 @@ const TopicInsertForm = ({ values }: TopicInsertFormProps) => {
     createWritingSessionMutation.mutate(data, {
       onSuccess: (data) => {
         toast.success('Tạo phiên viết thành công!');
-        router.push(`/topic/${data.id}`);
+        router.push(`${ROUTE.TOPIC}/${data.id}`);
       },
       onError: (error) => {
         toast.error('Đã có lỗi xảy ra khi tạo phiên viết. Vui lòng thử lại.');
