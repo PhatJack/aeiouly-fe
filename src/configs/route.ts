@@ -1,13 +1,13 @@
 export const ROUTE = {
   HOME: '/',
   APP: '/app',
-  TOPIC: '/topic',
+  TOPIC: '/writing',
   LEARN: '/learn',
-  ONION: '/onion',
-  GYM: '/gym',
+  ONION: '/speaking',
+  GYM: '/listening',
   READING: '/reading',
   VOCABULARY: '/vocabulary',
-  SPACE: '/solo',
+  SPACE: '/space',
   USER: (username: string) => `/u/${username}`,
   ADMIN: {
     INDEX: '/admin',

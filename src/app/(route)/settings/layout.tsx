@@ -8,7 +8,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           <SettingNav />
         </div>
       </div>
-      <div className="col-span-12 px-4 md:col-span-8">{children}</div>
+      <div className="col-span-12 sm:px-4 md:col-span-8">{children}</div>
     </div>
   );
 }

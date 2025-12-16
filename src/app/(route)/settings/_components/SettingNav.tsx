@@ -5,6 +5,7 @@ import React from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
+import { Separator } from '@/components/ui/separator';
 import { useAuthStore } from '@/contexts/AuthContext';
 
 import { FileText, Lock, MessageCircle, Trash2 } from 'lucide-react';
@@ -62,15 +63,15 @@ const SettingNav = () => {
 
   return (
     <div className="mx-auto w-full lg:max-w-md">
-      <div className="overflow-hidden rounded-2xl transition-all">
-        <div className="border-b p-4">
+      <div className="overflow-hidden transition-all">
+        <div className="border-b pb-4 sm:p-4">
           <h2 className="text-foreground text-xl font-semibold dark:text-white">Cài đặt</h2>
           <p className="text-muted-foreground text-sm dark:text-gray-400">
             Quản lý tài khoản và tùy chọn
           </p>
         </div>
 
-        <div className="flex flex-col gap-2 p-2">
+        <div className="flex flex-col gap-2 py-4 sm:p-2">
           {menu
             .filter((item) => {
               if (!user) return false;
@@ -140,6 +141,7 @@ const SettingNav = () => {
               );
             })}
         </div>
+        <Separator className="block sm:hidden" />
       </div>
     </div>
   );

@@ -18,8 +18,8 @@ export default function DriverOnboarding() {
       doneBtnText: '🎉 Hoàn tất',
       animate: true,
       smoothScroll: true,
-      stagePadding: 8,
-      stageRadius: 12,
+      stagePadding: 4,
+      stageRadius: 20,
       popoverClass: 'aeiouly-custom',
       onDestroyed: () => {
         // Lưu lại để tour không chạy lần nữa
@@ -36,7 +36,7 @@ export default function DriverOnboarding() {
           },
         },
         {
-          element: '#home',
+          element: '#app',
           popover: {
             title: '🏠 Trang chủ',
             description:
@@ -46,17 +46,7 @@ export default function DriverOnboarding() {
           },
         },
         {
-          element: '#create-topic',
-          popover: {
-            title: '📝 Tạo chủ đề mới',
-            description:
-              'Nhấn vào đây để tạo một chủ đề mới và bắt đầu chia sẻ những ý tưởng, câu chuyện thú vị của bạn với cộng đồng.',
-            side: 'bottom',
-            align: 'start',
-          },
-        },
-        {
-          element: '#space',
+          element: '#self-study-space',
           popover: {
             title: '🌌 Không gian tự học',
             description:
@@ -66,9 +56,9 @@ export default function DriverOnboarding() {
           },
         },
         {
-          element: '#onion',
+          element: '#speaking-practice',
           popover: {
-            title: '🎙️ Onion luyện nói',
+            title: '🎙️ Luyện nói',
             description:
               'Môi trường luyện nói trực tuyến với AI giúp bạn cải thiện kỹ năng giao tiếp và tự tin hơn trong các tình huống thực tế, với hơn 100+ tình huống nhập vai.',
             side: 'right',
@@ -76,9 +66,19 @@ export default function DriverOnboarding() {
           },
         },
         {
-          element: '#gym',
+          element: '#writing-practice',
           popover: {
-            title: '� Gym luyện nghe',
+            title: '📝 Luyện viết',
+            description:
+              'Nhấn vào đây để luyện tập kỹ năng viết tiếng Anh và cải thiện khả năng diễn đạt ý tưởng của bạn.',
+            side: 'right',
+            align: 'start',
+          },
+        },
+        {
+          element: '#listening-practice',
+          popover: {
+            title: '🏋️ Luyện nghe',
             description:
               'Tham gia luyện nghe, ngữ âm, tra cứu từ điển phát âm, và vô vàn hoạt động thú vị khác để nâng cao kỹ năng tiếng Anh của bạn.',
             side: 'right',
@@ -86,7 +86,7 @@ export default function DriverOnboarding() {
           },
         },
         {
-          element: '#reading',
+          element: '#reading-practice',
           popover: {
             title: '📚 Luyện đọc',
             description:
@@ -96,17 +96,27 @@ export default function DriverOnboarding() {
           },
         },
         {
-          element: '#news',
+          element: '#saved-vocabulary',
           popover: {
-            title: '📰 Bảng tin',
+            title: '📰 Từ vựng đã lưu',
             description:
-              'Cập nhật những tin tức mới nhất và các bài viết thú vị từ cộng đồng Aeiouly. Kết nối và chia sẻ với những người học cùng đam mê.',
+              'Xem và ôn tập các từ vựng bạn đã lưu để củng cố kiến thức và cải thiện khả năng ghi nhớ.',
             side: 'left',
             align: 'start',
           },
         },
         {
-          element: '#setting',
+          element: '#profile',
+          popover: {
+            title: '👤 Hồ sơ cá nhân',
+            description:
+              'Quản lý thông tin cá nhân, xem tiến độ học tập và điều chỉnh cài đặt tài khoản của bạn.',
+            side: 'left',
+            align: 'start',
+          },
+        },
+        {
+          element: '#settings',
           popover: {
             title: '⚙️ Cài đặt',
             description:

@@ -16,38 +16,54 @@ const HeaderShortcutStreak = () => {
   const { data: streakHistory, isLoading: isLoadingStreakHistory } =
     useGetWeeklyStreakStatusQuery();
 
-  const isLoggedToday = useMemo(() => {
-    if (!streakHistory || streakHistory.length === 0) return false;
-    const today = new Date();
-    const todayStr = today.toISOString().split('T')[0];
-    return streakHistory.some((entry) => entry.date === todayStr && entry.logged_in);
-  }, [streakHistory]);
-  const completedDays = useMemo(() => streakHistory?.map((d) => d.logged_in), [streakHistory]);
+  const completedDays = useMemo(
+    () => streakHistory?.days?.map((d) => d.has_streak),
+    [streakHistory]
+  );
   const dayNumbers = useMemo(
-    () => streakHistory?.map((d) => new Date(d.date).getDate()),
+    () => streakHistory?.days?.map((d) => new Date(d.date).getDate()),
     [streakHistory]
   );
 
   if (isLoadingStreakHistory) {
-    return <Skeleton className="size-10 rounded-full" />;
+    return <Skeleton className="h-10 w-16 rounded-full" />;
   }
 
   return (
     <Popover>
       <PopoverTrigger asChild>
-        <div className="relative flex size-10 cursor-pointer place-content-center rounded-full border p-1">
-          <Image
-            src={'/streak/fire_active.gif'}
-            alt="Streak icon"
-            className={cn('size-8', isLoggedToday ? '' : 'grayscale')}
-            width={40}
-            height={40}
-            unoptimized
-          />
+        <div className="flex cursor-pointer items-center gap-2 rounded-full border border-y pr-2">
+          {/* Original Fire Icon Container */}
+          <div className="bg-muted relative flex size-10 items-center justify-center rounded-full">
+            <Image
+              src={'/streak/fire_active.gif'}
+              alt="Streak icon"
+              className={cn('size-8', streakHistory?.today_has_streak ? '' : 'grayscale')}
+              width={40}
+              height={40}
+              unoptimized
+            />
+          </div>
+          <span
+            className={cn(
+              'text-xl font-bold',
+              streakHistory?.today_has_streak ? 'text-primary' : 'text-gray-500'
+            )}
+          >
+            {streakHistory?.current_streak || 0}
+          </span>
         </div>
       </PopoverTrigger>
       <PopoverContent className="w-fit">
-        <WeekdayProgress completedDays={completedDays || []} dayNumbers={dayNumbers || []} />
+        <div className="space-y-2">
+          <div className="text-center">
+            <p className="text-sm font-medium">Chuỗi học tập</p>
+            <p className="text-muted-foreground">
+              {streakHistory?.current_streak || 0} ngày liên tiếp
+            </p>
+          </div>
+          <WeekdayProgress completedDays={completedDays || []} dayNumbers={dayNumbers || []} />
+        </div>
       </PopoverContent>
     </Popover>
   );

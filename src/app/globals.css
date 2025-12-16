@@ -338,19 +338,63 @@
 }
 
 .driver-popover.aeiouly-custom {
-	@apply p-4 max-w-lg rounded-xl
+	@apply p-5 max-w-lg rounded-xl bg-popover text-popover-foreground shadow-lg;
 }
 
+/* ---------- Title ---------- */
+.driver-popover.aeiouly-custom .driver-popover-title {
+	@apply text-lg font-semibold leading-tight text-foreground;
+}
+
+/* ---------- Description ---------- */
+.driver-popover.aeiouly-custom .driver-popover-description {
+	@apply mt-2 text-sm leading-relaxed text-muted-foreground;
+}
+
+/* ---------- Progress badge ---------- */
 .driver-popover.aeiouly-custom .driver-popover-progress-text {
-	@apply p-2 rounded-lg text-sm bg-secondary text-secondary-foreground;
+	@apply px-3 py-1 rounded-md text-xs font-medium bg-muted text-muted-foreground;
 }
 
+/* ---------- Navigation container ---------- */
+.driver-popover.aeiouly-custom .driver-popover-navigation-btns {
+	@apply mt-4 flex items-center gap-2;
+}
+
+.driver-popover.aeiouly-custom .driver-popover-navigation-btns button {
+	@apply text-shadow-none;
+}
+
+/* ---------- Prev button (outline) ---------- */
 .driver-popover.aeiouly-custom .driver-popover-prev-btn {
-	@apply px-4 py-2 text-sm rounded-lg border border-border bg-card text-foreground hover:bg-accent hover:text-accent-foreground transition-all;
+	@apply px-4 py-2 text-sm font-medium rounded-md border-none bg-background text-foreground hover:bg-accent hover:text-accent-foreground transition-colors;
 }
 
+/* ---------- Next button (primary) ---------- */
 .driver-popover.aeiouly-custom .driver-popover-next-btn {
-	@apply px-4 py-2 text-sm rounded-lg border border-border bg-card text-foreground hover:bg-accent hover:text-accent-foreground transition-all;
+	@apply px-4 py-2 text-sm font-medium rounded-md border-none bg-primary text-primary-foreground hover:bg-primary/90 transition-colors;
+}
+
+/* ---------- Close button (ghost) ---------- */
+.driver-popover.aeiouly-custom .driver-popover-close-btn {
+	@apply text-muted-foreground hover:text-foreground transition-colors;
+}
+
+/* ---------- Arrow ---------- */
+.driver-popover.aeiouly-custom .driver-popover-arrow-side-left.driver-popover-arrow {
+	@apply border-l-popover
+}
+
+.driver-popover.aeiouly-custom .driver-popover-arrow-side-right.driver-popover-arrow {
+	@apply border-r-popover
+}
+
+.driver-popover.aeiouly-custom .driver-popover-arrow-side-top.driver-popover-arrow {
+	@apply border-t-popover
+}
+
+.driver-popover.aeiouly-custom .driver-popover-arrow-side-bottom.driver-popover-arrow {
+	@apply border-b-popover
 }
 
 /* OverlayScrollbars Custom Theme */

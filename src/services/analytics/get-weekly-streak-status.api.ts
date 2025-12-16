@@ -4,18 +4,24 @@ import { UseQueryOptions, useQuery } from '@tanstack/react-query';
 
 type WeeklyStreakDay = {
   date: string;
-  logged_in: boolean;
+  has_streak: boolean;
+};
+
+type WeeklyStreakResponse = {
+  current_streak: number;
+  today_has_streak: boolean;
+  days: WeeklyStreakDay[];
 };
 
 export const getWeeklyStreakStatusApi = async () => {
-  const response = await apiClient.get<WeeklyStreakDay[]>(`/analytics/streak/weekly`);
+  const response = await apiClient.get<WeeklyStreakResponse>(`/online/streak/weekly`);
   return response.data;
 };
 
 export const useGetWeeklyStreakStatusQuery = (
-  options?: Omit<UseQueryOptions<WeeklyStreakDay[], ErrorResponseSchema>, 'queryKey' | 'queryFn'>
+  options?: Omit<UseQueryOptions<WeeklyStreakResponse, ErrorResponseSchema>, 'queryKey' | 'queryFn'>
 ) => {
-  return useQuery<WeeklyStreakDay[], ErrorResponseSchema>({
+  return useQuery<WeeklyStreakResponse, ErrorResponseSchema>({
     queryKey: ['analytics', 'streak', 'weekly'],
     queryFn: () => getWeeklyStreakStatusApi(),
     staleTime: 60 * 60 * 1000, // 1 hour

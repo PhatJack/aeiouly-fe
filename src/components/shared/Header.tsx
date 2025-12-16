@@ -16,11 +16,13 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { ROUTE } from '@/configs/route';
 import { useAuthStore } from '@/contexts/AuthContext';
+import { WebSocketContext } from '@/contexts/WebsocketContext';
 import { getFallbackInitials } from '@/lib/utils';
 import { useLogoutMutation } from '@/services/auth/logout.api';
 
 import { LogOut, PanelRightClose, Settings, User2 } from 'lucide-react';
 import { toast } from 'sonner';
+import { useContextSelector } from 'use-context-selector';
 
 import TooltipCustom from '../custom/TooltipCustom';
 import { ModeToggle } from '../mode-toggle';
@@ -32,6 +34,7 @@ interface HeaderProps {
 }
 
 const Header = ({ isExpanded, handleToggleExpand }: HeaderProps) => {
+  const disconnect = useContextSelector(WebSocketContext, (ctx) => ctx?.disconnect);
   const router = useRouter();
   const user = useAuthStore((state) => state.user);
   const logoutMutation = useLogoutMutation();
@@ -40,10 +43,12 @@ const Header = ({ isExpanded, handleToggleExpand }: HeaderProps) => {
     try {
       await logoutMutation.mutateAsync();
       toast.success('Đăng xuất thành công');
+      disconnect?.();
       router.push(ROUTE.AUTH.LOGIN);
       router.refresh();
     } catch (error) {
       toast.error('Đăng xuất thất bại');
+      disconnect?.();
       router.push(ROUTE.AUTH.LOGIN);
       router.refresh();
     }

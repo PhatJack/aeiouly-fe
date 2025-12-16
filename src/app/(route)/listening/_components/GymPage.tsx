@@ -16,6 +16,7 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { Skeleton } from '@/components/ui/skeleton';
+import { ROUTE } from '@/configs/route';
 import {
   useCreateListeningSessionMutation,
   useGetLessonsQuery,
@@ -46,7 +47,7 @@ const GymPage = () => {
     toast.promise(createListeningSessionMutation.mutateAsync({ lesson_id: lessonId }), {
       loading: 'Đang tạo phiên luyện nghe...',
       success: (data) => {
-        router.push(`/gym/${data.id}`);
+        router.push(`${ROUTE.GYM}/${data.id}`);
         return 'Phiên luyện nghe đã được tạo!';
       },
       error: 'Đã có lỗi xảy ra. Vui lòng thử lại.',
