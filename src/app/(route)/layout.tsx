@@ -35,7 +35,7 @@ export default function RootLayout({
         )}
         <div className={'w-full overflow-hidden p-4'}>{children}</div>
       </main>
-      <ScrollToTop />
+      {/* <ScrollToTop /> */}
     </div>
   );
 }

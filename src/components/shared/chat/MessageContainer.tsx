@@ -10,6 +10,7 @@ interface MessageContainerProps {
   messages: any[];
   senderId?: number;
   historyMessageIds?: Set<string>;
+  disableAssistantSpeak?: boolean;
   children?: React.ReactNode;
   className?: string;
 }
@@ -17,6 +18,7 @@ interface MessageContainerProps {
 function MessageContainer({
   messages,
   historyMessageIds,
+  disableAssistantSpeak,
   children,
   className,
 }: MessageContainerProps) {
@@ -46,6 +48,7 @@ function MessageContainer({
             senderRole={message.role}
             audioUrl={message.audio_url}
             translation_sentence={message.translation_sentence}
+            disableAssistantSpeak={disableAssistantSpeak}
             disableTyping={
               historyMessageIds
                 ? historyMessageIds.has(`${message.session_id}_${message.role}_${message.id}`)
