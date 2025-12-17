@@ -338,7 +338,7 @@ Backend Integration:
 
 ## 🌐 Live Demo
 
-Visit the live application at: [https://aeiouly.online/](https://aeiouly.online/)
+Visit the live application at: [https://aeiouly.online/](https://aeiouly.online/) or [https://aeiouly.vercel.app/](https://aeiouly.vercel.app/)
 
 ---
 
