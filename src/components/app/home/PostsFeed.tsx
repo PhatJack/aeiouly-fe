@@ -41,9 +41,6 @@ const PostsFeed = () => {
       {/* Loading indicator */}
       <div ref={ref} className="flex justify-center p-4">
         {isFetchingNextPage && <div>Đang tải thêm...</div>}
-        {!hasNextPage && data?.items.length > 0 && (
-          <div className="text-gray-700">Đã tải hết bài viết</div>
-        )}
       </div>
     </div>
   );
