@@ -19,7 +19,7 @@ const AIChatBox = () => {
   }, []);
 
   return (
-    <div className="fixed right-4 bottom-4">
+    <div className="fixed right-4 bottom-4 z-50">
       {!isOpen && (
         <motion.div
           initial={{ y: 30, scale: 0.8, opacity: 0 }}

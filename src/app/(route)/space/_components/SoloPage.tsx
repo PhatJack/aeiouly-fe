@@ -1,6 +1,8 @@
 'use client';
 
-import React from 'react';
+import React, { useEffect } from 'react';
+
+import { useTheme } from 'next-themes';
 
 import { usePomodoroTimer } from '@/hooks/use-pomodoro-timer';
 
@@ -9,8 +11,16 @@ import StickyContainer from './sticky-container';
 import StickyMenu from './sticky-menu';
 
 const SoloPage = () => {
+  const { setTheme } = useTheme();
   // Initialize the Pomodoro timer
   usePomodoroTimer();
+
+  useEffect(() => {
+    setTheme('dark');
+    return () => {
+      setTheme('light');
+    };
+  }, [setTheme]);
 
   return (
     <div className="h-full">

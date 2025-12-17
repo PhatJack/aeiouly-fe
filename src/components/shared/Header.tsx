@@ -55,9 +55,9 @@ const Header = ({ isExpanded, handleToggleExpand }: HeaderProps) => {
   };
 
   return (
-    <header className="z-50 flex w-full items-center justify-between border-b px-4 py-2">
-      <div className="flex items-center gap-4">
-        <TooltipCustom content={isExpanded ? 'Thu gọn sidebar' : 'Mở rộng sidebar'}>
+    <header className="sticky top-0 z-50 border-b bg-white/75 px-4 py-2 backdrop-blur-sm dark:bg-black/75">
+      <div className="flex w-full items-center justify-between">
+        <div className="flex items-center gap-4">
           <Button
             variant={isExpanded ? 'default' : 'outline'}
             className="h-10 [&_svg:not([class*='size-'])]:size-4 sm:[&_svg:not([class*='size-'])]:size-5"
@@ -65,52 +65,52 @@ const Header = ({ isExpanded, handleToggleExpand }: HeaderProps) => {
           >
             {isExpanded ? <PanelRightClose className="rotate-180" /> : <PanelRightClose />}
           </Button>
-        </TooltipCustom>
-        <h1 className="text-sm font-semibold sm:text-lg">
-          Xin chào, {user?.full_name || user?.username || 'User'}
-        </h1>
-      </div>
+          <h1 className="text-sm font-semibold sm:text-lg">
+            Xin chào, {user?.full_name || user?.username || 'User'}
+          </h1>
+        </div>
 
-      <div className="flex items-center gap-3">
-        <ModeToggle />
-        {user ? (
-          <>
-            {user.role === 'user' ? <HeaderShortcutStreak /> : null}
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button variant="ghost" size={'icon'} className="relative size-10 rounded-full">
-                  <AvatarCustom
-                    className="size-10"
-                    url={user.avatar_url || ''}
-                    fallback={getFallbackInitials(user?.full_name || user?.username || 'User')}
-                  />
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent className="w-56" align="end" forceMount>
-                <DropdownMenuLabel className="font-normal">
-                  <div className="flex flex-col space-y-1">
-                    <p className="text-sm leading-none font-medium">{user.full_name}</p>
-                    <p className="text-muted-foreground text-xs leading-none">{user.email}</p>
-                  </div>
-                </DropdownMenuLabel>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem onClick={() => router.push(ROUTE.PROFILE)}>
-                  <User2 className="mr-2 h-4 w-4" />
-                  <span>Thông tin cá nhân</span>
-                </DropdownMenuItem>
-                <DropdownMenuItem onClick={() => router.push(ROUTE.SETTING.INDEX)}>
-                  <Settings className="mr-2 h-4 w-4" />
-                  <span>Cài đặt</span>
-                </DropdownMenuItem>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem onClick={handleLogout} className="text-destructive">
-                  <LogOut className="mr-2 h-4 w-4" />
-                  <span>Đăng xuất</span>
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
-          </>
-        ) : null}
+        <div className="flex items-center gap-3">
+          <ModeToggle />
+          {user ? (
+            <>
+              {user.role === 'user' ? <HeaderShortcutStreak /> : null}
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="ghost" size={'icon'} className="relative size-10 rounded-full">
+                    <AvatarCustom
+                      className="size-10"
+                      url={user.avatar_url || ''}
+                      fallback={getFallbackInitials(user?.full_name || user?.username || 'User')}
+                    />
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent className="w-56" align="end" forceMount>
+                  <DropdownMenuLabel className="font-normal">
+                    <div className="flex flex-col space-y-1">
+                      <p className="text-sm leading-none font-medium">{user.full_name}</p>
+                      <p className="text-muted-foreground text-xs leading-none">{user.email}</p>
+                    </div>
+                  </DropdownMenuLabel>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem onClick={() => router.push(ROUTE.PROFILE)}>
+                    <User2 className="mr-2 h-4 w-4" />
+                    <span>Thông tin cá nhân</span>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => router.push(ROUTE.SETTING.INDEX)}>
+                    <Settings className="mr-2 h-4 w-4" />
+                    <span>Cài đặt</span>
+                  </DropdownMenuItem>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem onClick={handleLogout} className="text-destructive">
+                    <LogOut className="mr-2 h-4 w-4" />
+                    <span>Đăng xuất</span>
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            </>
+          ) : null}
+        </div>
       </div>
     </header>
   );
