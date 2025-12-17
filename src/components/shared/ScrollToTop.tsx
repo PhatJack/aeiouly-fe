@@ -43,10 +43,10 @@ const ScrollToTop: React.FC = () => {
           onMouseEnter={() => setIsHovered(true)}
           onMouseLeave={() => setIsHovered(false)}
           aria-label="Scroll to top"
-          className="group fixed right-8 bottom-8 z-50"
+          className="group fixed right-5 bottom-24 z-50"
         >
           <motion.div
-            className="border-border/50 bg-background/80 relative flex h-14 w-14 items-center justify-center rounded-full border shadow-lg backdrop-blur-xl"
+            className="border-border/50 bg-background/80 relative flex size-14 items-center justify-center rounded-full border shadow-lg backdrop-blur-xl"
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.9 }}
             animate={{
@@ -58,33 +58,6 @@ const ScrollToTop: React.FC = () => {
                 : { duration: 2, repeat: Number.POSITIVE_INFINITY, ease: 'easeInOut' }
             }
           >
-            <motion.div
-              className="border-foreground/20 absolute inset-0 rounded-full border-2"
-              animate={{
-                scale: [1, 1.2, 1],
-                opacity: [0.5, 0, 0.5],
-              }}
-              transition={{
-                duration: 2,
-                repeat: Number.POSITIVE_INFINITY,
-                ease: 'easeInOut',
-              }}
-            />
-
-            <motion.div
-              className="border-foreground/20 absolute inset-0 rounded-full border-2"
-              animate={{
-                scale: [1, 1.4, 1],
-                opacity: [0.3, 0, 0.3],
-              }}
-              transition={{
-                duration: 2,
-                repeat: Number.POSITIVE_INFINITY,
-                ease: 'easeInOut',
-                delay: 0.5,
-              }}
-            />
-
             {/* Progress circle */}
             <svg
               className="absolute inset-0 h-14 w-14 -rotate-90"

@@ -14,7 +14,9 @@ const LoadingWithText = ({ className, text, loadingSize }: LoadingWithTextProps)
   return (
     <div className={cn('flex flex-col items-center justify-center gap-2', className)}>
       <Loader2 className="h-5 w-5 animate-spin" size={loadingSize} />
-      {text && <span className="text-sm text-gray-600 sm:text-base">{text}</span>}
+      {text && (
+        <span className="text-sm text-gray-600 sm:text-base dark:text-gray-400">{text}</span>
+      )}
     </div>
   );
 };

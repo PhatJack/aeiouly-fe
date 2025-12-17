@@ -1,6 +1,6 @@
 'use client';
 
-import React, { memo, useCallback, useEffect, useMemo, useState } from 'react';
+import React, { memo, useCallback, useMemo, useState } from 'react';
 
 import IndicatorLoading from '@/components/IndicatorLoading';
 import { useCopyToClipboard } from '@/components/editor/tiptap-editor/hooks/use-copy-to-clipboard';
@@ -18,6 +18,7 @@ interface MessageItemProps {
   index?: number;
   isLoading?: boolean;
   disableTyping?: boolean;
+  disableAssistantSpeak?: boolean;
   translation_sentence?: string;
   audioUrl?: string;
 }
@@ -27,6 +28,7 @@ const MessageItem: React.FC<MessageItemProps> = ({
   senderRole,
   isLoading = false,
   disableTyping = false,
+  disableAssistantSpeak = false,
   translation_sentence = '',
   index = 0,
   audioUrl = '',
@@ -90,7 +92,7 @@ const MessageItem: React.FC<MessageItemProps> = ({
             </div>
           )}
         </div>
-        {senderRole === 'assistant' && !isLoading && (
+        {senderRole === 'assistant' && !disableAssistantSpeak && !isLoading && (
           <Button
             onClick={() => handleSpeakClick()}
             type="button"
