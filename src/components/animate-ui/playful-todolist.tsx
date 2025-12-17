@@ -42,7 +42,7 @@ function PlayfulTodolist({ list, className, onStatusChange }: PlayfulTodolistPro
 
   return (
     <div className={cn('divide-y p-4', className)}>
-      {list.map((item, idx) => (
+      {list.map((item) => (
         <div key={item.id} className="flex items-center space-x-2 py-2">
           <Checkbox
             checked={item.status === 'COMPLETED'}

@@ -21,14 +21,12 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog';
-import { Progress } from '@/components/ui/progress';
-import { getScoreColor, getScoreLabel } from '@/lib/utils';
+import { ROUTE } from '@/configs/route';
 import {
   useCompleteWritingSessionMutation,
   useGetFinalEvaluationQuery,
 } from '@/services/writing-session';
 
-import { Loader2 } from 'lucide-react';
 import { toast } from 'sonner';
 
 import FinalEvaluation from './FinalEvaluation';
@@ -102,7 +100,7 @@ const EndSessionButton = ({ id }: EndSessionButtonProps) => {
             <FinalEvaluation
               data={data}
               onClose={() => {
-                router.push('/topic');
+                router.push(`${ROUTE.TOPIC}`);
                 setShowEvaluation(false);
               }}
             />

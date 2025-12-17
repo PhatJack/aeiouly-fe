@@ -1,14 +1,14 @@
 'use client';
 
-import React, { memo, useCallback, useMemo, useState } from 'react';
+import React, { memo, useCallback, useState } from 'react';
 
 import IndicatorLoading from '@/components/IndicatorLoading';
 import { useCopyToClipboard } from '@/components/editor/tiptap-editor/hooks/use-copy-to-clipboard';
 import { Button } from '@/components/ui/button';
-import { useSpeechContext } from '@/contexts/SpeechContext';
+import useTTS from '@/hooks/use-tts';
 import { cn } from '@/lib/utils';
 
-import { Check, Copy, Languages, Pause, Volume2 } from 'lucide-react';
+import { Check, Copy, Languages, Loader2, Pause, Volume2 } from 'lucide-react';
 
 import MarkdownRender from '../MarkdownRender';
 
@@ -38,25 +38,28 @@ const MessageItem: React.FC<MessageItemProps> = ({
   const [isShowTranslated, setIsShowTranslated] = useState(false);
   const [hover, setHover] = useState(false);
   const { copy, isCopied } = useCopyToClipboard();
-  const { selectedVoice, voices, speaking, speak, cancel, speakingMessageId } = useSpeechContext();
-  const selectedVoiceObject = useMemo(
-    () => voices.find((v) => v.name === selectedVoice),
-    [voices, selectedVoice]
-  );
+  const { speak: ttsSpeak, stop: ttsStop, voice: selectedVoice, isAudioLoading } = useTTS();
+  const [isThisMessageSpeaking, setIsThisMessageSpeaking] = useState(false);
 
-  const isThisMessageSpeaking = speaking && speakingMessageId === messageId;
-
-  const handleSpeakClick = useCallback(() => {
+  const handleSpeakClick = useCallback(async () => {
     if (isThisMessageSpeaking) {
-      cancel();
-    } else {
-      speak({
-        text: content,
-        voice: selectedVoiceObject,
-        messageId: messageId,
-      });
+      ttsStop();
+      setIsThisMessageSpeaking(false);
+      return;
     }
-  }, [content]);
+
+    setIsThisMessageSpeaking(true);
+    try {
+      await ttsSpeak(content, {
+        voice: selectedVoice,
+        onEnd: () => {
+          setIsThisMessageSpeaking(false);
+        },
+      });
+    } catch (err) {
+      setIsThisMessageSpeaking(false);
+    }
+  }, [content, isThisMessageSpeaking, ttsSpeak, ttsStop, selectedVoice]);
 
   return (
     <>
@@ -104,7 +107,13 @@ const MessageItem: React.FC<MessageItemProps> = ({
               hover ? 'scale-100 opacity-100' : 'pointer-events-none scale-90 opacity-0'
             )}
           >
-            {isThisMessageSpeaking ? <Pause /> : <Volume2 />}
+            {isAudioLoading ? (
+              <Loader2 className="animate-spin" />
+            ) : isThisMessageSpeaking ? (
+              <Pause />
+            ) : (
+              <Volume2 />
+            )}
           </Button>
         )}
         {/* Copy button – chỉ hiện khi hover */}

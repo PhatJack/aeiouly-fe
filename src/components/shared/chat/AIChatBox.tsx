@@ -31,7 +31,7 @@ const AIChatBox = () => {
             <Button
               onClick={toggleChatBox}
               variant="ghost"
-              className="relative size-16 overflow-hidden p-0"
+              className="relative size-16 overflow-hidden p-0 hover:bg-transparent dark:hover:bg-transparent"
             >
               <Image src="/catbox.png" alt="AI Icon" fill />
             </Button>

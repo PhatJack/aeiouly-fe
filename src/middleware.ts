@@ -35,8 +35,8 @@ export async function middleware(request: NextRequest) {
   const accessToken = (await cookies()).get(COOKIE_KEY_ACCESS_TOKEN)?.value;
   const refreshToken = (await cookies()).get(COOKIE_KEY_REFRESH_TOKEN)?.value;
   const isAdminRoute = adminRoutes.some((route: any) => path.startsWith(route));
-  const isPublicRoute = publicRoutes.some((route: any) => path.startsWith(route));
-  const isUserRoute = userRoutes.some((route: any) => path.startsWith(route));
+  // const isPublicRoute = publicRoutes.some((route: any) => path.startsWith(route));
+  // const isUserRoute = userRoutes.some((route: any) => path.startsWith(route));
 
   if (accessToken && refreshToken) {
     const user: any = jwtDecode(accessToken);

@@ -33,7 +33,7 @@ const OnionDetailPage = ({ id }: OnionDetailPageProps) => {
   return (
     <div
       ref={contentRef}
-      className="flex max-h-[600px] flex-col gap-4 xl:h-[calc(100vh-5.5rem-1px)] xl:max-h-full"
+      className="flex max-h-[600px] flex-col gap-4 xl:h-[calc(100vh-5.75rem-1px)] xl:max-h-full"
     >
       <div className="flex min-h-0 flex-1 flex-col gap-4 xl:flex-row">
         {/* Left side - Chat */}

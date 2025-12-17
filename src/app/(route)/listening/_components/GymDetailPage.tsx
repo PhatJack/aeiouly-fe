@@ -13,6 +13,7 @@ import TextSelectionModal from '@/components/shared/TextSelectionModal';
 import VocabularyDialog from '@/components/shared/VocabularyDialog';
 import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
+import { ROUTE } from '@/configs/route';
 import useContentTextSelection from '@/hooks/use-text-selection';
 import {
   useGetListeningSessionQuery,
@@ -87,7 +88,7 @@ const GymDetailPage = ({ id }: GymDetailPageProps) => {
       });
     } else {
       toast.success('Hoàn thành bài học! 🎊');
-      router.push('/gym');
+      router.push(ROUTE.GYM);
     }
   }, [session, id, currentSentenceIndex, getNextSentenceMutation, router, setCurrentSentenceIndex]);
 
@@ -102,7 +103,7 @@ const GymDetailPage = ({ id }: GymDetailPageProps) => {
   }, [toggleVideo]);
 
   const handleBack = useCallback(() => {
-    router.push('/gym');
+    router.push(ROUTE.GYM);
   }, [router]);
 
   const handleStartLearning = useCallback(() => {
