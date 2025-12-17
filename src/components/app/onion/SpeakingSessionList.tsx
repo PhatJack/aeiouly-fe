@@ -2,6 +2,7 @@ import React, { useCallback, useState } from 'react';
 
 import { useRouter } from 'nextjs-toploader/app';
 
+import EmptyCustom from '@/components/custom/EmptyCustom';
 import {
   AlertDialog,
   AlertDialogAction,
@@ -56,10 +57,11 @@ export const SpeakingSessionList = () => {
   }
   if (!data || data.items.length === 0) {
     return (
-      <Card className="flex flex-col items-center justify-center gap-2 p-8 text-center">
-        <MessageSquare className="text-muted-foreground size-6" />
-        <p className="text-muted-foreground text-sm">Chưa có phiên nào. Hãy tạo phiên mới.</p>
-      </Card>
+      <EmptyCustom
+        icon={<MessageSquare className="h-12 w-12 text-green-500" />}
+        title="Chưa có phiên nói chuyện nào"
+        description="Bắt đầu một phiên nói chuyện mới để cải thiện kỹ năng nói của bạn!"
+      />
     );
   }
 
