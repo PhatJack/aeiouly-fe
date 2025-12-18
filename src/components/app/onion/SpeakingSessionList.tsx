@@ -2,6 +2,7 @@ import React, { useCallback, useState } from 'react';
 
 import { useRouter } from 'nextjs-toploader/app';
 
+import EmptyCustom from '@/components/custom/EmptyCustom';
 import {
   AlertDialog,
   AlertDialogAction,
@@ -18,6 +19,8 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
+import { ROUTE } from '@/configs/route';
+import { SpeakingSessionListItemSchema } from '@/lib/schema/speaking-session.schema';
 import { cn, getLevelColor } from '@/lib/utils';
 import { useGetSpeakingSessionsQuery } from '@/services/speaking-session';
 import { useDeleteSpeakingSessionMutation } from '@/services/speaking-session';
@@ -56,10 +59,11 @@ export const SpeakingSessionList = () => {
   }
   if (!data || data.items.length === 0) {
     return (
-      <Card className="flex flex-col items-center justify-center gap-2 p-8 text-center">
-        <MessageSquare className="text-muted-foreground size-6" />
-        <p className="text-muted-foreground text-sm">Chưa có phiên nào. Hãy tạo phiên mới.</p>
-      </Card>
+      <EmptyCustom
+        icon={<MessageSquare className="h-12 w-12 text-green-500" />}
+        title="Chưa có phiên nói chuyện nào"
+        description="Bắt đầu một phiên nói chuyện mới để cải thiện kỹ năng nói của bạn!"
+      />
     );
   }
 
@@ -67,7 +71,7 @@ export const SpeakingSessionList = () => {
     <div className="space-y-2">
       <h2 className="text-xl font-bold lg:text-2xl">Phiên đã tạo</h2>
       <div className="grid gap-3 md:grid-cols-2">
-        {data.items.map((item: any) => {
+        {data.items.map((item: SpeakingSessionListItemSchema) => {
           const createdAt = new Date(item.created_at).toLocaleString();
           const initials = (name: string) =>
             (name || '')
@@ -86,7 +90,7 @@ export const SpeakingSessionList = () => {
                 const target = e.target as HTMLElement;
                 if (target.closest('button,[role="menuitem"],[data-radix-popper-content-wrapper]'))
                   return;
-                router.push(`/onion/${item.id}`);
+                router.push(`${ROUTE.ONION}/${item.id}`);
               }}
               className="group focus:ring-ring/30 flex flex-col justify-between gap-3 p-4 transition-all hover:shadow-md focus:ring-2"
             >
@@ -115,20 +119,25 @@ export const SpeakingSessionList = () => {
 
               <p className="text-muted-foreground line-clamp-2 text-sm">{item.scenario}</p>
 
-              <div className="text-muted-foreground flex items-center gap-1 text-xs">
-                <CalendarClock className="size-3.5" /> {createdAt}
+              <div className="text-muted-foreground flex items-center gap-2">
+                <span className="flex items-center gap-1 text-xs">
+                  <CalendarClock className="size-3.5" /> {createdAt}
+                </span>
+                <Badge variant="default">Hoàn thành</Badge>
               </div>
               <div className="flex items-center gap-1">
-                <Button
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    router.push(`/onion/${item.id}`);
-                  }}
-                  aria-label={`Mở phiên #${item.id}`}
-                >
-                  <MoveRight />
-                  <span>Tiếp tục</span>
-                </Button>
+                {item.status === 'active' && (
+                  <Button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      router.push(`${ROUTE.ONION}/${item.id}`);
+                    }}
+                    aria-label={`Mở phiên #${item.id}`}
+                  >
+                    <MoveRight />
+                    <span>Tiếp tục</span>
+                  </Button>
+                )}
 
                 <AlertDialog>
                   <AlertDialogTrigger asChild>

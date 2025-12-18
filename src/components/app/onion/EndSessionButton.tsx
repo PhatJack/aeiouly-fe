@@ -22,6 +22,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog';
+import { ROUTE } from '@/configs/route';
 import { useGetSpeakingFinalEvaluationQuery } from '@/services/speaking-session';
 
 import FinalEvaluation from './FinalEvaluation';
@@ -77,7 +78,7 @@ const EndSessionButton = ({ id }: EndSessionButtonProps) => {
               data={data}
               onClose={() => {
                 setOpenEvaluation(false);
-                router.push('/onion');
+                router.push(ROUTE.ONION);
               }}
             />
           )}

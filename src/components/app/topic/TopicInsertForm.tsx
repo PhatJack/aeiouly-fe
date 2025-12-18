@@ -68,7 +68,7 @@ const TopicInsertForm = ({ values }: TopicInsertFormProps) => {
         toast.success('Tạo phiên viết thành công!');
         router.push(`${ROUTE.TOPIC}/${data.id}`);
       },
-      onError: (error) => {
+      onError: () => {
         toast.error('Đã có lỗi xảy ra khi tạo phiên viết. Vui lòng thử lại.');
       },
     });

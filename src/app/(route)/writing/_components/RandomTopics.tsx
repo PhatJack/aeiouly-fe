@@ -12,6 +12,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
+import { ROUTE } from '@/configs/route';
 import { WritingSessionCreateSchema } from '@/lib/schema/writing-session.schema';
 import { imagesForTopics, levels, topics } from '@/lib/topic';
 import { useCreateWritingSessionMutation } from '@/services/writing-session';
@@ -47,7 +48,7 @@ const RandomTopics = () => {
     createWritingSessionMutation.mutate(topic, {
       onSuccess: (data) => {
         toast.success('Tạo phiên viết thành công!');
-        router.push(`/topic/${data.id}`);
+        router.push(`${ROUTE.TOPIC}/${data.id}`);
       },
     });
   }, []);

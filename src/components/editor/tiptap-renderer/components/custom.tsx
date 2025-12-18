@@ -1,9 +1,6 @@
 import React from 'react';
 import type { ReactElement } from 'react';
 
-import dynamic from 'next/dynamic';
-import Image from 'next/image';
-
 import { type Components } from 'rehype-react';
 
 import CopyButton from './copy-button';

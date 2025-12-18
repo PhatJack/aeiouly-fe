@@ -6,6 +6,7 @@ import { useRouter } from 'nextjs-toploader/app';
 
 import PageHeader from '@/components/PageHeader';
 import ReadingSessionCard from '@/components/app/reading/ReadingSessionCard';
+import EmptyCustom from '@/components/custom/EmptyCustom';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
@@ -125,15 +126,11 @@ const ReadingPage = () => {
                   ))}
                 </div>
               ) : (
-                <Card>
-                  <CardContent className="py-12 text-center">
-                    <FileText className="text-muted-foreground mx-auto mb-4 h-12 w-12" />
-                    <h3 className="mb-2 font-semibold">Chưa có phiên đọc nào</h3>
-                    <p className="text-muted-foreground text-sm">
-                      Tạo phiên đọc đầu tiên của bạn để bắt đầu luyện tập
-                    </p>
-                  </CardContent>
-                </Card>
+                <EmptyCustom
+                  icon={<FileText className="text-primary h-12 w-12" />}
+                  title="Chưa có phiên đọc nào"
+                  description="Tạo phiên đọc đầu tiên của bạn để bắt đầu luyện tập"
+                />
               )}
 
               {data.pages > 1 && (

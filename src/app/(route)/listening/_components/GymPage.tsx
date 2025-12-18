@@ -80,7 +80,7 @@ const GymPage = () => {
           {listeningSessions ? (
             <ListeningSessionsList
               sessions={listeningSessions.items || []}
-              onContinueSession={(sessionId) => router.push(`/gym/${sessionId}`)}
+              onContinueSession={(sessionId) => router.push(`${ROUTE.GYM}/${sessionId}`)}
             />
           ) : (
             <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">

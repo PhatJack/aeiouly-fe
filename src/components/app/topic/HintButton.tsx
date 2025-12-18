@@ -46,7 +46,7 @@ const HintButton = ({ id, currentSentenceIndex }: HintButtonProps) => {
       setData(null);
       historyResult.current = null;
     }
-  }, [currentSentenceIndex]);
+  }, [currentSentenceIndex, currentIndex]);
 
   return (
     <div className="w-full space-y-2">

@@ -7,6 +7,7 @@ import { useRouter } from 'nextjs-toploader/app';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
+import { ROUTE } from '@/configs/route';
 import { WritingSessionListItemSchema } from '@/lib/schema/writing-session.schema';
 import { cn, getLevelColor } from '@/lib/utils';
 
@@ -24,7 +25,7 @@ const SessionCard: React.FC<SessionCardProps> = ({ session, onDelete, isDeleting
   const isCompleted = session.status === 'completed';
 
   const handleContinue = useCallback(() => {
-    router.push(`/topic/${session.id}`);
+    router.push(`${ROUTE.TOPIC}/${session.id}`);
   }, [session.id, router]);
 
   const handleDelete = useCallback(

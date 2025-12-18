@@ -19,7 +19,7 @@ const AIChatBox = () => {
   }, []);
 
   return (
-    <div className="fixed right-4 bottom-4">
+    <div className="fixed right-4 bottom-4 z-50">
       {!isOpen && (
         <motion.div
           initial={{ y: 30, scale: 0.8, opacity: 0 }}
@@ -31,7 +31,7 @@ const AIChatBox = () => {
             <Button
               onClick={toggleChatBox}
               variant="ghost"
-              className="relative size-16 overflow-hidden p-0"
+              className="relative size-16 overflow-hidden p-0 hover:bg-transparent dark:hover:bg-transparent"
             >
               <Image src="/catbox.png" alt="AI Icon" fill />
             </Button>

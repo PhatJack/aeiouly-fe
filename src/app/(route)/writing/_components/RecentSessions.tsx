@@ -3,6 +3,7 @@
 import React, { memo } from 'react';
 
 import LoadingWithText from '@/components/LoadingWithText';
+import EmptyCustom from '@/components/custom/EmptyCustom';
 import { WritingSessionCreateSchema } from '@/lib/schema/writing-session.schema';
 import {
   useDeleteWritingSessionMutation,
@@ -45,16 +46,11 @@ const RecentSessions: React.FC<RecentSessionsProps> = ({ selectedTopic }) => {
       <div className="col-span-12 space-y-4 lg:col-span-8">
         {isLoading && <LoadingWithText text="Đang tải các phiên học gần đây..." />}
         {sessions.length === 0 ? (
-          <div className="border-muted-foreground/25 bg-muted/30 rounded-lg border-2 border-dashed p-12 text-center">
-            <Sparkles className="text-primary mx-auto mb-4 size-12" />
-            <h3 className="text-foreground mb-2 text-lg font-semibold">
-              Bắt đầu hành trình học của bạn
-            </h3>
-            <p className="text-muted-foreground text-sm">
-              Tự tạo chủ đề mới hoặc chọn một chủ đề bên ở khám phá để bắt đầu phiên viết đầu tiên
-              của bạn!
-            </p>
-          </div>
+          <EmptyCustom
+            icon={<Sparkles className="h-12 w-12 text-violet-500" />}
+            title="Chưa có phiên viết nào"
+            description="Bắt đầu một phiên viết mới để cải thiện kỹ năng viết của bạn!"
+          />
         ) : (
           <div className="grid gap-4 sm:grid-cols-2">
             {sessions.map((session) => (

@@ -3,7 +3,6 @@
 import React, { useState } from 'react';
 import Markdown from 'react-markdown';
 
-import LoadingWithText from '@/components/LoadingWithText';
 import BlockquoteCustom from '@/components/custom/BlockquoteCustom';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -14,7 +13,7 @@ import {
   EvaluateAnswerResponseSchema,
 } from '@/lib/schema/reading-session.schema';
 
-import { Languages, Loader2, MessageSquare } from 'lucide-react';
+import { Languages, MessageSquare } from 'lucide-react';
 import remarkBreaks from 'remark-breaks';
 
 interface DiscussionSectionProps {

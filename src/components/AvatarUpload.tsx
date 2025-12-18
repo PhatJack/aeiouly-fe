@@ -3,11 +3,13 @@
 import { useEffect } from 'react';
 import { Control, FieldPath, FieldValues, useController } from 'react-hook-form';
 
+import Image from 'next/image';
+
 import { Button } from '@/components/ui/button';
 import { MAX_FILE_SIZE } from '@/constants/image';
 import { useFileUpload } from '@/hooks/use-file-upload';
 
-import { CircleUserRoundIcon, XIcon } from 'lucide-react';
+import { XIcon } from 'lucide-react';
 
 interface AvatarUploadProps<T extends FieldValues> {
   fallback?: string;
@@ -60,7 +62,7 @@ export default function AvatarUpload<T extends FieldValues>({
           aria-label={previewUrl ? 'Change image' : 'Upload image'}
         >
           {previewUrl ? (
-            <img
+            <Image
               className="size-full object-cover"
               src={previewUrl}
               alt={files[0]?.file?.name || 'Uploaded image'}

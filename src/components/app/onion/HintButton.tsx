@@ -1,6 +1,6 @@
 'use client';
 
-import React, { memo, useCallback, useRef, useState } from 'react';
+import React, { memo, useCallback, useEffect, useRef, useState } from 'react';
 import Markdown from 'react-markdown';
 
 import BlockquoteCustom from '@/components/custom/BlockquoteCustom';
@@ -37,7 +37,12 @@ const HintButton = ({ id }: HintButtonProps) => {
       setData(result.data);
       historyLoaded.current = true;
     }
-  }, [refetch, data, currentSentenceIndex]);
+  }, [refetch, data]);
+
+  useEffect(() => {
+    setData(null);
+    historyLoaded.current = false;
+  }, [currentSentenceIndex]);
 
   return (
     <div className="w-full space-y-2">

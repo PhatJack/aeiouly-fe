@@ -2,10 +2,7 @@
 
 import React, { memo } from 'react';
 
-import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
-
-import { Eye, EyeOff } from 'lucide-react';
 
 interface TranslationCardProps {
   translation: string;
