@@ -8,6 +8,7 @@ import LoadingWithText from '@/components/LoadingWithText';
 import CreateVocabularySetDialog from '@/components/app/vocabulary/CreateVocabularySetDialog';
 import VocabularySetCard from '@/components/app/vocabulary/VocabularySetCard';
 import AlertCustom from '@/components/custom/AlertCustom';
+import EmptyCustom from '@/components/custom/EmptyCustom';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Skeleton } from '@/components/ui/skeleton';
@@ -131,23 +132,21 @@ const VocabularyPage = () => {
           ))}
         </div>
       ) : (
-        <div className="flex min-h-[400px] flex-col items-center justify-center rounded-lg border border-dashed">
-          <BookOpen className="text-muted-foreground mb-4 h-12 w-12" />
-          <h3 className="mb-2 text-lg font-semibold">
-            {searchTerm ? 'Không tìm thấy bộ từ vựng' : 'Chưa có bộ từ vựng nào'}
-          </h3>
-          <p className="text-muted-foreground mb-4">
-            {searchTerm
-              ? 'Thử tìm kiếm với từ khóa khác'
-              : 'Tạo bộ từ vựng đầu tiên để bắt đầu học'}
-          </p>
-          {!searchTerm && (
-            <Button onClick={handleCreateNew} className="gap-2">
-              <Plus className="h-4 w-4" />
-              Tạo bộ từ mới
-            </Button>
-          )}
-        </div>
+        <EmptyCustom
+          icon={<BookOpen className="text-muted-foreground h-12 w-12" />}
+          title={searchTerm ? 'Không tìm thấy bộ từ vựng' : 'Chưa có bộ từ vựng nào'}
+          description={
+            searchTerm ? 'Thử tìm kiếm với từ khóa khác' : 'Tạo bộ từ vựng đầu tiên để bắt đầu học'
+          }
+          content={
+            !searchTerm ? (
+              <Button onClick={handleCreateNew} className="gap-2">
+                <Plus className="h-4 w-4" />
+                Tạo bộ từ mới
+              </Button>
+            ) : undefined
+          }
+        />
       )}
 
       {/* Create/Edit Dialog */}

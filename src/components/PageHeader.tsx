@@ -37,11 +37,11 @@ const PageHeader: React.FC<PageHeaderProps> = ({
           <div className="group relative">
             <div
               className={cn(
-                'dark:ring-offset-background relative flex h-20 w-20 items-center justify-center rounded-2xl ring-2 transition-all dark:shadow-lg dark:ring-offset-2',
+                'dark:ring-offset-background relative flex size-14 items-center justify-center rounded-2xl ring-2 transition-all sm:size-20 dark:shadow-lg dark:ring-offset-2',
                 ringColor
               )}
             >
-              <div className="relative size-10">
+              <div className="relative size-8 sm:size-10">
                 <Image src={icon} alt={iconAlt} fill quality={100} />
               </div>
             </div>
@@ -49,7 +49,7 @@ const PageHeader: React.FC<PageHeaderProps> = ({
 
           {/* Title, Description and Stats */}
           <div className="flex-1 space-y-2">
-            <h1 className="from-foreground to-foreground/70 bg-gradient-to-r bg-clip-text text-4xl leading-snug font-bold tracking-tight text-transparent dark:from-white dark:to-gray-300">
+            <h1 className="from-foreground to-foreground/70 bg-gradient-to-r bg-clip-text text-2xl leading-snug font-bold tracking-tight text-transparent sm:text-4xl dark:from-white dark:to-gray-300">
               {title}
             </h1>
             <p className="text-muted-foreground text-base leading-relaxed dark:text-gray-400">

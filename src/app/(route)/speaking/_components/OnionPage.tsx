@@ -34,10 +34,10 @@ const OnionPage = () => {
       {/* Content */}
       <div className="grid gap-4 lg:grid-cols-3">
         <div className="space-y-4 lg:col-span-2">
-          <SpeakingSampleScenarios onSelect={handleSelectScenario} />
           <SpeakingSessionList />
+          <SpeakingSampleScenarios onSelect={handleSelectScenario} />
         </div>
-        <div className="space-y-4">
+        <div className="row-start-1 space-y-4 lg:col-span-1 lg:row-start-auto">
           <h2 className="text-xl font-bold lg:text-2xl">Tự tạo tình huống</h2>
           <SpeakingSessionForm
             initialValues={

@@ -31,14 +31,14 @@ const TopicPage = () => {
 
       {/* Main Content with Tabs */}
       <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-        <TabsList className="min-w-md">
+        <TabsList className="w-full sm:w-fit sm:min-w-md">
           <TabsTrigger value="recent" className="gap-2">
             <History className="size-4" />
-            <span className="hidden sm:inline">Gần đây</span>
+            <span>Gần đây</span>
           </TabsTrigger>
           <TabsTrigger value="explore" className="gap-2">
             <Sparkles className="size-4" />
-            <span className="hidden sm:inline">Khám phá</span>
+            <span>Khám phá</span>
           </TabsTrigger>
         </TabsList>
         <TabsContents className="mt-4">
