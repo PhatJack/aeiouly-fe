@@ -105,7 +105,16 @@ const AIChatBoxScreen = ({ setIsOpen }: AIChatBoxScreenProps) => {
     <div className="flex size-full flex-col gap-2">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
-          <Image src="/catbox.png" alt="AI Icon" sizes="100vw" width={40} height={40} />
+          <Image
+            src="/catbox.png"
+            alt="AI Icon"
+            sizes="100vw"
+            width={40}
+            height={40}
+            loading="lazy"
+            placeholder="blur"
+            blurDataURL="/catbox.png"
+          />
           <h2 className="font-medium">Aeiouly AI Support</h2>
         </div>
         <div className="flex items-center">

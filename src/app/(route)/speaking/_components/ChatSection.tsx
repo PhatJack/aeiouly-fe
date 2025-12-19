@@ -103,6 +103,7 @@ const ChatSection = ({ sessionId, className }: ChatSectionProps) => {
         }
         setLocalMessages((prev) => [...prev, res]);
         if (res.session?.status === 'completed') {
+          setShowEvaluation(true);
           refetchFinalEvaluation();
         }
       });
@@ -152,6 +153,7 @@ const ChatSection = ({ sessionId, className }: ChatSectionProps) => {
               } catch (err) {}
               setLocalMessages((prev) => [...prev, res]);
               if (res.session?.status === 'completed') {
+                setShowEvaluation(true);
                 refetchFinalEvaluation();
               }
             },
@@ -202,7 +204,7 @@ const ChatSection = ({ sessionId, className }: ChatSectionProps) => {
         <div className="px-4">
           <MessageInput
             onSendMessage={handleSendTextMessage}
-            disabled={sendChatMutation.isPending}
+            disabled={sendChatMutation.isPending || isAudioLoading}
             placeholder="Nhập tin nhắn hoặc dùng mic để nói..."
             showAudioButton
             isRecording={isRecording}

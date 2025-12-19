@@ -25,6 +25,7 @@ export default function RootLayout({
     <div className="flex size-full">
       <Sidebar isExpanded={isExpanded} handleToggleExpand={handleToggleExpand} />
       <main
+        id="main-layout"
         className={cn(
           'relative min-h-screen w-full flex-1 bg-white transition-[margin] lg:border-l dark:bg-[#121212]',
           isExpanded ? 'lg:ml-60' : 'lg:ml-[72px]'
@@ -33,7 +34,9 @@ export default function RootLayout({
         {location !== ROUTE.SPACE && (
           <Header isExpanded={isExpanded} handleToggleExpand={handleToggleExpand} />
         )}
-        <div className={'w-full overflow-x-hidden overflow-y-auto p-4'}>{children}</div>
+        <div id="content-wrapper" className={'w-full overflow-x-hidden overflow-y-auto p-4'}>
+          {children}
+        </div>
       </main>
       <AIChatBox />
       {/* <ScrollToTop /> */}
