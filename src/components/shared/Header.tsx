@@ -60,7 +60,7 @@ const Header = ({ isExpanded, handleToggleExpand }: HeaderProps) => {
         <div className="flex items-center gap-4">
           <Button
             variant={isExpanded ? 'default' : 'outline'}
-            className="h-10 [&_svg:not([class*='size-'])]:size-4 sm:[&_svg:not([class*='size-'])]:size-5"
+            className="h-10 rounded-full [&_svg:not([class*='size-'])]:size-4"
             onClick={handleToggleExpand}
           >
             {isExpanded ? <PanelRightClose className="rotate-180" /> : <PanelRightClose />}

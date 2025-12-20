@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 
 import Image from 'next/image';
 import Link from 'next/link';
@@ -23,6 +23,7 @@ import {
   Mic,
   PenTool,
   Settings,
+  Target,
   User2,
   Users,
   Wrench,
@@ -37,6 +38,13 @@ const menuWithImg: {
   role: 'user' | 'admin' | Array<'user' | 'admin'>;
 }[] = [
   { title: 'Trang chủ', icon: Home, href: ROUTE.APP, id: 'app', role: 'user' },
+  {
+    title: 'Lộ trình học tập',
+    icon: Target,
+    href: ROUTE.STUDY_ROUTE,
+    id: 'study-route',
+    role: 'user',
+  },
   {
     title: 'Không gian tự học',
     icon: GraduationCap,
