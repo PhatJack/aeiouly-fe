@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 
 import Image from 'next/image';
 import Link from 'next/link';
@@ -23,6 +23,7 @@ import {
   Mic,
   PenTool,
   Settings,
+  Target,
   User2,
   Users,
   Wrench,
@@ -37,6 +38,13 @@ const menuWithImg: {
   role: 'user' | 'admin' | Array<'user' | 'admin'>;
 }[] = [
   { title: 'Trang chủ', icon: Home, href: ROUTE.APP, id: 'app', role: 'user' },
+  {
+    title: 'Lộ trình học tập',
+    icon: Target,
+    href: ROUTE.STUDY_ROUTE,
+    id: 'study-route',
+    role: 'user',
+  },
   {
     title: 'Không gian tự học',
     icon: GraduationCap,
@@ -134,7 +142,7 @@ const Sidebar = ({ isExpanded, handleToggleExpand }: SidebarProps) => {
       <aside
         id="sidebar"
         className={cn(
-          'bg-background fixed top-0 left-0 z-50 flex min-h-full min-w-[72px] flex-col px-3 py-2 transition-[width,translate] duration-300 ease-in-out lg:gap-2',
+          'bg-background fixed top-0 left-0 z-100 flex min-h-full min-w-[72px] flex-col px-3 py-2 transition-[width,translate] duration-300 ease-in-out lg:gap-2',
           isExpanded
             ? 'w-60 max-w-60 translate-x-0'
             : 'w-60 -translate-x-60 lg:w-[72px] lg:translate-x-0'
@@ -162,7 +170,7 @@ const Sidebar = ({ isExpanded, handleToggleExpand }: SidebarProps) => {
         </div>
 
         {/* Menu */}
-        <ul className="relative flex flex-col gap-1">
+        <ul className="relative mt-4 flex flex-col gap-1 sm:mt-0">
           {menuWithImg
             .filter((item) => {
               if (!user) return false;
@@ -209,7 +217,7 @@ const Sidebar = ({ isExpanded, handleToggleExpand }: SidebarProps) => {
       <div
         onClick={handleToggleExpand}
         className={cn(
-          'fixed inset-0 z-30 block bg-black/50 transition-[display] lg:hidden',
+          'fixed inset-0 z-60 block bg-black/50 transition-[display] lg:hidden',
           isExpanded ? 'block' : 'hidden'
         )}
       ></div>

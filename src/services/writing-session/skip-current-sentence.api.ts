@@ -1,10 +1,7 @@
 import { getQueryClient } from '@/app/get-query-client';
 import { apiClient } from '@/lib/client';
 import { ErrorResponseSchema } from '@/lib/schema/error';
-import {
-  ChatMessageCreateSchema,
-  ChatMessageResponseSchema,
-} from '@/lib/schema/writing-session.schema';
+import { ChatMessageResponseSchema } from '@/lib/schema/writing-session.schema';
 import { UseMutationOptions, useMutation } from '@tanstack/react-query';
 
 interface SkipCurrentSentenceParams {
@@ -31,15 +28,6 @@ export const useSkipCurrentSentenceMutation = (
     mutationFn: ({ sessionId }) => skipCurrentSentenceApi(sessionId),
     meta: {
       ignoreGlobal: true,
-    },
-    onSuccess: (data, variables) => {
-      queryClient.setQueriesData(
-        { queryKey: ['chatHistory', variables.sessionId] },
-        (oldData: ChatMessageResponseSchema[] | undefined) => {
-          if (!oldData) return [data];
-          return [...oldData, data];
-        }
-      );
     },
     ...options,
   });

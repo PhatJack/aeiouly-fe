@@ -1,6 +1,6 @@
 'use client';
 
-import React, { memo, useEffect, useMemo, useState } from 'react';
+import React, { memo, useEffect, useState } from 'react';
 
 import { useRouter } from 'nextjs-toploader/app';
 
@@ -16,9 +16,10 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog';
+import { ROUTE } from '@/configs/route';
 import { SpeakingSessionContext } from '@/contexts/SpeakingSessionContext';
-import { useSpeechContext } from '@/contexts/SpeechContext';
 import { useRecorder } from '@/hooks/use-recorder';
+import useTTS from '@/hooks/use-tts';
 import { SpeakingChatMessageResponseSchema } from '@/lib/schema/speaking-session.schema';
 import { cn } from '@/lib/utils';
 import {
@@ -38,6 +39,7 @@ interface ChatSectionProps {
 
 const ChatSection = ({ sessionId, className }: ChatSectionProps) => {
   const router = useRouter();
+  const { speak, isAudioLoading } = useTTS();
   const { data: chatHistory } = useGetSpeakingChatHistoryQuery(sessionId, {
     refetchOnWindowFocus: false,
   });
@@ -45,7 +47,10 @@ const ChatSection = ({ sessionId, className }: ChatSectionProps) => {
     SpeakingSessionContext,
     (ctx) => ctx!.handleSelectedSentenceIndex
   );
-  const { speak, setSelectedVoice, selectedVoice, voices } = useSpeechContext();
+  const skipCurrentSentenceResponse = useContextSelector(
+    SpeakingSessionContext,
+    (ctx) => ctx!.skipCurrentSentenceResponse
+  );
   const [localMessages, setLocalMessages] = useState<SpeakingChatMessageResponseSchema[]>([]);
   const { data: finalEvaluation, refetch: refetchFinalEvaluation } =
     useGetSpeakingFinalEvaluationQuery(sessionId, {
@@ -55,10 +60,6 @@ const ChatSection = ({ sessionId, className }: ChatSectionProps) => {
   const sendChatMutation = useSendSpeakingChatMessageMutation();
   const speechToTextMutation = useSpeechToTextMutation();
   const [historyMessageIds, setHistoryMessageIds] = useState<Set<string>>(new Set());
-  const selectedVoiceObject = useMemo(
-    () => voices.find((v) => v.name === selectedVoice),
-    [voices, selectedVoice]
-  );
   const [showSessionComplete, setShowSessionComplete] = useState(false);
   const [showEvaluation, setShowEvaluation] = useState(false);
 
@@ -79,7 +80,21 @@ const ChatSection = ({ sessionId, className }: ChatSectionProps) => {
       setLocalMessages(chatHistory);
       setHistoryMessageIds(new Set(chatHistory.map((m) => `${m.session_id}_${m.role}_${m.id}`)));
     }
-  }, [chatHistory, setSelectedVoice]);
+  }, [chatHistory]);
+
+  useEffect(() => {
+    if (skipCurrentSentenceResponse) {
+      const handleAddSkippedMessage = async () => {
+        try {
+          await speak(skipCurrentSentenceResponse.content);
+          setLocalMessages([...localMessages, skipCurrentSentenceResponse]);
+        } catch (err) {
+          // ignore tts errors, still show message
+        }
+      };
+      handleAddSkippedMessage();
+    }
+  }, [skipCurrentSentenceResponse]);
 
   const handleSendTextMessage = async (content: string) => {
     if (!content.trim()) return;
@@ -94,20 +109,19 @@ const ChatSection = ({ sessionId, className }: ChatSectionProps) => {
       translation_sentence: null,
       created_at: new Date().toISOString(),
     };
-
     setLocalMessages((prev) => [...prev, optimisticUserMessage]);
     sendChatMutation
       .mutateAsync({ sessionId, message: { content: content.trim() } })
-      .then((res) => {
-        handleSelectedSentenceIndex(res.id);
+      .then(async (res) => {
+        try {
+          await speak(res.content);
+          handleSelectedSentenceIndex(res.id);
+        } catch (err) {
+          // ignore tts errors, still show message
+        }
         setLocalMessages((prev) => [...prev, res]);
-        speak({
-          text: res.content,
-          pitch: 1.4,
-          voice: selectedVoiceObject,
-          messageId: `message-${res.id}`,
-        });
         if (res.session?.status === 'completed') {
+          setShowEvaluation(true);
           refetchFinalEvaluation();
         }
       });
@@ -143,23 +157,21 @@ const ChatSection = ({ sessionId, className }: ChatSectionProps) => {
             },
           }
         );
-
-        const res = await sendChatMutation.mutateAsync(
+        await sendChatMutation.mutateAsync(
           {
             sessionId,
             message: { content: result.text },
             audioFile: result.audio_url || '',
           },
           {
-            onSuccess: (res) => {
-              speak({
-                text: res.content,
-                pitch: 1.4,
-                voice: selectedVoiceObject,
-                messageId: `message-${res.id}`,
-              });
+            onSuccess: async (res) => {
+              try {
+                await speak(res.content);
+                handleSelectedSentenceIndex(res.id);
+              } catch (err) {}
               setLocalMessages((prev) => [...prev, res]);
               if (res.session?.status === 'completed') {
+                setShowEvaluation(true);
                 refetchFinalEvaluation();
               }
             },
@@ -190,7 +202,7 @@ const ChatSection = ({ sessionId, className }: ChatSectionProps) => {
           historyMessageIds={historyMessageIds}
           className="mb-4 flex-1"
         >
-          {sendChatMutation.isPending && (
+          {(sendChatMutation.isPending || isAudioLoading) && (
             <MessageItem
               content="Đang suy nghĩ..."
               senderRole="assistant"
@@ -210,7 +222,7 @@ const ChatSection = ({ sessionId, className }: ChatSectionProps) => {
         <div className="px-4">
           <MessageInput
             onSendMessage={handleSendTextMessage}
-            disabled={sendChatMutation.isPending}
+            disabled={sendChatMutation.isPending || isAudioLoading}
             placeholder="Nhập tin nhắn hoặc dùng mic để nói..."
             showAudioButton
             isRecording={isRecording}
@@ -243,7 +255,7 @@ const ChatSection = ({ sessionId, className }: ChatSectionProps) => {
               data={finalEvaluation}
               onClose={() => {
                 setShowEvaluation(false);
-                router.push('/onion');
+                router.push(ROUTE.ONION);
               }}
             />
           )}

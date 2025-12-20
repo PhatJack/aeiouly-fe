@@ -1,0 +1,113 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "English Learning Onboarding Form",
+  "type": "object",
+  "required": [
+    "goals",
+    "level",
+    "skills",
+    "interests",
+    "ageRange",
+    "profession",
+    "dailyStudyTime",
+    "planDuration"
+  ],
+  "properties": {
+    "goals": {
+      "type": "array",
+      "title": "Mục tiêu học tiếng Anh",
+      "description": "Bạn học tiếng Anh để làm gì?",
+      "items": {
+        "type": "string",
+        "enum": [
+          "daily_communication",
+          "work",
+          "travel",
+          "study_exam",
+          "certificate",
+          "immigration",
+          "personal_interest"
+        ]
+      },
+      "minItems": 1,
+      "uniqueItems": true
+    },
+
+    "level": {
+      "type": "string",
+      "title": "Trình độ hiện tại",
+      "description": "Trình độ tiếng Anh hiện tại của bạn",
+      "enum": [
+        "beginner_none",
+        "beginner_basic",
+        "intermediate",
+        "upper_intermediate",
+        "advanced"
+      ]
+    },
+
+    "skills": {
+      "type": "array",
+      "title": "Kỹ năng muốn cải thiện",
+      "description": "Bạn muốn tập trung cải thiện kỹ năng nào?",
+      "items": {
+        "type": "string",
+        "enum": ["listening", "speaking", "reading", "writing"]
+      },
+      "minItems": 1,
+      "uniqueItems": true
+    },
+
+    "interests": {
+      "type": "array",
+      "title": "Sở thích học tập",
+      "description": "Chủ đề hoặc hoạt động bạn hứng thú khi học tiếng Anh",
+      "items": {
+        "type": "string",
+        "description": "Giá trị lấy từ interest.ts"
+      },
+      "minItems": 1,
+      "uniqueItems": true
+    },
+
+    "ageRange": {
+      "type": "string",
+      "title": "Độ tuổi",
+      "description": "Nhóm độ tuổi của bạn",
+      "enum": [
+        "under_18",
+        "18_24",
+        "25_34",
+        "35_44",
+        "45_54",
+        "over_55"
+      ]
+    },
+
+    "profession": {
+      "type": "string",
+      "title": "Nghề nghiệp",
+      "description": "Nghề nghiệp hiện tại (lấy từ profession.ts)"
+    },
+
+    "dailyStudyTime": {
+      "type": "string",
+      "title": "Thời gian học mỗi ngày",
+      "description": "Bạn có thể học bao lâu mỗi ngày?",
+      "enum": [
+        "5_minutes",
+        "10_minutes",
+        "15_minutes",
+        "30_minutes",
+        "60_minutes"
+      ]
+    },
+
+    "planDuration": {
+      "type": "string",
+      "title": "Thời gian lộ trình",
+      "description": "Bạn muốn học trong bao lâu?",
+      "enum": ["7_days", "30_days", "90_days"]
+    }
+  }
+}

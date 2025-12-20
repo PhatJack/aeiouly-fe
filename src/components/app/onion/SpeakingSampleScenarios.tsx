@@ -118,7 +118,7 @@ export const SpeakingSampleScenarios: React.FC<SpeakingSampleScenariosProps> = (
   return (
     <div className="space-y-4">
       <h2 className="text-xl font-bold lg:text-2xl">Tình huống mẫu</h2>
-      <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
         {scenarios.map((s) => (
           <Card key={s.id} className="group flex flex-col justify-between p-4">
             <div className="flex items-start justify-between">

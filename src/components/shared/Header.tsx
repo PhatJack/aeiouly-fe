@@ -55,12 +55,12 @@ const Header = ({ isExpanded, handleToggleExpand }: HeaderProps) => {
   };
 
   return (
-    <header className="sticky top-0 z-50 border-b bg-white/75 px-4 py-2 backdrop-blur-sm dark:bg-black/75">
+    <header className="sticky top-0 z-50 border-b bg-white/75 px-4 py-2 backdrop-blur-sm dark:bg-[#121212]/75">
       <div className="flex w-full items-center justify-between">
         <div className="flex items-center gap-4">
           <Button
             variant={isExpanded ? 'default' : 'outline'}
-            className="h-10 [&_svg:not([class*='size-'])]:size-4 sm:[&_svg:not([class*='size-'])]:size-5"
+            className="h-10 rounded-full [&_svg:not([class*='size-'])]:size-4"
             onClick={handleToggleExpand}
           >
             {isExpanded ? <PanelRightClose className="rotate-180" /> : <PanelRightClose />}

@@ -17,6 +17,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog';
+import { ROUTE } from '@/configs/route';
 import { WritingSessionContext } from '@/contexts/WritingSessionContext';
 import { ChatMessageResponseSchema } from '@/lib/schema/writing-session.schema';
 import { cn } from '@/lib/utils';
@@ -41,6 +42,10 @@ const ChatSection = ({ sessionId, className }: ChatSectionProps) => {
   const handleSelectedSentenceIndex = useContextSelector(
     WritingSessionContext,
     (ctx) => ctx!.handleSelectedSentenceIndex
+  );
+  const skipCurrentSentenceResponse = useContextSelector(
+    WritingSessionContext,
+    (ctx) => ctx!.skipCurrentSentenceResponse
   );
 
   const { data: chatHistory } = useGetWritingChatHistoryQuery(sessionId, {
@@ -71,6 +76,12 @@ const ChatSection = ({ sessionId, className }: ChatSectionProps) => {
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [localMessages]);
+
+  useEffect(() => {
+    if (skipCurrentSentenceResponse) {
+      setLocalMessages((prev) => [...prev, skipCurrentSentenceResponse]);
+    }
+  }, [skipCurrentSentenceResponse]);
 
   const handleSendMessage = async (content: string) => {
     if (!content.trim()) return;
@@ -108,7 +119,7 @@ const ChatSection = ({ sessionId, className }: ChatSectionProps) => {
     <>
       <div
         className={cn(
-          'border-border/50 dark:bg-background flex flex-col rounded-2xl border bg-gray-50 p-4',
+          'border-border/50 dark:bg-background flex flex-col rounded-2xl border bg-gray-50 py-4',
           className
         )}
       >
@@ -156,7 +167,7 @@ const ChatSection = ({ sessionId, className }: ChatSectionProps) => {
             <FinalEvaluation
               data={finalEvaluation}
               onClose={() => {
-                router.replace('/topic');
+                router.replace(ROUTE.TOPIC);
                 setShowEvaluation(false);
               }}
             />
