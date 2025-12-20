@@ -47,6 +47,10 @@ const ChatSection = ({ sessionId, className }: ChatSectionProps) => {
     SpeakingSessionContext,
     (ctx) => ctx!.handleSelectedSentenceIndex
   );
+  const skipCurrentSentenceResponse = useContextSelector(
+    SpeakingSessionContext,
+    (ctx) => ctx!.skipCurrentSentenceResponse
+  );
   const [localMessages, setLocalMessages] = useState<SpeakingChatMessageResponseSchema[]>([]);
   const { data: finalEvaluation, refetch: refetchFinalEvaluation } =
     useGetSpeakingFinalEvaluationQuery(sessionId, {
@@ -77,6 +81,20 @@ const ChatSection = ({ sessionId, className }: ChatSectionProps) => {
       setHistoryMessageIds(new Set(chatHistory.map((m) => `${m.session_id}_${m.role}_${m.id}`)));
     }
   }, [chatHistory]);
+
+  useEffect(() => {
+    if (skipCurrentSentenceResponse) {
+      const handleAddSkippedMessage = async () => {
+        try {
+          await speak(skipCurrentSentenceResponse.content);
+          setLocalMessages([...localMessages, skipCurrentSentenceResponse]);
+        } catch (err) {
+          // ignore tts errors, still show message
+        }
+      };
+      handleAddSkippedMessage();
+    }
+  }, [skipCurrentSentenceResponse]);
 
   const handleSendTextMessage = async (content: string) => {
     if (!content.trim()) return;

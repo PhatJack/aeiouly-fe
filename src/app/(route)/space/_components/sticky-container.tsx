@@ -15,10 +15,10 @@ const SessionGoalDynamic = dynamic(() => import('./session-goal'), {
   ssr: false,
   loading: () => <Skeleton className="h-[500px] w-72" />,
 });
-// const StudyStatDynamic = dynamic(() => import("./study-stat"), {
-//   ssr: false,
-//   loading: () => <Skeleton className="h-[500px] w-72" />,
-// });
+const StudyStatDynamic = dynamic(() => import('./study-stat'), {
+  ssr: false,
+  loading: () => <Skeleton className="h-[500px] w-72" />,
+});
 const BackgroundListDynamic = dynamic(() => import('./background-list'), {
   ssr: false,
   loading: () => <Skeleton className="h-[500px] w-72" />,
@@ -43,7 +43,7 @@ const StickyContainer = () => {
       <div className="fixed top-0 right-0 left-0 flex w-full justify-end p-4 md:absolute md:right-0 md:left-auto md:w-72 md:p-0">
         {/* {activePanel === "quote" ? <QuoteDynamic /> : null} */}
         {activePanel === 'sound' ? <SoundListDynamic /> : null}
-        {/* {activePanel === "studyStats" ? <StudyStatDynamic /> : null} */}
+        {activePanel === 'studyStats' ? <StudyStatDynamic /> : null}
         {activePanel === 'backgroundIframe' ? <BackgroundListDynamic /> : null}
       </div>
     </>

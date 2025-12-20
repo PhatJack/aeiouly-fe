@@ -2,6 +2,8 @@
 
 import { useCallback, useState } from 'react';
 
+import { ChatMessageResponseSchema } from '@/lib/schema/writing-session.schema';
+
 import { createContext } from 'use-context-selector';
 
 interface InitialWritingSessionStateContext {
@@ -11,6 +13,8 @@ interface InitialWritingSessionStateContext {
   handleSelectedSentenceIndex?: (index: number) => void;
   handleVietnameseSentences?: (sentences: string[]) => void;
   handleVietnameseText?: (text: string) => void;
+  skipCurrentSentenceResponse: ChatMessageResponseSchema | null;
+  setSkipCurrentSentenceResponse: (response: ChatMessageResponseSchema | null) => void;
 }
 
 export const WritingSessionContext = createContext<InitialWritingSessionStateContext | null>(null);
@@ -19,6 +23,8 @@ export const WritingSessionProvider = ({ children }: { children: React.ReactNode
   const [currentSentenceIndex, setCurrentSentenceIndex] = useState(0);
   const [vietnameseSentences, setVietnameseSentences] = useState<string[]>([]);
   const [vietnameseText, setVietnameseText] = useState<string>('');
+  const [skipCurrentSentenceResponse, setSkipCurrentSentenceResponse] =
+    useState<ChatMessageResponseSchema | null>(null);
 
   const handleSelectedSentenceIndex = useCallback((index: number) => {
     setCurrentSentenceIndex(index);
@@ -41,6 +47,8 @@ export const WritingSessionProvider = ({ children }: { children: React.ReactNode
         handleSelectedSentenceIndex,
         handleVietnameseSentences,
         handleVietnameseText,
+        skipCurrentSentenceResponse,
+        setSkipCurrentSentenceResponse,
       }}
     >
       {children}

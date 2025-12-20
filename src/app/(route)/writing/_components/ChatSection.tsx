@@ -43,6 +43,10 @@ const ChatSection = ({ sessionId, className }: ChatSectionProps) => {
     WritingSessionContext,
     (ctx) => ctx!.handleSelectedSentenceIndex
   );
+  const skipCurrentSentenceResponse = useContextSelector(
+    WritingSessionContext,
+    (ctx) => ctx!.skipCurrentSentenceResponse
+  );
 
   const { data: chatHistory } = useGetWritingChatHistoryQuery(sessionId, {
     refetchOnWindowFocus: false,
@@ -72,6 +76,12 @@ const ChatSection = ({ sessionId, className }: ChatSectionProps) => {
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [localMessages]);
+
+  useEffect(() => {
+    if (skipCurrentSentenceResponse) {
+      setLocalMessages((prev) => [...prev, skipCurrentSentenceResponse]);
+    }
+  }, [skipCurrentSentenceResponse]);
 
   const handleSendMessage = async (content: string) => {
     if (!content.trim()) return;

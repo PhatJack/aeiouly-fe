@@ -37,15 +37,6 @@ export const useSkipCurrentSpeakingSentenceMutation = (
     meta: {
       ignoreGlobal: true,
     },
-    onSuccess: (data, variables) => {
-      queryClient.setQueriesData(
-        { queryKey: ['speakingChatHistory', variables.sessionId] },
-        (oldData: SpeakingChatMessageResponseSchema[] | undefined) => {
-          if (!oldData) return [data];
-          return [...oldData, data];
-        }
-      );
-    },
     ...options,
   });
 };

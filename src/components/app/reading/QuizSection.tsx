@@ -9,6 +9,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
 import { QuizQuestionSchema } from '@/lib/schema/reading-session.schema';
+import { cn } from '@/lib/utils';
 
 import { Brain, CheckCircle2, Languages, XCircle } from 'lucide-react';
 
@@ -76,15 +77,17 @@ const QuizSection = ({ quiz, selectedAnswers, onAnswerSelect, isLoading }: QuizS
                           key={optIndex}
                           onClick={() => onAnswerSelect(questionIndex, optIndex)}
                           disabled={isAnswered}
-                          className={`w-full rounded-lg border-2 p-2 text-left transition-all ${
-                            showCorrect
-                              ? 'border-success bg-success/10 dark:bg-success/20'
-                              : showIncorrect
-                                ? 'border-error bg-error/10 dark:bg-error/20'
-                                : isSelected
-                                  ? 'border-primary bg-primary/5 dark:bg-primary/10'
-                                  : 'border-border hover:border-primary/50 dark:border-border/50 dark:hover:border-primary/50'
-                          } ${isAnswered ? 'cursor-not-allowed' : 'cursor-pointer'}`}
+                          className={cn(
+                            `w-full rounded-lg border-2 p-2 text-left transition-all ${
+                              showCorrect
+                                ? 'border-success bg-success/10 dark:bg-success/20'
+                                : showIncorrect
+                                  ? 'border-error bg-error/10 dark:bg-error/20'
+                                  : isSelected
+                                    ? 'border-primary bg-primary/5 dark:bg-primary/10'
+                                    : 'border-border hover:border-primary/50 dark:border-border/50 dark:hover:border-primary/50'
+                            } ${isAnswered ? 'cursor-not-allowed' : 'cursor-pointer'}`
+                          )}
                         >
                           <span className="flex items-center gap-2">
                             {showCorrect && (

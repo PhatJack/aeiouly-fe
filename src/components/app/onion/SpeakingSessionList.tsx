@@ -90,7 +90,9 @@ export const SpeakingSessionList = () => {
                 const target = e.target as HTMLElement;
                 if (target.closest('button,[role="menuitem"],[data-radix-popper-content-wrapper]'))
                   return;
-                router.push(`${ROUTE.ONION}/${item.id}`);
+                if (item.status === 'active') {
+                  router.push(`${ROUTE.ONION}/${item.id}`);
+                }
               }}
               className="group focus:ring-ring/30 flex flex-col justify-between gap-3 p-4 transition-all hover:shadow-md focus:ring-2"
             >
@@ -118,12 +120,11 @@ export const SpeakingSessionList = () => {
               </div>
 
               <p className="text-muted-foreground line-clamp-2 text-sm">{item.scenario}</p>
-
               <div className="text-muted-foreground flex items-center gap-2">
                 <span className="flex items-center gap-1 text-xs">
                   <CalendarClock className="size-3.5" /> {createdAt}
                 </span>
-                <Badge variant="default">Hoàn thành</Badge>
+                {item.status === 'completed' && <Badge variant="success">Hoàn thành</Badge>}
               </div>
               <div className="flex items-center gap-1">
                 {item.status === 'active' && (

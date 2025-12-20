@@ -14,16 +14,25 @@ import {
   AlertDialogTrigger,
 } from '@/components/ui/alert-dialog';
 import { Button } from '@/components/ui/button';
+import { WritingSessionContext } from '@/contexts/WritingSessionContext';
 import { useSkipCurrentSentenceMutation } from '@/services/writing-session/skip-current-sentence.api';
+
+import { useContextSelector } from 'use-context-selector';
 
 interface SkipSentenceButtonProps {
   id?: number;
 }
 
 const SkipSentenceButton = ({ id }: SkipSentenceButtonProps) => {
+  const setSkipCurrentSentenceResponse = useContextSelector(
+    WritingSessionContext,
+    (ctx) => ctx!.setSkipCurrentSentenceResponse
+  );
   const skipSentenceMutation = useSkipCurrentSentenceMutation();
   const handleClick = useCallback(async () => {
-    await skipSentenceMutation.mutateAsync({ sessionId: id ?? 0 }, {});
+    await skipSentenceMutation.mutateAsync({ sessionId: id ?? 0 }).then((response) => {
+      setSkipCurrentSentenceResponse(response);
+    });
   }, [id, skipSentenceMutation]);
 
   return (

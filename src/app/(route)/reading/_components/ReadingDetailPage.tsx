@@ -150,6 +150,13 @@ const ReadingDetailPage = ({ id }: ReadingDetailPageProps) => {
     setShowOptions(true);
   }, []);
 
+  const handleReset = useCallback(() => {
+    setDiscussions(null);
+    setQuiz(null);
+    setSelectedAnswers({});
+    setShowOptions(true);
+  }, []);
+
   if (isLoading) {
     return (
       <div className="container mx-auto max-w-4xl px-4 py-8">
@@ -335,6 +342,13 @@ const ReadingDetailPage = ({ id }: ReadingDetailPageProps) => {
             isLoading={generateQuizMutation.isPending}
             onAnswerSelect={handleAnswerSelect}
           />
+        )}
+        {(discussions || quiz) && (
+          <div className="flex w-full justify-center">
+            <Button size={'lg'} className="mt-4" onClick={handleReset}>
+              Luyện tập lại
+            </Button>
+          </div>
         )}
       </div>
       {selection.isSelected && selection.position && (

@@ -7,7 +7,7 @@ import Image from 'next/image';
 import { Popover, PopoverContent } from '@/components/ui/popover';
 import { Skeleton } from '@/components/ui/skeleton';
 import { cn } from '@/lib/utils';
-import { useGetWeeklyStreakStatusQuery } from '@/services/analytics';
+import { useGetWeeklyStreakStatusQuery } from '@/services/online';
 import { PopoverTrigger } from '@radix-ui/react-popover';
 
 import WeekdayProgress from './WeekdayProgress';

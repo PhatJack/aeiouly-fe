@@ -11,7 +11,7 @@ import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
 import { useAuthStore } from '@/contexts/AuthContext';
 import { cn, getFireProps, streakToText } from '@/lib/utils';
-import { useGetWeeklyStreakStatusQuery } from '@/services/analytics';
+import { useGetWeeklyStreakStatusQuery } from '@/services/online';
 
 import { Check } from 'lucide-react';
 

@@ -29,15 +29,6 @@ export const useSkipCurrentSentenceMutation = (
     meta: {
       ignoreGlobal: true,
     },
-    onSuccess: (data, variables) => {
-      queryClient.setQueriesData(
-        { queryKey: ['chatHistory', variables.sessionId] },
-        (oldData: ChatMessageResponseSchema[] | undefined) => {
-          if (!oldData) return [data];
-          return [...oldData, data];
-        }
-      );
-    },
     ...options,
   });
 };
