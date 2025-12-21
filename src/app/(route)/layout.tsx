@@ -27,7 +27,7 @@ export default function RootLayout({
       <main
         id="main-layout"
         className={cn(
-          'relative min-h-screen w-full flex-1 bg-white transition-[margin] lg:border-l dark:bg-[#121212]',
+          'bg-background relative min-h-screen w-full flex-1 transition-[margin] lg:border-l',
           isExpanded ? 'lg:ml-60' : 'lg:ml-[72px]'
         )}
       >
