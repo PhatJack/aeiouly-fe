@@ -56,7 +56,7 @@ const StreakSection = () => {
   return (
     <div className="flex w-full flex-col gap-4">
       {/* Streak Display Card */}
-      <Card className="shadow-none dark:bg-transparent">
+      <Card className="bg-transparent shadow-none dark:bg-transparent">
         <CardContent className="flex flex-col items-center justify-center gap-4">
           <div className="relative mb-5">
             {/* Original Fire Icon Container */}

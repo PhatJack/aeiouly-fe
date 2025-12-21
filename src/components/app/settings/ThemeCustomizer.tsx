@@ -37,19 +37,14 @@ const ThemeCustomizer = () => {
             const preset = presets[presetName];
 
             return (
-              <div
+              <Label
                 key={presetName}
-                className="hover:bg-muted flex items-center gap-3 rounded-lg border p-3 transition"
+                htmlFor={presetName}
+                className="hover:bg-muted has-[[data-state=checked]]:border-primary flex flex-1 cursor-pointer items-center gap-3 rounded-lg border p-3 transition"
               >
                 <RadioGroupItem value={presetName} id={presetName} />
-
-                <Label htmlFor={presetName} className="flex-1 cursor-pointer">
-                  <div className="font-medium">{preset.label || presetName}</div>
-                  {preset.label && (
-                    <div className="text-muted-foreground text-sm">{preset.label}</div>
-                  )}
-                </Label>
-              </div>
+                <div className="font-medium">{preset.label || presetName}</div>
+              </Label>
             );
           })}
         </RadioGroup>
