@@ -27,7 +27,7 @@ export default function RootLayout({
       <main
         id="main-layout"
         className={cn(
-          'bg-background relative min-h-screen w-full flex-1 transition-[margin] lg:border-l',
+          'bg-card relative min-h-screen w-full flex-1 transition-[margin] lg:border-l',
           isExpanded ? 'lg:ml-60' : 'lg:ml-[72px]'
         )}
       >

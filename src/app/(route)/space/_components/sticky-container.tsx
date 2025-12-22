@@ -34,7 +34,7 @@ const StickyContainer = () => {
   return (
     <>
       {/* Left Panels */}
-      <div className="fixed top-0 right-0 left-0 flex w-full flex-col gap-6 p-4 md:absolute md:right-auto md:left-0 md:w-72 md:p-0">
+      <div className="fixed top-0 right-0 left-0 flex w-full flex-col gap-4 p-4 md:absolute md:right-auto md:left-0 md:w-72 md:p-0">
         {isOpenPomodoro ? <PomodoroDynamic /> : null}
         {isOpenSessionGoal ? <SessionGoalDynamic /> : null}
       </div>

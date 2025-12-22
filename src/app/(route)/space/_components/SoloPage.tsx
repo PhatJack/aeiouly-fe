@@ -26,7 +26,7 @@ const SoloPage = () => {
     <div className="h-full">
       <BackgroundIframe />
       <div className="relative z-10">
-        <div className="relative mb-6 flex size-full h-12 items-center justify-between">
+        <div className="relative mb-4 flex size-full h-12 items-center justify-between">
           <StickyMenu />
         </div>
         <div className="sticky top-0 h-[calc(100vh-3rem-1rem-2.5rem-0.5rem)] overflow-hidden rounded-md">

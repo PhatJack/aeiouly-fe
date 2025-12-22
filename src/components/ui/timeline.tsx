@@ -90,25 +90,29 @@ const TimelineDot = React.forwardRef<
   HTMLDivElement,
   React.HTMLAttributes<HTMLDivElement> & {
     variant?: 'default' | 'primary' | 'success' | 'warning' | 'destructive';
-    asChild?: boolean;
   }
->(({ className, variant = 'default', asChild = false, ...props }, ref) => {
-  const Comp = asChild ? Slot : 'div';
+>(({ className, variant = 'default', children, ...props }, ref) => {
+  if (children) {
+    return (
+      <div ref={ref} data-slot="timeline-dot" {...props} className={className}>
+        {children}
+      </div>
+    );
+  }
 
   return (
-    <Comp
+    <div
       ref={ref}
       data-slot="timeline-dot"
       className={cn(
         'relative z-10 shrink-0 rounded-full',
-        !asChild &&
-          cn('bg-background size-4 border-2', {
-            'border-border': variant === 'default',
-            'border-primary bg-primary': variant === 'primary',
-            'border-success bg-success': variant === 'success',
-            'border-warning bg-warning': variant === 'warning',
-            'border-destructive bg-destructive': variant === 'destructive',
-          }),
+        cn('bg-background size-4 border-2', {
+          'border-border': variant === 'default',
+          'border-primary bg-primary': variant === 'primary',
+          'border-success bg-success': variant === 'success',
+          'border-warning bg-warning': variant === 'warning',
+          'border-destructive bg-destructive': variant === 'destructive',
+        }),
         className
       )}
       {...props}
@@ -119,7 +123,6 @@ const TimelineDot = React.forwardRef<
 TimelineDot.displayName = 'TimelineDot';
 
 /* ---------------- TimelineConnector ---------------- */
-/* ---------------- TimelineConnector ---------------- */
 
 const TimelineConnector = React.forwardRef<
   HTMLDivElement,
@@ -128,18 +131,15 @@ const TimelineConnector = React.forwardRef<
     __scrollprogress?: MotionValue<number>;
   }
 >(({ className, animationConnection = false, __scrollprogress, ...props }, ref) => {
-  // 1. Create a fallback MotionValue so hooks don't break if prop is missing
   const defaultProgress = useMotionValue(0);
   const progress = __scrollprogress ?? defaultProgress;
 
-  // 2. Call useTransform unconditionally (Always runs)
   const height = useTransform(
     progress,
     [0, 1],
     animationConnection ? ['0%', '100%'] : ['0%', '0%']
   );
 
-  // 3. Conditional Logic / Rendering
   if (!animationConnection || !__scrollprogress) {
     return (
       <div
