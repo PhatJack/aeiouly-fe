@@ -147,6 +147,7 @@ const AIChatBoxScreen = ({ setIsOpen }: AIChatBoxScreenProps) => {
             disableAssistantSpeak={true}
             className="bg-transparent px-0"
             messages={messages}
+            isDetailPage={false}
           >
             {sendChatBotMessage.isPending && (
               <MessageItem
