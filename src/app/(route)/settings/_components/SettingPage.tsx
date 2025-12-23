@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 
 import SettingHeader from '@/components/app/settings/SettingHeader';
+import ThemeCustomizer from '@/components/app/settings/ThemeCustomizer';
 import { ModeToggle } from '@/components/mode-toggle';
 import { PasswordStrengthMeter } from '@/components/shared/PasswordStrengthMeter';
 import { Button } from '@/components/ui/button';
@@ -53,18 +54,21 @@ const SettingPage = () => {
     <div className="space-y-4">
       <div className="space-y-4">
         <SettingHeader title="Cài đặt" icon={Lock} description="Quản lý cài đặt ứng dụng của bạn" />
+
         <Label className="text-lg font-semibold">Giao diện</Label>
         <div className="rounded-xl border">
           <div className="divide-y">
             <div className="flex items-center justify-between p-4">
               <div>
-                <Label className="font-medium text-gray-500">Chủ đề</Label>
+                <Label className="font-medium text-gray-500">Chế độ sáng/tối</Label>
                 <p className="mt-1 font-medium">Chuyển đổi giao diện đen/trắng</p>
               </div>
               <ModeToggle />
             </div>
           </div>
         </div>
+
+        <ThemeCustomizer />
       </div>
 
       {/* Change Password Section */}

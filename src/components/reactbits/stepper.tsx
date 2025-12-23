@@ -103,7 +103,10 @@ export default function Stepper({
         >
           {stepIndicatorStyle === 'progress' ? (
             <div className="relative flex w-full items-center gap-2">
-              <Progress value={((currentStep - 1) / (totalSteps - 1)) * 100} />
+              <Progress className="flex-1" value={((currentStep - 1) / (totalSteps - 1)) * 100} />
+              <p className="w-[10%] text-right text-lg font-medium">
+                {Math.min(currentStep, totalSteps)} / {totalSteps}
+              </p>
             </div>
           ) : (
             stepsArray.map((_, index) => {

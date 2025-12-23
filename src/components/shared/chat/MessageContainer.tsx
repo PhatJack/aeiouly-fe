@@ -2,7 +2,12 @@
 
 import React, { memo, useLayoutEffect, useRef } from 'react';
 
+import { useRouter } from 'nextjs-toploader/app';
+
+import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
+
+import { ArrowLeft } from 'lucide-react';
 
 import MessageItem from './MessageItem';
 
@@ -22,9 +27,9 @@ function MessageContainer({
   children,
   className,
 }: MessageContainerProps) {
+  const router = useRouter();
   const messagesEndRef = useRef<HTMLDivElement>(null);
   useLayoutEffect(() => {
-    // Use rAF to ensure DOM/layout is settled before scrolling
     requestAnimationFrame(() => {
       messagesEndRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
     });
@@ -33,10 +38,15 @@ function MessageContainer({
   return (
     <div
       className={cn(
-        'dark:bg-background flex h-full max-h-dvh scroll-mr-1 flex-col space-y-3 overflow-y-auto rounded-xl bg-gray-50 px-4 lg:max-h-full',
+        'dark:bg-background relative flex h-full max-h-dvh scroll-mr-1 flex-col space-y-3 overflow-y-auto rounded-xl bg-gray-50 px-4 pt-8 pb-4 lg:max-h-full',
         className
       )}
     >
+      <div className="dark:from-background absolute top-0 right-0 left-0 z-50 flex h-20 bg-gradient-to-b from-gray-50 px-4">
+        <Button variant="ghost" size="lg" onClick={() => router.back()}>
+          <ArrowLeft />
+        </Button>
+      </div>
       {messages.map((message, index) => (
         <div
           key={message.id || index}

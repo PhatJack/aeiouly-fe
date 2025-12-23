@@ -55,7 +55,7 @@ const Header = ({ isExpanded, handleToggleExpand }: HeaderProps) => {
   };
 
   return (
-    <header className="sticky top-0 z-50 border-b bg-white/75 px-4 py-2 backdrop-blur-sm dark:bg-[#121212]/75">
+    <header className="bg-background/75 sticky top-0 z-50 border-b px-4 py-2 backdrop-blur-sm">
       <div className="flex w-full items-center justify-between">
         <div className="flex items-center gap-4">
           <Button

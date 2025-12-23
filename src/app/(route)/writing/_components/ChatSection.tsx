@@ -141,7 +141,9 @@ const ChatSection = ({ sessionId, className }: ChatSectionProps) => {
         </MessageContainer>
 
         {/* Message Input */}
-        <MessageInput onSendMessage={handleSendMessage} disabled={sendChatMutation.isPending} />
+        <div className="px-4">
+          <MessageInput onSendMessage={handleSendMessage} disabled={sendChatMutation.isPending} />
+        </div>
       </div>
 
       {/* Session Complete Popup */}

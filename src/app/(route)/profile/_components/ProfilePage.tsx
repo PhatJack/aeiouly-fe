@@ -4,7 +4,6 @@ import { useState } from 'react';
 
 import EditAvatarSetting from '@/components/app/settings/EditAvatarSetting';
 import EditFieldDialog from '@/components/app/settings/EditFieldDialog';
-import SettingHeader from '@/components/app/settings/SettingHeader';
 import { WaveAnimation } from '@/components/shared/WaveAnimation';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
