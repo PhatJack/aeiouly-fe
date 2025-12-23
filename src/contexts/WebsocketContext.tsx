@@ -34,9 +34,7 @@ export const WebSocketProvider: React.FC<WebSocketProviderProps> = ({ children }
 
     const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000';
     const wsProtocol = baseUrl.startsWith('https') ? 'wss' : 'ws';
-    const wsHost = baseUrl.startsWith('https')
-      ? 'api.' + baseUrl.replace(/^https?:\/\//, '')
-      : baseUrl.replace(/^https?:\/\//, '');
+    const wsHost = baseUrl.replace(/^https?:\/\//, '');
     const url = `${wsProtocol}://${wsHost}/online/ws`;
 
     const ws = new WebSocket(url);
