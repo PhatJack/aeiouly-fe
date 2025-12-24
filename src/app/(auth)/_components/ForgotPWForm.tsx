@@ -1,11 +1,11 @@
-"use client";
+'use client';
 
-import * as React from "react";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { cn } from "@/lib/utils";
+import * as React from 'react';
+import { useForm } from 'react-hook-form';
+
+import { useRouter } from 'nextjs-toploader/app';
+
+import { Button } from '@/components/ui/button';
 import {
   Form,
   FormControl,
@@ -13,21 +13,24 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
-import { toast } from "sonner";
-import { useRouter } from "nextjs-toploader/app";
+} from '@/components/ui/form';
+import { Input } from '@/components/ui/input';
+import { cn } from '@/lib/utils';
 import {
-  requestPasswordResetSchema,
   RequestPasswordResetSchema,
+  requestPasswordResetSchema,
   useRequestPasswordResetMutation,
-} from "@/services/auth/forgot-password.api";
+} from '@/services/auth/forgot-password.api';
+import { zodResolver } from '@hookform/resolvers/zod';
+
+import { toast } from 'sonner';
 
 const ForgotPWForm = () => {
   const router = useRouter();
-		const forgotPWForm = useForm<RequestPasswordResetSchema>({
+  const forgotPWForm = useForm<RequestPasswordResetSchema>({
     resolver: zodResolver(requestPasswordResetSchema),
     defaultValues: {
-      email: "",
+      email: '',
     },
   });
 
@@ -36,22 +39,17 @@ const ForgotPWForm = () => {
   const onSubmit = (data: RequestPasswordResetSchema) => {
     requestPWMutate.mutate(data, {
       onSuccess: () => {
-        toast.success(
-          "Nếu email tồn tại, bạn sẽ nhận được hướng dẫn đặt lại mật khẩu!"
-        );
+        toast.success('Nếu email tồn tại, bạn sẽ nhận được hướng dẫn đặt lại mật khẩu!');
       },
       onError: (error) => {
-        toast.error((error as any).detail || "Đăng nhập thất bại!");
+        toast.error((error as any).detail || 'Đăng nhập thất bại!');
       },
     });
   };
 
   return (
     <Form {...forgotPWForm}>
-      <form
-        onSubmit={forgotPWForm.handleSubmit(onSubmit)}
-        className={cn("space-y-6")}
-      >
+      <form onSubmit={forgotPWForm.handleSubmit(onSubmit)} className={cn('space-y-6')}>
         {/* Header */}
         <div className="flex flex-col items-center gap-2 text-center">
           <h1 className="text-2xl font-bold">Quên mật khẩu</h1>
@@ -61,7 +59,7 @@ const ForgotPWForm = () => {
         </div>
 
         {/* Fields */}
-        <div className="grid gap-6">
+        <div className="grid gap-4">
           {/* Email Field */}
           <FormField
             control={forgotPWForm.control}
@@ -85,7 +83,7 @@ const ForgotPWForm = () => {
             type="button"
             variant="link"
             className="w-full"
-            onClick={() => router.push("/login")}
+            onClick={() => router.push('/login')}
           >
             Trở lại trang đăng nhập
           </Button>

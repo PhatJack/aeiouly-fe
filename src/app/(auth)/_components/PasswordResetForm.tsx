@@ -63,7 +63,7 @@ const PasswordResetForm = () => {
         </div>
 
         {/* Fields */}
-        <div className="grid gap-6">
+        <div className="grid gap-4">
           {/* Password Field */}
           <FormField
             control={passwordResetForm.control}

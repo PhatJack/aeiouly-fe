@@ -135,7 +135,7 @@ const GymDetailPage = ({ id }: GymDetailPageProps) => {
   if (isLoading) {
     return (
       <div>
-        <div className="grid gap-6 lg:grid-cols-2">
+        <div className="grid gap-4 lg:grid-cols-2">
           <Skeleton className="h-[500px] rounded-xl" />
           <Skeleton className="h-[500px] rounded-xl" />
         </div>

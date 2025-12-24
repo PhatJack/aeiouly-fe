@@ -72,7 +72,7 @@ const GymPage = () => {
         }
       />
 
-      <div className="relative grid gap-6 py-4">
+      <div className="relative grid gap-4 py-4">
         <section className="space-y-4 xl:col-span-1">
           <h2 className="text-foreground text-xl font-bold">Tiếp tục học</h2>
 
@@ -131,7 +131,7 @@ const GymPage = () => {
 
           {/* Loading State */}
           {isLoading && (
-            <div className="grid gap-6 lg:col-span-2 lg:grid-cols-2">
+            <div className="grid gap-4 lg:col-span-2 lg:grid-cols-2">
               {[1, 2, 3, 4, 5].map((i) => (
                 <div key={i} className="rounded-xl border p-4">
                   <div className="flex gap-4">

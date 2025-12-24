@@ -47,7 +47,7 @@ const StickyMenu = () => {
   return (
     <div className="bg-background/95 border-border fixed right-0 bottom-0 left-0 z-50 flex w-full flex-col items-center justify-between gap-4 border-t p-4 md:relative md:flex-row md:border-t-0 md:bg-transparent md:p-0">
       {/* Timer and Goals */}
-      <div className="flex w-full justify-between gap-4 md:w-auto md:justify-start md:gap-6">
+      <div className="flex w-full justify-between gap-4 md:w-auto md:justify-start md:gap-4">
         {/* Pomodoro */}
         <div
           onClick={() => toggleButton('isOpenPomodoro')}
@@ -88,7 +88,7 @@ const StickyMenu = () => {
       </div>
 
       {/* Menu Buttons */}
-      <div className="flex w-full justify-between gap-4 md:w-auto md:justify-start md:gap-6">
+      <div className="flex w-full justify-between gap-4 md:w-auto md:justify-start md:gap-4">
         {menuButton.map((item, index) => (
           <TooltipCustom side="bottom" content={item.label} key={index}>
             <Button

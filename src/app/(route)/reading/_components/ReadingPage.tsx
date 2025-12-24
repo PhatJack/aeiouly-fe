@@ -86,7 +86,7 @@ const ReadingPage = () => {
       />
 
       {/* Content */}
-      <div className="grid gap-6 py-4 lg:grid-cols-[1fr_400px]">
+      <div className="grid gap-4 py-4 lg:grid-cols-[1fr_400px]">
         {/* Left - Sessions List */}
         <div>
           {isLoading && (
