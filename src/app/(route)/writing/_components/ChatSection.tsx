@@ -80,6 +80,9 @@ const ChatSection = ({ sessionId, className }: ChatSectionProps) => {
   useEffect(() => {
     if (skipCurrentSentenceResponse) {
       setLocalMessages((prev) => [...prev, skipCurrentSentenceResponse]);
+      if (skipCurrentSentenceResponse.status === 'completed') {
+        setShowSessionComplete(true);
+      }
     }
   }, [skipCurrentSentenceResponse]);
 
