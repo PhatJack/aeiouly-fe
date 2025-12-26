@@ -229,7 +229,7 @@ export default function Home() {
                     />
 
                     {/* Card content */}
-                    <div className="bg-accent border-border/50 group-hover:border-border group-hover:bg-card/90 relative flex h-full flex-col items-center justify-center gap-6 rounded-2xl border p-8 transition-all duration-300">
+                    <div className="bg-accent border-border/50 group-hover:border-border group-hover:bg-card/90 relative flex h-full flex-col items-center justify-center gap-4 rounded-2xl border p-8 transition-all duration-300">
                       {/* Icon with gradient background */}
                       <motion.div
                         whileHover={{ rotate: [0, -10, 10, -10, 0], scale: 1.1 }}
@@ -294,7 +294,7 @@ export default function Home() {
         </section>
 
         {/* Features Section */}
-        <section className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        <section className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {features.map((feature, index) => {
             const Icon = feature.icon;
 

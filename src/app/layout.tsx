@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { Be_Vietnam_Pro, Geist } from 'next/font/google';
 
 import { GoogleAnalytics, GoogleTagManager } from '@next/third-parties/google';
+import { Analytics } from '@vercel/analytics/next';
 
 import './globals.css';
 import Providers from './providers';
@@ -82,6 +83,7 @@ export default function RootLayout({
       <body className={`${beVietNamPro.variable} ${geistSans.variable} flex antialiased`}>
         <Providers>{children}</Providers>
       </body>
+      <Analytics />
       <GoogleAnalytics gaId="G-J5TMBGYNY4" />
       <GoogleTagManager gtmId="GTM-MQ65G5KB" />
     </html>

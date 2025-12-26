@@ -26,7 +26,8 @@ const AIChatBox = () => {
       /^\/writing\/\d+$/.test(pathname) ||
       /^\/reading\/\d+$/.test(pathname) ||
       /^\/speaking\/\d+$/.test(pathname) ||
-      /^\/listening\/\d+$/.test(pathname)
+      /^\/listening\/\d+$/.test(pathname) ||
+      /^\/admin(\/.*)?$/.test(pathname)
     );
   }, [pathname]);
   if (shouldHide) return null;

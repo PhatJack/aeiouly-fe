@@ -66,7 +66,7 @@ const LoginForm = () => {
         </div>
 
         {/* Fields */}
-        <div className="grid gap-6">
+        <div className="grid gap-4">
           {/* Email Field */}
           <FormField
             control={loginForm.control}
