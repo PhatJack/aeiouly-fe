@@ -93,10 +93,13 @@ const Header = ({ isExpanded, handleToggleExpand }: HeaderProps) => {
                     </div>
                   </DropdownMenuLabel>
                   <DropdownMenuSeparator />
-                  <DropdownMenuItem onClick={() => router.push(ROUTE.PROFILE)}>
-                    <User2 className="mr-2 h-4 w-4" />
-                    <span>Thông tin cá nhân</span>
-                  </DropdownMenuItem>
+                  {user.role === 'user' ? (
+                    <DropdownMenuItem onClick={() => router.push(ROUTE.PROFILE)}>
+                      <User2 className="mr-2 h-4 w-4" />
+                      <span>Thông tin cá nhân</span>
+                    </DropdownMenuItem>
+                  ) : null}
+
                   <DropdownMenuItem onClick={() => router.push(ROUTE.SETTING.INDEX)}>
                     <Settings className="mr-2 h-4 w-4" />
                     <span>Cài đặt</span>
