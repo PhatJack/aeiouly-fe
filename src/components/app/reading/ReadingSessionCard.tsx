@@ -45,15 +45,15 @@ const ReadingSessionCard = memo(
               {/* Icon */}
               <div className="bg-primary/10 flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-lg">
                 <BookOpen className="text-primary h-6 w-6" />
-                {session.is_custom && (
-                  <Sparkles className="absolute -top-1 -right-1 h-4 w-4 text-amber-500" />
-                )}
               </div>
 
               {/* Content */}
               <div className="min-w-0 flex-1 space-y-2">
                 {/* Title */}
-                <h3 className="text-foreground line-clamp-2 text-lg font-semibold">
+                <h3
+                  title={session.topic}
+                  className="text-foreground line-clamp-1 text-lg font-semibold"
+                >
                   {session.topic}
                 </h3>
 
@@ -70,14 +70,12 @@ const ReadingSessionCard = memo(
                 </div>
 
                 {/* Custom badge */}
-                {session.is_custom && (
-                  <Badge
-                    variant="outline"
-                    className="border-amber-300 bg-amber-50 px-2.5 py-0.5 text-xs font-medium text-amber-700"
-                  >
-                    Văn bản tự chọn
-                  </Badge>
-                )}
+                <Badge
+                  variant="outline"
+                  className="border-amber-300 bg-amber-50 px-2.5 py-0.5 text-xs font-medium text-amber-700"
+                >
+                  Văn bản tự chọn
+                </Badge>
               </div>
             </div>
 

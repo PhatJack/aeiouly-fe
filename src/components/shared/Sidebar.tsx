@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useMemo } from 'react';
 
 import Image from 'next/image';
 import Link from 'next/link';
@@ -137,6 +137,15 @@ const Sidebar = ({ isExpanded, handleToggleExpand }: SidebarProps) => {
   const router = useRouter();
   const user = useAuthStore((state) => state.user);
 
+  const shouldHide = useMemo(() => {
+    return (
+      /^\/writing\/\d+$/.test(pathname) ||
+      /^\/reading\/\d+$/.test(pathname) ||
+      /^\/speaking\/\d+$/.test(pathname) ||
+      /^\/listening\/\d+$/.test(pathname) ||
+      /^\/admin(\/.*)?$/.test(pathname)
+    );
+  }, [pathname]);
   return (
     <>
       <aside
@@ -145,7 +154,8 @@ const Sidebar = ({ isExpanded, handleToggleExpand }: SidebarProps) => {
           'bg-background fixed top-0 left-0 z-100 flex min-h-full min-w-[72px] flex-col px-3 py-2 transition-[width,translate] duration-300 ease-in-out lg:gap-2',
           isExpanded
             ? 'w-60 max-w-60 translate-x-0'
-            : 'w-60 -translate-x-60 lg:w-[72px] lg:translate-x-0'
+            : 'w-60 -translate-x-60 lg:w-[72px] lg:translate-x-0',
+          shouldHide && 'hidden'
         )}
       >
         <div className="flex items-center p-1">

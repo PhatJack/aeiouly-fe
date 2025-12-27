@@ -2,6 +2,7 @@
 
 import React, { memo, useEffect, useRef, useState } from 'react';
 
+import { useSearchParams } from 'next/navigation';
 import { useRouter } from 'nextjs-toploader/app';
 
 import LoadingWithText from '@/components/LoadingWithText';
@@ -47,7 +48,7 @@ const ChatSection = ({ sessionId, className }: ChatSectionProps) => {
     WritingSessionContext,
     (ctx) => ctx!.skipCurrentSentenceResponse
   );
-
+  const searchParams = useSearchParams();
   const { data: chatHistory } = useGetWritingChatHistoryQuery(sessionId, {
     refetchOnWindowFocus: false,
   });
@@ -80,6 +81,9 @@ const ChatSection = ({ sessionId, className }: ChatSectionProps) => {
   useEffect(() => {
     if (skipCurrentSentenceResponse) {
       setLocalMessages((prev) => [...prev, skipCurrentSentenceResponse]);
+      if (skipCurrentSentenceResponse.status === 'completed') {
+        setShowSessionComplete(true);
+      }
     }
   }, [skipCurrentSentenceResponse]);
 
@@ -128,6 +132,7 @@ const ChatSection = ({ sessionId, className }: ChatSectionProps) => {
           messages={localMessages}
           historyMessageIds={historyMessageIds}
           className="mb-4 flex-1"
+          backUrl={searchParams.get('source') || undefined}
         >
           {sendChatMutation.isPending && (
             <MessageItem

@@ -3,6 +3,7 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import ReactMarkdown from 'react-markdown';
 
+import { useSearchParams } from 'next/navigation';
 import { useRouter } from 'nextjs-toploader/app';
 
 import LoadingWithText from '@/components/LoadingWithText';
@@ -41,6 +42,7 @@ interface ReadingDetailPageProps {
 }
 
 const ReadingDetailPage = ({ id }: ReadingDetailPageProps) => {
+  const searchParams = useSearchParams();
   const contentRef = useRef<HTMLDivElement | null>(null);
   const tooltipRef = useRef<HTMLDivElement | null>(null);
   const selection = useContentTextSelection({
@@ -189,7 +191,11 @@ const ReadingDetailPage = ({ id }: ReadingDetailPageProps) => {
               <Button
                 variant="ghost"
                 size="icon"
-                onClick={() => router.push('/reading')}
+                onClick={() =>
+                  router.push(
+                    !searchParams.get('source') ? '/reading' : `/${searchParams.get('source')}`
+                  )
+                }
                 className="h-10 w-10"
                 data-navigation
               >

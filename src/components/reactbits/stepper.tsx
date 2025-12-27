@@ -19,7 +19,7 @@ import { Progress } from '../ui/progress';
 interface StepperProps extends HTMLAttributes<HTMLDivElement> {
   children: ReactNode;
   initialStep?: number;
-  onStepChange?: (step: number) => void;
+  onStepChange?: (step: number) => void | boolean | false;
   onFinalStepCompleted?: () => void;
   stepCircleContainerClassName?: string;
   stepContainerClassName?: string;
@@ -27,6 +27,7 @@ interface StepperProps extends HTMLAttributes<HTMLDivElement> {
   footerClassName?: string;
   backButtonProps?: React.ButtonHTMLAttributes<HTMLButtonElement>;
   nextButtonProps?: React.ButtonHTMLAttributes<HTMLButtonElement>;
+  lastStepButtonText?: string;
   backButtonText?: string;
   nextButtonText?: string;
   disableStepIndicators?: boolean;
@@ -36,6 +37,7 @@ interface StepperProps extends HTMLAttributes<HTMLDivElement> {
     currentStep: number;
     onStepClick: (clicked: number) => void;
   }) => ReactNode;
+  CompletedScreen?: ReactNode;
 }
 
 export default function Stepper({
@@ -51,9 +53,11 @@ export default function Stepper({
   nextButtonProps = {},
   backButtonText = 'Quay lại',
   nextButtonText = 'Tiếp tục',
+  lastStepButtonText = 'Hoàn Thành',
   disableStepIndicators = false,
   renderStepIndicator,
   stepIndicatorStyle = 'ball',
+  CompletedScreen,
   ...rest
 }: StepperProps) {
   const [currentStep, setCurrentStep] = useState<number>(initialStep);
@@ -64,11 +68,16 @@ export default function Stepper({
   const isLastStep = currentStep === totalSteps;
 
   const updateStep = (newStep: number) => {
-    setCurrentStep(newStep);
     if (newStep > totalSteps) {
+      setCurrentStep(totalSteps + 1);
       onFinalStepCompleted();
     } else {
-      onStepChange(newStep);
+      const result = onStepChange(newStep);
+      // If onStepChange returns false, prevent navigation
+      if (result === false) {
+        return;
+      }
+      setCurrentStep(newStep);
     }
   };
 
@@ -98,13 +107,13 @@ export default function Stepper({
           className={cn(
             `flex w-full items-center`,
             stepContainerClassName,
-            stepIndicatorStyle === 'progress' ? 'p-4' : 'p-8'
+            stepIndicatorStyle === 'progress' ? 'py-4 sm:px-4' : 'p-8'
           )}
         >
           {stepIndicatorStyle === 'progress' ? (
             <div className="relative flex w-full items-center gap-2">
-              <Progress className="flex-1" value={((currentStep - 1) / (totalSteps - 1)) * 100} />
-              <p className="w-[10%] text-right text-lg font-medium">
+              <Progress className="flex-1" value={(currentStep / totalSteps) * 100} />
+              <p className="w-[15%] text-right text-lg font-medium sm:w-[10%]">
                 {Math.min(currentStep, totalSteps)} / {totalSteps}
               </p>
             </div>
@@ -145,17 +154,18 @@ export default function Stepper({
           isCompleted={isCompleted}
           currentStep={currentStep}
           direction={direction}
+          CompletedScreen={CompletedScreen}
           className={cn(
             `space-y-2`,
             contentClassName,
-            stepIndicatorStyle === 'progress' ? 'px-4' : 'px-8'
+            stepIndicatorStyle === 'progress' ? 'sm:px-4' : 'px-8'
           )}
         >
           {stepsArray[currentStep - 1]}
         </StepContentWrapper>
 
         {!isCompleted && (
-          <div className={`px-8 pb-8 ${footerClassName}`}>
+          <div className={cn(`px-4 pb-8`, footerClassName)}>
             <div
               className={`mt-10 flex w-full ${currentStep !== 1 ? 'justify-between' : 'justify-end'}`}
             >
@@ -163,6 +173,7 @@ export default function Stepper({
                 <Button
                   variant={'ghost'}
                   onClick={handleBack}
+                  type="button"
                   size={'lg'}
                   className={`w-1/2 rounded-full px-2 py-1 transition duration-350 ${
                     currentStep === 1
@@ -177,10 +188,11 @@ export default function Stepper({
               <Button
                 className={'w-1/2 rounded-full transition-[width]'}
                 size={'lg'}
+                type={'button'}
                 onClick={isLastStep ? handleComplete : handleNext}
                 {...nextButtonProps}
               >
-                {isLastStep ? 'Hoàn Thành' : nextButtonText}
+                {isLastStep ? lastStepButtonText : nextButtonText}
               </Button>
             </div>
           </div>
@@ -196,6 +208,7 @@ interface StepContentWrapperProps {
   direction: number;
   children: ReactNode;
   className?: string;
+  CompletedScreen: ReactNode;
 }
 
 function StepContentWrapper({
@@ -204,18 +217,19 @@ function StepContentWrapper({
   direction,
   children,
   className = '',
+  CompletedScreen,
 }: StepContentWrapperProps) {
   const [parentHeight, setParentHeight] = useState<number>(0);
 
   return (
     <motion.div
       style={{ position: 'relative', overflow: 'hidden' }}
-      animate={{ height: isCompleted ? 0 : parentHeight }}
+      animate={{ height: parentHeight }}
       transition={{ type: 'spring', duration: 0.4 }}
       className={className}
     >
       <AnimatePresence initial={false} mode="sync" custom={direction}>
-        {!isCompleted && (
+        {!isCompleted ? (
           <SlideTransition
             key={currentStep}
             direction={direction}
@@ -223,6 +237,8 @@ function StepContentWrapper({
           >
             {children}
           </SlideTransition>
+        ) : (
+          CompletedScreen
         )}
       </AnimatePresence>
     </motion.div>
@@ -280,7 +296,7 @@ interface StepProps {
 }
 
 export function Step({ children }: StepProps) {
-  return <div className="px-4">{children}</div>;
+  return <div className="sm:px-4">{children}</div>;
 }
 
 interface StepIndicatorProps {
