@@ -26,8 +26,8 @@ export default function RootLayout({
       /^\/writing\/\d+$/.test(location) ||
       /^\/reading\/\d+$/.test(location) ||
       /^\/speaking\/\d+$/.test(location) ||
-      /^\/listening\/\d+$/.test(location) ||
-      /^\/admin(\/.*)?$/.test(location)
+      /^\/listening\/\d+$/.test(location)
+      // /^\/admin(\/.*)?$/.test(location)
     );
   }, [location]);
 

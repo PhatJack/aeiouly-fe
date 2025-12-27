@@ -92,7 +92,7 @@ const menuWithImg: {
     icon: User2,
     href: ROUTE.PROFILE,
     id: 'profile',
-    role: ['user', 'admin'],
+    role: ['user'],
   },
   {
     title: 'QL người dùng',
@@ -142,8 +142,8 @@ const Sidebar = ({ isExpanded, handleToggleExpand }: SidebarProps) => {
       /^\/writing\/\d+$/.test(pathname) ||
       /^\/reading\/\d+$/.test(pathname) ||
       /^\/speaking\/\d+$/.test(pathname) ||
-      /^\/listening\/\d+$/.test(pathname) ||
-      /^\/admin(\/.*)?$/.test(pathname)
+      /^\/listening\/\d+$/.test(pathname)
+      // /^\/admin(\/.*)?$/.test(pathname)
     );
   }, [pathname]);
   return (
