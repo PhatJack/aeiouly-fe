@@ -27,5 +27,4 @@ export const PROFESSIONS: Profession[] = [
   { id: 'job_seeker', label: 'Đang tìm việc' },
   { id: 'stay_at_home', label: 'Nội trợ' },
   { id: 'retired', label: 'Đã nghỉ hưu' },
-  { id: 'other', label: 'Khác' },
 ];

@@ -65,7 +65,7 @@ const Header = ({ isExpanded, handleToggleExpand }: HeaderProps) => {
           >
             {isExpanded ? <PanelRightClose className="rotate-180" /> : <PanelRightClose />}
           </Button>
-          <h1 className="text-sm font-semibold sm:text-lg">
+          <h1 className="font-semibold sm:text-lg">
             Xin chào, {user?.full_name || user?.username || 'User'}
           </h1>
         </div>

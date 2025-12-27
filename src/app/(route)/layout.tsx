@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 
 import { usePathname } from 'next/navigation';
 
@@ -21,6 +21,16 @@ export default function RootLayout({
   }, []);
   const location = usePathname();
 
+  const shouldHide = useMemo(() => {
+    return (
+      /^\/writing\/\d+$/.test(location) ||
+      /^\/reading\/\d+$/.test(location) ||
+      /^\/speaking\/\d+$/.test(location) ||
+      /^\/listening\/\d+$/.test(location) ||
+      /^\/admin(\/.*)?$/.test(location)
+    );
+  }, [location]);
+
   return (
     <div className="flex size-full">
       <Sidebar isExpanded={isExpanded} handleToggleExpand={handleToggleExpand} />
@@ -28,7 +38,8 @@ export default function RootLayout({
         id="main-layout"
         className={cn(
           'bg-card relative min-h-screen w-full flex-1 transition-[margin] lg:border-l',
-          isExpanded ? 'lg:ml-60' : 'lg:ml-[72px]'
+          isExpanded ? 'lg:ml-60' : 'lg:ml-[72px]',
+          shouldHide && 'lg:ml-0'
         )}
       >
         {location !== ROUTE.SPACE && (

@@ -2,6 +2,7 @@
 
 import React, { memo, useEffect, useState } from 'react';
 
+import { useSearchParams } from 'next/navigation';
 import { useRouter } from 'nextjs-toploader/app';
 
 import FinalEvaluation from '@/components/app/onion/FinalEvaluation';
@@ -38,6 +39,7 @@ interface ChatSectionProps {
 }
 
 const ChatSection = ({ sessionId, className }: ChatSectionProps) => {
+  const searchParams = useSearchParams();
   const router = useRouter();
   const { speak, isAudioLoading } = useTTS();
   const { data: chatHistory } = useGetSpeakingChatHistoryQuery(sessionId, {
@@ -201,6 +203,7 @@ const ChatSection = ({ sessionId, className }: ChatSectionProps) => {
           messages={localMessages as any}
           historyMessageIds={historyMessageIds}
           className="mb-4 flex-1"
+          backUrl={searchParams.get('source') || undefined}
         >
           {(sendChatMutation.isPending || isAudioLoading) && (
             <MessageItem
