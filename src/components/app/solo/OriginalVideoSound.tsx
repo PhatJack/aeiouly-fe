@@ -25,7 +25,7 @@ const OriginalVideoSound = () => {
     <div className="flex flex-col gap-2">
       <Label htmlFor="volume" className="flex items-center gap-1">
         <span>
-          <strong>Original Video Sound</strong>
+          <strong>Âm thanh video gốc</strong>
         </span>
       </Label>
       <VolumeChange

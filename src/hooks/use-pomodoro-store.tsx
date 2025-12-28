@@ -190,6 +190,12 @@ export const usePomodoroStore = create<PomodoroStore>()((set, get) => ({
   completeSession: () => {
     const state = get();
 
+    // Play notification sound
+    const audio = new Audio('/sound/notification.mp3');
+    audio.play().catch((error) => {
+      console.error('Failed to play notification sound:', error);
+    });
+
     if (state.isFocusMode) {
       // Completed focus session
       if (state.isLoopMode) {

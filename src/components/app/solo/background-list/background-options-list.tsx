@@ -15,7 +15,7 @@ interface Props {
 const BackgroundOptionsList = ({ activeTab }: Props) => {
   const { backgroundURL, setBackground } = useSoloStore();
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const backgroundVideosQuery = useGetAllBackgroundVideosQuery();
+  const backgroundVideosQuery = useGetAllBackgroundVideosQuery({ type_id: activeTab });
 
   // Filter videos by active tab/type
   const backgroundVideos = backgroundVideosQuery.data?.items.filter(
@@ -40,7 +40,7 @@ const BackgroundOptionsList = ({ activeTab }: Props) => {
         ? Array.from({ length: 9 }).map((_, i) => <Skeleton className="size-14" key={i} />)
         : null}
       {backgroundVideos?.length === 0 && (
-        <div className="col-span-4 text-xs text-gray-800">
+        <div className="text-muted-foreground col-span-4 text-xs">
           Không có video nào trong danh mục này.
         </div>
       )}
