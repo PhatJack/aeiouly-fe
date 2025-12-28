@@ -27,6 +27,7 @@ import {
   QuizGenerationRequestSchema,
   QuizQuestionSchema,
 } from '@/lib/schema/reading-session.schema';
+import { useCompleteLessonMutation } from '@/services/learning-path';
 import {
   useEvaluateAnswerMutation,
   useGenerateDiscussionMutation,
@@ -73,6 +74,11 @@ const ReadingDetailPage = ({ id }: ReadingDetailPageProps) => {
   const generateDiscussionMutation = useGenerateDiscussionMutation();
   const evaluateAnswerMutation = useEvaluateAnswerMutation();
   const generateQuizMutation = useGenerateQuizMutation();
+  const completeLessonMutation = useCompleteLessonMutation({
+    meta: {
+      ignoreGlobal: true,
+    },
+  });
 
   const handleGenerateDiscussion = useCallback(() => {
     if (numberOfQuestions < 3 || numberOfQuestions > 10) {
@@ -159,6 +165,16 @@ const ReadingDetailPage = ({ id }: ReadingDetailPageProps) => {
     setShowOptions(true);
   }, []);
 
+  useEffect(() => {
+    if (
+      searchParams.get('source') &&
+      searchParams.get('lid') &&
+      Object.keys(selectedAnswers).length === numberOfQuestions
+    ) {
+      completeLessonMutation.mutate(Number(searchParams.get('lid')));
+    }
+  }, [selectedAnswers, numberOfQuestions, sessionId, searchParams]);
+
   if (isLoading) {
     return (
       <div className="container mx-auto max-w-4xl px-4 py-8">
@@ -174,7 +190,15 @@ const ReadingDetailPage = ({ id }: ReadingDetailPageProps) => {
         <Card>
           <CardContent className="py-12 text-center">
             <h2 className="mb-4 text-2xl font-bold">Không tìm thấy phiên đọc</h2>
-            <Button onClick={() => router.push('/reading')}>Quay lại</Button>
+            <Button
+              onClick={() =>
+                router.push(
+                  searchParams.get('source') ? `/${searchParams.get('source')}` : '/reading'
+                )
+              }
+            >
+              Quay lại
+            </Button>
           </CardContent>
         </Card>
       </div>

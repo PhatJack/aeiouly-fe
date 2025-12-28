@@ -2,6 +2,8 @@
 
 import React, { useEffect } from 'react';
 
+import { useSearchParams } from 'next/navigation';
+
 import BlockquoteCustom from '@/components/custom/BlockquoteCustom';
 import { useSpeechContext } from '@/contexts/SpeechContext';
 import { SpeakingSessionResponseSchema } from '@/lib/schema/speaking-session.schema';
@@ -15,6 +17,7 @@ interface DetailRightPanelProps {
 }
 
 const DetailRightPanel = ({ speakingSession }: DetailRightPanelProps) => {
+  const searchParams = useSearchParams();
   const { setSelectedVoice } = useSpeechContext();
 
   useEffect(() => {
@@ -61,7 +64,10 @@ const DetailRightPanel = ({ speakingSession }: DetailRightPanelProps) => {
       </div>
       {/* Bottom actions */}
       <div className="dark:bg-background sticky bottom-0 z-40 w-full rounded-b-2xl border-t bg-gray-50 p-4">
-        <EndSessionButton id={speakingSession?.id} />
+        <EndSessionButton
+          id={speakingSession?.id}
+          lid={searchParams.get('lid') ? Number(searchParams.get('lid')) : undefined}
+        />
       </div>
     </div>
   );

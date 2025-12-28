@@ -71,7 +71,9 @@ const UserFavoriteVideos = () => {
             <Plus />
           </Button>
         </AddFavoriteVideoModal>
-        {isQueryLoading && <LoadingWithText text="Đang tải video yêu thích..." />}
+        {isQueryLoading && (
+          <LoadingWithText text="Đang tải video yêu thích..." className="col-span-4" />
+        )}
         {data?.items.map((backgroundVideo) => (
           <HoverCard key={backgroundVideo.id}>
             <HoverCardTrigger asChild>
@@ -112,7 +114,7 @@ const UserFavoriteVideos = () => {
                     {backgroundVideo.author_name}
                   </Link>
                 </p>
-                <div className="relative h-32 max-h-32 w-full overflow-hidden rounded-lg">
+                <div className="relative aspect-video h-32 max-h-32 w-full overflow-hidden rounded-lg">
                   <Image
                     src={
                       backgroundVideo.image ??

@@ -22,6 +22,7 @@ import {
   DialogTitle,
 } from '@/components/ui/dialog';
 import { ROUTE } from '@/configs/route';
+import { useCompleteLessonMutation } from '@/services/learning-path';
 import {
   useCompleteWritingSessionMutation,
   useGetFinalEvaluationQuery,
@@ -33,14 +34,20 @@ import FinalEvaluation from './FinalEvaluation';
 
 interface EndSessionButtonProps {
   id?: number;
+  lid?: number;
 }
 
-const EndSessionButton = ({ id }: EndSessionButtonProps) => {
+const EndSessionButton = ({ id, lid }: EndSessionButtonProps) => {
   const router = useRouter();
   const [showEvaluation, setShowEvaluation] = useState(false);
   const endWritingSession = useCompleteWritingSessionMutation();
   const { data, refetch, isLoading } = useGetFinalEvaluationQuery(id || 0, {
     enabled: false,
+  });
+  const completeLessonMutation = useCompleteLessonMutation({
+    meta: {
+      ignoreGlobal: true,
+    },
   });
 
   const handleEndSession = () => {
@@ -50,6 +57,7 @@ const EndSessionButton = ({ id }: EndSessionButtonProps) => {
         toast.success(data.message || 'Kết thúc phiên học thành công!');
         setShowEvaluation(true);
         refetch();
+        if (lid) completeLessonMutation.mutateAsync(lid);
       },
       onError: (error: any) => {
         toast.error(error.message || 'Đã có lỗi xảy ra khi kết thúc phiên học.');
@@ -100,7 +108,7 @@ const EndSessionButton = ({ id }: EndSessionButtonProps) => {
             <FinalEvaluation
               data={data}
               onClose={() => {
-                router.push(`${ROUTE.TOPIC}`);
+                router.back();
                 setShowEvaluation(false);
               }}
             />

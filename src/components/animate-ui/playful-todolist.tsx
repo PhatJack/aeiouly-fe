@@ -9,6 +9,7 @@ import { cn } from '@/lib/utils';
 import { type Transition, motion } from 'motion/react';
 
 import { Checkbox } from '../ui/checkbox';
+import { ScrollArea } from '../ui/scroll-area';
 
 interface CheckboxItem {
   id: number;
@@ -41,7 +42,7 @@ function PlayfulTodolist({ list, className, onStatusChange }: PlayfulTodolistPro
   }
 
   return (
-    <div className={cn('divide-y p-4', className)}>
+    <ScrollArea className={cn('divide-y p-4', className)}>
       {list.map((item) => (
         <div key={item.id} className="flex items-center space-x-2 py-2">
           <Checkbox
@@ -82,7 +83,7 @@ function PlayfulTodolist({ list, className, onStatusChange }: PlayfulTodolistPro
           </div>
         </div>
       ))}
-    </div>
+    </ScrollArea>
   );
 }
 

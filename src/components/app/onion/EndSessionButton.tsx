@@ -23,24 +23,32 @@ import {
   DialogTitle,
 } from '@/components/ui/dialog';
 import { ROUTE } from '@/configs/route';
+import { useCompleteLessonMutation } from '@/services/learning-path';
 import { useGetSpeakingFinalEvaluationQuery } from '@/services/speaking-session';
 
 import FinalEvaluation from './FinalEvaluation';
 
 interface EndSessionButtonProps {
   id?: number;
+  lid?: number;
 }
 
-const EndSessionButton = ({ id }: EndSessionButtonProps) => {
+const EndSessionButton = ({ id, lid }: EndSessionButtonProps) => {
   const router = useRouter();
   const [openEvaluation, setOpenEvaluation] = useState(false);
   const { data, refetch, isLoading } = useGetSpeakingFinalEvaluationQuery(id || 0, {
     enabled: false,
   });
+  const completeLessonMutation = useCompleteLessonMutation({
+    meta: {
+      ignoreGlobal: true,
+    },
+  });
 
   const handleEnd = async () => {
     setOpenEvaluation(true);
     await refetch();
+    if (lid) await completeLessonMutation.mutateAsync(lid);
   };
 
   return (

@@ -13,6 +13,7 @@ import { useCreateReadingSessionMutation } from '@/services/reading-session/crea
 import { useCreateSpeakingSessionMutation } from '@/services/speaking-session/create-speaking-session.api';
 import { useCreateWritingSessionMutation } from '@/services/writing-session/create-writing-session.api';
 
+import { CheckCircle2Icon } from 'lucide-react';
 import { DynamicIcon } from 'lucide-react/dynamic';
 import { toast } from 'sonner';
 
@@ -86,9 +87,9 @@ const StudyRouteTimelineItem = ({ lesson }: StudyRouteTimelineItemProps) => {
               userLessonProgressId: lesson.id || 0,
               data: { session_id: listeningSession.id },
             });
-            router.push(`/listening/${listeningSession.id}?source=study-route`);
+            router.push(`/listening/${listeningSession.id}?source=study-route&lid=${lesson.id}`);
           } else {
-            router.push(`/listening/${lesson.session_id}?source=study-route`);
+            router.push(`/listening/${lesson.session_id}?source=study-route&lid=${lesson.id}`);
           }
           break;
 
@@ -104,9 +105,9 @@ const StudyRouteTimelineItem = ({ lesson }: StudyRouteTimelineItemProps) => {
               userLessonProgressId: lesson.id || 0,
               data: { session_id: readingSession.id },
             });
-            router.push(`/reading/${readingSession.id}?source=study-route`);
+            router.push(`/reading/${readingSession.id}?source=study-route&lid=${lesson.id}`);
           } else {
-            router.push(`/reading/${lesson.session_id}?source=study-route`);
+            router.push(`/reading/${lesson.session_id}?source=study-route&lid=${lesson.id}`);
           }
           break;
 
@@ -127,9 +128,9 @@ const StudyRouteTimelineItem = ({ lesson }: StudyRouteTimelineItemProps) => {
               userLessonProgressId: lesson.id || 0,
               data: { session_id: speakingSession.id },
             });
-            router.push(`/speaking/${speakingSession.id}?source=study-route`);
+            router.push(`/speaking/${speakingSession.id}?source=study-route&lid=${lesson.id}`);
           } else {
-            router.push(`/speaking/${lesson.session_id}?source=study-route`);
+            router.push(`/speaking/${lesson.session_id}?source=study-route&lid=${lesson.id}`);
           }
           break;
 
@@ -148,9 +149,9 @@ const StudyRouteTimelineItem = ({ lesson }: StudyRouteTimelineItemProps) => {
               userLessonProgressId: lesson.id || 0,
               data: { session_id: writingSession.id },
             });
-            router.push(`/writing/${writingSession.id}?source=study-route`);
+            router.push(`/writing/${writingSession.id}?source=study-route&lid=${lesson.id}`);
           } else {
-            router.push(`/writing/${lesson.session_id}?source=study-route`);
+            router.push(`/writing/${lesson.session_id}?source=study-route&lid=${lesson.id}`);
           }
           break;
 
@@ -172,7 +173,7 @@ const StudyRouteTimelineItem = ({ lesson }: StudyRouteTimelineItemProps) => {
   return (
     <div
       key={lesson.id}
-      className={`relative rounded-lg border p-3 ${
+      className={`relative overflow-hidden rounded-lg border p-3 ${
         isCompleted
           ? 'border-green-200 bg-green-50/50 dark:border-green-900 dark:bg-green-950/20'
           : isInProgress
@@ -183,7 +184,7 @@ const StudyRouteTimelineItem = ({ lesson }: StudyRouteTimelineItemProps) => {
       {isLoading && (
         <LoadingWithText
           text="Đang tạo phiên học"
-          className="bg-background absolute inset-0 size-full backdrop-blur-sm"
+          className="bg-background absolute inset-0 z-50 size-full backdrop-blur-sm"
         />
       )}
       <div className="flex items-start justify-between gap-3">
@@ -253,7 +254,7 @@ const StudyRouteTimelineItem = ({ lesson }: StudyRouteTimelineItemProps) => {
           onClick={handleStartLesson}
           className="shrink-0"
         >
-          {isCompleted && <DynamicIcon name="lock" className="mr-1 size-3" />}
+          {isCompleted && <DynamicIcon name="check-circle-2" className="size-4" />}
           {getStatusText(lesson.status)}
         </Button>
       </div>
