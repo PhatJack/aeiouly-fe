@@ -18,6 +18,9 @@ export const useGetMyLearningPathQuery = (
     queryKey: ['myLearningPath'],
     queryFn: () => getMyLearningPathApi(),
     refetchOnWindowFocus: false,
+    meta: {
+      ignoreGlobal: true,
+    },
     ...options,
   });
 };

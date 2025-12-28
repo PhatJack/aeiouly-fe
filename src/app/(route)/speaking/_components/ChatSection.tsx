@@ -23,6 +23,7 @@ import { useRecorder } from '@/hooks/use-recorder';
 import useTTS from '@/hooks/use-tts';
 import { SpeakingChatMessageResponseSchema } from '@/lib/schema/speaking-session.schema';
 import { cn } from '@/lib/utils';
+import { useCompleteLessonMutation } from '@/services/learning-path';
 import {
   useGetSpeakingChatHistoryQuery,
   useGetSpeakingFinalEvaluationQuery,
@@ -61,6 +62,11 @@ const ChatSection = ({ sessionId, className }: ChatSectionProps) => {
     });
   const sendChatMutation = useSendSpeakingChatMessageMutation();
   const speechToTextMutation = useSpeechToTextMutation();
+  const completeLessonMutation = useCompleteLessonMutation({
+    meta: {
+      ignoreGlobal: true,
+    },
+  });
   const [historyMessageIds, setHistoryMessageIds] = useState<Set<string>>(new Set());
   const [showSessionComplete, setShowSessionComplete] = useState(false);
   const [showEvaluation, setShowEvaluation] = useState(false);
@@ -125,6 +131,9 @@ const ChatSection = ({ sessionId, className }: ChatSectionProps) => {
         if (res.session?.status === 'completed') {
           setShowEvaluation(true);
           refetchFinalEvaluation();
+          if (searchParams.get('lid')) {
+            completeLessonMutation.mutate(Number(searchParams.get('lid')));
+          }
         }
       });
   };
@@ -175,6 +184,9 @@ const ChatSection = ({ sessionId, className }: ChatSectionProps) => {
               if (res.session?.status === 'completed') {
                 setShowEvaluation(true);
                 refetchFinalEvaluation();
+                if (searchParams.get('lid')) {
+                  completeLessonMutation.mutate(Number(searchParams.get('lid')));
+                }
               }
             },
           }

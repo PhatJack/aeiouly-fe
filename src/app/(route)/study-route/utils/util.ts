@@ -17,7 +17,7 @@ export const getSkillIcon = (skillType: string): IconName => {
 
 export const getStatusText = (status: string) => {
   switch (status) {
-    case 'completed':
+    case 'done':
       return 'Hoàn thành';
     case 'in_progress':
       return 'Tiếp tục';

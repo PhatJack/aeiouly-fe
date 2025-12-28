@@ -22,10 +22,10 @@ const StudyRoutePage = () => {
     data: learningPath,
     isLoading: isLearningPathLoading,
     error,
+    refetch,
   } = useGetMyLearningPathQuery({
     enabled: !showTimeline,
     retry: (failureCount, error: any) => {
-      console.log(error);
       if (error?.detail === 'Bạn chưa tạo lộ trình học tập nào.') return false;
       return failureCount < 3;
     },
@@ -56,7 +56,9 @@ const StudyRoutePage = () => {
           onSubmit={handleFormSubmit}
           status={learningPathStatus}
           isLoading={isLoading || createLearningPathMutation.isPending}
-          onViewRoute={() => setShowTimeline(true)}
+          onViewRoute={() => {
+            refetch();
+          }}
         />
       </div>
     );
