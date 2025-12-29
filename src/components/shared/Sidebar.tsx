@@ -9,6 +9,7 @@ import { useRouter } from 'nextjs-toploader/app';
 
 import { ROUTE } from '@/configs/route';
 import { useAuthStore } from '@/contexts/AuthContext';
+import { useWindowSize } from '@/hooks/use-window-size';
 import { cn } from '@/lib/utils';
 
 import {
@@ -137,6 +138,8 @@ const Sidebar = ({ isExpanded, handleToggleExpand }: SidebarProps) => {
   const router = useRouter();
   const user = useAuthStore((state) => state.user);
 
+  const { width } = useWindowSize();
+
   const shouldHide = useMemo(() => {
     return (
       /^\/writing\/\d+$/.test(pathname) ||
@@ -196,7 +199,12 @@ const Sidebar = ({ isExpanded, handleToggleExpand }: SidebarProps) => {
               <motion.li
                 key={`menu_item_${index}`}
                 id={item.id}
-                onClick={() => router.push(item.href)}
+                onClick={() => {
+                  router.push(item.href);
+                  if (width && width < 1024 && isExpanded) {
+                    handleToggleExpand?.();
+                  }
+                }}
                 data-navigation
                 className="hover:bg-primary/20 relative flex w-full cursor-pointer items-center rounded-2xl px-3.5 py-2.5 transition-all"
               >
