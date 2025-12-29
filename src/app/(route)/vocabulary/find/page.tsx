@@ -1,6 +1,8 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 
 import { Metadata } from 'next';
+
+import LoadingWithText from '@/components/LoadingWithText';
 
 import FindVocabularyPage from './FindVocabularyPage';
 
@@ -24,8 +26,12 @@ export const metadata: Metadata = {
   },
 };
 
-const Page = () => {
-  return <FindVocabularyPage />;
+const Page = ({ searchParams }: { searchParams: Promise<{ q?: string }> }) => {
+  return (
+    <Suspense fallback={<LoadingWithText text="Đang tải trang tra từ điển..." />}>
+      <FindVocabularyPage searchParams={searchParams} />
+    </Suspense>
+  );
 };
 
 export default Page;

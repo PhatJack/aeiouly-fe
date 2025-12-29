@@ -4,7 +4,7 @@ import {
   DictionarySearchResponseSchema,
 } from '@/lib/schema/dictionary.schema';
 import { ErrorResponseSchema } from '@/lib/schema/error';
-import { useQuery } from '@tanstack/react-query';
+import { UseQueryOptions, useQuery } from '@tanstack/react-query';
 
 export async function searchWordsApi(params: DictionarySearchRequestSchema) {
   const response = await apiClient.get<DictionarySearchResponseSchema>(
@@ -14,7 +14,13 @@ export async function searchWordsApi(params: DictionarySearchRequestSchema) {
   return response.data;
 }
 
-export const useSearchWordsQuery = (params: DictionarySearchRequestSchema, enabled = true) => {
+export const useSearchWordsQuery = (
+  params: DictionarySearchRequestSchema,
+  options?: Omit<
+    UseQueryOptions<DictionarySearchResponseSchema, ErrorResponseSchema>,
+    'queryKey' | 'queryFn'
+  >
+) => {
   return useQuery<DictionarySearchResponseSchema, ErrorResponseSchema>({
     queryKey: ['dictionary', 'search', params],
     queryFn: () => searchWordsApi(params),
@@ -22,6 +28,6 @@ export const useSearchWordsQuery = (params: DictionarySearchRequestSchema, enabl
     meta: {
       ignoreGlobal: true,
     },
-    enabled: enabled && !!params.query,
+    ...options,
   });
 };

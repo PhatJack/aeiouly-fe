@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React, { Suspense, use, useEffect, useState } from 'react';
 
 import { useRouter, useSearchParams } from 'next/navigation';
 
@@ -17,28 +17,23 @@ import DictionarySearchInput from './_components/DictionarySearchInput';
 import DictionaryWordCard from './_components/DictionaryWordCard';
 import DictionaryWordDetail from './_components/DictionaryWordDetail';
 
-const FindVocabularyPage = () => {
-  const router = useRouter();
-  const searchParams = useSearchParams();
-  const [searchQuery, setSearchQuery] = useState(searchParams.get('q') || '');
-  const [selectedWord, setSelectedWord] = useState<DictionaryResponseSchema | null>(null);
+interface FindVocabularyPageProps {
+  searchParams: Promise<{ q?: string }>;
+}
 
-  useEffect(() => {
-    const params = new URLSearchParams(searchParams.toString());
-    if (searchQuery) {
-      params.set('q', searchQuery);
-    } else {
-      params.delete('q');
-    }
-    router.replace(`?${params.toString()}`, { scroll: false });
-  }, [searchQuery, router, searchParams]);
+const FindVocabularyPage = ({ searchParams }: FindVocabularyPageProps) => {
+  const router = useRouter();
+  const params = use(searchParams);
+  const [selectedWord, setSelectedWord] = useState<DictionaryResponseSchema | null>(null);
 
   const { data, isLoading, isError } = useSearchWordsQuery(
     {
-      query: searchQuery,
+      query: params.q || '',
       limit: 20,
     },
-    !!searchQuery
+    {
+      enabled: !!params.q,
+    }
   );
 
   const handleWordSelect = (word: DictionaryResponseSchema) => {
@@ -50,8 +45,14 @@ const FindVocabularyPage = () => {
       <div className="grid gap-4 lg:grid-cols-[1fr_500px]">
         <div className="space-y-4">
           <DictionarySearchInput
-            value={searchQuery}
-            onChange={setSearchQuery}
+            value={params.q || ''}
+            onChange={(value) => {
+              const paramsURL = new URLSearchParams();
+              if (value) {
+                paramsURL.set('q', value);
+              }
+              router.replace(`?${paramsURL.toString()}`, { scroll: false });
+            }}
             placeholder="Nhập từ vựng cần tra cứu..."
           />
 
@@ -62,7 +63,7 @@ const FindVocabularyPage = () => {
           />
 
           {/* Results */}
-          {!searchQuery && (
+          {!params.q && (
             <EmptyCustom
               icon={<Search className="text-primary" />}
               title="Bắt đầu tìm kiếm"
@@ -70,7 +71,7 @@ const FindVocabularyPage = () => {
             />
           )}
 
-          {searchQuery && isLoading && (
+          {params.q && isLoading && (
             <div className="grid gap-4 lg:grid-cols-3">
               {[1, 2, 3, 4, 5].map((i) => (
                 <Skeleton key={i} className="h-32 rounded-xl" />
@@ -78,14 +79,14 @@ const FindVocabularyPage = () => {
             </div>
           )}
 
-          {searchQuery && isError && (
+          {params.q && isError && (
             <EmptyCustom
               icon={<BookOpen className="text-muted-foreground" />}
               title="Không thể tải dữ liệu"
               description="Đã xảy ra lỗi khi tìm kiếm từ vựng"
             />
           )}
-          {searchQuery && !isLoading && !isError && data && (
+          {params.q && !isLoading && !isError && data && (
             <>
               {data.items.length > 0 ? (
                 <ScrollArea>
@@ -104,7 +105,7 @@ const FindVocabularyPage = () => {
                 <EmptyCustom
                   icon={<BookOpen className="text-primary" />}
                   title="Không tìm thấy kết quả"
-                  description={`Không tìm thấy từ vựng "${searchQuery}" trong từ điển. Thử tìm kiếm với từ khóa khác.`}
+                  description={`Không tìm thấy từ vựng "${params.q}" trong từ điển. Thử tìm kiếm với từ khóa khác.`}
                 />
               )}
             </>

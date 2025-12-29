@@ -25,8 +25,14 @@ const DictionarySearchInput: React.FC<DictionarySearchInputProps> = ({
   const [debouncedValue] = useDebounceValue(localValue, debounceMs);
 
   useEffect(() => {
-    onChange(debouncedValue);
-  }, [debouncedValue, onChange]);
+    setLocalValue(value);
+  }, [value]);
+
+  useEffect(() => {
+    if (debouncedValue !== value) {
+      onChange(debouncedValue);
+    }
+  }, [debouncedValue, value, onChange]);
 
   const handleClear = () => {
     setLocalValue('');
