@@ -95,10 +95,20 @@ const VocabularyPage = () => {
             Quản lý và học tập với {vocabularySetsData?.total || 0} bộ từ vựng
           </p>
         </div>
-        <Button onClick={handleCreateNew} className="gap-2">
-          <Plus className="h-4 w-4" />
-          Tạo bộ từ mới
-        </Button>
+        <div className="flex items-center gap-4">
+          <Button onClick={handleCreateNew} className="gap-2">
+            <Plus className="h-4 w-4" />
+            Tạo bộ từ mới
+          </Button>
+          <Button
+            onClick={() => router.push('/vocabulary/find')}
+            variant={'secondary'}
+            className="gap-2"
+          >
+            <Plus className="h-4 w-4" />
+            Tìm kiếm từ vựng
+          </Button>
+        </div>
       </div>
 
       {/* Search */}

@@ -19,6 +19,9 @@ export const useSearchWordsQuery = (params: DictionarySearchRequestSchema, enabl
     queryKey: ['dictionary', 'search', params],
     queryFn: () => searchWordsApi(params),
     refetchOnWindowFocus: false,
+    meta: {
+      ignoreGlobal: true,
+    },
     enabled: enabled && !!params.query,
   });
 };
