@@ -9,7 +9,7 @@ import { useSoloStore } from '@/hooks/use-solo-store';
 
 import { Clock, Minus, OctagonAlert, Plus, X } from 'lucide-react';
 
-import PomodoroTimer from './PomodoroTimer';
+import PomodoroPiP from './pomodoro-pip';
 
 const Pomodoro: React.FC = () => {
   const {
@@ -44,9 +44,9 @@ const Pomodoro: React.FC = () => {
             <TooltipCustom
               content={
                 <p>
-                  Boost <strong>productivity</strong> with a focus session followed by a break.
-                  Toggle Loop automatically to repeat the cycle, or run a single focus-break
-                  session.
+                  Tăng cường <strong>năng suất</strong> với một <strong>phiên tập trung</strong>,
+                  sau đó là <strong>thời gian nghỉ</strong>. Bật chế độ{' '}
+                  <strong>Vòng lặp (Loop)</strong> để tự động lặp lại chu trình.
                 </p>
               }
             >
@@ -163,7 +163,7 @@ const Pomodoro: React.FC = () => {
               Reset thời gian
             </Button>
           )}
-          <PomodoroTimer />
+          <PomodoroPiP />
         </div>
       </div>
     </>
