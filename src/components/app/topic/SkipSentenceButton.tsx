@@ -17,6 +17,7 @@ import { Button } from '@/components/ui/button';
 import { WritingSessionContext } from '@/contexts/WritingSessionContext';
 import { useSkipCurrentSentenceMutation } from '@/services/writing-session/skip-current-sentence.api';
 
+import { Loader2 } from 'lucide-react';
 import { useContextSelector } from 'use-context-selector';
 
 interface SkipSentenceButtonProps {
@@ -24,6 +25,10 @@ interface SkipSentenceButtonProps {
 }
 
 const SkipSentenceButton = ({ id }: SkipSentenceButtonProps) => {
+  const handleSelectedSentenceIndex = useContextSelector(
+    WritingSessionContext,
+    (ctx) => ctx!.handleSelectedSentenceIndex
+  );
   const setSkipCurrentSentenceResponse = useContextSelector(
     WritingSessionContext,
     (ctx) => ctx!.setSkipCurrentSentenceResponse
@@ -32,6 +37,7 @@ const SkipSentenceButton = ({ id }: SkipSentenceButtonProps) => {
   const handleClick = useCallback(async () => {
     await skipSentenceMutation.mutateAsync({ sessionId: id ?? 0 }).then((response) => {
       setSkipCurrentSentenceResponse(response);
+      handleSelectedSentenceIndex?.(response.sentence_index || 0);
     });
   }, [id, skipSentenceMutation]);
 
@@ -39,7 +45,11 @@ const SkipSentenceButton = ({ id }: SkipSentenceButtonProps) => {
     <AlertDialog>
       <AlertDialogTrigger asChild>
         <Button variant="warning" size="lg" type="button">
-          Bỏ qua
+          {skipSentenceMutation.isPending ? (
+            <Loader2 size={20} className="animate-spin" />
+          ) : (
+            'Bỏ qua'
+          )}
         </Button>
       </AlertDialogTrigger>
       <AlertDialogContent>
