@@ -33,7 +33,7 @@ const ListeningLessonCard = ({ lesson, onClick }: ListeningLessonCardProps) => {
           {/* Thumbnail */}
           <div className="relative aspect-video w-full overflow-hidden">
             <Image
-              src={`https://img.youtube.com/vi/${UrlToEmbeded(lesson.youtube_url)?.videoId}/hqdefault.jpg`}
+              src={`https://img.youtube.com/vi/${UrlToEmbeded(lesson.youtube_url)?.videoId}/maxresdefault.jpg`}
               alt={lesson.title}
               className="object-cover transition-transform duration-300 group-hover:scale-105"
               sizes="(max-width: 768px) 100vw, 300px"

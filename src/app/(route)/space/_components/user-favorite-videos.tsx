@@ -116,12 +116,9 @@ const UserFavoriteVideos = () => {
                 </p>
                 <div className="relative aspect-video h-32 max-h-32 w-full overflow-hidden rounded-lg">
                   <Image
-                    src={
-                      backgroundVideo.image ??
-                      `https://img.youtube.com/vi/${
-                        backgroundVideo.youtube_url.split('v=')[1]
-                      }/1.jpg`
-                    }
+                    src={`https://img.youtube.com/vi/${
+                      backgroundVideo.youtube_url.split('v=')[1]
+                    }/maxresdefault.jpg`}
                     fill
                     alt={backgroundVideo.name}
                     sizes="(min-width: 60em) 24vw, (min-width: 28em) 45vw, 100vw"
