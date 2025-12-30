@@ -119,13 +119,25 @@ export const StreakNotificationDialog: React.FC = () => {
                 transition={{ delay: 0.2 }}
               >
                 {isNewRecord ? (
-                  <span className="bg-gradient-to-r from-orange-600 to-yellow-600 bg-clip-text text-transparent dark:from-orange-400 dark:to-yellow-400">
-                    🏆 Kỷ lục mới!
-                  </span>
+                  <>
+                    <span className="sr-only">Kỷ lục mới!</span>
+                    <span
+                      aria-hidden="true"
+                      className="bg-gradient-to-r from-orange-600 to-yellow-600 bg-clip-text text-transparent dark:from-orange-400 dark:to-yellow-400"
+                    >
+                      🏆 Kỷ lục mới!
+                    </span>
+                  </>
                 ) : (
-                  <span className="bg-gradient-to-r from-orange-600 to-yellow-600 bg-clip-text text-transparent dark:from-orange-400 dark:to-yellow-400">
-                    🎉 Streak tiếp tục!
-                  </span>
+                  <>
+                    <span className="sr-only">Streak tiếp tục!</span>
+                    <span
+                      aria-hidden="true"
+                      className="bg-gradient-to-r from-orange-600 to-yellow-600 bg-clip-text text-transparent dark:from-orange-400 dark:to-yellow-400"
+                    >
+                      🎉 Streak tiếp tục!
+                    </span>
+                  </>
                 )}
               </motion.div>
             </AlertDialogTitle>
