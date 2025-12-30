@@ -88,12 +88,6 @@ const FinalEvaluation = ({ data, onClose }: FinalEvaluationProps) => {
           })}
         </div>
       )}
-
-      <div className="flex justify-center pt-2">
-        <Button onClick={onClose} size="lg" className="min-w-[200px]">
-          Hoàn tất
-        </Button>
-      </div>
     </div>
   );
 };

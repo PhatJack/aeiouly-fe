@@ -8,7 +8,7 @@ import { formatTime, usePomodoroStore } from '@/hooks/use-pomodoro-store';
 
 import { PictureInPicture } from 'lucide-react';
 
-const PomodoroTimer: React.FC = () => {
+const PomodoroPiP: React.FC = () => {
   const { remainingTime, isRunning, toggleTimer } = usePomodoroStore();
 
   const [isPipActive, setIsPipActive] = useState(false);
@@ -162,4 +162,4 @@ const PomodoroTimer: React.FC = () => {
   );
 };
 
-export default React.memo(PomodoroTimer);
+export default React.memo(PomodoroPiP);

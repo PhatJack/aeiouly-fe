@@ -118,9 +118,7 @@ const UserFavoriteVideos = () => {
                   <Image
                     src={
                       backgroundVideo.image ??
-                      `https://img.youtube.com/vi/${
-                        backgroundVideo.youtube_url.split('v=')[1]
-                      }/1.jpg`
+                      `https://img.youtube.com/vi/${backgroundVideo.youtube_url.split('v=')[1]}/hqdefault.jpg`
                     }
                     fill
                     alt={backgroundVideo.name}

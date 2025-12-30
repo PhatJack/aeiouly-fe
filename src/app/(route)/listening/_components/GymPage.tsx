@@ -5,6 +5,7 @@ import React, { useState } from 'react';
 import { useRouter } from 'nextjs-toploader/app';
 
 import PageHeader from '@/components/PageHeader';
+import EmptyCustom from '@/components/custom/EmptyCustom';
 import PaginationCustom from '@/components/custom/PaginationCustom';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -109,11 +110,11 @@ const GymPage = () => {
                 placeholder="Tìm kiếm bài học theo tiêu đề hoặc chủ đề..."
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
-                className="h-12 pr-4 pl-11 transition-all duration-200"
+                className="pr-4 pl-11 transition-all duration-200"
               />
             </div>
             <Select value={level} onValueChange={setLevel}>
-              <SelectTrigger className="w-full shadow-sm transition-all duration-200 data-[size=default]:h-12 sm:w-[200px]">
+              <SelectTrigger className="w-full shadow-sm transition-all duration-200 sm:w-[200px]">
                 <Filter className="mr-2 h-4 w-4" />
                 <SelectValue placeholder="Tất cả cấp độ" />
               </SelectTrigger>
@@ -150,16 +151,12 @@ const GymPage = () => {
 
           {/* Error State */}
           {isError && (
-            <div className="bg-card rounded-2xl border p-8 text-center shadow-sm">
-              <div className="bg-destructive/10 mb-4 inline-flex h-16 w-16 items-center justify-center rounded-full">
-                <Headphones className="text-destructive h-8 w-8" />
-              </div>
-              <h3 className="text-foreground mb-2 text-lg font-semibold">Không thể tải dữ liệu</h3>
-              <p className="text-muted-foreground mb-4">
-                Đã xảy ra lỗi khi tải danh sách bài học. Vui lòng thử lại sau.
-              </p>
-              <Button onClick={() => refetch()}>Thử lại</Button>
-            </div>
+            <EmptyCustom
+              icon={<Headphones className="text-muted-foreground h-12 w-12" />}
+              title="Không thể tải dữ liệu"
+              description="Đã xảy ra lỗi khi tải danh sách bài học. Vui lòng thử lại sau."
+              content={<Button onClick={() => refetch()}>Thử lại</Button>}
+            />
           )}
 
           {/* Lessons List */}

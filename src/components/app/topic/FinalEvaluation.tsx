@@ -1,6 +1,5 @@
 import React from 'react';
 
-import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
 import { FinalEvaluationResponseSchema } from '@/lib/schema/writing-session.schema';
 import { getScoreColor, getScoreLabel } from '@/lib/utils';
@@ -10,7 +9,7 @@ interface FinalEvaluationProps {
   onClose?: () => void;
 }
 
-const FinalEvaluation = ({ data, onClose }: FinalEvaluationProps) => {
+const FinalEvaluation = ({ data }: FinalEvaluationProps) => {
   return (
     <div className="space-y-6 py-4">
       {/* Overall Score */}
@@ -98,19 +97,6 @@ const FinalEvaluation = ({ data, onClose }: FinalEvaluationProps) => {
           })}
         </div>
       )}
-
-      {/* Action Button */}
-      <div className="flex justify-center pt-2">
-        <Button
-          onClick={() => {
-            onClose && onClose();
-          }}
-          size="lg"
-          className="min-w-[200px]"
-        >
-          Hoàn tất
-        </Button>
-      </div>
     </div>
   );
 };

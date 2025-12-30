@@ -1,7 +1,8 @@
 'use client';
 
-import React from 'react';
+import React, { useMemo } from 'react';
 
+import { usePathname } from 'next/navigation';
 import { useRouter } from 'nextjs-toploader/app';
 
 import AvatarCustom from '@/components/custom/AvatarCustom';
@@ -24,7 +25,6 @@ import { LogOut, PanelRightClose, Settings, User2 } from 'lucide-react';
 import { toast } from 'sonner';
 import { useContextSelector } from 'use-context-selector';
 
-import TooltipCustom from '../custom/TooltipCustom';
 import { ModeToggle } from '../mode-toggle';
 import HeaderShortcutStreak from './streak/HeaderShortcutStreak';
 
@@ -34,11 +34,20 @@ interface HeaderProps {
 }
 
 const Header = ({ isExpanded, handleToggleExpand }: HeaderProps) => {
+  const pathname = usePathname();
   const disconnect = useContextSelector(WebSocketContext, (ctx) => ctx?.disconnect);
   const router = useRouter();
   const user = useAuthStore((state) => state.user);
   const logoutMutation = useLogoutMutation();
 
+  const shouldHide = useMemo(() => {
+    return (
+      /^\/writing\/\d+$/.test(pathname) ||
+      /^\/reading\/\d+$/.test(pathname) ||
+      /^\/speaking\/\d+$/.test(pathname) ||
+      /^\/listening\/\d+$/.test(pathname)
+    );
+  }, [pathname]);
   const handleLogout = async () => {
     try {
       await logoutMutation.mutateAsync();
@@ -58,13 +67,15 @@ const Header = ({ isExpanded, handleToggleExpand }: HeaderProps) => {
     <header className="bg-background/75 sticky top-0 z-50 border-b px-4 py-2 backdrop-blur-sm">
       <div className="flex w-full items-center justify-between">
         <div className="flex items-center gap-4">
-          <Button
-            variant={isExpanded ? 'default' : 'outline'}
-            className="h-10 rounded-full [&_svg:not([class*='size-'])]:size-4"
-            onClick={handleToggleExpand}
-          >
-            {isExpanded ? <PanelRightClose className="rotate-180" /> : <PanelRightClose />}
-          </Button>
+          {shouldHide ? null : (
+            <Button
+              variant={isExpanded ? 'default' : 'outline'}
+              className="h-10 rounded-full [&_svg:not([class*='size-'])]:size-4"
+              onClick={handleToggleExpand}
+            >
+              {isExpanded ? <PanelRightClose className="rotate-180" /> : <PanelRightClose />}
+            </Button>
+          )}
           <h1 className="font-semibold sm:text-lg">
             Xin chào, {user?.full_name || user?.username || 'User'}
           </h1>

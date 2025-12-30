@@ -377,13 +377,13 @@ const VocabularyDialog = ({ textSelection, open, onOpenChange }: VocabularyDialo
         {addVocabularyMutation.isPending && (
           <LoadingWithText
             text="Đang thêm từ vựng..."
-            className="fixed inset-0 size-full bg-gray-50 backdrop-blur-sm"
+            className="fixed inset-0 size-full bg-gray-50 backdrop-blur-sm dark:bg-gray-800"
           />
         )}
         {createSetMutation.isPending && (
           <LoadingWithText
             text="Đang tạo bộ từ vựng..."
-            className="fixed inset-0 size-full bg-gray-50 backdrop-blur-sm"
+            className="fixed inset-0 size-full bg-gray-50 backdrop-blur-sm dark:bg-gray-800"
           />
         )}
       </DialogContent>
