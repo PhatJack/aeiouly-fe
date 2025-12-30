@@ -3,43 +3,54 @@
 import React, { useMemo } from 'react';
 
 import { useTheme } from 'next-themes';
+import Image from 'next/image';
 
 import LoadingWithText from '@/components/LoadingWithText';
-import TooltipCustom from '@/components/custom/TooltipCustom';
-import { Separator } from '@/components/ui/separator';
+import { cn } from '@/lib/utils';
 import { useGetOnlineStreakStatsQuery } from '@/services/online';
 
-import { ChartNoAxesColumn, Clock, OctagonAlert, Trophy, UserRoundCog } from 'lucide-react';
+import { Clock, Trophy, UserRoundCog } from 'lucide-react';
 
 const StudyStat = () => {
-  const { theme } = useTheme();
   const studyStatsQuery = useGetOnlineStreakStatsQuery();
 
   const studyStats = useMemo(() => studyStatsQuery.data, [studyStatsQuery]);
 
-  const getLevelColor = (level: string | undefined) => {
-    if (!level) return '#9CA3AF'; // Default color for undefined level
-    const colorMap: Record<string, { light: string; dark: string }> = {
-      newbie: { light: '#9CA3AF', dark: '#6B7280' },
-      bronze: { light: '#CD7F32', dark: '#B87333' },
-      silver: { light: '#C0C0C0', dark: '#A8A8A8' },
-      gold: { light: '#FFD700', dark: '#FFC107' },
-      diamond: { light: '#4DD0E1', dark: '#26C6DA' },
-      legend: { light: '#FF5722', dark: '#FF7043' },
+  const getLevelBadge = (level: string) => {
+    const labelMap: Record<string, string> = {
+      newbie: '/streak-rank/newbie.png',
+      bronze: '/streak-rank/bronze.png',
+      silver: '/streak-rank/silver.png',
+      gold: '/streak-rank/gold.png',
+      diamond: '/streak-rank/diamond.png',
+      legend: '/streak-rank/legend.png',
     };
-    return colorMap[level]?.[theme === 'dark' ? 'dark' : 'light'];
+    return labelMap[level] || '/streak-rank/newbie.png';
   };
 
   const getLevelLabel = (level: string) => {
     const labelMap: Record<string, string> = {
-      newbie: 'Người mới',
-      bronze: 'Đồng',
-      silver: 'Bạc',
-      gold: 'Vàng',
-      diamond: 'Kim cương',
-      legend: 'Huyền thoại',
+      newbie: 'Mọt sách', // Cách gọi vui vẻ
+      bronze: 'Học viên',
+      silver: 'Học khá',
+      gold: 'Học giỏi',
+      diamond: 'Học bá', // Từ lóng chỉ người học cực giỏi (Top tier)
+      legend: 'Học thần', // Trên cả Học bá, đẳng cấp thần thánh
     };
     return labelMap[level] || level;
+  };
+
+  const rankStyles: Record<string, string> = {
+    newbie: 'text-slate-500 font-medium',
+    bronze:
+      'bg-gradient-to-r from-orange-700 to-orange-500 bg-clip-text text-transparent drop-shadow-sm',
+    silver:
+      'bg-gradient-to-r from-slate-400 via-gray-300 to-slate-400 bg-clip-text text-transparent drop-shadow',
+    gold: 'bg-gradient-to-r from-yellow-500 via-amber-400 to-yellow-600 bg-clip-text text-transparent drop-shadow-md shadow-yellow-500/50',
+    diamond:
+      'bg-gradient-to-r from-cyan-400 via-blue-500 to-indigo-600 bg-clip-text text-transparent drop-shadow-[0_0_10px_rgba(59,130,246,0.5)]',
+    legend:
+      'bg-gradient-to-r from-fuchsia-500 via-red-500 to-orange-500 bg-clip-text text-transparent animate-shine bg-[length:200%_auto] drop-shadow-[0_0_15px_rgba(236,72,153,0.6)]',
   };
 
   return (
@@ -76,36 +87,41 @@ const StudyStat = () => {
             </div>
           </div>
 
-          {/* Level */}
-          <div className="bg-muted/50 space-y-3 rounded-lg border p-4">
+          <div className="group relative overflow-hidden rounded-lg border p-4">
             <div className="flex items-center gap-4">
-              <div className="bg-background flex h-11 w-11 items-center justify-center rounded-lg shadow-sm">
-                <UserRoundCog />
+              <div className="relative">
+                {studyStats?.level && (
+                  <Image
+                    width={80}
+                    height={80}
+                    src={getLevelBadge(studyStats.level)}
+                    alt={getLevelLabel(studyStats.level)}
+                    sizes="100vw"
+                    className="object-contain drop-shadow-lg transition-transform group-hover:scale-110"
+                  />
+                )}
               </div>
-
-              <div>
-                <p className="text-muted-foreground text-xs">Cấp độ hiện tại</p>
-                <span
-                  className="inline-flex items-center rounded-full px-3 py-1 text-sm font-bold"
-                  style={{
-                    backgroundColor: getLevelColor(studyStats?.level) + '20',
-                    color: getLevelColor(studyStats?.level),
-                  }}
-                >
-                  {studyStats?.level ? getLevelLabel(studyStats.level) : 'N/A'}
-                </span>
+              <div className="flex-1">
+                <p className="text-muted-foreground text-xs font-medium">Cấp độ của bạn</p>
+                {studyStats?.level && (
+                  <p className={cn(rankStyles[studyStats.level], 'text-2xl font-extrabold')}>
+                    {getLevelLabel(studyStats.level)}
+                  </p>
+                )}
               </div>
             </div>
 
             {studyStats?.next_milestone && (
-              <p className="text-muted-foreground text-xs">
-                Còn{' '}
-                <strong className="text-foreground">
-                  {studyStats.remaining_to_next_milestone} ngày
-                </strong>{' '}
-                để đạt mốc{' '}
-                <strong className="text-foreground">{studyStats.next_milestone} ngày</strong>
-              </p>
+              <div className="bg-background/50 mt-3 rounded-sm p-2">
+                <p className="text-muted-foreground text-xs">
+                  Còn{' '}
+                  <strong className="text-primary">
+                    {studyStats.remaining_to_next_milestone} ngày
+                  </strong>{' '}
+                  để đạt mốc{' '}
+                  <strong className="text-primary">{studyStats.next_milestone} ngày</strong>
+                </p>
+              </div>
             )}
           </div>
         </div>

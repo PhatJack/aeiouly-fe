@@ -3,20 +3,13 @@
 import React, { useEffect } from 'react';
 import { useInView } from 'react-intersection-observer';
 
-import CreatePost from '@/components/app/news/CreatePost';
 import PostItem from '@/components/app/news/PostItem';
-import { useAuthStore } from '@/contexts/AuthContext';
 import { useInfiniteGetAllPostsQuery } from '@/services/posts';
 import { useInfiniteQuery } from '@tanstack/react-query';
 
 const NewsPage = () => {
-  const user = useAuthStore((state) => state.user);
   const { ref, inView } = useInView();
-  const {
-    data: posts,
-    fetchNextPage,
-    isFetchingNextPage,
-  } = useInfiniteQuery({
+  const { data: posts, fetchNextPage } = useInfiniteQuery({
     ...useInfiniteGetAllPostsQuery(),
   });
 

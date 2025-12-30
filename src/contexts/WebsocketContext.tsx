@@ -2,9 +2,12 @@
 
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 
+import { StreakNotificationDialog } from '@/components/streak/StreakNotificationDialog';
 import { getMeApi } from '@/services/auth/get-me.api';
 
 import { createContext, useContextSelector } from 'use-context-selector';
+
+import { useAuthStore } from './AuthContext';
 
 interface WebSocketContextType {
   connected: boolean;
@@ -19,6 +22,7 @@ interface WebSocketProviderProps {
 }
 
 export const WebSocketProvider: React.FC<WebSocketProviderProps> = ({ children }) => {
+  const user = useAuthStore((state) => state.user);
   const [connected, setConnected] = useState(false);
   const wsRef = useRef<WebSocket | null>(null);
   const reconnectTimeoutRef = useRef<number | null>(null);
@@ -92,14 +96,16 @@ export const WebSocketProvider: React.FC<WebSocketProviderProps> = ({ children }
   useEffect(() => {
     const checkAuthAndConnect = async () => {
       try {
-        await getMeApi();
-        setAutoConnect(true);
-        connect();
-        window.dispatchEvent(
-          new CustomEvent('auth:changed', {
-            detail: { status: 'logged_in', source: 'mount_check' },
-          })
-        );
+        if (!user) return;
+        else {
+          setAutoConnect(true);
+          connect();
+          window.dispatchEvent(
+            new CustomEvent('auth:changed', {
+              detail: { status: 'logged_in', source: 'mount_check' },
+            })
+          );
+        }
       } catch {
         setAutoConnect(false);
       }
@@ -139,7 +145,7 @@ export const WebSocketProvider: React.FC<WebSocketProviderProps> = ({ children }
       wsRef.current?.close(1000, 'Component unmount');
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [user]);
 
   const value: WebSocketContextType = useMemo(
     () => ({
@@ -150,7 +156,12 @@ export const WebSocketProvider: React.FC<WebSocketProviderProps> = ({ children }
     [connected]
   );
 
-  return <WebSocketContext.Provider value={value}>{children}</WebSocketContext.Provider>;
+  return (
+    <WebSocketContext.Provider value={value}>
+      {children}
+      <StreakNotificationDialog />
+    </WebSocketContext.Provider>
+  );
 };
 
 export { WebSocketContext };

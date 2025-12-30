@@ -6,8 +6,7 @@ import Image from 'next/image';
 
 import LoadingWithText from '@/components/LoadingWithText';
 import AvatarCustom from '@/components/custom/AvatarCustom';
-import PaginationCustom from '@/components/custom/PaginationCustom';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import EmptyCustom from '@/components/custom/EmptyCustom';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { ScrollArea } from '@/components/ui/scroll-area';
@@ -17,19 +16,6 @@ import { Flame, TrendingUp, Trophy } from 'lucide-react';
 
 const Leaderboard = () => {
   const { data, isLoading, error } = useGetOnlineStreakLeaderboardQuery();
-
-  const getMedalEmoji = (rank: number) => {
-    switch (rank) {
-      case 1:
-        return '🥇';
-      case 2:
-        return '🥈';
-      case 3:
-        return '🥉';
-      default:
-        return `#${rank}`;
-    }
-  };
 
   const getStreakBadgeVariant = (streak: number) => {
     if (streak >= 30) return 'default';
@@ -44,14 +30,7 @@ const Leaderboard = () => {
 
   if (error) {
     return (
-      <Card className="w-full">
-        <CardHeader>
-          <CardTitle>Lỗi</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <p className="text-destructive">Không thể tải bảng xếp hạng. Vui lòng thử lại sau.</p>
-        </CardContent>
-      </Card>
+      <EmptyCustom title="Lỗi" description="Không thể tải bảng xếp hạng. Vui lòng thử lại sau." />
     );
   }
 
@@ -85,17 +64,13 @@ const Leaderboard = () => {
                   >
                     {/* Rank */}
                     <div className="flex size-12 items-center justify-center text-lg font-bold">
-                      {index < 3 ? (
-                        <Image
-                          src={`/rank/rank${index + 1}.gif`}
-                          alt={`Rank ${rank}`}
-                          width={48}
-                          height={48}
-                          unoptimized
-                        />
-                      ) : (
-                        getMedalEmoji(rank)
-                      )}
+                      <Image
+                        src={`/leaderboard/rank${index + 1}.png`}
+                        alt={`Rank ${rank}`}
+                        width={48}
+                        height={48}
+                        sizes="100vw"
+                      />
                     </div>
 
                     {/* Avatar */}
