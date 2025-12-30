@@ -60,6 +60,9 @@ export const useChangePasswordMutation = () => {
   return useMutation<any, ErrorResponseSchema, ChangePasswordSchema>({
     mutationKey: ['changePassword'],
     mutationFn: (body: ChangePasswordSchema) => changePasswordApi(body),
+    meta: {
+      ignoreGlobal: true,
+    },
   });
 };
 

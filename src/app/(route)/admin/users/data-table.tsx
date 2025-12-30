@@ -42,6 +42,10 @@ interface DataTableProps<TData, TValue> {
   onPaginationChange?: (pagination: { pageIndex: number; pageSize: number }) => void;
   searchTerm?: string;
   onSearchChange?: (value: string) => void;
+  roleFilter?: string;
+  onRoleChange?: (value: string) => void;
+  isActiveFilter?: string;
+  onIsActiveChange?: (value: string) => void;
 }
 
 export function DataTable<TData, TValue>({
@@ -54,6 +58,10 @@ export function DataTable<TData, TValue>({
   onPaginationChange,
   searchTerm = '',
   onSearchChange,
+  roleFilter = 'all',
+  onRoleChange,
+  isActiveFilter = 'all',
+  onIsActiveChange,
 }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([]);
@@ -100,12 +108,7 @@ export function DataTable<TData, TValue>({
             onChange={(event) => onSearchChange?.(event.target.value)}
             className="max-w-sm"
           />
-          <Select
-            value={(table.getColumn('role')?.getFilterValue() as string) ?? 'all'}
-            onValueChange={(value) =>
-              table.getColumn('role')?.setFilterValue(value === 'all' ? '' : value)
-            }
-          >
+          <Select value={roleFilter} onValueChange={onRoleChange}>
             <SelectTrigger className="w-[180px]">
               <SelectValue placeholder="Vai trò" />
             </SelectTrigger>
@@ -115,12 +118,7 @@ export function DataTable<TData, TValue>({
               <SelectItem value="user">Người dùng</SelectItem>
             </SelectContent>
           </Select>
-          <Select
-            value={(table.getColumn('is_active')?.getFilterValue() as string) ?? 'all'}
-            onValueChange={(value) =>
-              table.getColumn('is_active')?.setFilterValue(value === 'all' ? '' : value)
-            }
-          >
+          <Select value={isActiveFilter} onValueChange={onIsActiveChange}>
             <SelectTrigger className="w-[180px]">
               <SelectValue placeholder="Trạng thái" />
             </SelectTrigger>

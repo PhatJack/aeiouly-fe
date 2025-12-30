@@ -49,11 +49,11 @@ export default function DeleteAccountPage() {
         className="text-destructive"
       />
 
-      <div className="max-w-2xl space-y-6">
+      <div className="max-w-2xl space-y-4">
         {!showConfirm ? (
           <div className="space-y-4">
             <p className="text-foreground/80 text-base">Trước khi xóa tài khoản, vui lòng lưu ý:</p>
-            <ul className="text-foreground/80 list-disc space-y-2 pl-6 text-sm font-medium">
+            <ul className="text-foreground/80 list-disc space-y-2 pl-4 text-sm font-medium">
               <li>Tất cả dữ liệu cá nhân của bạn sẽ bị xóa vĩnh viễn</li>
               <li>Bạn sẽ mất quyền truy cập vào tất cả các khóa học và tài nguyên</li>
               <li>Không thể khôi phục tài khoản sau khi xóa</li>
@@ -71,7 +71,7 @@ export default function DeleteAccountPage() {
             </div>
           </div>
         ) : (
-          <div className="space-y-6">
+          <div className="space-y-4">
             <div className="space-y-2">
               <Label htmlFor="confirm">
                 Để xác nhận, vui lòng nhập{' '}
