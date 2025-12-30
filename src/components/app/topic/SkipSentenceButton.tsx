@@ -39,7 +39,7 @@ const SkipSentenceButton = ({ id }: SkipSentenceButtonProps) => {
       setSkipCurrentSentenceResponse(response);
       handleSelectedSentenceIndex?.(response.sentence_index || 0);
     });
-  }, [id, skipSentenceMutation]);
+  }, [id, skipSentenceMutation, setSkipCurrentSentenceResponse, handleSelectedSentenceIndex]);
 
   return (
     <AlertDialog>

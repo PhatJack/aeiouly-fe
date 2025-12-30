@@ -85,7 +85,6 @@ const DictionaryWordDetail: React.FC<DictionaryWordDetailProps> = ({ word }) => 
                 result &&
                 !(result as any).error &&
                 'pronunciation' in result &&
-                !(result as any).error &&
                 result?.pronunciation && (
                   <PronunciationPlayer pronunciations={result ? result.pronunciation : []} />
                 )
