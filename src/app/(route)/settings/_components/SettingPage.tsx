@@ -22,7 +22,7 @@ import { ChangePasswordSchema, changePasswordSchema } from '@/services/auth/forg
 import { useChangePasswordMutation } from '@/services/auth/forgot-password.api';
 import { zodResolver } from '@hookform/resolvers/zod';
 
-import { CheckCircle, Eye, EyeOff, Lock } from 'lucide-react';
+import { CheckCircle, Eye, EyeOff, Loader2, Lock } from 'lucide-react';
 import { toast } from 'sonner';
 
 const SettingPage = () => {
@@ -149,8 +149,12 @@ const SettingPage = () => {
 
               {/* Submit Button */}
               <Button type="submit" disabled={isPending} className="w-full">
-                <CheckCircle className="h-5 w-5" />
-                Cập nhật mật khẩu
+                {isPending ? (
+                  <Loader2 className="animate-spin" />
+                ) : (
+                  <CheckCircle className="h-5 w-5" />
+                )}
+                {isPending ? 'Đang cập nhật...' : 'Cập nhật mật khẩu'}
               </Button>
             </form>
           </Form>
