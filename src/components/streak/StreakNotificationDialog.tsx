@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 import {
   AlertDialog,
@@ -24,6 +24,7 @@ interface StreakMessage {
 export const StreakNotificationDialog: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [streakData, setStreakData] = useState<StreakMessage | null>(null);
+  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
     const handleWebSocketMessage = (event: Event) => {
@@ -32,11 +33,16 @@ export const StreakNotificationDialog: React.FC = () => {
 
       // Check if this is a streak message
       if (data && typeof data === 'object' && 'current_streak' in data && 'message' in data) {
+        // Clear any existing timeout before setting a new one
+        if (timeoutRef.current) {
+          clearTimeout(timeoutRef.current);
+        }
+
         setStreakData(data as StreakMessage);
         setIsOpen(true);
 
         // Auto-close after 5 seconds
-        setTimeout(() => {
+        timeoutRef.current = setTimeout(() => {
           setIsOpen(false);
         }, 5000);
       }
@@ -46,6 +52,10 @@ export const StreakNotificationDialog: React.FC = () => {
 
     return () => {
       window.removeEventListener('ws:message', handleWebSocketMessage);
+      // Clean up timeout on unmount
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+      }
     };
   }, []);
 
