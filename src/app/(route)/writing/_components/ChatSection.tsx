@@ -11,10 +11,12 @@ import SessionCompleteDialog from '@/components/app/topic/SessionCompleteDialog'
 import MessageContainer from '@/components/shared/chat/MessageContainer';
 import MessageInput from '@/components/shared/chat/MessageInput';
 import MessageItem from '@/components/shared/chat/MessageItem';
+import { Button } from '@/components/ui/button';
 import {
   Dialog,
   DialogContent,
   DialogDescription,
+  DialogFooter,
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog';
@@ -170,15 +172,18 @@ const ChatSection = ({ sessionId, className }: ChatSectionProps) => {
             <DialogDescription>Dưới đây là kết quả chi tiết về phiên học của bạn</DialogDescription>
           </DialogHeader>
           {isLoadingEvaluation && <LoadingWithText text="Đang tải kết quả đánh giá..." />}
-          {finalEvaluation && (
-            <FinalEvaluation
-              data={finalEvaluation}
-              onClose={() => {
-                router.replace(ROUTE.TOPIC);
-                setShowEvaluation(false);
+          {finalEvaluation && <FinalEvaluation data={finalEvaluation} />}
+          <DialogFooter className="sm:justify-center">
+            <Button
+              onClick={() => {
+                router.push(ROUTE.TOPIC);
               }}
-            />
-          )}
+              size="lg"
+              className="min-w-[200px]"
+            >
+              Hoàn tất
+            </Button>
+          </DialogFooter>
         </DialogContent>
       </Dialog>
     </>

@@ -19,6 +19,7 @@ import {
   Dialog,
   DialogContent,
   DialogDescription,
+  DialogFooter,
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog';
@@ -74,22 +75,27 @@ const EndSessionButton = ({ id, lid }: EndSessionButtonProps) => {
       <Dialog open={openEvaluation} onOpenChange={setOpenEvaluation}>
         <DialogContent
           onInteractOutside={(e) => e.preventDefault()}
-          className="max-h-[90vh] max-w-3xl min-w-3xl overflow-y-auto"
+          className="max-h-[90vh] max-w-3xl min-w-3xl overflow-y-auto px-4"
         >
           <DialogHeader>
             <DialogTitle className="text-2xl font-bold">Kết quả đánh giá</DialogTitle>
             <DialogDescription>Chi tiết kết quả phiên luyện nói của bạn</DialogDescription>
           </DialogHeader>
-          {isLoading && <LoadingWithText text="Đang tải kết quả đánh giá..." />}
-          {data && (
-            <FinalEvaluation
-              data={data}
-              onClose={() => {
-                setOpenEvaluation(false);
-                router.push(ROUTE.ONION);
-              }}
-            />
-          )}
+          {isLoading && <LoadingWithText text="Đang đánh giá phiên học..." />}
+          {data && <FinalEvaluation data={data} />}
+          <DialogFooter className="sm:justify-center">
+            {!isLoading && (
+              <Button
+                onClick={() => {
+                  router.push(ROUTE.ONION);
+                }}
+                size="lg"
+                className="min-w-[200px]"
+              >
+                Hoàn tất
+              </Button>
+            )}
+          </DialogFooter>
         </DialogContent>
       </Dialog>
     </>

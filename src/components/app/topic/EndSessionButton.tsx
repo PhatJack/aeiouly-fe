@@ -18,6 +18,7 @@ import {
   Dialog,
   DialogContent,
   DialogDescription,
+  DialogFooter,
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog';
@@ -86,7 +87,7 @@ const EndSessionButton = ({ id, lid }: EndSessionButtonProps) => {
         </AlertDialogContent>
       </AlertDialog>
 
-      <Dialog open={showEvaluation} onOpenChange={setShowEvaluation}>
+      <Dialog open={showEvaluation} onOpenChange={setShowEvaluation} modal={true}>
         <DialogContent
           onInteractOutside={(e) => {
             e.preventDefault();
@@ -104,15 +105,20 @@ const EndSessionButton = ({ id, lid }: EndSessionButtonProps) => {
             </DialogDescription>
           </DialogHeader>
 
-          {data && (
-            <FinalEvaluation
-              data={data}
-              onClose={() => {
-                router.back();
-                setShowEvaluation(false);
-              }}
-            />
-          )}
+          {data && <FinalEvaluation data={data} />}
+          <DialogFooter className="sm:justify-center">
+            {!isLoading && (
+              <Button
+                onClick={() => {
+                  router.push(ROUTE.ONION);
+                }}
+                size="lg"
+                className="min-w-[200px]"
+              >
+                Hoàn tất
+              </Button>
+            )}
+          </DialogFooter>
         </DialogContent>
       </Dialog>
     </>
