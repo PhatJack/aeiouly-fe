@@ -2,7 +2,6 @@
 
 import React, { useMemo } from 'react';
 
-import { useTheme } from 'next-themes';
 import Image from 'next/image';
 
 import LoadingWithText from '@/components/LoadingWithText';
