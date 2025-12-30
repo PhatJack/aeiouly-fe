@@ -3,7 +3,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
 
 import Image from 'next/image';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 
 import {
   AlertDialog,
@@ -28,6 +28,7 @@ import {
   SheetHeader,
   SheetTitle,
 } from '@/components/ui/sheet';
+import { useDebounceValue } from '@/hooks/use-debounce-value';
 import { UserResponseSchema } from '@/lib/schema/user.schema';
 import {
   useDeleteUserMutation,
@@ -38,8 +39,7 @@ import {
 
 import { format } from 'date-fns';
 import { vi } from 'date-fns/locale';
-import debounce from 'lodash.debounce';
-import { Calendar, Lock, Mail, Shield, Trash2, User, UserCheck, UserX } from 'lucide-react';
+import { Calendar, Lock, Shield, Trash2, User, UserCheck, UserX } from 'lucide-react';
 import { toast } from 'sonner';
 
 import { createColumns } from './columns';
@@ -47,30 +47,45 @@ import { DataTable } from './data-table';
 
 const UsersTable = () => {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const [selectedUser, setSelectedUser] = useState<UserResponseSchema | null>(null);
   const [isSheetOpen, setIsSheetOpen] = useState(false);
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [resetPasswordDialogOpen, setResetPasswordDialogOpen] = useState(false);
   const [userToDelete, setUserToDelete] = useState<UserResponseSchema | null>(null);
   const [newPassword, setNewPassword] = useState('');
-  const [pagination, setPagination] = useState({ page: 1, size: 10, search: '' });
-  const [searchTerm, setSearchTerm] = useState('');
-
-  const { data } = useGetAllUsersQuery(pagination);
-
-  const debouncedSearch = useCallback(
-    debounce((searchValue: string) => {
-      setPagination((prev) => ({ ...prev, search: searchValue, page: 1 }));
-    }, 500),
-    []
-  );
+  const [filters, setFilters] = useState({
+    page: Number(searchParams.get('page')) || 1,
+    size: Number(searchParams.get('size')) || 10,
+    query: searchParams.get('query') || '',
+    role: (searchParams.get('role') as 'user' | 'admin' | undefined) || undefined,
+    is_active: searchParams.get('is_active') ? searchParams.get('is_active') === 'true' : undefined,
+  });
+  const [searchTerm, setSearchTerm] = useState(filters.query);
+  const [debouncedSearchTerm] = useDebounceValue(searchTerm, 300);
+  const { data } = useGetAllUsersQuery(filters);
 
   useEffect(() => {
-    debouncedSearch(searchTerm);
-    return () => {
-      debouncedSearch.cancel();
-    };
-  }, [searchTerm, debouncedSearch]);
+    setFilters((prev) => ({
+      ...prev,
+      query: debouncedSearchTerm,
+      page: debouncedSearchTerm !== prev.query ? 1 : prev.page,
+    }));
+  }, [debouncedSearchTerm]);
+
+  useEffect(() => {
+    const params = new URLSearchParams();
+    if (filters.page !== 1) params.set('page', filters.page.toString());
+    if (filters.size !== 10) params.set('size', filters.size.toString());
+    if (filters.query) {
+      params.set('query', filters.query);
+    }
+    if (filters.role) params.set('role', filters.role);
+    if (filters.is_active !== undefined) params.set('is_active', filters.is_active.toString());
+    if (params.toString() === searchParams.toString()) return;
+    const newUrl = params.toString() ? `?${params.toString()}` : '';
+    router.replace(`/admin/users${newUrl}`, { scroll: false });
+  }, [filters, router]);
 
   const deleteUserMutation = useDeleteUserMutation();
   const updateUserMutation = useUpdateUserMutation();
@@ -92,7 +107,6 @@ const UsersTable = () => {
     deleteUserMutation.mutate(userToDelete.id, {
       onSuccess: () => {
         toast.success('Xóa người dùng thành công!');
-        router.refresh();
         setDeleteDialogOpen(false);
         setUserToDelete(null);
         if (selectedUser?.id === userToDelete.id) {
@@ -119,7 +133,6 @@ const UsersTable = () => {
               ? 'Vô hiệu hóa người dùng thành công!'
               : 'Kích hoạt người dùng thành công!'
           );
-          router.refresh();
           if (selectedUser?.id === user.id) {
             setSelectedUser({ ...user, is_active: !user.is_active });
           }
@@ -172,10 +185,26 @@ const UsersTable = () => {
   });
 
   const handlePaginationChange = (newPagination: { pageIndex: number; pageSize: number }) => {
-    setPagination((prev) => ({
+    setFilters((prev) => ({
       ...prev,
       page: newPagination.pageIndex + 1, // API uses 1-based pagination
       size: newPagination.pageSize,
+    }));
+  };
+
+  const handleRoleChange = (value: string) => {
+    setFilters((prev) => ({
+      ...prev,
+      role: value === 'all' ? undefined : (value as 'user' | 'admin'),
+      page: 1,
+    }));
+  };
+
+  const handleIsActiveChange = (value: string) => {
+    setFilters((prev) => ({
+      ...prev,
+      is_active: value === 'all' ? undefined : value === 'true',
+      page: 1,
     }));
   };
 
@@ -192,12 +221,16 @@ const UsersTable = () => {
         columns={columns}
         data={data?.items || []}
         onRowClick={handleRowClick}
-        pageCount={data?.total ? Math.ceil(data.total / pagination.size) : 0}
-        pageIndex={pagination.page - 1} // Table uses 0-based pagination
-        pageSize={pagination.size}
+        pageCount={data?.total ? Math.ceil(data.total / filters.size) : 0}
+        pageIndex={filters.page - 1} // Table uses 0-based pagination
+        pageSize={filters.size}
         onPaginationChange={handlePaginationChange}
         searchTerm={searchTerm}
         onSearchChange={setSearchTerm}
+        roleFilter={filters.role || 'all'}
+        onRoleChange={handleRoleChange}
+        isActiveFilter={filters.is_active === undefined ? 'all' : filters.is_active.toString()}
+        onIsActiveChange={handleIsActiveChange}
       />
 
       {/* Detail Sheet */}
