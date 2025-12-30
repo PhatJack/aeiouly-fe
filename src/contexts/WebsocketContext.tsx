@@ -97,15 +97,14 @@ export const WebSocketProvider: React.FC<WebSocketProviderProps> = ({ children }
     const checkAuthAndConnect = async () => {
       try {
         if (!user) return;
-        else {
-          setAutoConnect(true);
-          connect();
-          window.dispatchEvent(
-            new CustomEvent('auth:changed', {
-              detail: { status: 'logged_in', source: 'mount_check' },
-            })
-          );
-        }
+
+        setAutoConnect(true);
+        connect();
+        window.dispatchEvent(
+          new CustomEvent('auth:changed', {
+            detail: { status: 'logged_in', source: 'mount_check' },
+          })
+        );
       } catch {
         setAutoConnect(false);
       }
