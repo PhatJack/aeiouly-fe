@@ -30,6 +30,10 @@ export default function RootLayout({
     );
   }, [location]);
 
+  const isAdminRoute = useMemo(() => {
+    return location.startsWith('/admin');
+  }, [location]);
+
   useEffect(() => {
     if (/^\/space(\/.*)?$/.test(location)) {
       setIsExpanded(false);
@@ -44,7 +48,8 @@ export default function RootLayout({
         className={cn(
           'bg-card relative min-h-screen w-full flex-1 transition-[margin] lg:border-l',
           isExpanded ? 'lg:ml-60' : 'lg:ml-[72px]',
-          shouldHide && 'lg:ml-0'
+          shouldHide && 'lg:ml-0',
+          isAdminRoute && 'overflow-hidden'
         )}
       >
         {location !== ROUTE.SPACE && (
