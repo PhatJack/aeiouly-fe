@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 
 import { usePathname } from 'next/navigation';
 
@@ -27,8 +27,13 @@ export default function RootLayout({
       /^\/reading\/\d+$/.test(location) ||
       /^\/speaking\/\d+$/.test(location) ||
       /^\/listening\/\d+$/.test(location)
-      // /^\/admin(\/.*)?$/.test(location)
     );
+  }, [location]);
+
+  useEffect(() => {
+    if (/^\/space(\/.*)?$/.test(location)) {
+      setIsExpanded(false);
+    }
   }, [location]);
 
   return (

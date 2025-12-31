@@ -96,12 +96,12 @@ const Leaderboard = () => {
                         <Flame className="h-3 w-3" />
                         {item.current_streak} ngày
                       </Badge>
-                      {item.longest_streak > item.current_streak && (
-                        <div className="text-muted-foreground flex items-center gap-1 text-xs">
-                          <TrendingUp className="h-3 w-3" />
-                          <span>Cao nhất: {item.longest_streak}</span>
-                        </div>
-                      )}
+                      {/* {item.longest_streak > item.current_streak && ( */}
+                      <div className="text-muted-foreground flex items-center gap-1 text-xs">
+                        <TrendingUp className="h-3 w-3" />
+                        <span>Cao nhất: {item.longest_streak}</span>
+                      </div>
+                      {/* )} */}
                     </div>
                   </div>
                 );
