@@ -38,7 +38,7 @@ export const createColumns = ({ onDelete }: ColumnProps): ColumnDef<LessonRespon
     cell: ({ row }) => {
       const title = row.getValue('title') as string;
       return (
-        <div className="max-w-[300px]">
+        <div className="max-w-[400px]">
           <p className="line-clamp-2 text-sm">{title}</p>
         </div>
       );
