@@ -25,6 +25,9 @@ export const useGetLessonsQuery = (
     queryKey: ['lessons', params],
     queryFn: () => getLessonsApi(params),
     refetchOnWindowFocus: false,
+    meta: {
+      ignoreGlobal: true,
+    },
     ...options,
   });
 };

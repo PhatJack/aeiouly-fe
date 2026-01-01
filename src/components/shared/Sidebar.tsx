@@ -216,7 +216,7 @@ const Sidebar = ({ isExpanded, handleToggleExpand }: SidebarProps) => {
                   transition={{ duration: 0.2 }}
                   className={cn(
                     'text-sm font-medium whitespace-nowrap',
-                    pathname === item.href && 'text-secondary-foreground',
+                    pathname === item.href && 'text-white',
                     isExpanded ? 'pointer-events-auto' : 'pointer-events-none'
                   )}
                 >

@@ -40,6 +40,7 @@ const GymPage = () => {
   const { data: listeningSessions } = useGetListeningSessionsQuery();
   const { data, isLoading, isError, refetch } = useGetLessonsQuery({
     page,
+    size: 12,
     level: level == 'all' ? undefined : level,
     search: search || undefined,
   });

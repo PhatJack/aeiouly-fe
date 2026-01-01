@@ -51,7 +51,7 @@ const ProfilePage = () => {
     <div className="mx-auto grid w-full gap-4 xl:grid-cols-12">
       <div className="w-full space-y-4 xl:col-span-4">
         <StreakSection />
-        <div className="relative min-h-44 w-full overflow-hidden rounded-xl border p-4 font-semibold">
+        {/* <div className="relative min-h-44 w-full overflow-hidden rounded-xl border p-4 font-semibold">
           <p className="text-lg">
             Tôi <span className="text-primary">sắp nói được tiếng anh</span> vì đã mở miệng được
           </p>
@@ -68,7 +68,7 @@ const ProfilePage = () => {
             <span className="text-secondary">1</span> ngày
           </p>
           <WaveAnimation color="#24d0a3" className="h-full max-h-12" speed={10} />
-        </div>
+        </div> */}
       </div>
       <div className="space-y-4 xl:col-span-8">
         <div className="space-y-4">
@@ -118,7 +118,7 @@ const ProfilePage = () => {
           </div>
         </div>
 
-        {user?.role === 'user' ? (
+        {/* {user?.role === 'user' ? (
           <div className="space-y-4 divide-y">
             <div className="flex w-full flex-col items-center justify-center gap-4 rounded-xl border p-4">
               <p className="font-semibold">
@@ -130,7 +130,7 @@ const ProfilePage = () => {
               <p className="font-semibold">lần</p>
             </div>
           </div>
-        ) : null}
+        ) : null} */}
       </div>
       {/* Edit Email Dialog */}
       <EditFieldDialog

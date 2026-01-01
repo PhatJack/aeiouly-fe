@@ -2,7 +2,7 @@
 
 import React, { useCallback, useEffect, useState } from 'react';
 
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 
 import { getQueryClient } from '@/app/get-query-client';
 import CreateLessonForm from '@/components/app/listening/CreateLessonForm';
@@ -43,13 +43,19 @@ import { DataTable } from './data-table';
 const ListeningTestsTable = () => {
   const queryClient = getQueryClient();
   const router = useRouter();
+  const searchParams = useSearchParams();
   const [selectedLesson, setSelectedLesson] = useState<LessonResponseSchema | null>(null);
   const [isSheetOpen, setIsSheetOpen] = useState(false);
   const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false);
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [lessonToDelete, setLessonToDelete] = useState<LessonResponseSchema | null>(null);
-  const [pagination, setPagination] = useState({ page: 1, size: 10, search: '' });
-  const [searchTerm, setSearchTerm] = useState('');
+  const [pagination, setPagination] = useState({
+    page: Number(searchParams.get('page')) || 1,
+    size: Number(searchParams.get('size')) || 10,
+    search: searchParams.get('search') || '',
+    level: searchParams.get('level') || undefined,
+  });
+  const [searchTerm, setSearchTerm] = useState(pagination.search);
 
   const { data } = useGetLessonsQuery(pagination);
 
@@ -66,6 +72,17 @@ const ListeningTestsTable = () => {
       debouncedSearch.cancel();
     };
   }, [searchTerm, debouncedSearch]);
+
+  useEffect(() => {
+    const params = new URLSearchParams();
+    if (pagination.page !== 1) params.set('page', pagination.page.toString());
+    if (pagination.size !== 10) params.set('size', pagination.size.toString());
+    if (pagination.search) params.set('search', pagination.search);
+    if (pagination.level) params.set('level', pagination.level);
+    if (params.toString() === searchParams.toString()) return;
+    const newUrl = params.toString() ? `?${params.toString()}` : '';
+    router.replace(`/admin/listening-tests${newUrl}`, { scroll: false });
+  }, [pagination, router]);
 
   const deleteLessonMutation = useDeleteLessonMutation();
 
@@ -111,6 +128,14 @@ const ListeningTestsTable = () => {
     }));
   };
 
+  const handleLevelChange = (value: string) => {
+    setPagination((prev) => ({
+      ...prev,
+      level: value === 'all' ? undefined : value,
+      page: 1,
+    }));
+  };
+
   return (
     <>
       <div className="mb-4 flex items-center justify-between">
@@ -134,6 +159,8 @@ const ListeningTestsTable = () => {
         onPaginationChange={handlePaginationChange}
         searchTerm={searchTerm}
         onSearchChange={setSearchTerm}
+        levelFilter={pagination.level || 'all'}
+        onLevelChange={handleLevelChange}
       />
 
       {/* Detail Sheet */}

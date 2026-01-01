@@ -5,6 +5,13 @@ import * as React from 'react';
 import { DataTablePagination } from '@/components/app/table/DataTablePagination';
 import { Input } from '@/components/ui/input';
 import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
+import {
   Table,
   TableBody,
   TableCell,
@@ -35,6 +42,8 @@ interface DataTableProps<TData, TValue> {
   onPaginationChange?: (pagination: { pageIndex: number; pageSize: number }) => void;
   searchTerm?: string;
   onSearchChange?: (value: string) => void;
+  levelFilter?: string;
+  onLevelChange?: (value: string) => void;
 }
 
 export function DataTable<TData, TValue>({
@@ -47,6 +56,8 @@ export function DataTable<TData, TValue>({
   onPaginationChange,
   searchTerm = '',
   onSearchChange,
+  levelFilter = 'all',
+  onLevelChange,
 }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([]);
@@ -93,21 +104,20 @@ export function DataTable<TData, TValue>({
             onChange={(event) => onSearchChange?.(event.target.value)}
             className="max-w-sm"
           />
-          {/* <Select
-            value={(table.getColumn('is_published')?.getFilterValue() as string) ?? 'all'}
-            onValueChange={(value) =>
-              table.getColumn('is_published')?.setFilterValue(value === 'all' ? '' : value)
-            }
-          >
+          <Select value={levelFilter} onValueChange={onLevelChange}>
             <SelectTrigger className="w-[180px]">
-              <SelectValue placeholder="Trạng thái" />
+              <SelectValue placeholder="Cấp độ" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="all">Tất cả</SelectItem>
-              <SelectItem value="true">Đã xuất bản</SelectItem>
-              <SelectItem value="false">Nháp</SelectItem>
+              <SelectItem value="all">Tất cả cấp độ</SelectItem>
+              <SelectItem value="A1">A1</SelectItem>
+              <SelectItem value="A2">A2</SelectItem>
+              <SelectItem value="B1">B1</SelectItem>
+              <SelectItem value="B2">B2</SelectItem>
+              <SelectItem value="C1">C1</SelectItem>
+              <SelectItem value="C2">C2</SelectItem>
             </SelectContent>
-          </Select> */}
+          </Select>
         </div>
       </div>
 

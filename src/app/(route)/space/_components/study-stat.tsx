@@ -60,7 +60,7 @@ const StudyStat = () => {
         <div className="grid gap-3">
           {/* Current streak */}
           <div className="group bg-muted/50 hover:bg-muted flex items-center gap-4 rounded-lg border p-4 transition">
-            <div className="bg-background flex h-11 w-11 items-center justify-center rounded-lg shadow-sm">
+            <div className="bg-background dark:bg-accent flex size-12 items-center justify-center rounded-lg shadow-sm">
               <Clock className="text-primary" />
             </div>
             <div>
@@ -74,7 +74,7 @@ const StudyStat = () => {
 
           {/* Longest streak */}
           <div className="group bg-muted/50 hover:bg-muted flex items-center gap-4 rounded-lg border p-4 transition">
-            <div className="bg-background flex h-11 w-11 items-center justify-center rounded-lg shadow-sm">
+            <div className="bg-background dark:bg-accent flex size-12 items-center justify-center rounded-lg shadow-sm">
               <Trophy className="text-yellow-500" />
             </div>
             <div>
@@ -103,7 +103,13 @@ const StudyStat = () => {
               <div className="flex-1">
                 <p className="text-muted-foreground text-xs font-medium">Cấp độ của bạn</p>
                 {studyStats?.level && (
-                  <p className={cn(rankStyles[studyStats.level], 'text-2xl font-extrabold')}>
+                  <p
+                    className={cn(
+                      rankStyles[studyStats.level],
+                      'line-clamp-1 text-2xl font-extrabold'
+                    )}
+                    title={getLevelLabel(studyStats.level)}
+                  >
                     {getLevelLabel(studyStats.level)}
                   </p>
                 )}

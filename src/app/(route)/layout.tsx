@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 
 import { usePathname } from 'next/navigation';
 
@@ -27,8 +27,17 @@ export default function RootLayout({
       /^\/reading\/\d+$/.test(location) ||
       /^\/speaking\/\d+$/.test(location) ||
       /^\/listening\/\d+$/.test(location)
-      // /^\/admin(\/.*)?$/.test(location)
     );
+  }, [location]);
+
+  const isAdminRoute = useMemo(() => {
+    return location.startsWith('/admin');
+  }, [location]);
+
+  useEffect(() => {
+    if (/^\/space(\/.*)?$/.test(location)) {
+      setIsExpanded(false);
+    }
   }, [location]);
 
   return (
@@ -39,7 +48,8 @@ export default function RootLayout({
         className={cn(
           'bg-card relative min-h-screen w-full flex-1 transition-[margin] lg:border-l',
           isExpanded ? 'lg:ml-60' : 'lg:ml-[72px]',
-          shouldHide && 'lg:ml-0'
+          shouldHide && 'lg:ml-0',
+          isAdminRoute && 'overflow-hidden'
         )}
       >
         {location !== ROUTE.SPACE && (

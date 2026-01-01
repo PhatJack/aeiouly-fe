@@ -95,7 +95,7 @@ const StreakSection = () => {
       </Card>
 
       {/* Stats Card */}
-      <Card className="bg-background gap-0 px-1 py-1 shadow-none dark:bg-transparent">
+      {/* <Card className="bg-background gap-0 px-1 py-1 shadow-none dark:bg-transparent">
         <CardHeader>
           <div className="mx-auto rounded-full px-4 py-1">
             <Label className="text-muted-foreground text-sm font-medium">
@@ -104,7 +104,6 @@ const StreakSection = () => {
           </div>
         </CardHeader>
         <CardContent className="dark:bg-background space-y-4 rounded-lg bg-white px-2 py-4">
-          {/* Stats Grid */}
           <div className="grid grid-cols-4 divide-x">
             <div className="flex flex-col items-center gap-1">
               <span className="text-muted-foreground text-xs font-semibold">Ngày</span>
@@ -124,7 +123,7 @@ const StreakSection = () => {
             </div>
           </div>
         </CardContent>
-      </Card>
+      </Card> */}
     </div>
   );
 };

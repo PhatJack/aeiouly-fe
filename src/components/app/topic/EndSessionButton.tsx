@@ -1,4 +1,4 @@
-import React, { memo, useState } from 'react';
+import React, { memo, useEffect, useState } from 'react';
 
 import { useRouter } from 'nextjs-toploader/app';
 
@@ -66,6 +66,12 @@ const EndSessionButton = ({ id, lid }: EndSessionButtonProps) => {
     });
   };
 
+  useEffect(() => {
+    return () => {
+      setShowEvaluation(false);
+    };
+  }, []);
+
   return (
     <>
       <AlertDialog>
@@ -87,7 +93,7 @@ const EndSessionButton = ({ id, lid }: EndSessionButtonProps) => {
         </AlertDialogContent>
       </AlertDialog>
 
-      <Dialog open={showEvaluation} onOpenChange={setShowEvaluation} modal={true}>
+      <Dialog open={showEvaluation} onOpenChange={setShowEvaluation}>
         <DialogContent
           onInteractOutside={(e) => {
             e.preventDefault();
