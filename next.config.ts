@@ -33,6 +33,12 @@ const nextConfig: NextConfig = {
         port: '',
         pathname: '/randomusers/assets/avatars/**',
       },
+      {
+        protocol: 'https',
+        hostname: 'i1.sndcdn.com',
+        port: '',
+        pathname: '/artworks-**',
+      },
     ],
   },
   async rewrites() {

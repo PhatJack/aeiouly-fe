@@ -7,7 +7,6 @@ import { usePathname } from 'next/navigation';
 
 import TooltipCustom from '@/components/custom/TooltipCustom';
 import { Button } from '@/components/ui/button';
-import { cn } from '@/lib/utils';
 
 import { motion } from 'motion/react';
 
@@ -39,7 +38,7 @@ const AIChatBox = () => {
           initial={{ y: 30, scale: 0.8, opacity: 0 }}
           animate={{ y: 0, scale: 1, opacity: 1 }}
           transition={{ type: 'spring', stiffness: 300, damping: 20 }}
-          className="group relative"
+          className="group relative size-fit"
         >
           <TooltipCustom variant="information" content="Ho Ho Ho! Cần giúp gì không nhỉ?">
             <Button

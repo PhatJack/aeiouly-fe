@@ -1,6 +1,6 @@
 import { PanelType } from '@/hooks/use-solo-store';
 
-import { ImageIcon, Quote, TrendingUp, Volume2 } from 'lucide-react';
+import { ImageIcon, Music, Quote, TrendingUp, Volume2 } from 'lucide-react';
 
 export interface MenuButtonItem {
   label: string;
@@ -10,17 +10,22 @@ export interface MenuButtonItem {
 
 export const menuButton: MenuButtonItem[] = [
   {
-    label: 'Background',
+    label: 'Soundcloud Player',
+    variable: 'soundcloudPlayer',
+    icon: Music,
+  },
+  {
+    label: 'Video | Ảnh nền',
     variable: 'backgroundIframe',
     icon: ImageIcon,
   },
   {
-    label: 'Sounds',
+    label: 'Âm thanh nền',
     variable: 'sound',
     icon: Volume2,
   },
   {
-    label: 'Study Stats',
+    label: 'Thống kê học tập',
     variable: 'studyStats',
     icon: TrendingUp,
   },

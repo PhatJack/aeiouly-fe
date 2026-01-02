@@ -86,7 +86,7 @@ const AddTodoForm = ({ isDisplayIcon = true, className }: Props) => {
                 {...field}
                 disabled={isLoading}
                 className="h-6 border-none bg-transparent px-2 shadow-none focus-visible:ring-0 dark:bg-transparent"
-                placeholder="Type a goal..."
+                placeholder="Nhập mục tiêu..."
               />
             </div>
           </Field>

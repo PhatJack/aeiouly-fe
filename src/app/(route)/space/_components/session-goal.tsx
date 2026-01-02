@@ -75,7 +75,7 @@ const SessionGoal = () => {
       <div className="flex items-center justify-between">
         <span className="inline-flex items-center gap-1 text-xs">
           <Target size={14} />
-          <strong>Session Goal</strong>
+          <strong>Mục tiêu phiên</strong>
         </span>
         <div className="flex items-center gap-2">
           <TooltipCustom

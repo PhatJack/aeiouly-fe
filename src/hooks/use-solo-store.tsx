@@ -4,7 +4,7 @@ import { SoundBaseSchema } from '@/lib/schema/sound.schema';
 import { create } from 'zustand';
 import { devtools, persist } from 'zustand/middleware';
 
-export type PanelType = 'quote' | 'studyStats' | 'backgroundIframe' | 'sound';
+export type PanelType = 'soundcloudPlayer' | 'studyStats' | 'backgroundIframe' | 'sound';
 
 interface SoloStore {
   // State
@@ -20,6 +20,7 @@ interface SoloStore {
   activeSounds: SoundBaseSchema[];
   completedGoals: SessionGoalBaseSchema[];
   totalOpenGoals: number;
+  soundcloudUrl: string;
 
   // Actions
   toggleButton: (key: 'isOpenPomodoro' | 'isOpenSessionGoal') => void;
@@ -33,6 +34,7 @@ interface SoloStore {
   saveActiveSounds: (sounds: SoundBaseSchema[]) => void;
   saveCompletedGoal: (goal: SessionGoalBaseSchema) => void;
   saveOpenGoals: (count: number) => void;
+  setSoundcloudUrl: (url: string) => void;
 }
 
 export const useSoloStore = create<SoloStore>()(
@@ -55,6 +57,7 @@ export const useSoloStore = create<SoloStore>()(
         activeSounds: [],
         completedGoals: [],
         totalOpenGoals: 0,
+        soundcloudUrl: '',
 
         // Actions
         toggleButton: (key) => set((state) => ({ [key]: !state[key] })),
@@ -84,11 +87,14 @@ export const useSoloStore = create<SoloStore>()(
           })),
 
         saveOpenGoals: (count) => set({ totalOpenGoals: count }),
+
+        setSoundcloudUrl: (url) => set({ soundcloudUrl: url }),
       }),
       {
         name: 'solo-storage', // localStorage key
         partialize: (state) => ({
-          backgroundURL: state.backgroundURL, // Only persist this
+          backgroundURL: state.backgroundURL,
+          soundcloudUrl: state.soundcloudUrl, // Persist soundcloud URL
         }),
       }
     )
