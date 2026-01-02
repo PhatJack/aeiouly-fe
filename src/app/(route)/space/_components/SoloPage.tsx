@@ -29,7 +29,7 @@ const SoloPage = () => {
         <div className="relative mb-4 flex size-full h-12 items-center justify-between">
           <StickyMenu />
         </div>
-        <div className="sticky top-0 h-[calc(100vh-3rem-1rem-2.5rem-0.5rem)] overflow-hidden rounded-md">
+        <div className="sticky top-0 h-[calc(100vh-3rem-1rem-2rem)] overflow-hidden rounded-md">
           <StickyContainer />
         </div>
       </div>

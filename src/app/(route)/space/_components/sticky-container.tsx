@@ -27,6 +27,10 @@ const PomodoroDynamic = dynamic(() => import('./pomodoro'), {
   ssr: false,
   loading: () => <Skeleton className="h-[500px] w-72" />,
 });
+const SoundcloudPlayerDynamic = dynamic(() => import('./soundcloud-player'), {
+  ssr: false,
+  loading: () => <Skeleton className="h-20 w-full" />,
+});
 
 const StickyContainer = () => {
   const { isOpenPomodoro, isOpenSessionGoal, activePanel } = useSoloStore();
@@ -45,6 +49,9 @@ const StickyContainer = () => {
         {activePanel === 'sound' ? <SoundListDynamic /> : null}
         {activePanel === 'studyStats' ? <StudyStatDynamic /> : null}
         {activePanel === 'backgroundIframe' ? <BackgroundListDynamic /> : null}
+      </div>
+      <div className="fixed bottom-0 left-1/2 -translate-x-1/2 md:absolute">
+        {activePanel === 'soundcloudPlayer' ? <SoundcloudPlayerDynamic /> : null}
       </div>
     </>
   );

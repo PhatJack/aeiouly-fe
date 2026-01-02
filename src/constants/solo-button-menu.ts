@@ -1,6 +1,6 @@
 import { PanelType } from '@/hooks/use-solo-store';
 
-import { ImageIcon, Quote, TrendingUp, Volume2 } from 'lucide-react';
+import { ImageIcon, Music, Quote, TrendingUp, Volume2 } from 'lucide-react';
 
 export interface MenuButtonItem {
   label: string;
@@ -9,6 +9,11 @@ export interface MenuButtonItem {
 }
 
 export const menuButton: MenuButtonItem[] = [
+  {
+    label: 'Soundcloud Player',
+    variable: 'soundcloudPlayer',
+    icon: Music,
+  },
   {
     label: 'Background',
     variable: 'backgroundIframe',
