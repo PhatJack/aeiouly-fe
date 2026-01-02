@@ -162,7 +162,7 @@ const Sidebar = ({ isExpanded, handleToggleExpand }: SidebarProps) => {
         )}
       >
         <div className="flex items-center p-1">
-          <Link href={ROUTE.HOME} className="flex items-center">
+          <Link href={ROUTE.APP} className="flex items-center">
             <div className="relative size-10 overflow-hidden rounded-full">
               <Image
                 fill

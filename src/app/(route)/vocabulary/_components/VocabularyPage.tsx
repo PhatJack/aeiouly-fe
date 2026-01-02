@@ -12,10 +12,7 @@ import EmptyCustom from '@/components/custom/EmptyCustom';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Skeleton } from '@/components/ui/skeleton';
-import {
-  VocabularySetCreateSchema,
-  VocabularySetResponseSchema,
-} from '@/lib/schema/vocabulary.schema';
+import { VocabularySetCreateSchema } from '@/lib/schema/vocabulary.schema';
 import {
   useCreateVocabularySetMutation,
   useDeleteVocabularySetMutation,
@@ -23,7 +20,7 @@ import {
   useUpdateVocabularySetMutation,
 } from '@/services/vocabulary';
 
-import { BookOpen, CircleAlert, Plus, Search } from 'lucide-react';
+import { Binoculars, BookOpen, CircleAlert, Plus, Search } from 'lucide-react';
 import { toast } from 'sonner';
 
 const VocabularyPage = () => {
@@ -105,7 +102,7 @@ const VocabularyPage = () => {
             variant={'secondary'}
             className="gap-2"
           >
-            <Plus className="h-4 w-4" />
+            <Binoculars className="h-4 w-4" />
             Tìm kiếm từ vựng
           </Button>
         </div>

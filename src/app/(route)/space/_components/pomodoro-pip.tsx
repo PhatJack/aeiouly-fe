@@ -146,7 +146,7 @@ const PomodoroPiP: React.FC = () => {
 
   return (
     <>
-      <TooltipCustom content={isPipActive ? 'Exit PiP' : 'Mini Timer (PiP)'}>
+      <TooltipCustom content={isPipActive ? 'Thoát PiP' : 'Chế độ hình trong hình (PiP)'}>
         <Button variant={isPipActive ? 'secondary' : 'outline'} size="icon" onClick={togglePiP}>
           <PictureInPicture size={18} />
         </Button>

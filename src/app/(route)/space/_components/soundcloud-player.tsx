@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 import Image from 'next/image';
 
@@ -10,7 +10,6 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { HoverCard, HoverCardContent, HoverCardTrigger } from '@/components/ui/hover-card';
 import { Input } from '@/components/ui/input';
-import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { Slider } from '@/components/ui/slider';
 import { useSoloStore } from '@/hooks/use-solo-store';
 import { cn } from '@/lib/utils';
@@ -25,14 +24,16 @@ declare global {
 
 const formatTime = (ms: number) => {
   const totalSeconds = Math.floor(ms / 1000);
-  const minutes = Math.floor(totalSeconds / 60);
+  const hours = Math.floor(totalSeconds / 3600);
+  const minutes = Math.floor((totalSeconds % 3600) / 60);
   const seconds = totalSeconds % 60;
-  return `${minutes}:${seconds.toString().padStart(2, '0')}`;
+  return `${hours > 0 ? hours + ':' : ''}${minutes}:${seconds.toString().padStart(2, '0')}`;
 };
 
 const SoundcloudPlayer = () => {
   const iframeRef = useRef<HTMLIFrameElement>(null);
   const widgetRef = useRef<any>(null);
+  const timerRef = useRef<NodeJS.Timeout | null>(null);
 
   const url = useSoloStore((state) => state.soundcloudUrl);
   const setSoundcloudUrl = useSoloStore((state) => state.setSoundcloudUrl);
@@ -56,18 +57,40 @@ const SoundcloudPlayer = () => {
     document.body.appendChild(script);
   }, []);
 
-  const loadTrack = () => {
-    if (!url.includes('soundcloud.com')) {
-      setError('Vui lòng nhập URL hợp lệ từ SoundCloud.');
+  // Load track when URL changes
+  useEffect(() => {
+    if (!url || !url.includes('soundcloud.com')) {
+      if (url && !url.includes('soundcloud.com')) {
+        setError('Vui lòng nhập URL hợp lệ từ SoundCloud.');
+      }
       return;
     }
-    if (!iframeRef.current) return;
+
+    if (!iframeRef.current || !window.SC) return;
+
+    // Reset state before loading new track
+    setError(null);
+    setIsPlaying(false);
+    setDuration(0);
+    setPosition(0);
+    setTitle('');
+    setArtist('');
+    setArtwork(null);
+
+    // Unbind all previous events if widget exists
+    if (widgetRef.current) {
+      widgetRef.current.unbind(window.SC.Widget.Events.READY);
+      widgetRef.current.unbind(window.SC.Widget.Events.PLAY_PROGRESS);
+      widgetRef.current.unbind(window.SC.Widget.Events.PAUSE);
+      widgetRef.current.unbind(window.SC.Widget.Events.PLAY);
+      widgetRef.current.unbind(window.SC.Widget.Events.FINISH);
+    }
 
     iframeRef.current.src = `https://w.soundcloud.com/player/?url=${encodeURIComponent(
       url
     )}&auto_play=true`;
 
-    setTimeout(() => {
+    timerRef.current = setTimeout(() => {
       if (!iframeRef.current) return;
 
       const widget = window.SC.Widget(iframeRef.current);
@@ -98,11 +121,18 @@ const SoundcloudPlayer = () => {
         widget.play();
       });
     }, 1000);
-  };
+
+    return () => {
+      if (timerRef.current) {
+        clearTimeout(timerRef.current);
+      }
+    };
+  }, [url, volume]);
 
   const handleUrlChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSoundcloudUrl(e.target.value);
   };
+
   const togglePlay = () => {
     widgetRef.current?.toggle();
   };
@@ -116,10 +146,6 @@ const SoundcloudPlayer = () => {
     const newPos = (value[0] / 100) * duration;
     widgetRef.current?.seekTo(newPos);
   };
-
-  useEffect(() => {
-    if (url) loadTrack();
-  }, [url]);
 
   return (
     <Card className="mx-auto max-w-xl min-w-xl">
@@ -161,10 +187,10 @@ const SoundcloudPlayer = () => {
 
         {/* URL + Play + Volume */}
         <div className={cn('flex items-center gap-2', title && 'mt-4')}>
-          <Button size="icon" variant="outline" onClick={togglePlay}>
+          <Button size="icon" variant="primary-outline" onClick={togglePlay}>
             {isPlaying ? <Pause /> : <Play />}
           </Button>
-          <Input placeholder="Paste SoundCloud URL" value={url} onChange={handleUrlChange} />
+          <Input placeholder="Nhập URL SoundCloud" value={url} onChange={handleUrlChange} />
           <HoverCard openDelay={200}>
             <HoverCardTrigger asChild>
               <Button
@@ -205,6 +231,7 @@ const SoundcloudPlayer = () => {
             max={100}
             step={0.1}
             onValueChange={seek}
+            className='[&_span[data-slot="slider-thumb"]]:hidden [&_span[data-slot="slider-thumb"]]:transition-all hover:[&_span[data-slot="slider-thumb"]]:block'
           />
           <div className="text-muted-foreground flex justify-between text-xs">
             <span>{formatTime(position)}</span>
