@@ -4,6 +4,7 @@ import React, { useCallback, useEffect, useRef, useState } from 'react';
 
 import Image from 'next/image';
 
+import TooltipCustom from '@/components/custom/TooltipCustom';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -13,7 +14,7 @@ import { Slider } from '@/components/ui/slider';
 import { useSoloStore } from '@/hooks/use-solo-store';
 import { cn } from '@/lib/utils';
 
-import { Music, Pause, Play, Volume2 } from 'lucide-react';
+import { Info, Music, Pause, Play, Volume2 } from 'lucide-react';
 
 declare global {
   interface Window {
@@ -85,6 +86,11 @@ const SoundcloudPlayer = () => {
 
       widget.bind(window.SC.Widget.Events.PAUSE, () => setIsPlaying(false));
       widget.bind(window.SC.Widget.Events.PLAY, () => setIsPlaying(true));
+
+      widget.bind(window.SC.Widget.Events.FINISH, () => {
+        widget.seekTo(0);
+        widget.play();
+      });
     }, 500);
   };
 
@@ -122,6 +128,11 @@ const SoundcloudPlayer = () => {
             SoundCloud Player
             <Badge className="ml-2">NEW</Badge>
           </div>
+          <TooltipCustom content="Hiện tại chỉ support bài hát chưa hỗ trợ playlist!">
+            <Button size="icon" variant="ghost">
+              <Info />
+            </Button>
+          </TooltipCustom>
         </CardTitle>
       </CardHeader>
 
