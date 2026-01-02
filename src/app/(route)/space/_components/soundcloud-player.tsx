@@ -8,13 +8,14 @@ import TooltipCustom from '@/components/custom/TooltipCustom';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { HoverCard, HoverCardContent, HoverCardTrigger } from '@/components/ui/hover-card';
 import { Input } from '@/components/ui/input';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { Slider } from '@/components/ui/slider';
 import { useSoloStore } from '@/hooks/use-solo-store';
 import { cn } from '@/lib/utils';
 
-import { Info, Music, Pause, Play, Volume2 } from 'lucide-react';
+import { Info, Music, Pause, Play, Volume2, VolumeOff } from 'lucide-react';
 
 declare global {
   interface Window {
@@ -35,6 +36,7 @@ const SoundcloudPlayer = () => {
 
   const url = useSoloStore((state) => state.soundcloudUrl);
   const setSoundcloudUrl = useSoloStore((state) => state.setSoundcloudUrl);
+  const [error, setError] = useState<string | null>(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [duration, setDuration] = useState(0);
   const [position, setPosition] = useState(0);
@@ -55,7 +57,11 @@ const SoundcloudPlayer = () => {
   }, []);
 
   const loadTrack = () => {
-    if (!iframeRef.current || !url.includes('soundcloud.com')) return;
+    if (!url.includes('soundcloud.com')) {
+      setError('Vui lòng nhập URL hợp lệ từ SoundCloud.');
+      return;
+    }
+    if (!iframeRef.current) return;
 
     iframeRef.current.src = `https://w.soundcloud.com/player/?url=${encodeURIComponent(
       url
@@ -91,16 +97,12 @@ const SoundcloudPlayer = () => {
         widget.seekTo(0);
         widget.play();
       });
-    }, 500);
+    }, 1000);
   };
 
-  const handleUrlChange = useCallback(
-    (e: React.ChangeEvent<HTMLInputElement>) => {
-      setSoundcloudUrl(e.target.value);
-    },
-    [setSoundcloudUrl]
-  );
-
+  const handleUrlChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSoundcloudUrl(e.target.value);
+  };
   const togglePlay = () => {
     widgetRef.current?.toggle();
   };
@@ -126,7 +128,7 @@ const SoundcloudPlayer = () => {
           <div className="flex items-center gap-2">
             <Music className="h-5 w-5" />
             SoundCloud Player
-            <Badge className="ml-2">NEW</Badge>
+            <Badge className="ml-2">MỚI</Badge>
           </div>
           <TooltipCustom content="Hiện tại chỉ support bài hát chưa hỗ trợ playlist!">
             <Button size="icon" variant="ghost">
@@ -163,13 +165,23 @@ const SoundcloudPlayer = () => {
             {isPlaying ? <Pause /> : <Play />}
           </Button>
           <Input placeholder="Paste SoundCloud URL" value={url} onChange={handleUrlChange} />
-          <Popover>
-            <PopoverTrigger asChild>
-              <Button size="icon" variant="outline">
-                <Volume2 className="h-4 w-4" />
+          <HoverCard openDelay={200}>
+            <HoverCardTrigger asChild>
+              <Button
+                size="icon"
+                variant="outline"
+                onClick={() => {
+                  if (volume > 0) {
+                    changeVolume([0]);
+                  } else {
+                    changeVolume([70]);
+                  }
+                }}
+              >
+                {volume === 0 ? <VolumeOff className="h-4 w-4" /> : <Volume2 className="h-4 w-4" />}
               </Button>
-            </PopoverTrigger>
-            <PopoverContent className="h-52 w-12 p-2" side="top" align="center">
+            </HoverCardTrigger>
+            <HoverCardContent className="h-52 w-12 p-2" side="top" align="center">
               <div className="flex h-full items-center justify-center">
                 <Slider
                   value={[volume]}
@@ -180,9 +192,11 @@ const SoundcloudPlayer = () => {
                   className="max-h-44"
                 />
               </div>
-            </PopoverContent>
-          </Popover>
+            </HoverCardContent>
+          </HoverCard>
         </div>
+
+        {error && <p className="mt-2 text-sm text-red-500">{error}</p>}
 
         {/* Progress */}
         <div className="my-4 space-y-2">

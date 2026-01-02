@@ -38,7 +38,7 @@ const Pomodoro: React.FC = () => {
         <div className="flex items-center justify-between">
           <span className="inline-flex items-center gap-1 text-xs">
             <Clock size={14} />
-            <strong>Personal Timer</strong>
+            <strong>Hẹn giờ cá nhân</strong>
           </span>
           <div className="flex items-center gap-2">
             <TooltipCustom
@@ -62,7 +62,7 @@ const Pomodoro: React.FC = () => {
         {!isRunning ? (
           <div className="">
             <p className="mb-1 text-center text-xs">
-              <strong>Focus time(min)</strong>
+              <strong>Thời gian tập trung (phút)</strong>
             </p>
             <div className="flex w-full items-center gap-2">
               <Button
@@ -92,7 +92,7 @@ const Pomodoro: React.FC = () => {
               </Button>
             </div>
             <p className="mt-3 mb-1 text-center text-xs">
-              <strong>Break time(min)</strong>
+              <strong>Thời gian nghỉ (phút)</strong>
             </p>
             <div className="flex w-full items-center gap-2">
               <Button

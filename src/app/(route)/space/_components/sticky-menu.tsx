@@ -77,7 +77,7 @@ const StickyMenu = () => {
             <div className="flex items-center">
               <Target size={14} />
             </div>
-            <span className="text-xs leading-[1.15rem] font-medium">Session Goals</span>
+            <span className="text-xs leading-[1.15rem] font-medium">Mục tiêu phiên</span>
           </div>
           <p className="text-sm">
             <strong>
@@ -107,7 +107,7 @@ const StickyMenu = () => {
             </Button>
           </TooltipCustom>
         ))}
-        <TooltipCustom side="bottom" content={'Full screen'}>
+        <TooltipCustom side="bottom" content={'Toàn màn hình'}>
           <Button
             type="button"
             onClick={toggleFullscreenHandler}

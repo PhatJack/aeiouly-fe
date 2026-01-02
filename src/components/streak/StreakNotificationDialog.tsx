@@ -10,6 +10,7 @@ import {
   AlertDialogTitle,
 } from '@/components/ui/alert-dialog';
 import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
 
 import { Award, Flame, Trophy } from 'lucide-react';
 import { motion } from 'motion/react';
@@ -24,7 +25,6 @@ interface StreakMessage {
 export const StreakNotificationDialog: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [streakData, setStreakData] = useState<StreakMessage | null>(null);
-  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
     const handleWebSocketMessage = (event: Event) => {
@@ -33,18 +33,8 @@ export const StreakNotificationDialog: React.FC = () => {
 
       // Check if this is a streak message
       if (data && typeof data === 'object' && 'current_streak' in data && 'message' in data) {
-        // Clear any existing timeout before setting a new one
-        if (timeoutRef.current) {
-          clearTimeout(timeoutRef.current);
-        }
-
         setStreakData(data as StreakMessage);
         setIsOpen(true);
-
-        // Auto-close after 5 seconds
-        timeoutRef.current = setTimeout(() => {
-          setIsOpen(false);
-        }, 5000);
       }
     };
 
@@ -52,10 +42,6 @@ export const StreakNotificationDialog: React.FC = () => {
 
     return () => {
       window.removeEventListener('ws:message', handleWebSocketMessage);
-      // Clean up timeout on unmount
-      if (timeoutRef.current) {
-        clearTimeout(timeoutRef.current);
-      }
     };
   }, []);
 
@@ -65,11 +51,18 @@ export const StreakNotificationDialog: React.FC = () => {
 
   return (
     <AlertDialog open={isOpen} onOpenChange={setIsOpen}>
-      <AlertDialogContent className="max-w-md overflow-hidden border-none bg-gradient-to-br from-orange-50 via-white to-yellow-50 p-0 dark:from-orange-950 dark:via-gray-900 dark:to-yellow-950">
+      <AlertDialogContent
+        className="max-w-md overflow-hidden border-none p-0"
+        style={{
+          background:
+            'linear-gradient(to bottom right, hsl(var(--warning) / 0.1), hsl(var(--background)), hsl(var(--success) / 0.1))',
+        }}
+      >
         {/* Animated Background */}
         <div className="pointer-events-none absolute inset-0 overflow-hidden">
           <motion.div
-            className="absolute -top-10 -right-10 h-40 w-40 rounded-full bg-orange-200/30 blur-3xl dark:bg-orange-800/20"
+            className="absolute -top-10 -right-10 h-40 w-40 rounded-full blur-3xl"
+            style={{ backgroundColor: 'hsl(var(--warning) / 0.2)' }}
             animate={{
               scale: [1, 1.2, 1],
               opacity: [0.3, 0.5, 0.3],
@@ -81,7 +74,8 @@ export const StreakNotificationDialog: React.FC = () => {
             }}
           />
           <motion.div
-            className="absolute -bottom-10 -left-10 h-40 w-40 rounded-full bg-yellow-200/30 blur-3xl dark:bg-yellow-800/20"
+            className="absolute -bottom-10 -left-10 h-40 w-40 rounded-full blur-3xl"
+            style={{ backgroundColor: 'hsl(var(--success) / 0.2)' }}
             animate={{
               scale: [1.2, 1, 1.2],
               opacity: [0.5, 0.3, 0.5],
@@ -98,7 +92,11 @@ export const StreakNotificationDialog: React.FC = () => {
           <AlertDialogHeader className="space-y-4">
             {/* Icon */}
             <motion.div
-              className="mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-gradient-to-br from-orange-400 to-yellow-500 shadow-lg"
+              className="mx-auto flex h-20 w-20 items-center justify-center rounded-full shadow-lg"
+              style={{
+                background:
+                  'linear-gradient(to bottom right, hsl(var(--warning)), hsl(var(--success)))',
+              }}
               initial={{ scale: 0, rotate: -180 }}
               animate={{ scale: 1, rotate: 0 }}
               transition={{
@@ -133,7 +131,11 @@ export const StreakNotificationDialog: React.FC = () => {
                     <span className="sr-only">Kỷ lục mới!</span>
                     <span
                       aria-hidden="true"
-                      className="bg-gradient-to-r from-orange-600 to-yellow-600 bg-clip-text text-transparent dark:from-orange-400 dark:to-yellow-400"
+                      className="bg-clip-text text-transparent"
+                      style={{
+                        backgroundImage:
+                          'linear-gradient(to right, hsl(var(--warning)), hsl(var(--success)))',
+                      }}
                     >
                       🏆 Kỷ lục mới!
                     </span>
@@ -143,7 +145,11 @@ export const StreakNotificationDialog: React.FC = () => {
                     <span className="sr-only">Streak tiếp tục!</span>
                     <span
                       aria-hidden="true"
-                      className="bg-gradient-to-r from-orange-600 to-yellow-600 bg-clip-text text-transparent dark:from-orange-400 dark:to-yellow-400"
+                      className="bg-clip-text text-transparent"
+                      style={{
+                        backgroundImage:
+                          'linear-gradient(to right, hsl(var(--warning)), hsl(var(--success)))',
+                      }}
                     >
                       🎉 Streak tiếp tục!
                     </span>
@@ -155,7 +161,7 @@ export const StreakNotificationDialog: React.FC = () => {
             {/* Description */}
             <AlertDialogDescription className="space-y-4 text-center">
               <motion.div
-                className="text-base text-gray-700 dark:text-gray-300"
+                className="text-foreground/80 text-base"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.3 }}
@@ -175,24 +181,34 @@ export const StreakNotificationDialog: React.FC = () => {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.4 }}
               >
-                <div className="flex flex-col items-center rounded-lg bg-white/50 p-3 shadow-sm backdrop-blur-sm dark:bg-gray-800/50">
+                <div
+                  className="flex flex-col items-center rounded-lg p-3 shadow-sm backdrop-blur-sm"
+                  style={{
+                    backgroundColor: 'hsl(var(--card) / 0.5)',
+                  }}
+                >
                   <div className="flex items-center gap-2">
-                    <Flame className="h-5 w-5 text-orange-500" />
-                    <span className="text-2xl font-bold text-orange-600 dark:text-orange-400">
+                    <Flame className="h-5 w-5" style={{ color: 'hsl(var(--warning))' }} />
+                    <span className="text-2xl font-bold" style={{ color: 'hsl(var(--warning))' }}>
                       {streakData.current_streak}
                     </span>
                   </div>
-                  <span className="text-xs text-gray-600 dark:text-gray-400">Hiện tại</span>
+                  <span className="text-muted-foreground text-xs">Hiện tại</span>
                 </div>
 
-                <div className="flex flex-col items-center rounded-lg bg-white/50 p-3 shadow-sm backdrop-blur-sm dark:bg-gray-800/50">
+                <div
+                  className="flex flex-col items-center rounded-lg p-3 shadow-sm backdrop-blur-sm"
+                  style={{
+                    backgroundColor: 'hsl(var(--card) / 0.5)',
+                  }}
+                >
                   <div className="flex items-center gap-2">
-                    <Trophy className="h-5 w-5 text-yellow-500" />
-                    <span className="text-2xl font-bold text-yellow-600 dark:text-yellow-400">
+                    <Trophy className="h-5 w-5" style={{ color: 'hsl(var(--success))' }} />
+                    <span className="text-2xl font-bold" style={{ color: 'hsl(var(--success))' }}>
                       {streakData.longest_streak}
                     </span>
                   </div>
-                  <span className="text-xs text-gray-600 dark:text-gray-400">Cao nhất</span>
+                  <span className="text-muted-foreground text-xs">Cao nhất</span>
                 </div>
               </motion.div>
 
@@ -203,7 +219,13 @@ export const StreakNotificationDialog: React.FC = () => {
                   animate={{ scale: 1 }}
                   transition={{ delay: 0.5, type: 'spring' }}
                 >
-                  <Badge className="mx-auto bg-gradient-to-r from-orange-500 to-yellow-500 text-white">
+                  <Badge
+                    className="mx-auto text-white"
+                    style={{
+                      background:
+                        'linear-gradient(to right, hsl(var(--warning)), hsl(var(--success)))',
+                    }}
+                  >
                     <Award className="mr-1 h-3 w-3" />
                     Kỷ lục mới của bạn!
                   </Badge>
@@ -212,13 +234,39 @@ export const StreakNotificationDialog: React.FC = () => {
 
               {/* Encouragement Message */}
               <motion.p
-                className="text-sm text-gray-600 dark:text-gray-400"
+                className="text-muted-foreground text-sm"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.6 }}
               >
                 Tiếp tục phát huy nhé! 💪
               </motion.p>
+
+              {/* Close Button */}
+              <motion.div
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.7 }}
+              >
+                <Button
+                  onClick={() => setIsOpen(false)}
+                  className="w-full text-white"
+                  style={{
+                    background:
+                      'linear-gradient(to right, hsl(var(--warning)), hsl(var(--success)))',
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.background =
+                      'linear-gradient(to right, hsl(var(--warning) / 0.9), hsl(var(--success) / 0.9))';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.background =
+                      'linear-gradient(to right, hsl(var(--warning)), hsl(var(--success)))';
+                  }}
+                >
+                  Đóng
+                </Button>
+              </motion.div>
             </AlertDialogDescription>
           </AlertDialogHeader>
 
@@ -229,7 +277,7 @@ export const StreakNotificationDialog: React.FC = () => {
                 key={i}
                 className="absolute h-2 w-2 rounded-full"
                 style={{
-                  background: i % 2 === 0 ? '#f59e0b' : '#fb923c',
+                  background: i % 2 === 0 ? 'hsl(var(--warning))' : 'hsl(var(--success))',
                   left: `${Math.random() * 100}%`,
                   top: '-10%',
                 }}

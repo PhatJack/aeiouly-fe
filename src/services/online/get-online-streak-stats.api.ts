@@ -22,6 +22,9 @@ export const useGetOnlineStreakStatsQuery = (
   return useQuery<OnlineStreakStats, ErrorResponseSchema>({
     queryKey: ['streak', 'online-stats'],
     queryFn: () => geOnlineStreakStatsApi(),
+    meta: {
+      ignoreGlobal: true,
+    },
     staleTime: 60 * 60 * 1000, // 1 hour
     gcTime: 2 * 60 * 60 * 1000, // 2 hours
     ...options,

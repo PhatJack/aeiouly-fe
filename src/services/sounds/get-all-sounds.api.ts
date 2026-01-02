@@ -15,7 +15,7 @@ export const useGetAllSoundsQuery = (params?: PaginationRequestSchema) => {
     queryFn: () => getAllSoundsApi(params),
     refetchOnWindowFocus: false,
     meta: {
-      ignoreGlobal: false,
+      ignoreGlobal: true,
     },
     staleTime: 60 * 60 * 1000, // 60 minutes
   });

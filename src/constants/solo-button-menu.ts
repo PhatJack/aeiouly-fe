@@ -15,17 +15,17 @@ export const menuButton: MenuButtonItem[] = [
     icon: Music,
   },
   {
-    label: 'Background',
+    label: 'Video | Ảnh nền',
     variable: 'backgroundIframe',
     icon: ImageIcon,
   },
   {
-    label: 'Sounds',
+    label: 'Âm thanh nền',
     variable: 'sound',
     icon: Volume2,
   },
   {
-    label: 'Study Stats',
+    label: 'Thống kê học tập',
     variable: 'studyStats',
     icon: TrendingUp,
   },
