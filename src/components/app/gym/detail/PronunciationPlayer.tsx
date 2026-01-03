@@ -39,7 +39,7 @@ const PronunciationPlayer: React.FC<Props> = ({ pronunciations }) => {
       {uk && (
         <Button
           type="button"
-          variant={'secondary-outline'}
+          variant={'primary-outline'}
           onClick={() => play(uk.url)}
           aria-label="Phát âm UK"
         >
@@ -51,7 +51,7 @@ const PronunciationPlayer: React.FC<Props> = ({ pronunciations }) => {
       {us && (
         <Button
           type="button"
-          variant={'secondary-outline'}
+          variant={'primary-outline'}
           onClick={() => play(us.url)}
           aria-label="Phát âm US"
         >

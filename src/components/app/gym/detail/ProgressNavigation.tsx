@@ -49,14 +49,14 @@ const ProgressNavigation = memo(
                 )}
               </Button>
               <span className="text-lg font-semibold">
-                {currentIndex + 1} / {totalSentences}
+                {currentIndex} / {totalSentences}
               </span>
             </div>
             <Button
               variant="ghost"
               size="icon"
               onClick={onNext}
-              disabled={currentIndex === totalSentences - 1}
+              disabled={currentIndex === totalSentences}
               aria-label="Next sentence"
             >
               <ChevronRight className="h-5 w-5" />

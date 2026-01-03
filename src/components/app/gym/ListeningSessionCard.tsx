@@ -17,7 +17,7 @@ const ListeningSessionCard = memo(({ session, onContinueSession }: ListeningSess
     (session.current_sentence_index / session.lesson.total_sentences) * 100
   );
   return (
-    <Card className="py-4 transition-shadow hover:shadow-md">
+    <Card className="justify-between py-4 transition-shadow hover:shadow-md">
       <CardHeader>
         <div className="flex items-start justify-between">
           <div className="flex-1">
