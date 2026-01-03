@@ -79,17 +79,17 @@ const GymDetailPage = ({ id }: GymDetailPageProps) => {
   const handleNext = useCallback(() => {
     if (!session || !id) return;
 
-    if (currentSentenceIndex < session.lesson.total_sentences - 1) {
-      getNextSentenceMutation.mutate(Number(id), {
-        onSuccess: (data) => {
-          setSession(data);
-          setCurrentSentenceIndex(data.current_sentence_index);
-        },
-      });
-    } else {
-      toast.success('Hoàn thành bài học! 🎊');
-      router.push(ROUTE.GYM);
-    }
+    getNextSentenceMutation.mutate(Number(id), {
+      onSuccess: (data) => {
+        if (data.status === 'completed') {
+          toast.success('Hoàn thành bài học! 🎊');
+          router.push(ROUTE.GYM);
+          return;
+        }
+        setSession(data);
+        setCurrentSentenceIndex(data.current_sentence_index);
+      },
+    });
   }, [session, id, currentSentenceIndex, getNextSentenceMutation, router, setCurrentSentenceIndex]);
 
   const handlePrevious = useCallback(() => {
