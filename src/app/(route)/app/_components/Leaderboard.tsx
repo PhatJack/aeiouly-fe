@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React from 'react';
 
 import Image from 'next/image';
 
@@ -19,8 +19,10 @@ const Leaderboard = () => {
 
   const getStreakBadgeVariant = (streak: number) => {
     if (streak >= 30) return 'default';
-    if (streak >= 10) return 'secondary';
-    if (streak >= 5) return 'outline';
+    if (streak >= 20) return 'success';
+    if (streak >= 10) return 'warning';
+    if (streak >= 5) return 'info';
+    if (streak >= 1) return 'destructive';
     return 'outline';
   };
 
@@ -54,11 +56,11 @@ const Leaderboard = () => {
                     key={item.user.id}
                     className={`mb-3 flex items-center gap-4 rounded-lg border p-4 transition-all hover:shadow-md ${
                       rank === 1
-                        ? 'bg-gradient-to-r from-yellow-100 to-transparent dark:from-amber-300/20'
+                        ? 'bg-gradient-to-r from-amber-300/70 to-transparent dark:from-amber-300/20'
                         : rank === 2
-                          ? 'bg-gradient-to-r from-gray-300 to-transparent dark:from-gray-600/20'
+                          ? 'bg-gradient-to-r from-gray-200 to-transparent dark:from-gray-200/20'
                           : rank === 3
-                            ? 'bg-gradient-to-r from-stone-400 to-transparent dark:from-yellow-900/20'
+                            ? 'bg-gradient-to-r from-yellow-700/70 to-transparent dark:from-yellow-700/20'
                             : ''
                     }`}
                   >
