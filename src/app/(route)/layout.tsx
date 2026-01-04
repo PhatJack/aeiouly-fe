@@ -59,7 +59,7 @@ export default function RootLayout({
           {children}
         </div>
       </main>
-      <AIChatBox />
+      {/* <AIChatBox /> */}
       {/* <ScrollToTop /> */}
     </div>
   );
