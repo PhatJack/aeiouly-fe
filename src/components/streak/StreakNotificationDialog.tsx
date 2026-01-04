@@ -139,7 +139,7 @@ export const StreakNotificationDialog: React.FC = () => {
             </AlertDialogTitle>
 
             {/* Description */}
-            <AlertDialogDescription slot="div" className="space-y-5 text-center">
+            <AlertDialogDescription className="space-y-5 text-center">
               <motion.div
                 className="text-foreground text-base leading-relaxed"
                 initial={{ opacity: 0 }}
