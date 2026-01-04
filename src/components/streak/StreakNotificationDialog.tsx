@@ -52,92 +52,99 @@ export const StreakNotificationDialog: React.FC = () => {
 
   return (
     <AlertDialog open={isOpen} onOpenChange={setIsOpen}>
-      <AlertDialogContent className="from-warning/10 via-warning/5 to-success/10 border-warning max-w-lg overflow-hidden border-2 bg-gradient-to-br p-0 shadow-2xl">
-        {/* Animated Background */}
+      <AlertDialogContent className="from-background via-card to-muted max-w-md overflow-hidden border-0 bg-gradient-to-br p-0 shadow-2xl">
+        {/* Animated Background Orbs */}
         <div className="pointer-events-none absolute inset-0 overflow-hidden">
           <motion.div
-            className="bg-warning/30 absolute -top-20 -right-20 h-60 w-60 rounded-full blur-2xl"
+            className="bg-primary absolute -top-24 -right-24 h-72 w-72 rounded-full blur-3xl"
             animate={{
-              scale: [1, 1.3, 1],
-              opacity: [0.4, 0.7, 0.4],
+              scale: [1, 1.2, 1],
+              opacity: [0.3, 0.5, 0.3],
             }}
             transition={{
-              duration: 4,
+              duration: 5,
               repeat: Infinity,
               ease: 'easeInOut',
             }}
           />
           <motion.div
-            className="bg-success/30 absolute -bottom-20 -left-20 h-60 w-60 rounded-full blur-2xl"
+            className="bg-secondary absolute -bottom-24 -left-24 h-72 w-72 rounded-full blur-3xl"
             animate={{
-              scale: [1.3, 1, 1.3],
-              opacity: [0.7, 0.4, 0.7],
+              scale: [1.2, 1, 1.2],
+              opacity: [0.5, 0.3, 0.5],
             }}
             transition={{
-              duration: 4,
+              duration: 5,
               repeat: Infinity,
               ease: 'easeInOut',
+              delay: 0.5,
             }}
           />
         </div>
 
         <div className="relative z-10 p-8">
-          <AlertDialogHeader className="space-y-6">
+          <AlertDialogHeader className="space-y-5">
             {/* Icon */}
             <motion.div
-              className="from-warning to-success mx-auto flex h-24 w-24 items-center justify-center rounded-full bg-gradient-to-br shadow-xl"
+              className="relative mx-auto"
               initial={{ scale: 0, rotate: -180 }}
               animate={{ scale: 1, rotate: 0 }}
               transition={{
                 type: 'spring',
-                stiffness: 250,
-                damping: 20,
+                stiffness: 200,
+                damping: 15,
               }}
             >
-              <motion.div
-                animate={{
-                  scale: [1, 1.3, 1],
-                }}
-                transition={{
-                  duration: 2,
-                  repeat: Infinity,
-                  ease: 'easeInOut',
-                }}
-              >
-                {isNewRecord ? (
-                  <Trophy className="h-12 w-12 text-white" />
-                ) : (
-                  <Flame className="h-12 w-12 text-white" />
-                )}
-              </motion.div>
+              <div className="from-primary/40 to-secondary/40 absolute inset-0 animate-pulse rounded-full bg-gradient-to-r blur-xl" />
+              <div className="from-primary to-secondary ring-background relative flex h-20 w-20 items-center justify-center rounded-full bg-gradient-to-br shadow-lg ring-4">
+                <motion.div
+                  animate={{
+                    scale: [1, 1.15, 1],
+                  }}
+                  transition={{
+                    duration: 2,
+                    repeat: Infinity,
+                    ease: 'easeInOut',
+                  }}
+                >
+                  {isNewRecord ? (
+                    <Trophy className="h-10 w-10 text-white" />
+                  ) : (
+                    <Flame className="h-10 w-10 text-white" />
+                  )}
+                </motion.div>
+              </div>
             </motion.div>
 
             {/* Title */}
-            <AlertDialogTitle className="text-center text-3xl font-extrabold">
+            <AlertDialogTitle className="text-center">
               <motion.div
-                initial={{ opacity: 0, y: 30 }}
+                initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.2 }}
+                transition={{ delay: 0.15 }}
+                className="space-y-1"
               >
-                {isNewRecord ? (
-                  <span className="from-warning to-success bg-gradient-to-r bg-clip-text text-transparent">
-                    🏆 Kỷ lục mới!
-                  </span>
-                ) : (
-                  <span className="from-warning to-success bg-gradient-to-r bg-clip-text text-transparent">
-                    🔥 Streak tiếp tục!
-                  </span>
-                )}
+                <div className="text-3xl font-bold tracking-tight">
+                  {isNewRecord ? (
+                    <span className="from-primary via-primary to-secondary bg-gradient-to-r bg-clip-text text-transparent">
+                      Kỷ lục mới! 🏆
+                    </span>
+                  ) : (
+                    <span className="from-primary via-primary to-secondary bg-gradient-to-r bg-clip-text text-transparent">
+                      Streak tiếp tục! 🔥
+                    </span>
+                  )}
+                </div>
               </motion.div>
             </AlertDialogTitle>
 
             {/* Description */}
-            <AlertDialogDescription className="space-y-6 text-center">
+            <AlertDialogDescription className="space-y-5 text-center">
               <motion.div
-                className="text-foreground text-lg leading-relaxed"
+                className="text-foreground text-base leading-relaxed"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                transition={{ delay: 0.3 }}
+                transition={{ delay: 0.25 }}
               >
                 {streakData.message.split('\n').map((line, index) => (
                   <React.Fragment key={index}>
@@ -149,41 +156,42 @@ export const StreakNotificationDialog: React.FC = () => {
 
               {/* Stats */}
               <motion.div
-                className="flex items-center justify-center gap-6"
-                initial={{ opacity: 0, y: 30 }}
+                className="flex items-stretch justify-center gap-3"
+                initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.4 }}
+                transition={{ delay: 0.35 }}
               >
-                <div className="flex flex-col items-center rounded-xl bg-white/20 p-4 shadow-lg backdrop-blur-md">
-                  <div className="flex items-center gap-2">
-                    <Flame className="text-warning h-6 w-6" />
-                    <span className="text-warning-foreground text-3xl font-bold">
-                      {streakData.current_streak}
-                    </span>
+                <div className="border-border bg-card flex flex-1 flex-col items-center gap-2 rounded-2xl border p-4 shadow-sm backdrop-blur-sm transition-all hover:shadow-md">
+                  <div className="bg-primary flex h-10 w-10 items-center justify-center rounded-full">
+                    <Flame className="text-primary-foreground h-5 w-5" />
                   </div>
-                  <span className="text-muted-foreground text-sm">Hiện tại</span>
+                  <span className="text-foreground text-3xl font-bold">
+                    {streakData.current_streak}
+                  </span>
+                  <span className="text-muted-foreground text-xs font-medium">Hiện tại</span>
                 </div>
 
-                <div className="flex flex-col items-center rounded-xl bg-white/20 p-4 shadow-lg backdrop-blur-md">
-                  <div className="flex items-center gap-2">
-                    <Trophy className="text-success h-6 w-6" />
-                    <span className="text-success-foreground text-3xl font-bold">
-                      {streakData.longest_streak}
-                    </span>
+                <div className="border-border bg-card flex flex-1 flex-col items-center gap-2 rounded-2xl border p-4 shadow-sm backdrop-blur-sm transition-all hover:shadow-md">
+                  <div className="bg-secondary flex h-10 w-10 items-center justify-center rounded-full">
+                    <Trophy className="text-secondary-foreground h-5 w-5" />
                   </div>
-                  <span className="text-muted-foreground text-sm">Cao nhất</span>
+                  <span className="text-foreground text-3xl font-bold">
+                    {streakData.longest_streak}
+                  </span>
+                  <span className="text-muted-foreground text-xs font-medium">Cao nhất</span>
                 </div>
               </motion.div>
 
               {/* New Record Badge */}
               {isNewRecord && (
                 <motion.div
-                  initial={{ scale: 0 }}
-                  animate={{ scale: 1 }}
-                  transition={{ delay: 0.5, type: 'spring' }}
+                  initial={{ scale: 0, opacity: 0 }}
+                  animate={{ scale: 1, opacity: 1 }}
+                  transition={{ delay: 0.45, type: 'spring', stiffness: 200 }}
+                  className="flex justify-center"
                 >
-                  <Badge className="from-warning to-success mx-auto bg-gradient-to-r text-white shadow-md">
-                    <Award className="mr-2 h-4 w-4" />
+                  <Badge className="border-primary bg-primary text-primary-foreground rounded-full border px-3 py-1 shadow-sm">
+                    <Award className="mr-1.5 h-3.5 w-3.5" />
                     Kỷ lục mới của bạn!
                   </Badge>
                 </motion.div>
@@ -191,23 +199,24 @@ export const StreakNotificationDialog: React.FC = () => {
 
               {/* Encouragement Message */}
               <motion.p
-                className="text-muted-foreground text-base"
+                className="text-muted-foreground text-sm"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                transition={{ delay: 0.6 }}
+                transition={{ delay: 0.5 }}
               >
                 Tiếp tục phát huy nhé! 💪
               </motion.p>
 
               {/* Close Button */}
               <motion.div
-                initial={{ opacity: 0, y: 20 }}
+                initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.7 }}
+                transition={{ delay: 0.55 }}
               >
                 <Button
                   onClick={() => setIsOpen(false)}
-                  className="from-warning to-success w-full bg-gradient-to-r text-white shadow-lg transition-shadow hover:shadow-xl"
+                  className="from-primary to-secondary w-full bg-gradient-to-r text-white shadow-md transition-all hover:scale-[1.02] hover:shadow-lg"
+                  size="lg"
                 >
                   <Zap className="mr-2 h-4 w-4" />
                   Đóng
@@ -218,26 +227,33 @@ export const StreakNotificationDialog: React.FC = () => {
 
           {/* Enhanced Confetti Effect */}
           <div className="pointer-events-none absolute inset-0">
-            {[...Array(30)].map((_, i) => (
+            {[...Array(25)].map((_, i) => (
               <motion.div
                 key={i}
                 className={cn(
-                  'absolute h-3 w-3 rounded-full',
-                  i % 3 === 0 ? 'bg-warning' : i % 3 === 1 ? 'bg-success' : 'bg-warning'
+                  'absolute rounded-full',
+                  i % 4 === 0
+                    ? 'bg-primary h-2 w-2'
+                    : i % 4 === 1
+                      ? 'bg-secondary h-2.5 w-2.5'
+                      : i % 4 === 2
+                        ? 'bg-primary h-1.5 w-1.5'
+                        : 'bg-secondary h-2 w-2'
                 )}
                 style={{
                   left: `${Math.random() * 100}%`,
-                  top: '-20%',
+                  top: '-10%',
                 }}
                 animate={{
-                  y: [0, 600],
-                  x: [0, Math.random() * 200 - 100],
-                  rotate: [0, Math.random() * 720],
-                  opacity: [1, 0],
+                  y: [0, 500],
+                  x: [0, (Math.random() - 0.5) * 150],
+                  rotate: [0, Math.random() * 360],
+                  opacity: [0.8, 0],
+                  scale: [1, 0.3],
                 }}
                 transition={{
-                  duration: 3 + Math.random() * 2,
-                  delay: Math.random() * 1,
+                  duration: 2.5 + Math.random() * 2,
+                  delay: Math.random() * 0.8,
                   ease: 'easeOut',
                 }}
               />
