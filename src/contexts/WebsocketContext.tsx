@@ -2,7 +2,10 @@
 
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 
+import { usePathname } from 'next/navigation';
+
 import { StreakNotificationDialog } from '@/components/streak/StreakNotificationDialog';
+import { ROUTE } from '@/configs/route';
 import { getMeApi } from '@/services/auth/get-me.api';
 
 import { createContext, useContextSelector } from 'use-context-selector';
@@ -22,6 +25,7 @@ interface WebSocketProviderProps {
 }
 
 export const WebSocketProvider: React.FC<WebSocketProviderProps> = ({ children }) => {
+  const location = usePathname();
   const user = useAuthStore((state) => state.user);
   const [connected, setConnected] = useState(false);
   const wsRef = useRef<WebSocket | null>(null);
@@ -97,6 +101,8 @@ export const WebSocketProvider: React.FC<WebSocketProviderProps> = ({ children }
     const checkAuthAndConnect = async () => {
       try {
         if (!user) return;
+        if (user.role === 'admin') return;
+        if (Object.values(ROUTE.AUTH).includes(location) || location === ROUTE.HOME) return;
 
         setAutoConnect(true);
         connect();
@@ -144,7 +150,7 @@ export const WebSocketProvider: React.FC<WebSocketProviderProps> = ({ children }
       wsRef.current?.close(1000, 'Component unmount');
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [user]);
+  }, [user, location]);
 
   const value: WebSocketContextType = useMemo(
     () => ({

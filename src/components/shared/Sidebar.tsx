@@ -7,6 +7,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useRouter } from 'nextjs-toploader/app';
 
+import TooltipCustom from '@/components/custom/TooltipCustom';
 import { ROUTE } from '@/configs/route';
 import { useAuthStore } from '@/contexts/AuthContext';
 import { useWindowSize } from '@/hooks/use-window-size';
@@ -195,42 +196,54 @@ const Sidebar = ({ isExpanded, handleToggleExpand }: SidebarProps) => {
                 return true;
               return false;
             })
-            .map((item, index) => (
-              <motion.li
-                key={`menu_item_${index}`}
-                id={item.id}
-                onClick={() => {
-                  router.push(item.href);
-                  if (width && width < 1024 && isExpanded) {
-                    handleToggleExpand?.();
-                  }
-                }}
-                data-navigation
-                className="hover:bg-primary/20 relative flex w-full cursor-pointer items-center rounded-2xl px-3.5 py-2.5 transition-all"
-              >
-                <div className="relative flex size-5 min-w-5 items-center justify-center">
-                  <item.icon size={20} className={cn(pathname === item.href && 'text-white')} />
-                </div>
-                <motion.span
-                  animate={{ opacity: isExpanded ? 1 : 0, x: isExpanded ? 8 : 0 }}
-                  transition={{ duration: 0.2 }}
-                  className={cn(
-                    'text-sm font-medium whitespace-nowrap',
-                    pathname === item.href && 'text-white',
-                    isExpanded ? 'pointer-events-auto' : 'pointer-events-none'
-                  )}
+            .map((item, index) => {
+              const menuItem = (
+                <motion.li
+                  key={`menu_item_${index}`}
+                  id={item.id}
+                  onClick={() => {
+                    router.push(item.href);
+                    if (width && width < 1024 && isExpanded) {
+                      handleToggleExpand?.();
+                    }
+                  }}
+                  data-navigation
+                  className="hover:bg-primary/20 relative flex w-full cursor-pointer items-center rounded-2xl px-3.5 py-2.5 transition-all"
                 >
-                  {item.title}
-                </motion.span>
-                {pathname === item.href && (
-                  <motion.div
-                    className="bg-primary absolute inset-0 -z-10 rounded-2xl"
-                    layoutId="background"
-                    transition={{ type: 'spring', stiffness: 300, damping: 30 }}
-                  />
-                )}
-              </motion.li>
-            ))}
+                  <div className="relative flex size-5 min-w-5 items-center justify-center">
+                    <item.icon size={20} className={cn(pathname === item.href && 'text-white')} />
+                  </div>
+                  <motion.span
+                    animate={{ opacity: isExpanded ? 1 : 0, x: isExpanded ? 8 : 0 }}
+                    transition={{ duration: 0.2 }}
+                    className={cn(
+                      'text-sm font-medium whitespace-nowrap',
+                      pathname === item.href && 'text-white',
+                      isExpanded ? 'pointer-events-auto' : 'pointer-events-none'
+                    )}
+                  >
+                    {item.title}
+                  </motion.span>
+                  {pathname === item.href && (
+                    <motion.div
+                      className="bg-primary absolute inset-0 -z-10 rounded-2xl"
+                      layoutId="background"
+                      transition={{ type: 'spring', stiffness: 300, damping: 30 }}
+                    />
+                  )}
+                </motion.li>
+              );
+
+              if (!isExpanded) {
+                return (
+                  <TooltipCustom key={`menu_item_${index}`} content={item.title} side="right">
+                    {menuItem}
+                  </TooltipCustom>
+                );
+              }
+
+              return menuItem;
+            })}
         </ul>
       </aside>
       <div
