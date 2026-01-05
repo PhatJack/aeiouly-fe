@@ -139,89 +139,91 @@ export const StreakNotificationDialog: React.FC = () => {
             </AlertDialogTitle>
 
             {/* Description */}
-            <AlertDialogDescription className="space-y-5 text-center">
-              <motion.div
-                className="text-foreground text-base leading-relaxed"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.25 }}
-              >
-                {streakData.message.split('\n').map((line, index) => (
-                  <React.Fragment key={index}>
-                    {line}
-                    {index < streakData.message.split('\n').length - 1 && <br />}
-                  </React.Fragment>
-                ))}
-              </motion.div>
-
-              {/* Stats */}
-              <motion.div
-                className="flex items-stretch justify-center gap-3"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.35 }}
-              >
-                <div className="border-border bg-card flex flex-1 flex-col items-center gap-2 rounded-2xl border p-4 shadow-sm backdrop-blur-sm transition-all hover:shadow-md">
-                  <div className="bg-primary flex h-10 w-10 items-center justify-center rounded-full">
-                    <Flame className="text-primary-foreground h-5 w-5" />
-                  </div>
-                  <span className="text-foreground text-3xl font-bold">
-                    {streakData.current_streak}
-                  </span>
-                  <span className="text-muted-foreground text-xs font-medium">Hiện tại</span>
-                </div>
-
-                <div className="border-border bg-card flex flex-1 flex-col items-center gap-2 rounded-2xl border p-4 shadow-sm backdrop-blur-sm transition-all hover:shadow-md">
-                  <div className="bg-secondary flex h-10 w-10 items-center justify-center rounded-full">
-                    <Trophy className="text-secondary-foreground h-5 w-5" />
-                  </div>
-                  <span className="text-foreground text-3xl font-bold">
-                    {streakData.longest_streak}
-                  </span>
-                  <span className="text-muted-foreground text-xs font-medium">Cao nhất</span>
-                </div>
-              </motion.div>
-
-              {/* New Record Badge */}
-              {isNewRecord && (
+            <AlertDialogDescription asChild>
+              <div className="space-y-5 text-center">
                 <motion.div
-                  initial={{ scale: 0, opacity: 0 }}
-                  animate={{ scale: 1, opacity: 1 }}
-                  transition={{ delay: 0.45, type: 'spring', stiffness: 200 }}
-                  className="flex justify-center"
+                  className="text-foreground text-base leading-relaxed"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ delay: 0.25 }}
                 >
-                  <Badge className="border-primary bg-primary text-primary-foreground rounded-full border px-3 py-1 shadow-sm">
-                    <Award className="mr-1.5 h-3.5 w-3.5" />
-                    Kỷ lục mới của bạn!
-                  </Badge>
+                  {streakData.message.split('\n').map((line, index) => (
+                    <React.Fragment key={index}>
+                      {line}
+                      {index < streakData.message.split('\n').length - 1 && <br />}
+                    </React.Fragment>
+                  ))}
                 </motion.div>
-              )}
 
-              {/* Encouragement Message */}
-              <motion.p
-                className="text-muted-foreground text-sm"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.5 }}
-              >
-                Tiếp tục phát huy nhé! 💪
-              </motion.p>
-
-              {/* Close Button */}
-              <motion.div
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.55 }}
-              >
-                <Button
-                  onClick={() => setIsOpen(false)}
-                  className="from-primary to-secondary w-full bg-gradient-to-r text-white shadow-md transition-all hover:scale-[1.02] hover:shadow-lg"
-                  size="lg"
+                {/* Stats */}
+                <motion.div
+                  className="flex items-stretch justify-center gap-3"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.35 }}
                 >
-                  <Zap className="mr-2 h-4 w-4" />
-                  Đóng
-                </Button>
-              </motion.div>
+                  <div className="border-border bg-card flex flex-1 flex-col items-center gap-2 rounded-2xl border p-4 shadow-sm backdrop-blur-sm transition-all hover:shadow-md">
+                    <div className="bg-primary flex h-10 w-10 items-center justify-center rounded-full">
+                      <Flame className="text-primary-foreground h-5 w-5" />
+                    </div>
+                    <span className="text-foreground text-3xl font-bold">
+                      {streakData.current_streak}
+                    </span>
+                    <span className="text-muted-foreground text-xs font-medium">Hiện tại</span>
+                  </div>
+
+                  <div className="border-border bg-card flex flex-1 flex-col items-center gap-2 rounded-2xl border p-4 shadow-sm backdrop-blur-sm transition-all hover:shadow-md">
+                    <div className="bg-secondary flex h-10 w-10 items-center justify-center rounded-full">
+                      <Trophy className="text-secondary-foreground h-5 w-5" />
+                    </div>
+                    <span className="text-foreground text-3xl font-bold">
+                      {streakData.longest_streak}
+                    </span>
+                    <span className="text-muted-foreground text-xs font-medium">Cao nhất</span>
+                  </div>
+                </motion.div>
+
+                {/* New Record Badge */}
+                {isNewRecord && (
+                  <motion.div
+                    initial={{ scale: 0, opacity: 0 }}
+                    animate={{ scale: 1, opacity: 1 }}
+                    transition={{ delay: 0.45, type: 'spring', stiffness: 200 }}
+                    className="flex justify-center"
+                  >
+                    <Badge className="border-primary bg-primary text-primary-foreground rounded-full border px-3 py-1 shadow-sm">
+                      <Award className="mr-1.5 h-3.5 w-3.5" />
+                      Kỷ lục mới của bạn!
+                    </Badge>
+                  </motion.div>
+                )}
+
+                {/* Encouragement Message */}
+                <motion.p
+                  className="text-muted-foreground text-sm"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ delay: 0.5 }}
+                >
+                  Tiếp tục phát huy nhé! 💪
+                </motion.p>
+
+                {/* Close Button */}
+                <motion.div
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.55 }}
+                >
+                  <Button
+                    onClick={() => setIsOpen(false)}
+                    className="from-primary to-secondary w-full bg-gradient-to-r text-white shadow-md transition-all hover:scale-[1.02] hover:shadow-lg"
+                    size="lg"
+                  >
+                    <Zap className="mr-2 h-4 w-4" />
+                    Đóng
+                  </Button>
+                </motion.div>
+              </div>
             </AlertDialogDescription>
           </AlertDialogHeader>
 
