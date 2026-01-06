@@ -9,11 +9,11 @@ export interface MenuButtonItem {
 }
 
 export const menuButton: MenuButtonItem[] = [
-  {
-    label: 'Soundcloud Player',
-    variable: 'soundcloudPlayer',
-    icon: Music,
-  },
+  // {
+  //   label: 'Soundcloud Player',
+  //   variable: 'soundcloudPlayer',
+  //   icon: Music,
+  // },
   {
     label: 'Video | Ảnh nền',
     variable: 'backgroundIframe',

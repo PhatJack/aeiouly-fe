@@ -10,7 +10,12 @@ export async function uploadSoundFileApi(soundId: number, soundFile: File) {
 
   const response = await apiClient.post<SoundUploadResponseSchema, FormData>(
     `/sounds/${soundId}/upload`,
-    formData
+    formData,
+    {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    }
   );
   return response.data;
 }
