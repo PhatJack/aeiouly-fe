@@ -176,7 +176,7 @@ const ChatSection = ({ sessionId, className }: ChatSectionProps) => {
           <DialogFooter className="sm:justify-center">
             <Button
               onClick={() => {
-                router.push(ROUTE.TOPIC);
+                router.push(searchParams.get('source') ? ROUTE.STUDY_ROUTE : ROUTE.TOPIC);
               }}
               size="lg"
               className="min-w-[200px]"

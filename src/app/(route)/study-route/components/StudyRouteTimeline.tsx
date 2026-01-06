@@ -25,6 +25,7 @@ import {
 } from '@/components/ui/timeline';
 import { LearningPathResponseSchema } from '@/lib/schema/learning-path.schema';
 import { StudyRouteRoutine } from '@/lib/schema/study-route.schema';
+import { cn } from '@/lib/utils';
 import { useDeleteMyLearningPathMutation } from '@/services/learning-path';
 
 import { CircleAlert } from 'lucide-react';
@@ -121,9 +122,13 @@ const StudyRouteTimeline = ({ learningPath, onDeleteRoute }: StudyRouteTimelineP
                       className="absolute inset-0 z-40 flex items-center justify-center backdrop-blur-sm"
                     />
                   )}
-                  <div className={isPending ? 'pointer-events-none blur-sm' : 'space-y-3'}>
+                  <div className={cn(isPending ? 'pointer-events-none blur-sm' : '', 'space-y-3')}>
                     {day.lessons.map((lesson) => (
-                      <StudyRouteTimelineItem key={lesson.id} lesson={lesson} />
+                      <StudyRouteTimelineItem
+                        key={lesson.id}
+                        lesson={lesson}
+                        isPending={isPending}
+                      />
                     ))}
                   </div>
                 </div>
