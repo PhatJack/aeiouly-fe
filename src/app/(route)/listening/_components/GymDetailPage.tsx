@@ -94,7 +94,9 @@ const GymDetailPage = ({ id }: GymDetailPageProps) => {
           if (searchParams.get('source') === 'study-route') {
             completeLessonMutation.mutate(session.lesson_id);
           }
-          router.push(searchParams.get('source') ? ROUTE.STUDY_ROUTE : ROUTE.GYM);
+          router.push(
+            searchParams.get('source') === 'study-route' ? ROUTE.STUDY_ROUTE : ROUTE.GYM,
+          );
           return;
         }
         setSession(data);
