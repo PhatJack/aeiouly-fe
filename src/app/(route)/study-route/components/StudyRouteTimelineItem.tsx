@@ -240,7 +240,9 @@ const StudyRouteTimelineItem = ({ lesson, isPending }: StudyRouteTimelineItemPro
                       {lesson.config.ai_character}
                     </p>
                   )}
-                  <Separator orientation="vertical" className="h-4" />
+                  {lesson.config.ai_character && lesson.config.ai_gender && (
+                    <Separator orientation="vertical" className="h-4" />
+                  )}
                   {lesson.config.ai_gender && (
                     <p className="text-muted-foreground text-sm">
                       <span className="font-semibold">Giới tính AI:</span>{' '}
