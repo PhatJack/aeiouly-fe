@@ -19,10 +19,12 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog';
+import { ScrollArea } from '@/components/ui/scroll-area';
 import { ROUTE } from '@/configs/route';
 import { SpeakingSessionContext } from '@/contexts/SpeakingSessionContext';
 import { useRecorder } from '@/hooks/use-recorder';
-import useTTS from '@/hooks/use-tts';
+// import useTTS from '@/hooks/use-tts';
+import useTTSDefault from '@/hooks/use-tts-default';
 import { SpeakingChatMessageResponseSchema } from '@/lib/schema/speaking-session.schema';
 import { cn } from '@/lib/utils';
 import { useCompleteLessonMutation } from '@/services/learning-path';
@@ -44,10 +46,16 @@ interface ChatSectionProps {
 const ChatSection = ({ sessionId, className }: ChatSectionProps) => {
   const searchParams = useSearchParams();
   const router = useRouter();
-  const { speak, isAudioLoading } = useTTS();
   const { data: chatHistory } = useGetSpeakingChatHistoryQuery(sessionId, {
     refetchOnWindowFocus: false,
   });
+  const voice =
+    chatHistory?.[0]?.session?.ai_gender === 'male'
+      ? 'en-US-BrianMultilingualNeural'
+      : 'en-US-EmmaMultilingualNeural';
+  const aiGender = chatHistory?.[0]?.session?.ai_gender === 'male' ? 'male' : 'female';
+  // const { speak, isAudioLoading } = useTTS(voice);
+  const { speak, isAudioLoading } = useTTSDefault(aiGender as 'male' | 'female');
   const handleSelectedSentenceIndex = useContextSelector(
     SpeakingSessionContext,
     (ctx) => ctx!.handleSelectedSentenceIndex
@@ -218,6 +226,7 @@ const ChatSection = ({ sessionId, className }: ChatSectionProps) => {
           historyMessageIds={historyMessageIds}
           className="mb-4 flex-1"
           backUrl={searchParams.get('source') || undefined}
+          voice={voice}
         >
           {(sendChatMutation.isPending || isAudioLoading) && (
             <MessageItem

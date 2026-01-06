@@ -3,6 +3,7 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useHotkeys } from 'react-hotkeys-hook';
 
+import { useSearchParams } from 'next/navigation';
 import { useRouter } from 'nextjs-toploader/app';
 
 import InputChecker from '@/components/app/gym/detail/InputChecker';
@@ -15,6 +16,7 @@ import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
 import { ROUTE } from '@/configs/route';
 import useContentTextSelection from '@/hooks/use-text-selection';
+import { useCompleteLessonMutation } from '@/services/learning-path';
 import {
   useGetListeningSessionQuery,
   useGetNextSentenceMutation,
@@ -29,6 +31,7 @@ interface GymDetailPageProps {
 }
 
 const GymDetailPage = ({ id }: GymDetailPageProps) => {
+  const searchParams = useSearchParams();
   const router = useRouter();
   const lessonId = Number(id);
   const inputRef = useRef<HTMLTextAreaElement | null>(null);
@@ -64,6 +67,11 @@ const GymDetailPage = ({ id }: GymDetailPageProps) => {
   });
 
   const getNextSentenceMutation = useGetNextSentenceMutation();
+  const completeLessonMutation = useCompleteLessonMutation({
+    meta: {
+      ignoreGlobal: true,
+    },
+  });
 
   useEffect(() => {
     if (listeningSession) {
@@ -83,7 +91,10 @@ const GymDetailPage = ({ id }: GymDetailPageProps) => {
       onSuccess: (data) => {
         if (data.status === 'completed') {
           toast.success('Hoàn thành bài học! 🎊');
-          router.push(ROUTE.GYM);
+          if (searchParams.get('source') === 'study-route') {
+            completeLessonMutation.mutate(session.lesson_id);
+          }
+          router.push(searchParams.get('source') ? ROUTE.STUDY_ROUTE : ROUTE.GYM);
           return;
         }
         setSession(data);

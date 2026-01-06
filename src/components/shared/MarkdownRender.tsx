@@ -9,6 +9,7 @@ interface MarkdownRenderProps {
   autoStartTyping?: boolean;
   disableTyping?: boolean;
   interval?: number;
+  onEnd?: () => void;
 }
 
 const MarkdownRender: React.FC<MarkdownRenderProps> = ({
@@ -16,6 +17,7 @@ const MarkdownRender: React.FC<MarkdownRenderProps> = ({
   autoStartTyping = true,
   disableTyping = false,
   interval = 30,
+  onEnd,
 }) => {
   return (
     <ReactMarkdownTyper
@@ -25,6 +27,7 @@ const MarkdownRender: React.FC<MarkdownRenderProps> = ({
       autoStartTyping={autoStartTyping}
       disableTyping={disableTyping}
       interval={interval}
+      onEnd={onEnd}
     >
       {children}
     </ReactMarkdownTyper>

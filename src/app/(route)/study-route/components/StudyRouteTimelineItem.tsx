@@ -6,6 +6,7 @@ import LoadingWithText from '@/components/LoadingWithText';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
+import { ROUTE } from '@/configs/route';
 import { LessonWithProgressResponseSchema } from '@/lib/schema/learning-path.schema';
 import { cn, getLevelColor } from '@/lib/utils';
 import { useStartLessonMutation } from '@/services/learning-path';
@@ -88,9 +89,9 @@ const StudyRouteTimelineItem = ({ lesson, isPending }: StudyRouteTimelineItemPro
               userLessonProgressId: lesson.id || 0,
               data: { session_id: listeningSession.id },
             });
-            router.push(`/listening/${listeningSession.id}?source=study-route&lid=${lesson.id}`);
+            router.push(`${ROUTE.GYM}/${listeningSession.id}?source=study-route&lid=${lesson.id}`);
           } else {
-            router.push(`/listening/${lesson.session_id}?source=study-route&lid=${lesson.id}`);
+            router.push(`${ROUTE.GYM}/${lesson.session_id}?source=study-route&lid=${lesson.id}`);
           }
           break;
 
@@ -106,9 +107,13 @@ const StudyRouteTimelineItem = ({ lesson, isPending }: StudyRouteTimelineItemPro
               userLessonProgressId: lesson.id || 0,
               data: { session_id: readingSession.id },
             });
-            router.push(`/reading/${readingSession.id}?source=study-route&lid=${lesson.id}`);
+            router.push(
+              `${ROUTE.READING}/${readingSession.id}?source=study-route&lid=${lesson.id}`
+            );
           } else {
-            router.push(`/reading/${lesson.session_id}?source=study-route&lid=${lesson.id}`);
+            router.push(
+              `${ROUTE.READING}/${lesson.session_id}?source=study-route&lid=${lesson.id}`
+            );
           }
           break;
 
@@ -129,9 +134,9 @@ const StudyRouteTimelineItem = ({ lesson, isPending }: StudyRouteTimelineItemPro
               userLessonProgressId: lesson.id || 0,
               data: { session_id: speakingSession.id },
             });
-            router.push(`/speaking/${speakingSession.id}?source=study-route&lid=${lesson.id}`);
+            router.push(`${ROUTE.ONION}/${speakingSession.id}?source=study-route&lid=${lesson.id}`);
           } else {
-            router.push(`/speaking/${lesson.session_id}?source=study-route&lid=${lesson.id}`);
+            router.push(`${ROUTE.ONION}/${lesson.session_id}?source=study-route&lid=${lesson.id}`);
           }
           break;
 
@@ -150,9 +155,9 @@ const StudyRouteTimelineItem = ({ lesson, isPending }: StudyRouteTimelineItemPro
               userLessonProgressId: lesson.id || 0,
               data: { session_id: writingSession.id },
             });
-            router.push(`/writing/${writingSession.id}?source=study-route&lid=${lesson.id}`);
+            router.push(`${ROUTE.TOPIC}/${writingSession.id}?source=study-route&lid=${lesson.id}`);
           } else {
-            router.push(`/writing/${lesson.session_id}?source=study-route&lid=${lesson.id}`);
+            router.push(`${ROUTE.TOPIC}/${lesson.session_id}?source=study-route&lid=${lesson.id}`);
           }
           break;
 
