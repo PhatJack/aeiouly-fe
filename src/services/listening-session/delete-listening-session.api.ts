@@ -3,7 +3,7 @@ import { ErrorResponseSchema } from '@/lib/schema/error';
 import { UseMutationOptions, useMutation } from '@tanstack/react-query';
 
 export async function deleteListeningLessonApi(lessonId: number): Promise<void> {
-  await apiClient.delete(`/listening-lessons/${lessonId}`);
+  await apiClient.delete(`/listening-sessions/${lessonId}`);
 }
 
 export const useDeleteListeningLessonMutation = (
