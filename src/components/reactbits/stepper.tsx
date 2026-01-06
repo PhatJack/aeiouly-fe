@@ -238,7 +238,9 @@ function StepContentWrapper({
             {children}
           </SlideTransition>
         ) : (
-          CompletedScreen
+          <CompletedScreenWrapper key="completed" onHeightReady={(h) => setParentHeight(h)}>
+            {CompletedScreen}
+          </CompletedScreenWrapper>
         )}
       </AnimatePresence>
     </motion.div>
@@ -268,6 +270,33 @@ function SlideTransition({ children, direction, onHeightReady }: SlideTransition
       initial="enter"
       animate="center"
       exit="exit"
+      transition={{ duration: 0.4 }}
+      style={{ position: 'absolute', left: 0, right: 0, top: 0 }}
+    >
+      {children}
+    </motion.div>
+  );
+}
+
+interface CompletedScreenWrapperProps {
+  children: ReactNode;
+  onHeightReady: (height: number) => void;
+}
+
+function CompletedScreenWrapper({ children, onHeightReady }: CompletedScreenWrapperProps) {
+  const containerRef = useRef<HTMLDivElement | null>(null);
+
+  useLayoutEffect(() => {
+    if (containerRef.current) {
+      onHeightReady(containerRef.current.offsetHeight);
+    }
+  }, [children, onHeightReady]);
+
+  return (
+    <motion.div
+      ref={containerRef}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
       transition={{ duration: 0.4 }}
       style={{ position: 'absolute', left: 0, right: 0, top: 0 }}
     >

@@ -118,7 +118,7 @@ const StudyRouteTimeline = ({ learningPath, onDeleteRoute }: StudyRouteTimelineP
                       icon={<DynamicIcon name="lock" className="text-muted-foreground" />}
                       title="Ngày học bị khoá"
                       description="Hoàn thành các bài học trước để mở khoá"
-                      className="absolute inset-0 z-50 flex items-center justify-center backdrop-blur-sm"
+                      className="absolute inset-0 z-40 flex items-center justify-center backdrop-blur-sm"
                     />
                   )}
                   <div className={isPending ? 'pointer-events-none blur-sm' : 'space-y-3'}>

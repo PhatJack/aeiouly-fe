@@ -46,6 +46,16 @@ export default function DriverOnboarding() {
           },
         },
         {
+          element: '#study-route',
+          popover: {
+            title: '📍 Lộ trình học tập',
+            description:
+              'Tạo và theo dõi lộ trình học tập cá nhân hóa để đạt được mục tiêu học tập của bạn một cách hiệu quả.',
+            side: 'right',
+            align: 'start',
+          },
+        },
+        {
           element: '#self-study-space',
           popover: {
             title: '🌌 Không gian tự học',

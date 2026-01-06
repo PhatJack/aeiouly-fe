@@ -72,8 +72,8 @@ const ProfilePage = () => {
       </div>
       <div className="space-y-4 xl:col-span-8">
         <div className="space-y-4">
-          <div className="rounded-xl border">
-            <div className="divide-y">
+          <div className="overflow-hidden rounded-xl border">
+            <div className="bg-card text-card-foreground divide-y">
               {/* Avatar Section */}
               <div className="p-4">
                 <div className="flex items-center justify-between">
