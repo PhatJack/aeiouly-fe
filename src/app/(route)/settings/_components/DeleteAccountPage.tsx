@@ -75,7 +75,7 @@ export default function DeleteAccountPage() {
             <div className="space-y-2">
               <Label htmlFor="confirm">
                 Để xác nhận, vui lòng nhập{' '}
-                <span className="bg-primary rounded-sm px-2 py-1 font-bold">xóa tài khoản</span> vào
+                <span className="bg-primary rounded-sm px-2 py-1 font-bold">xoá tài khoản</span> vào
                 ô bên dưới:
               </Label>
               <Input
