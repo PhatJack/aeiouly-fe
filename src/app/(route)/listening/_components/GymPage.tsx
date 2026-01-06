@@ -30,7 +30,7 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { ROUTE } from '@/configs/route';
 import {
   useCreateListeningSessionMutation,
-  useDeleteLessonMutation,
+  useDeleteListeningLessonMutation,
   useGetLessonsQuery,
   useGetListeningSessionsQuery,
 } from '@/services/listening-session';
@@ -50,7 +50,7 @@ const GymPage = () => {
 
   const createListeningSessionMutation = useCreateListeningSessionMutation();
   const { data: listeningSessions } = useGetListeningSessionsQuery();
-  const deleteMutation = useDeleteLessonMutation();
+  const deleteMutation = useDeleteListeningLessonMutation();
   const { data, isLoading, isError, refetch } = useGetLessonsQuery({
     page,
     size: 12,

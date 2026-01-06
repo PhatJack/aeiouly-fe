@@ -12,3 +12,4 @@ export * from './create-listening-session.api';
 export * from './get-listening-sessions.api';
 export * from './get-listening-session.api';
 export * from './get-next-sentence.api';
+export * from './delete-listening-session.api';
