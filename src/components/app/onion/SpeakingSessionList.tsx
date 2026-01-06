@@ -142,15 +142,7 @@ export const SpeakingSessionList = () => {
 
                 <AlertDialog>
                   <AlertDialogTrigger asChild>
-                    <Button
-                      variant="destructive"
-                      disabled={deleteMutation.isPending && pendingDeleteId === item.id}
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        handleDelete(item.id);
-                      }}
-                      aria-label={`Xóa phiên #${item.id}`}
-                    >
+                    <Button variant="destructive" aria-label={`Xóa phiên #${item.id}`}>
                       <Trash2 className="size-4" /> <span>Xóa phiên</span>
                     </Button>
                   </AlertDialogTrigger>
@@ -166,7 +158,7 @@ export const SpeakingSessionList = () => {
                         Hủy
                       </AlertDialogCancel>
                       <AlertDialogAction
-                        onClick={() => deleteMutation.mutate(item.id)}
+                        onClick={() => handleDelete(item.id)}
                         disabled={deleteMutation.isPending && pendingDeleteId === item.id}
                       >
                         Xác nhận

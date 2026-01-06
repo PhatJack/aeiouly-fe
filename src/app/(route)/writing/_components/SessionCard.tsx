@@ -42,9 +42,7 @@ const SessionCard: React.FC<SessionCardProps> = ({ session, onDelete, isDeleting
     <Card
       className={cn(
         'group relative overflow-hidden border py-0 transition-all',
-        isCompleted
-          ? 'to-background border-success from-success-foreground/10 dark:from-success-foreground/20 bg-gradient-to-br'
-          : 'border-border/50 from-background to-muted/20 hover:border-primary/50 bg-gradient-to-br'
+        isCompleted ? 'border-success' : 'border-border/50'
       )}
     >
       {/* Status Indicator */}
@@ -55,7 +53,10 @@ const SessionCard: React.FC<SessionCardProps> = ({ session, onDelete, isDeleting
         <div className="mb-3 flex items-start justify-between gap-3">
           <div className="min-w-0 flex-1">
             <div className="flex w-full items-center justify-between">
-              <h4 className="text-foreground group-hover:text-primary mb-2 truncate text-lg font-bold transition-colors">
+              <h4
+                title={session.topic}
+                className="text-foreground group-hover:text-primary mb-2 truncate text-lg font-bold transition-colors"
+              >
                 {session.topic}
               </h4>
               <div className="flex items-center gap-2">

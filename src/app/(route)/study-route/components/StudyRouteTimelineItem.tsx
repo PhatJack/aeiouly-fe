@@ -13,7 +13,6 @@ import { useCreateReadingSessionMutation } from '@/services/reading-session/crea
 import { useCreateSpeakingSessionMutation } from '@/services/speaking-session/create-speaking-session.api';
 import { useCreateWritingSessionMutation } from '@/services/writing-session/create-writing-session.api';
 
-import { CheckCircle2Icon } from 'lucide-react';
 import { DynamicIcon } from 'lucide-react/dynamic';
 import { toast } from 'sonner';
 
@@ -178,7 +177,7 @@ const StudyRouteTimelineItem = ({ lesson }: StudyRouteTimelineItemProps) => {
           ? 'border-green-200 bg-green-50/50 dark:border-green-900 dark:bg-green-950/20'
           : isInProgress
             ? 'border-primary bg-primary/5'
-            : 'border-border bg-background'
+            : 'border-border bg-card'
       }`}
     >
       {isLoading && (

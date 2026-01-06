@@ -35,7 +35,7 @@ const TopicCard: React.FC<TopicCardProps> = ({ topic, level, total_sentences, im
         'group border-border/50 relative cursor-pointer overflow-hidden rounded-xl border-2',
         'from-background via-background/95 to-muted/30 bg-gradient-to-br',
         'transition-all duration-300 ease-out',
-        'hover:border-primary/50 hover:scale-[1.03] hover:shadow-xl',
+        'hover:border-primary/50 hover:scale-[1.03]',
         'active:scale-[0.98]'
       )}
     >

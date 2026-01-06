@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { memo } from 'react';
 
 import ListeningSessionCard from '@/components/app/gym/ListeningSessionCard';
 import EmptyCustom from '@/components/custom/EmptyCustom';
@@ -11,9 +11,14 @@ import { Headset } from 'lucide-react';
 interface ListeningSessionsListProps {
   sessions: SessionResponseSchema[];
   onContinueSession: (sessionId: number) => void;
+  onDeleteLesson: (id: number) => void;
 }
 
-const ListeningSessionsList = ({ sessions, onContinueSession }: ListeningSessionsListProps) => {
+const ListeningSessionsList = ({
+  sessions,
+  onContinueSession,
+  onDeleteLesson,
+}: ListeningSessionsListProps) => {
   if (sessions.length === 0) {
     return (
       <EmptyCustom
@@ -32,6 +37,7 @@ const ListeningSessionsList = ({ sessions, onContinueSession }: ListeningSession
             key={session.id}
             session={session}
             onContinueSession={onContinueSession}
+            onDeleteLesson={onDeleteLesson}
           />
         );
       })}
@@ -39,4 +45,4 @@ const ListeningSessionsList = ({ sessions, onContinueSession }: ListeningSession
   );
 };
 
-export default ListeningSessionsList;
+export default memo(ListeningSessionsList);

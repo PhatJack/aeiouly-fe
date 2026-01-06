@@ -29,7 +29,7 @@ const ListeningLessonCard = ({ lesson, onClick }: ListeningLessonCardProps) => {
       onClick={onClick}
     >
       <CardContent className="p-0">
-        <div className="flex flex-col">
+        <div className="flex h-full flex-col">
           {/* Thumbnail */}
           <div className="relative aspect-video w-full overflow-hidden">
             <Image
@@ -51,9 +51,12 @@ const ListeningLessonCard = ({ lesson, onClick }: ListeningLessonCardProps) => {
           </div>
 
           {/* Content */}
-          <div className="flex flex-col gap-2 p-4">
+          <div className="flex flex-col justify-between gap-2 p-4">
             {/* Title */}
-            <h3 className="text-foreground group-hover:text-primary line-clamp-2 text-sm font-semibold transition-colors md:text-base">
+            <h3
+              title={lesson.title}
+              className="text-foreground group-hover:text-primary line-clamp-2 text-sm font-semibold transition-colors md:text-base"
+            >
               {lesson.title}
             </h3>
 
@@ -71,14 +74,6 @@ const ListeningLessonCard = ({ lesson, onClick }: ListeningLessonCardProps) => {
                 <span>{distanceToNowVN(lesson.created_at)}</span>
               </div>
             </div>
-
-            {/* YouTube URL (optional, hidden by default to mimic YouTube's clean look) */}
-            {/* {lesson.youtube_url && (
-              <div className="text-muted-foreground flex items-center gap-1 text-xs truncate">
-                <Clock className="h-3.5 w-3.5 flex-shrink-0" />
-                <span className="truncate">{lesson.youtube_url}</span>
-              </div>
-            )} */}
           </div>
         </div>
       </CardContent>

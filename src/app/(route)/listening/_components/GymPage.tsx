@@ -1,12 +1,22 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 
 import { useRouter } from 'nextjs-toploader/app';
 
 import PageHeader from '@/components/PageHeader';
 import EmptyCustom from '@/components/custom/EmptyCustom';
 import PaginationCustom from '@/components/custom/PaginationCustom';
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from '@/components/ui/alert-dialog';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import {
@@ -20,6 +30,7 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { ROUTE } from '@/configs/route';
 import {
   useCreateListeningSessionMutation,
+  useDeleteLessonMutation,
   useGetLessonsQuery,
   useGetListeningSessionsQuery,
 } from '@/services/listening-session';
@@ -35,9 +46,11 @@ const GymPage = () => {
   const [search, setSearch] = useState('');
   const [level, setLevel] = useState<string>('all');
   const [page, setPage] = useState(1);
+  const [pendingDeleteId, setPendingDeleteId] = useState<number | null>(null);
 
   const createListeningSessionMutation = useCreateListeningSessionMutation();
   const { data: listeningSessions } = useGetListeningSessionsQuery();
+  const deleteMutation = useDeleteLessonMutation();
   const { data, isLoading, isError, refetch } = useGetLessonsQuery({
     page,
     size: 12,
@@ -55,6 +68,26 @@ const GymPage = () => {
       error: 'Đã có lỗi xảy ra. Vui lòng thử lại.',
     });
   };
+
+  const handleDeleteClick = useCallback((id: number) => {
+    setPendingDeleteId(id);
+  }, []);
+
+  const handleDeleteConfirm = useCallback(async () => {
+    if (pendingDeleteId === null) return;
+
+    toast.promise(deleteMutation.mutateAsync(pendingDeleteId), {
+      loading: 'Đang xoá ...',
+      success: () => {
+        setPendingDeleteId(null);
+        return 'Xoá phiên thành công!';
+      },
+      error: (e: any) => {
+        setPendingDeleteId(null);
+        return e?.detail || 'Xoá phiên thất bại. Vui lòng thử lại.';
+      },
+    });
+  }, [deleteMutation, pendingDeleteId]);
 
   return (
     <div className="min-h-screen">
@@ -83,10 +116,11 @@ const GymPage = () => {
             <ListeningSessionsList
               sessions={listeningSessions.items || []}
               onContinueSession={(sessionId) => router.push(`${ROUTE.GYM}/${sessionId}`)}
+              onDeleteLesson={handleDeleteClick}
             />
           ) : (
             <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
-              {[1, 2, 3].map((i) => (
+              {[1, 2, 3, 4].map((i) => (
                 <div key={i} className="rounded-xl border p-4">
                   <div className="space-y-3">
                     <Skeleton className="h-5 w-3/4" />
@@ -111,11 +145,11 @@ const GymPage = () => {
                 placeholder="Tìm kiếm bài học theo tiêu đề hoặc chủ đề..."
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
-                className="pr-4 pl-11 transition-all duration-200"
+                className="h-11 pr-4 pl-11 transition-all duration-200"
               />
             </div>
             <Select value={level} onValueChange={setLevel}>
-              <SelectTrigger className="w-full shadow-sm transition-all duration-200 sm:w-[200px]">
+              <SelectTrigger className="w-full shadow-sm transition-all duration-200 data-[size=default]:h-11 sm:w-[200px]">
                 <Filter className="mr-2 h-4 w-4" />
                 <SelectValue placeholder="Tất cả cấp độ" />
               </SelectTrigger>
@@ -173,6 +207,26 @@ const GymPage = () => {
           )}
         </section>
       </div>
+
+      <AlertDialog
+        open={pendingDeleteId !== null}
+        onOpenChange={(open) => !open && setPendingDeleteId(null)}
+      >
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Xóa phiên #{pendingDeleteId}?</AlertDialogTitle>
+            <AlertDialogDescription>
+              Thao tác này không thể hoàn tác. Phiên và dữ liệu liên quan sẽ bị xóa.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel onClick={() => setPendingDeleteId(null)}>Hủy</AlertDialogCancel>
+            <AlertDialogAction onClick={handleDeleteConfirm} disabled={deleteMutation.isPending}>
+              Xác nhận
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   );
 };
