@@ -5,6 +5,7 @@ import { useRouter } from 'nextjs-toploader/app';
 import LoadingWithText from '@/components/LoadingWithText';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
+import { Separator } from '@/components/ui/separator';
 import { LessonWithProgressResponseSchema } from '@/lib/schema/learning-path.schema';
 import { cn, getLevelColor } from '@/lib/utils';
 import { useStartLessonMutation } from '@/services/learning-path';
@@ -16,13 +17,14 @@ import { useCreateWritingSessionMutation } from '@/services/writing-session/crea
 import { DynamicIcon } from 'lucide-react/dynamic';
 import { toast } from 'sonner';
 
-import { getSkillIcon, getStatusText } from '../utils/util';
+import { getGenderText, getSkillIcon, getStatusText } from '../utils/util';
 
 interface StudyRouteTimelineItemProps {
   lesson: LessonWithProgressResponseSchema;
+  isPending?: boolean;
 }
 
-const StudyRouteTimelineItem = ({ lesson }: StudyRouteTimelineItemProps) => {
+const StudyRouteTimelineItem = ({ lesson, isPending }: StudyRouteTimelineItemProps) => {
   const router = useRouter();
   const skillIcon = getSkillIcon(lesson.config.lesson_type);
   const isCompleted = lesson.status === 'done';
@@ -231,11 +233,21 @@ const StudyRouteTimelineItem = ({ lesson }: StudyRouteTimelineItemProps) => {
                     {lesson.config.my_character}
                   </p>
                 )}
-                {lesson.config.ai_character && (
-                  <p className="text-muted-foreground text-sm">
-                    <span className="font-semibold">Nhân vật AI:</span> {lesson.config.ai_character}
-                  </p>
-                )}
+                <div className="flex items-center gap-4">
+                  {lesson.config.ai_character && (
+                    <p className="text-muted-foreground text-sm">
+                      <span className="font-semibold">Nhân vật AI:</span>{' '}
+                      {lesson.config.ai_character}
+                    </p>
+                  )}
+                  <Separator orientation="vertical" className="h-4" />
+                  {lesson.config.ai_gender && (
+                    <p className="text-muted-foreground text-sm">
+                      <span className="font-semibold">Giới tính AI:</span>{' '}
+                      {getGenderText(lesson.config.ai_gender)}
+                    </p>
+                  )}
+                </div>
               </div>
             )}
 
@@ -249,7 +261,7 @@ const StudyRouteTimelineItem = ({ lesson }: StudyRouteTimelineItemProps) => {
         <Button
           size="sm"
           variant={isCompleted ? 'success' : 'default'}
-          disabled={isCompleted || isLoading}
+          disabled={isCompleted || isLoading || isPending}
           onClick={handleStartLesson}
           className="shrink-0"
         >

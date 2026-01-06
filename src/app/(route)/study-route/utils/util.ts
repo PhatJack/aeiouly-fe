@@ -25,3 +25,14 @@ export const getStatusText = (status: string) => {
       return 'Bắt đầu';
   }
 };
+
+export const getGenderText = (gender: string) => {
+  switch (gender) {
+    case 'male':
+      return 'Nam';
+    case 'female':
+      return 'Nữ';
+    default:
+      return 'Không xác định';
+  }
+};
