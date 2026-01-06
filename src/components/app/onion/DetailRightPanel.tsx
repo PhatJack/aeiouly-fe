@@ -47,7 +47,7 @@ const DetailRightPanel = ({ speakingSession }: DetailRightPanelProps) => {
           <p className="text-error font-medium">{speakingSession?.level}</p>
         </div>
       </div>
-      <ScrollArea className="flex-1 overflow-y-auto">
+      <ScrollArea className="flex-1">
         <div className="space-y-4 px-4 pt-2 pb-24">
           <BlockquoteCustom
             title="Tình huống"
