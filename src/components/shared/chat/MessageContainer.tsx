@@ -5,6 +5,7 @@ import React, { memo, useLayoutEffect, useRef } from 'react';
 import { useRouter } from 'nextjs-toploader/app';
 
 import { Button } from '@/components/ui/button';
+import { ScrollArea } from '@/components/ui/scroll-area';
 import { cn } from '@/lib/utils';
 
 import { ArrowLeft } from 'lucide-react';
@@ -20,6 +21,7 @@ interface MessageContainerProps {
   className?: string;
   isDetailPage?: boolean;
   backUrl?: string;
+  voice?: string;
 }
 
 function MessageContainer({
@@ -30,6 +32,7 @@ function MessageContainer({
   className,
   isDetailPage = true,
   backUrl,
+  voice,
 }: MessageContainerProps) {
   const router = useRouter();
   const messagesEndRef = useRef<HTMLDivElement>(null);
@@ -40,7 +43,7 @@ function MessageContainer({
   }, [messages.length]);
 
   return (
-    <div
+    <ScrollArea
       className={cn(
         'dark:bg-background relative flex h-full max-h-dvh scroll-mr-1 flex-col space-y-3 overflow-y-auto rounded-xl bg-gray-50 px-4 lg:max-h-full',
         className,
@@ -48,7 +51,7 @@ function MessageContainer({
       )}
     >
       {isDetailPage && (
-        <div className="dark:from-background absolute top-0 right-0 left-0 z-50 flex h-20 bg-gradient-to-b from-gray-50 px-4">
+        <div className="dark:from-background absolute top-0 right-0 left-0 z-50 flex h-12 bg-gradient-to-b from-gray-50 px-4">
           <Button
             variant="ghost"
             size="lg"
@@ -75,12 +78,13 @@ function MessageContainer({
                 ? historyMessageIds.has(`${message.session_id}_${message.role}_${message.id}`)
                 : true
             }
+            voice={voice}
           />
         </div>
       ))}
       {children}
       <div ref={messagesEndRef} />
-    </div>
+    </ScrollArea>
   );
 }
 

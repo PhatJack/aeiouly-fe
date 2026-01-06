@@ -12,6 +12,7 @@ type SpeakOptions = {
 
 export default function useTTS(defaultVoice = 'en-US-EmmaMultilingualNeural') {
   const cacheRef = useRef<Map<string, string>>(new Map());
+  const cachedUrls = useRef<Set<string>>(new Set());
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const currentRef = useRef<{ url: string } | null>(null);
   const [isSpeaking, setIsSpeaking] = useState(false);
@@ -25,10 +26,13 @@ export default function useTTS(defaultVoice = 'en-US-EmmaMultilingualNeural') {
       audioRef.current.currentTime = 0;
     }
     if (currentRef.current) {
-      try {
-        URL.revokeObjectURL(currentRef.current.url);
-      } catch (e) {
-        // ignore
+      const url = currentRef.current.url;
+      if (!cachedUrls.current.has(url)) {
+        try {
+          URL.revokeObjectURL(url);
+        } catch (e) {
+          // ignore
+        }
       }
       currentRef.current = null;
     }
@@ -83,6 +87,7 @@ export default function useTTS(defaultVoice = 'en-US-EmmaMultilingualNeural') {
         const blob = new Blob(buffers, { type: 'audio/wav' });
         url = URL.createObjectURL(blob);
         cacheRef.current.set(key, url);
+        cachedUrls.current.add(url);
 
         stop();
         const audio = new Audio(url);

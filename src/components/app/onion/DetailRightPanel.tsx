@@ -5,6 +5,7 @@ import React, { useEffect } from 'react';
 import { useSearchParams } from 'next/navigation';
 
 import BlockquoteCustom from '@/components/custom/BlockquoteCustom';
+import { ScrollArea } from '@/components/ui/scroll-area';
 import { useSpeechContext } from '@/contexts/SpeechContext';
 import { SpeakingSessionResponseSchema } from '@/lib/schema/speaking-session.schema';
 
@@ -46,7 +47,7 @@ const DetailRightPanel = ({ speakingSession }: DetailRightPanelProps) => {
           <p className="text-error font-medium">{speakingSession?.level}</p>
         </div>
       </div>
-      <div className="flex-1 overflow-y-auto">
+      <ScrollArea className="flex-1">
         <div className="space-y-4 px-4 pt-2 pb-24">
           <BlockquoteCustom
             title="Tình huống"
@@ -61,7 +62,7 @@ const DetailRightPanel = ({ speakingSession }: DetailRightPanelProps) => {
           <SkipSentenceButton id={speakingSession?.id} />
           <HintButton id={speakingSession?.id} />
         </div>
-      </div>
+      </ScrollArea>
       {/* Bottom actions */}
       <div className="dark:bg-background sticky bottom-0 z-40 w-full rounded-b-2xl border-t bg-gray-50 p-4">
         <EndSessionButton

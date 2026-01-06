@@ -5,7 +5,8 @@ import React, { memo, useCallback, useState } from 'react';
 import IndicatorLoading from '@/components/IndicatorLoading';
 import { useCopyToClipboard } from '@/components/editor/tiptap-editor/hooks/use-copy-to-clipboard';
 import { Button } from '@/components/ui/button';
-import useTTS from '@/hooks/use-tts';
+// import useTTS from '@/hooks/use-tts';
+import useTTSDefault from '@/hooks/use-tts-default';
 import { cn } from '@/lib/utils';
 
 import { Check, Copy, Languages, Loader2, Pause, Volume2 } from 'lucide-react';
@@ -21,6 +22,7 @@ interface MessageItemProps {
   disableAssistantSpeak?: boolean;
   translation_sentence?: string;
   audioUrl?: string;
+  voice?: string;
 }
 
 const MessageItem: React.FC<MessageItemProps> = ({
@@ -32,13 +34,15 @@ const MessageItem: React.FC<MessageItemProps> = ({
   translation_sentence = '',
   index = 0,
   audioUrl = '',
+  voice = 'en-US-EmmaMultilingualNeural',
 }) => {
   const messageId = `message-${index}`;
   const [isPlayAudio, setIsPlayAudio] = useState(false);
   const [isShowTranslated, setIsShowTranslated] = useState(false);
   const [hover, setHover] = useState(false);
   const { copy, isCopied } = useCopyToClipboard();
-  const { speak: ttsSpeak, stop: ttsStop, voice: selectedVoice, isAudioLoading } = useTTS();
+  // const { speak: ttsSpeak, stop: ttsStop, voice: selectedVoice, isAudioLoading } = useTTS(voice);
+  const { speak: ttsSpeak, stop: ttsStop, isAudioLoading } = useTTSDefault();
   const [isThisMessageSpeaking, setIsThisMessageSpeaking] = useState(false);
 
   const handleSpeakClick = useCallback(async () => {
@@ -51,7 +55,6 @@ const MessageItem: React.FC<MessageItemProps> = ({
     setIsThisMessageSpeaking(true);
     try {
       await ttsSpeak(content, {
-        voice: selectedVoice,
         onEnd: () => {
           setIsThisMessageSpeaking(false);
         },
@@ -59,7 +62,7 @@ const MessageItem: React.FC<MessageItemProps> = ({
     } catch (err) {
       setIsThisMessageSpeaking(false);
     }
-  }, [content, isThisMessageSpeaking, ttsSpeak, ttsStop, selectedVoice]);
+  }, [content, isThisMessageSpeaking, ttsSpeak, ttsStop]);
 
   return (
     <>
