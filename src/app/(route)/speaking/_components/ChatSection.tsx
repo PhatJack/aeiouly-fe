@@ -225,7 +225,7 @@ const ChatSection = ({ sessionId, className }: ChatSectionProps) => {
           messages={localMessages as any}
           historyMessageIds={historyMessageIds}
           className="mb-4 flex-1"
-          backUrl={searchParams.get('source') || undefined}
+          backUrl={`/${searchParams.get('source')}` || undefined}
           voice={voice}
         >
           {(sendChatMutation.isPending || isAudioLoading) && (

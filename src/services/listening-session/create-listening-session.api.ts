@@ -1,3 +1,4 @@
+import { getQueryClient } from '@/app/get-query-client';
 import { apiClient } from '@/lib/client';
 import { ErrorResponseSchema } from '@/lib/schema/error';
 import { SessionCreateSchema, SessionResponseSchema } from '@/lib/schema/listening-session.schema';
@@ -17,9 +18,13 @@ export const useCreateListeningSessionMutation = (
     'mutationKey' | 'mutationFn'
   >
 ) => {
+  const queryClient = getQueryClient();
   return useMutation<SessionResponseSchema, ErrorResponseSchema, SessionCreateSchema>({
     mutationKey: ['createListeningSession'],
     mutationFn: (body) => createListeningSessionApi(body),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['listeningSessions'] });
+    },
     ...options,
   });
 };

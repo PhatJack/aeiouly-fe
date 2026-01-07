@@ -64,7 +64,7 @@ function MessageContainer({
       {messages.map((message, index) => (
         <div
           key={`message_${message.session_id}_${message.id}_${message.role}`}
-          className={cn('flex', message.role === 'user' ? 'justify-end' : 'justify-start')}
+          className={cn('mb-4 flex', message.role === 'user' ? 'justify-end' : 'justify-start')}
         >
           <MessageItem
             index={message.id || index}
