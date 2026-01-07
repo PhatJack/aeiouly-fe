@@ -1,3 +1,4 @@
+import { getQueryClient } from '@/app/get-query-client';
 import { apiClient } from '@/lib/client';
 import { ErrorResponseSchema } from '@/lib/schema/error';
 import { UserLessonProgressResponseSchema } from '@/lib/schema/learning-path.schema';
@@ -17,9 +18,14 @@ export const useCompleteLessonMutation = (
     'mutationKey' | 'mutationFn'
   >
 ) => {
+  const queryClient = getQueryClient();
+
   return useMutation<UserLessonProgressResponseSchema, ErrorResponseSchema, number>({
     mutationKey: ['completeLesson'],
     mutationFn: (userLessonProgressId) => completeLessonApi(userLessonProgressId),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['myLearningPath'] });
+    },
     ...options,
   });
 };
