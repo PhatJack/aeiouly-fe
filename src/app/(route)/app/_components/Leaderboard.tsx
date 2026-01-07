@@ -37,16 +37,16 @@ const Leaderboard = () => {
   }
 
   return (
-    <Card className="hidden min-w-sm md:flex md:max-h-[calc(100dvh-5.75rem)]">
-      <CardHeader>
+    <Card className="hidden min-w-sm md:flex md:max-h-[calc(100dvh-5.75rem)] md:flex-col">
+      <CardHeader className="flex-shrink-0">
         <div className="flex items-center gap-2">
           <Trophy className="h-6 w-6 text-yellow-500" />
           <CardTitle>Bảng Xếp Hạng Streak</CardTitle>
         </div>
         <CardDescription>Top người dùng có chuỗi đăng nhập dài nhất</CardDescription>
       </CardHeader>
-      <CardContent>
-        <ScrollArea className="flex flex-col">
+      <CardContent className="flex-1 overflow-hidden p-0">
+        <ScrollArea className="h-full px-6 pb-6">
           {data && data.leaderboard.length > 0 ? (
             <>
               {data.leaderboard.map((item, index) => {
