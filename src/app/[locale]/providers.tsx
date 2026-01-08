@@ -18,13 +18,12 @@ import { ThemeCustomProvider } from '@/contexts/ThemeCustomContext';
 import { WebSocketProvider } from '@/contexts/WebsocketContext';
 import { WritingSessionProvider } from '@/contexts/WritingSessionContext';
 import { SoloSoundProvider } from '@/hooks/use-solo-sound-store';
+import { getQueryClient } from '@/lib/get-query-client';
 import { QueryClientProvider } from '@tanstack/react-query';
 
 import { OverlayScrollbars } from 'overlayscrollbars';
 import 'overlayscrollbars/overlayscrollbars.css';
 import { ToasterProps } from 'sonner';
-
-import { getQueryClient } from './get-query-client';
 
 const queryClient = getQueryClient();
 

@@ -3,7 +3,6 @@
 import React from 'react';
 
 import Image from 'next/image';
-import Link from 'next/link';
 
 import { Marquee } from '@/components/magicui/marquee';
 import { Badge } from '@/components/ui/badge';
@@ -11,6 +10,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { ROUTE } from '@/configs/route';
 import { reviews, reviews2, reviews3 } from '@/constants/home';
+import { Link } from '@/i18n/routing';
 import { cn } from '@/lib/utils';
 
 import {
