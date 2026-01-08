@@ -4,7 +4,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 
 import { useRouter, useSearchParams } from 'next/navigation';
 
-import { getQueryClient } from '@/app/get-query-client';
+import { getQueryClient } from '@/lib/get-query-client';
 import CreateLessonForm from '@/components/app/listening/CreateLessonForm';
 import {
   AlertDialog,

@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 
-import { getQueryClient } from '@/app/get-query-client';
+import { getQueryClient } from '@/lib/get-query-client';
 import { Button } from '@/components/ui/button';
 import { Field } from '@/components/ui/field';
 import { Input } from '@/components/ui/input';

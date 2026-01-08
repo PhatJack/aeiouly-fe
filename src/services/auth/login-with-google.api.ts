@@ -1,4 +1,4 @@
-import { getQueryClient } from '@/app/get-query-client';
+import { getQueryClient } from '@/lib/get-query-client';
 import { apiClient } from '@/lib/client';
 import { useMutation } from '@tanstack/react-query';
 

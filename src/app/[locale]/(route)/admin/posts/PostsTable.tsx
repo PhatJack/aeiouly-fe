@@ -4,7 +4,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 
 import { useRouter } from 'nextjs-toploader/app';
 
-import { getQueryClient } from '@/app/get-query-client';
+import { getQueryClient } from '@/lib/get-query-client';
 import {
   AlertDialog,
   AlertDialogAction,

@@ -1,4 +1,4 @@
-import { getQueryClient } from '@/app/get-query-client';
+import { getQueryClient } from '@/lib/get-query-client';
 import { apiClient } from '@/lib/client';
 import { BackgroundVideoResponseSchema } from '@/lib/schema/background-video.schema';
 import { ErrorResponseSchema } from '@/lib/schema/error';

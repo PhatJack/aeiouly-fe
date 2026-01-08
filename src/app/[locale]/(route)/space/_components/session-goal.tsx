@@ -3,7 +3,7 @@
 import React, { useEffect } from 'react';
 import { useInView } from 'react-intersection-observer';
 
-import { getQueryClient } from '@/app/get-query-client';
+import { getQueryClient } from '@/lib/get-query-client';
 import { PlayfulTodolist } from '@/components/animate-ui/playful-todolist';
 import AddTodoForm from '@/components/app/solo/AddTodoForm';
 import TooltipCustom from '@/components/custom/TooltipCustom';
