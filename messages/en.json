@@ -1,0 +1,75 @@
+{
+  "home": {
+    "hero": {
+      "badge": "Smart English Learning Platform",
+      "title": "Conquer English with",
+      "titleBrand": "Aeiouly",
+      "description": "Learn English effectively with AI technology, personalized content, and scientific learning methods. Gain confidence in communication in just a few weeks!",
+      "cta": "Start Learning Now"
+    },
+    "stats": {
+      "students": "Students",
+      "lessons": "Lessons",
+      "rating": "Rating",
+      "satisfaction": "Satisfaction"
+    },
+    "features": {
+      "selfStudy": {
+        "title": "Self-Study Space",
+        "description": "Flexible learning with content personalized to your level"
+      },
+      "speaking": {
+        "title": "Speaking Practice",
+        "description": "Improve speaking skills with real-time AI feedback"
+      },
+      "writing": {
+        "title": "Writing Practice",
+        "description": "Enhance writing skills with diverse topics and detailed feedback"
+      },
+      "listening": {
+        "title": "Listening Practice",
+        "description": "Train listening comprehension through rich lessons"
+      },
+      "reading": {
+        "title": "Reading Practice",
+        "description": "Expand vocabulary and reading comprehension with interesting articles"
+      },
+      "vocabulary": {
+        "title": "Personal Vocabulary",
+        "description": "Manage and learn vocabulary effectively with flashcards and quizzes"
+      },
+      "cta": "Explore Now"
+    },
+    "benefits": {
+      "badge": "Smart Learning Method",
+      "title": "Why Choose Aeiouly?",
+      "list": [
+        "Learn anytime, anywhere with web application",
+        "Personalized content based on your level",
+        "Real-time feedback from AI",
+        "Detailed learning progress tracking",
+        "Diverse and rich resource library",
+        "Active learning community"
+      ],
+      "cardTitle": "Start Your Journey",
+      "cardDescription": "Join thousands of students who have improved their English with Aeiouly. Completely free!",
+      "cardCta": "Sign Up Now"
+    },
+    "reviews": {
+      "badge": "What Students Say",
+      "title": "Loved by the Community",
+      "description": "Thousands of students have trusted and achieved their goals with Aeiouly"
+    }
+  },
+  "auth": {
+    "login": "Login",
+    "register": "Sign Up",
+    "logout": "Logout"
+  },
+  "common": {
+    "home": "Home",
+    "profile": "Profile",
+    "settings": "Settings",
+    "language": "Language"
+  }
+}

@@ -2,9 +2,11 @@ import { cookies } from 'next/headers';
 import { NextRequest, NextResponse } from 'next/server';
 
 import { jwtDecode } from 'jwt-decode';
+import createMiddleware from 'next-intl/middleware';
 
 import { ROUTE } from './configs/route';
 import { COOKIE_KEY_ACCESS_TOKEN, COOKIE_KEY_REFRESH_TOKEN } from './constants/cookies';
+import { routing } from './i18n/routing';
 
 const adminRoutes = [
   ROUTE.ADMIN.INDEX,
@@ -29,32 +31,39 @@ const userRoutes = [
   ROUTE.VOCABULARY,
 ];
 
+const intlMiddleware = createMiddleware(routing);
+
 // This function can be marked `async` if using `await` inside
 export async function middleware(request: NextRequest) {
   const path = request.nextUrl.pathname;
+  
+  // Remove locale prefix for route matching
+  const pathWithoutLocale = path.replace(/^\/(vi|en)/, '') || '/';
+  
   const accessToken = (await cookies()).get(COOKIE_KEY_ACCESS_TOKEN)?.value;
   const refreshToken = (await cookies()).get(COOKIE_KEY_REFRESH_TOKEN)?.value;
-  const isAdminRoute = adminRoutes.some((route: any) => path.startsWith(route));
-  // const isPublicRoute = publicRoutes.some((route: any) => path.startsWith(route));
-  // const isUserRoute = userRoutes.some((route: any) => path.startsWith(route));
+  const isAdminRoute = adminRoutes.some((route: any) => pathWithoutLocale.startsWith(route));
+  // const isPublicRoute = publicRoutes.some((route: any) => pathWithoutLocale.startsWith(route));
+  // const isUserRoute = userRoutes.some((route: any) => pathWithoutLocale.startsWith(route));
 
   if (accessToken && refreshToken) {
     const user: any = jwtDecode(accessToken);
     const isAdmin = user?.username === 'admin';
     if (isAdminRoute && !isAdmin) {
-      return NextResponse.redirect(new URL(ROUTE.APP, request.url));
+      return NextResponse.redirect(new URL(`${path.match(/^\/(vi|en)/)?.[0] || '/vi'}${ROUTE.APP}`, request.url));
     }
   }
 
-  if (request.url.includes(ROUTE.AUTH.LOGIN)) {
+  if (pathWithoutLocale.includes(ROUTE.AUTH.LOGIN)) {
     if (accessToken && refreshToken) {
-      return NextResponse.redirect(new URL(ROUTE.APP, request.url));
+      return NextResponse.redirect(new URL(`${path.match(/^\/(vi|en)/)?.[0] || '/vi'}${ROUTE.APP}`, request.url));
     }
   }
 
-  return NextResponse.next();
+  // Run intl middleware
+  return intlMiddleware(request);
 }
 
 export const config = {
-  matcher: ['/((?!api|_next/static|_next/image|.*\\.png$).*)'],
+  matcher: ['/((?!api|_next/static|_next/image|.*\\.png$|.*\\.webp$|.*\\.ico$).*)'],
 };

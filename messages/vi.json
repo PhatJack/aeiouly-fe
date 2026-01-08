@@ -1,0 +1,75 @@
+{
+  "home": {
+    "hero": {
+      "badge": "Nền tảng học tiếng Anh thông minh",
+      "title": "Chinh phục tiếng Anh cùng",
+      "titleBrand": "Aeiouly",
+      "description": "Học tiếng Anh hiệu quả với công nghệ AI, nội dung cá nhân hóa và phương pháp học tập khoa học. Tự tin giao tiếp chỉ sau vài tuần!",
+      "cta": "Bắt đầu học ngay"
+    },
+    "stats": {
+      "students": "Học viên",
+      "lessons": "Bài học",
+      "rating": "Đánh giá",
+      "satisfaction": "Hài lòng"
+    },
+    "features": {
+      "selfStudy": {
+        "title": "Không gian tự học",
+        "description": "Học tập linh hoạt với nội dung được cá nhân hóa theo trình độ của bạn"
+      },
+      "speaking": {
+        "title": "Luyện phát âm",
+        "description": "Cải thiện kỹ năng nói với AI phản hồi thời gian thực"
+      },
+      "writing": {
+        "title": "Luyện viết",
+        "description": "Nâng cao kỹ năng viết với các chủ đề đa dạng và phản hồi chi tiết"
+      },
+      "listening": {
+        "title": "Luyện nghe",
+        "description": "Rèn luyện khả năng nghe hiểu qua các bài học phong phú"
+      },
+      "reading": {
+        "title": "Luyện đọc",
+        "description": "Mở rộng vốn từ và khả năng đọc hiểu với các bài đọc thú vị"
+      },
+      "vocabulary": {
+        "title": "Từ vựng cá nhân",
+        "description": "Quản lý và học từ vựng hiệu quả với flashcard và quiz"
+      },
+      "cta": "Khám phá ngay"
+    },
+    "benefits": {
+      "badge": "Phương pháp học thông minh",
+      "title": "Tại sao chọn Aeiouly?",
+      "list": [
+        "Học mọi lúc, mọi nơi với ứng dụng web",
+        "Nội dung được cá nhân hóa theo trình độ",
+        "Phản hồi thời gian thực từ AI",
+        "Theo dõi tiến độ học tập chi tiết",
+        "Kho tài liệu đa dạng và phong phú",
+        "Cộng đồng học viên năng động"
+      ],
+      "cardTitle": "Bắt đầu hành trình của bạn",
+      "cardDescription": "Tham gia cùng hàng nghìn học viên đã cải thiện tiếng Anh với Aeiouly. Hoàn toàn miễn phí!",
+      "cardCta": "Đăng ký ngay"
+    },
+    "reviews": {
+      "badge": "Học viên nói gì",
+      "title": "Được yêu thích bởi cộng đồng",
+      "description": "Hàng nghìn học viên đã tin tưởng và đạt được mục tiêu với Aeiouly"
+    }
+  },
+  "auth": {
+    "login": "Đăng nhập",
+    "register": "Đăng ký",
+    "logout": "Đăng xuất"
+  },
+  "common": {
+    "home": "Trang chủ",
+    "profile": "Hồ sơ",
+    "settings": "Cài đặt",
+    "language": "Ngôn ngữ"
+  }
+}

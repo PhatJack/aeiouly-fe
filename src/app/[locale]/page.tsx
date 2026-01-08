@@ -10,7 +10,7 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { ROUTE } from '@/configs/route';
-import { benefits, reviews, reviews2, reviews3 } from '@/constants/home';
+import { reviews, reviews2, reviews3 } from '@/constants/home';
 import { cn } from '@/lib/utils';
 
 import {
@@ -29,74 +29,76 @@ import {
   Users,
 } from 'lucide-react';
 import { motion, useScroll, useTransform } from 'motion/react';
-
-const features = [
-  {
-    icon: GraduationCap,
-    title: 'Không gian tự học',
-    description: 'Học tập linh hoạt với nội dung được cá nhân hóa theo trình độ của bạn',
-    href: ROUTE.SPACE,
-    color: 'text-blue-500',
-    bgColor: 'bg-blue-500/10',
-    gradient: 'from-blue-500 to-cyan-500',
-  },
-  {
-    icon: Mic,
-    title: 'Luyện phát âm',
-    description: 'Cải thiện kỹ năng nói với AI phản hồi thời gian thực',
-    href: ROUTE.ONION,
-    color: 'text-purple-500',
-    bgColor: 'bg-purple-500/10',
-    gradient: 'from-purple-500 to-pink-500',
-  },
-  {
-    icon: PenTool,
-    title: 'Luyện viết',
-    description: 'Nâng cao kỹ năng viết với các chủ đề đa dạng và phản hồi chi tiết',
-    href: ROUTE.TOPIC,
-    color: 'text-pink-500',
-    bgColor: 'bg-pink-500/10',
-    gradient: 'from-pink-500 to-rose-500',
-  },
-  {
-    icon: Headphones,
-    title: 'Luyện nghe',
-    description: 'Rèn luyện khả năng nghe hiểu qua các bài học phong phú',
-    href: ROUTE.GYM,
-    color: 'text-orange-500',
-    bgColor: 'bg-orange-500/10',
-    gradient: 'from-orange-500 to-red-500',
-  },
-  {
-    icon: BookOpen,
-    title: 'Luyện đọc',
-    description: 'Mở rộng vốn từ và khả năng đọc hiểu với các bài đọc thú vị',
-    href: ROUTE.READING,
-    color: 'text-green-500',
-    bgColor: 'bg-green-500/10',
-    gradient: 'from-green-500 to-emerald-500',
-  },
-  {
-    icon: BookMarked,
-    title: 'Từ vựng cá nhân',
-    description: 'Quản lý và học từ vựng hiệu quả với flashcard và quiz',
-    href: ROUTE.VOCABULARY,
-    color: 'text-cyan-500',
-    bgColor: 'bg-cyan-500/10',
-    gradient: 'from-cyan-500 to-blue-500',
-  },
-];
-
-const stats = [
-  { icon: Users, value: '10,000+', label: 'Học viên', color: 'from-blue-500 to-cyan-500' },
-  { icon: BookOpen, value: '5,000+', label: 'Bài học', color: 'from-green-500 to-emerald-500' },
-  { icon: Star, value: '4.9/5', label: 'Đánh giá', color: 'from-yellow-500 to-orange-500' },
-  { icon: Award, value: '99%', label: 'Hài lòng', color: 'from-pink-500 to-rose-500' },
-];
+import { useTranslations } from 'next-intl';
 
 export default function Home() {
+  const t = useTranslations('home');
   const { scrollYProgress } = useScroll();
   const y = useTransform(scrollYProgress, [0, 1], ['0%', '50%']);
+
+  const features = [
+    {
+      icon: GraduationCap,
+      title: t('features.selfStudy.title'),
+      description: t('features.selfStudy.description'),
+      href: ROUTE.SPACE,
+      color: 'text-blue-500',
+      bgColor: 'bg-blue-500/10',
+      gradient: 'from-blue-500 to-cyan-500',
+    },
+    {
+      icon: Mic,
+      title: t('features.speaking.title'),
+      description: t('features.speaking.description'),
+      href: ROUTE.ONION,
+      color: 'text-purple-500',
+      bgColor: 'bg-purple-500/10',
+      gradient: 'from-purple-500 to-pink-500',
+    },
+    {
+      icon: PenTool,
+      title: t('features.writing.title'),
+      description: t('features.writing.description'),
+      href: ROUTE.TOPIC,
+      color: 'text-pink-500',
+      bgColor: 'bg-pink-500/10',
+      gradient: 'from-pink-500 to-rose-500',
+    },
+    {
+      icon: Headphones,
+      title: t('features.listening.title'),
+      description: t('features.listening.description'),
+      href: ROUTE.GYM,
+      color: 'text-orange-500',
+      bgColor: 'bg-orange-500/10',
+      gradient: 'from-orange-500 to-red-500',
+    },
+    {
+      icon: BookOpen,
+      title: t('features.reading.title'),
+      description: t('features.reading.description'),
+      href: ROUTE.READING,
+      color: 'text-green-500',
+      bgColor: 'bg-green-500/10',
+      gradient: 'from-green-500 to-emerald-500',
+    },
+    {
+      icon: BookMarked,
+      title: t('features.vocabulary.title'),
+      description: t('features.vocabulary.description'),
+      href: ROUTE.VOCABULARY,
+      color: 'text-cyan-500',
+      bgColor: 'bg-cyan-500/10',
+      gradient: 'from-cyan-500 to-blue-500',
+    },
+  ];
+
+  const stats = [
+    { icon: Users, value: '10,000+', label: t('stats.students'), color: 'from-blue-500 to-cyan-500' },
+    { icon: BookOpen, value: '5,000+', label: t('stats.lessons'), color: 'from-green-500 to-emerald-500' },
+    { icon: Star, value: '4.9/5', label: t('stats.rating'), color: 'from-yellow-500 to-orange-500' },
+    { icon: Award, value: '99%', label: t('stats.satisfaction'), color: 'from-pink-500 to-rose-500' },
+  ];
 
   return (
     <div className="min-h-screen w-full overflow-hidden bg-white dark:bg-[#121212]">
@@ -116,7 +118,7 @@ export default function Home() {
               >
                 <Badge className="border-primary/20 bg-primary/5 w-fit" variant="outline">
                   <Sparkles className="mr-1 h-3 w-3" />
-                  Nền tảng học tiếng Anh thông minh
+                  {t('hero.badge')}
                 </Badge>
               </motion.div>
 
@@ -126,9 +128,9 @@ export default function Home() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.3 }}
               >
-                Chinh phục tiếng Anh cùng{' '}
+                {t('hero.title')}{' '}
                 <span className="from-primary bg-gradient-to-r via-purple-600 to-pink-600 bg-clip-text text-transparent">
-                  Aeiouly
+                  {t('hero.titleBrand')}
                 </span>
               </motion.h1>
 
@@ -138,8 +140,7 @@ export default function Home() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.4 }}
               >
-                Học tiếng Anh hiệu quả với công nghệ AI, nội dung cá nhân hóa và phương pháp học tập
-                khoa học. Tự tin giao tiếp chỉ sau vài tuần!
+                {t('hero.description')}
               </motion.p>
 
               <motion.div
@@ -150,7 +151,7 @@ export default function Home() {
               >
                 <Link href={ROUTE.AUTH.LOGIN}>
                   <Button size="lg" className="group shadow-primary/25">
-                    Bắt đầu học ngay
+                    {t('hero.cta')}
                     <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
                   </Button>
                 </Link>
@@ -331,7 +332,7 @@ export default function Home() {
                     <div
                       className={`flex items-center gap-2 text-sm font-semibold ${feature.color} transition-all duration-300`}
                     >
-                      <span>Khám phá ngay</span>
+                      <span>{t('features.cta')}</span>
                       <ArrowRight className={`h-4 w-4 transition-transform duration-300`} />
                     </div>
                   </div>
@@ -357,13 +358,13 @@ export default function Home() {
               >
                 <Badge className="mb-4" variant="outline">
                   <Brain className="mr-1 h-3 w-3" />
-                  Phương pháp học thông minh
+                  {t('benefits.badge')}
                 </Badge>
                 <h2 className="text-foreground mb-8 text-4xl font-bold md:text-5xl dark:text-white">
-                  Tại sao chọn Aeiouly?
+                  {t('benefits.title')}
                 </h2>
                 <div className="space-y-5">
-                  {benefits.map((benefit, index) => (
+                  {t.raw('benefits.list').map((benefit: string, index: number) => (
                     <motion.div
                       key={index}
                       className="flex items-start gap-4"
@@ -386,15 +387,14 @@ export default function Home() {
                 <Card className="shadow-2xl">
                   <CardContent className="p-10">
                     <h3 className="text-foreground mb-4 text-3xl font-bold dark:text-white">
-                      Bắt đầu hành trình của bạn
+                      {t('benefits.cardTitle')}
                     </h3>
                     <p className="text-muted-foreground mb-8 text-lg leading-relaxed dark:text-gray-400">
-                      Tham gia cùng hàng nghìn học viên đã cải thiện tiếng Anh với Aeiouly. Hoàn
-                      toàn miễn phí!
+                      {t('benefits.cardDescription')}
                     </p>
                     <Link href={ROUTE.AUTH.REGISTER}>
                       <Button size="lg" className="shadow-primary/25 w-full text-lg shadow-lg">
-                        Đăng ký ngay
+                        {t('benefits.cardCta')}
                       </Button>
                     </Link>
                   </CardContent>
@@ -415,13 +415,13 @@ export default function Home() {
             >
               <Badge className="mb-4" variant="outline">
                 <Star className="mr-1 h-3 w-3" />
-                Học viên nói gì
+                {t('reviews.badge')}
               </Badge>
               <h2 className="text-foreground mb-6 text-4xl font-bold md:text-5xl dark:text-white">
-                Được yêu thích bởi cộng đồng
+                {t('reviews.title')}
               </h2>
               <p className="text-muted-foreground mx-auto max-w-2xl text-lg dark:text-gray-300">
-                Hàng nghìn học viên đã tin tưởng và đạt được mục tiêu với Aeiouly
+                {t('reviews.description')}
               </p>
             </motion.div>
             <div className="relative flex max-h-[600px] w-full flex-col items-center justify-center gap-4 overflow-hidden sm:flex-row">
