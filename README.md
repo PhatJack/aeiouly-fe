@@ -209,7 +209,8 @@ Backend Integration:
 - **Real-time Notifications** - Stay updated on achievements and milestones
 - **Dark/Light Mode** - Theme customization
 - **Responsive Design** - Works seamlessly on desktop and mobile
-- **Multi-language Support** - Vietnamese and English UI
+- **Multi-language Support** - Vietnamese and English UI with easy language switching
+  - See [I18N_GUIDE.md](./I18N_GUIDE.md) for implementation details
 
 ---
 
