@@ -1,13 +1,16 @@
 import type { NextConfig } from 'next';
+import createNextIntlPlugin from 'next-intl/plugin';
 
 const apiUrl = process.env.NEXT_PUBLIC_DJANGO_SERVER_URL_DEFAULT || 'http://localhost:8000';
 
 const target = apiUrl.replace(/\/api\/v1$/, '').replace(/\/api$/, '') || 'http://localhost:8000';
 
+const withNextIntl = createNextIntlPlugin();
 const nextConfig: NextConfig = {
   /* config options here */
   devIndicators: false,
   images: {
+    qualities: [75, 85, 95, 100],
     remotePatterns: [
       {
         protocol: 'https',
@@ -55,4 +58,4 @@ const nextConfig: NextConfig = {
   },
 };
 
-export default nextConfig;
+export default withNextIntl(nextConfig);

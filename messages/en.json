@@ -1,0 +1,98 @@
+{
+  "HomePage": {
+    "title": "Hello world!",
+    "badge": "Smart English Learning Platform",
+    "heroTitle": "Conquer English with",
+    "heroSubtitle": "Learn English effectively with AI technology, personalized content, and scientific learning methods. Confident communication in just a few weeks!",
+    "ctaButton": "Start Learning Now",
+    "stats": {
+      "students": "Students",
+      "lessons": "Lessons",
+      "rating": "Rating",
+      "satisfaction": "Satisfaction"
+    },
+    "features": {
+      "selfStudy": {
+        "title": "Self-Study Space",
+        "description": "Flexible learning with personalized content tailored to your level"
+      },
+      "pronunciation": {
+        "title": "Pronunciation Practice",
+        "description": "Improve speaking skills with real-time AI feedback"
+      },
+      "writing": {
+        "title": "Writing Practice",
+        "description": "Enhance writing skills with diverse topics and detailed feedback"
+      },
+      "listening": {
+        "title": "Listening Practice",
+        "description": "Develop listening comprehension through rich lessons"
+      },
+      "reading": {
+        "title": "Reading Practice",
+        "description": "Expand vocabulary and reading comprehension with interesting articles"
+      },
+      "vocabulary": {
+        "title": "Personal Vocabulary",
+        "description": "Manage and learn vocabulary effectively with flashcards and quizzes"
+      },
+      "explore": "Explore Now"
+    },
+    "benefits": {
+      "badge": "Smart Learning Method",
+      "title": "Why Choose Aeiouly?",
+      "list": [
+        "Learn anytime, anywhere with web app",
+        "Personalized content based on level",
+        "Real-time feedback from AI",
+        "Detailed learning progress tracking",
+        "Diverse and rich resource library",
+        "Active learner community"
+      ]
+    },
+    "journey": {
+      "title": "Start Your Journey",
+      "subtitle": "Join thousands of learners who have improved their English with Aeiouly. Completely free!",
+      "ctaButton": "Register Now"
+    },
+    "reviews": {
+      "badge": "What Students Say",
+      "title": "Loved by the Community",
+      "subtitle": "Thousands of students have trusted and achieved their goals with Aeiouly"
+    }
+  },
+  "Sidebar": {
+    "home": "Home",
+    "studyRoute": "Study Route",
+    "selfStudySpace": "Self-Study Space",
+    "speakingPractice": "Speaking Practice",
+    "writingPractice": "Writing Practice",
+    "listeningPractice": "Listening Practice",
+    "readingPractice": "Reading Practice",
+    "savedVocabulary": "Saved Vocabulary",
+    "profile": "Profile",
+    "userManagement": "User Management",
+    "postManagement": "Post Management",
+    "listeningSessionManagement": "Listening Session Management",
+    "soloSpaceManagement": "Solo Space Management",
+    "settings": "Settings"
+  },
+  "Header": {
+    "greeting": "Hello, {name}",
+    "personalInfo": "Personal Information",
+    "settings": "Settings",
+    "logout": "Logout",
+    "logoutSuccess": "Logged out successfully",
+    "logoutFailed": "Logout failed"
+  },
+  "Leaderboard": {
+    "loading": "Loading leaderboard...",
+    "error": "Error",
+    "errorDescription": "Cannot load leaderboard. Please try again later.",
+    "title": "Streak Leaderboard",
+    "description": "Top users with the longest login streak",
+    "days": "days",
+    "highest": "Highest:",
+    "noData": "No ranking data yet"
+  }
+}

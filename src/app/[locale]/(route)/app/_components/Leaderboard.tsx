@@ -2,6 +2,7 @@
 
 import React from 'react';
 
+import { useTranslations } from 'next-intl';
 import Image from 'next/image';
 
 import LoadingWithText from '@/components/LoadingWithText';
@@ -16,6 +17,7 @@ import { Flame, TrendingUp, Trophy } from 'lucide-react';
 
 const Leaderboard = () => {
   const { data, isLoading, error } = useGetOnlineStreakLeaderboardQuery();
+  const t = useTranslations('Leaderboard');
 
   const getStreakBadgeVariant = (streak: number) => {
     if (streak >= 30) return 'default';
@@ -27,13 +29,11 @@ const Leaderboard = () => {
   };
 
   if (isLoading) {
-    return <LoadingWithText text="Đang tải bảng xếp hạng..." />;
+    return <LoadingWithText text={t('loading')} />;
   }
 
   if (error) {
-    return (
-      <EmptyCustom title="Lỗi" description="Không thể tải bảng xếp hạng. Vui lòng thử lại sau." />
-    );
+    return <EmptyCustom title={t('error')} description={t('errorDescription')} />;
   }
 
   return (
@@ -41,9 +41,9 @@ const Leaderboard = () => {
       <CardHeader className="flex-shrink-0">
         <div className="flex items-center gap-2">
           <Trophy className="h-6 w-6 text-yellow-500" />
-          <CardTitle>Bảng Xếp Hạng Streak</CardTitle>
+          <CardTitle>{t('title')}</CardTitle>
         </div>
-        <CardDescription>Top người dùng có chuỗi đăng nhập dài nhất</CardDescription>
+        <CardDescription>{t('description')}</CardDescription>
       </CardHeader>
       <CardContent className="flex-1 overflow-hidden p-0">
         <ScrollArea className="h-full px-6 pb-6">
@@ -96,12 +96,14 @@ const Leaderboard = () => {
                     <div className="flex flex-col items-end gap-1">
                       <Badge variant={getStreakBadgeVariant(item.current_streak)} className="gap-1">
                         <Flame className="h-3 w-3" />
-                        {item.current_streak} ngày
+                        {item.current_streak} {t('days')}
                       </Badge>
                       {/* {item.longest_streak > item.current_streak && ( */}
                       <div className="text-muted-foreground flex items-center gap-1 text-xs">
                         <TrendingUp className="h-3 w-3" />
-                        <span>Cao nhất: {item.longest_streak}</span>
+                        <span>
+                          {t('highest')} {item.longest_streak}
+                        </span>
                       </div>
                       {/* )} */}
                     </div>
@@ -110,7 +112,7 @@ const Leaderboard = () => {
               })}
             </>
           ) : (
-            <div className="text-muted-foreground py-8 text-center">Chưa có dữ liệu xếp hạng</div>
+            <div className="text-muted-foreground py-8 text-center">{t('noData')}</div>
           )}
         </ScrollArea>
       </CardContent>

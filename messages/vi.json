@@ -1,0 +1,98 @@
+{
+  "HomePage": {
+    "title": "Xin chào thế giới!",
+    "badge": "Nền tảng học tiếng Anh thông minh",
+    "heroTitle": "Chinh phục tiếng Anh cùng",
+    "heroSubtitle": "Học tiếng Anh hiệu quả với công nghệ AI, nội dung cá nhân hóa và phương pháp học tập khoa học. Tự tin giao tiếp chỉ sau vài tuần!",
+    "ctaButton": "Bắt đầu học ngay",
+    "stats": {
+      "students": "Học viên",
+      "lessons": "Bài học",
+      "rating": "Đánh giá",
+      "satisfaction": "Hài lòng"
+    },
+    "features": {
+      "selfStudy": {
+        "title": "Không gian tự học",
+        "description": "Học tập linh hoạt với nội dung được cá nhân hóa theo trình độ của bạn"
+      },
+      "pronunciation": {
+        "title": "Luyện phát âm",
+        "description": "Cải thiện kỹ năng nói với AI phản hồi thời gian thực"
+      },
+      "writing": {
+        "title": "Luyện viết",
+        "description": "Nâng cao kỹ năng viết với các chủ đề đa dạng và phản hồi chi tiết"
+      },
+      "listening": {
+        "title": "Luyện nghe",
+        "description": "Rèn luyện khả năng nghe hiểu qua các bài học phong phú"
+      },
+      "reading": {
+        "title": "Luyện đọc",
+        "description": "Mở rộng vốn từ và khả năng đọc hiểu với các bài đọc thú vị"
+      },
+      "vocabulary": {
+        "title": "Từ vựng cá nhân",
+        "description": "Quản lý và học từ vựng hiệu quả với flashcard và quiz"
+      },
+      "explore": "Khám phá ngay"
+    },
+    "benefits": {
+      "badge": "Phương pháp học thông minh",
+      "title": "Tại sao chọn Aeiouly?",
+      "list": [
+        "Học mọi lúc, mọi nơi với ứng dụng web",
+        "Nội dung được cá nhân hóa theo trình độ",
+        "Phản hồi thời gian thực từ AI",
+        "Theo dõi tiến độ học tập chi tiết",
+        "Kho tài liệu đa dạng và phong phú",
+        "Cộng đồng học viên năng động"
+      ]
+    },
+    "journey": {
+      "title": "Bắt đầu hành trình của bạn",
+      "subtitle": "Tham gia cùng hàng nghìn học viên đã cải thiện tiếng Anh với Aeiouly. Hoàn toàn miễn phí!",
+      "ctaButton": "Đăng ký ngay"
+    },
+    "reviews": {
+      "badge": "Học viên nói gì",
+      "title": "Được yêu thích bởi cộng đồng",
+      "subtitle": "Hàng nghìn học viên đã tin tưởng và đạt được mục tiêu với Aeiouly"
+    }
+  },
+  "Sidebar": {
+    "home": "Trang chủ",
+    "studyRoute": "Lộ trình học tập",
+    "selfStudySpace": "Không gian tự học",
+    "speakingPractice": "Luyện nói",
+    "writingPractice": "Luyện viết",
+    "listeningPractice": "Luyện nghe",
+    "readingPractice": "Luyện đọc",
+    "savedVocabulary": "Từ vựng đã lưu",
+    "profile": "Hồ sơ cá nhân",
+    "userManagement": "QL người dùng",
+    "postManagement": "QL bài viết",
+    "listeningSessionManagement": "QL bài học nghe",
+    "soloSpaceManagement": "QL không gian tự học",
+    "settings": "Cài đặt"
+  },
+  "Header": {
+    "greeting": "Xin chào, {name}",
+    "personalInfo": "Thông tin cá nhân",
+    "settings": "Cài đặt",
+    "logout": "Đăng xuất",
+    "logoutSuccess": "Đăng xuất thành công",
+    "logoutFailed": "Đăng xuất thất bại"
+  },
+  "Leaderboard": {
+    "loading": "Đang tải bảng xếp hạng...",
+    "error": "Lỗi",
+    "errorDescription": "Không thể tải bảng xếp hạng. Vui lòng thử lại sau.",
+    "title": "Bảng Xếp Hạng Streak",
+    "description": "Top người dùng có chuỗi đăng nhập dài nhất",
+    "days": "ngày",
+    "highest": "Cao nhất:",
+    "noData": "Chưa có dữ liệu xếp hạng"
+  }
+}
