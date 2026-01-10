@@ -88,7 +88,7 @@ export default async function RootLayout({
   }
 
   return (
-    <html lang="vi" suppressHydrationWarning data-overlayscrollbars-initialize>
+    <html lang={locale} suppressHydrationWarning data-overlayscrollbars-initialize>
       <body className={`${beVietNamPro.variable} ${geistSans.variable} flex antialiased`}>
         <NextIntlClientProvider locale={locale}>
           <Providers>{children}</Providers>
