@@ -1,7 +1,7 @@
 'use client';
 
 import * as React from 'react';
-import { Fr, Us, Vi } from 'react-flags-select';
+import { Us, Vi } from 'react-flags-select';
 
 import { useRouter } from 'next/navigation';
 
@@ -24,7 +24,6 @@ type Language = {
 const LANGUAGES: Language[] = [
   { flag: <Us />, code: 'en', label: 'English' },
   { flag: <Vi />, code: 'vi', label: 'Tiếng Việt' },
-  { flag: <Fr />, code: 'fr', label: 'Français' },
 ];
 
 export function LanguageSwitcher({ locale }: { locale: string }) {
