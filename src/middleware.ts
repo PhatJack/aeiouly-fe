@@ -46,8 +46,11 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: [
-    '/((?!api|_next/static|_next/image|.*\\.png$).*)',
-    '/((?!api|trpc|_next|_vercel|.*\\..*).*)',
-  ],
+  // Match all routes except:
+  // - API routes (/api/*)
+  // - tRPC routes (/trpc/*)
+  // - Next.js internals (/_next/*)
+  // - Vercel internals (/_vercel/*)
+  // - Static files (any path with a file extension)
+  matcher: ['/((?!api|trpc|_next|_vercel|.*\\..*).*)'],
 };
