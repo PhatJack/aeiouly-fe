@@ -1,76 +1,79 @@
 import { Metadata } from 'next';
+import { useTranslations } from 'next-intl';
+import { getTranslations } from 'next-intl/server';
 
 import SettingHeader from '@/components/app/settings/SettingHeader';
 
 import { FileText } from 'lucide-react';
 
-export const metadata: Metadata = {
-  title: 'Điều khoản dịch vụ',
-  description: 'Điều khoản và điều kiện sử dụng dịch vụ',
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const t = await getTranslations('Settings');
+
+  return {
+    title: t('termsPage.title'),
+    description: t('termsPage.description'),
+  };
+}
 
 export default function TermsPage() {
+  const t = useTranslations('Settings');
+
   return (
     <div className="space-y-4">
       <SettingHeader
-        title="Điều khoản dịch vụ"
-        description="Có hiệu lực từ ngày 13/09/2024"
+        title={t('termsPage.title')}
+        description={t('termsPage.effectiveDate')}
         icon={FileText}
       />
 
       <div className="space-y-4">
         <section className="space-y-4">
-          <h2 className="text-lg font-semibold">1. Giới thiệu</h2>
+          <h2 className="text-lg font-semibold">{t('termsPage.sections.introduction.title')}</h2>
+          <p className="text-foreground/80">{t('termsPage.sections.introduction.content')}</p>
+        </section>
+
+        <section className="space-y-4">
+          <h2 className="text-lg font-semibold">
+            {t('termsPage.sections.accountRegistration.title')}
+          </h2>
           <p className="text-foreground/80">
-            Chào mừng bạn đến với AEIOULY. Bằng cách truy cập hoặc sử dụng dịch vụ của chúng tôi,
-            bạn đồng ý tuân thủ các điều khoản và điều kiện sau đây.
+            {t('termsPage.sections.accountRegistration.content')}
           </p>
         </section>
 
         <section className="space-y-4">
-          <h2 className="text-lg font-semibold">2. Đăng ký tài khoản</h2>
+          <h2 className="text-lg font-semibold">
+            {t('termsPage.sections.intellectualProperty.title')}
+          </h2>
           <p className="text-foreground/80">
-            Để sử dụng một số tính năng của dịch vụ, bạn cần đăng ký tài khoản. Bạn cam kết cung cấp
-            thông tin chính xác và cập nhật đầy đủ.
+            {t('termsPage.sections.intellectualProperty.content')}
           </p>
         </section>
 
         <section className="space-y-4">
-          <h2 className="text-lg font-semibold">3. Quyền sở hữu trí tuệ</h2>
+          <h2 className="text-lg font-semibold">
+            {t('termsPage.sections.liabilityLimitation.title')}
+          </h2>
           <p className="text-foreground/80">
-            Mọi nội dung trên nền tảng này đều thuộc quyền sở hữu của AEIOULY hoặc các bên cấp phép.
-            Bạn không được phép sao chép, phân phối hoặc tạo ra các tác phẩm phái sinh mà không có
-            sự cho phép bằng văn bản.
-          </p>
-        </section>
-
-        <section className="space-y-4">
-          <h2 className="text-lg font-semibold">4. Giới hạn trách nhiệm</h2>
-          <p className="text-foreground/80">
-            Dịch vụ được cung cấp &quot;nguyên trạng&quot; và &quot;theo khả năng hiện có&quot;.
-            Chúng tôi không đảm bảo rằng:
+            {t('termsPage.sections.liabilityLimitation.content')}
           </p>
           <ul className="text-foreground/80 list-disc space-y-2 pl-6">
-            <li>Dịch vụ sẽ không bị gián đoạn hoặc không có lỗi</li>
-            <li>Kết quả nhận được từ việc sử dụng dịch vụ là chính xác hoặc đáng tin cậy</li>
-            <li>Chất lượng của sản phẩm, dịch vụ, thông tin đáp ứng mong đợi của bạn</li>
+            {t
+              .raw('termsPage.sections.liabilityLimitation.list')
+              .map((item: string, index: number) => (
+                <li key={index}>{item}</li>
+              ))}
           </ul>
         </section>
 
         <section className="space-y-4">
-          <h2 className="text-lg font-semibold">5. Thay đổi điều khoản</h2>
-          <p className="text-foreground/80">
-            Chúng tôi có quyền cập nhật các điều khoản này bất cứ lúc nào. Chúng tôi sẽ thông báo
-            cho bạn về những thay đổi quan trọng qua email hoặc thông báo trên trang web.
-          </p>
+          <h2 className="text-lg font-semibold">{t('termsPage.sections.termsChanges.title')}</h2>
+          <p className="text-foreground/80">{t('termsPage.sections.termsChanges.content')}</p>
         </section>
 
         <section className="space-y-4">
-          <h2 className="text-lg font-semibold">6. Liên hệ</h2>
-          <p className="text-foreground/80">
-            Nếu bạn có bất kỳ câu hỏi nào về các điều khoản này, vui lòng liên hệ với chúng tôi qua
-            email: support@aeiouly.com
-          </p>
+          <h2 className="text-lg font-semibold">{t('termsPage.sections.contact.title')}</h2>
+          <p className="text-foreground/80">{t('termsPage.sections.contact.content')}</p>
         </section>
       </div>
     </div>

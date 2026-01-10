@@ -2,6 +2,8 @@ import { useMemo } from 'react';
 import { useWatch } from 'react-hook-form';
 import { Control } from 'react-hook-form';
 
+import { useTranslations } from 'next-intl';
+
 import { cn } from '@/lib/utils';
 
 import { CheckCircle, XIcon } from 'lucide-react';
@@ -17,14 +19,16 @@ export const PasswordStrengthMeter = ({
   control,
   className,
 }: PasswordStrengthMeterProps) => {
+  const t = useTranslations('Settings');
+
   const password = useWatch({ control, name: passwordFieldName });
 
   const checkStrength = (pass: string) => {
     const requirements = [
-      { regex: /.{8,}/, text: 'Ít nhất 8 ký tự' },
-      { regex: /[0-9]/, text: 'Ít nhất 1 số' },
-      { regex: /[a-z]/, text: 'Ít nhất 1 chữ cái thường' },
-      { regex: /[A-Z]/, text: 'Ít nhất 1 chữ cái hoa' },
+      { regex: /.{8,}/, text: t('passwordStrength.minLength') },
+      { regex: /[0-9]/, text: t('passwordStrength.minNumber') },
+      { regex: /[a-z]/, text: t('passwordStrength.minLowercase') },
+      { regex: /[A-Z]/, text: t('passwordStrength.minUppercase') },
     ];
 
     return requirements.map((req) => ({

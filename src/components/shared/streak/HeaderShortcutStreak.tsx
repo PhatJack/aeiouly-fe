@@ -35,13 +35,13 @@ const HeaderShortcutStreak = () => {
         <div className="flex cursor-pointer items-center gap-2 rounded-full border border-y pr-2">
           {/* Original Fire Icon Container */}
           <div className="bg-card relative flex size-10 items-center justify-center rounded-full">
-            <Image
+            <img
               src={'/streak/fire_active.gif'}
               alt="Streak icon"
               className={cn('size-8', streakHistory?.today_has_streak ? '' : 'grayscale')}
               width={40}
               height={40}
-              unoptimized
+              // unoptimized
             />
           </div>
           <span

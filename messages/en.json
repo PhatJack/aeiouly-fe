@@ -94,5 +94,163 @@
     "days": "days",
     "highest": "Highest:",
     "noData": "No ranking data yet"
+  },
+  "Settings": {
+    "title": "Settings",
+    "description": "Manage your app settings",
+    "nav": {
+      "title": "Settings",
+      "description": "Manage account and options",
+      "menu": {
+        "general": {
+          "title": "General Settings",
+          "description": "Security settings and theme change"
+        },
+        "privacy": {
+          "title": "Privacy Policy",
+          "description": "Privacy policy and privacy rights"
+        },
+        "terms": {
+          "title": "Terms of Service",
+          "description": "Terms and conditions of use"
+        },
+        "contact": {
+          "title": "Contact",
+          "description": "Customer support and feedback"
+        },
+        "deleteAccount": {
+          "title": "Delete Account",
+          "description": "Permanently delete your account"
+        }
+      }
+    },
+    "interface": "Interface",
+    "themeToggle": "Dark/Light Mode",
+    "themeToggleDescription": "Switch between dark/light interface",
+    "security": "Security",
+    "changePassword": "Change Password",
+    "changePasswordDescription": "Update password to secure account",
+    "currentPassword": "Current Password",
+    "currentPasswordPlaceholder": "Enter your current password",
+    "newPassword": "New Password",
+    "newPasswordPlaceholder": "Enter new password",
+    "updating": "Updating...",
+    "updatePassword": "Update Password",
+    "passwordChangedSuccess": "Password changed successfully",
+    "manageAccount": "Manage account and options",
+    "generalSettings": "General Settings",
+    "generalSettingsDescription": "Security settings and theme change",
+    "privacyPolicy": "Privacy Policy",
+    "privacyPolicyDescription": "Privacy policy and privacy rights",
+    "termsOfService": "Terms of Service",
+    "termsOfServiceDescription": "Terms and conditions of use",
+    "contact": "Contact",
+    "contactDescription": "Customer support and feedback",
+    "deleteAccount": "Delete Account",
+    "deleteAccountDescription": "Permanently delete your account",
+    "deleteAccountTitle": "Delete Account",
+    "deleteAccountWarning": "This action cannot be undone",
+    "deleteAccountNote": "Before deleting your account, please note:",
+    "deleteAccountRisks": [
+      "All your personal data will be permanently deleted",
+      "You will lose access to all courses and resources",
+      "Account cannot be recovered after deletion",
+      "All current subscriptions will be canceled"
+    ],
+    "understandRisks": "I understand the risks, still want to delete account",
+    "confirmDelete": "To confirm, please enter in the box below:",
+    "confirmDeleteWarning": "Are you sure you want to delete your account?",
+		"confirmDeleteText": "delete account",
+    "confirmDeleteDescription": "This action will permanently delete all your data on this platform.",
+    "confirmDeleteButton": "Yes, delete my account",
+    "cancel": "Cancel",
+    "invalidConfirmation": "Please enter the confirmation phrase correctly",
+    "accountDeletedSuccess": "Your account has been successfully deleted",
+    "accountDeleteError": "An error occurred while deleting the account",
+    "contactPage": {
+      "title": "Contact Support",
+      "description": "We're always ready to support you",
+      "contactInfo": "Contact Information",
+      "email": "Email",
+      "phone": "Phone",
+      "address": "Address",
+      "faq": "Frequently Asked Questions",
+      "supportEmail": "support@aeiouly.com",
+      "infoEmail": "info@aeiouly.com",
+      "phoneNumber": "+84 123 456 789",
+      "businessHours": "Mon - Fri: 8:00 - 17:00",
+      "fullAddress": "No. 1, ABC Street, XYZ Ward, District 1, Ho Chi Minh City, Vietnam"
+    },
+    "policyPage": {
+      "title": "Privacy Policy",
+      "description": "Our privacy policy",
+      "lastUpdated": "Last updated: 13/09/2024",
+      "sections": {
+        "infoCollection": {
+          "title": "1. Information Collection",
+          "content": "We collect personal information when you register an account, log in, use services or contact us. This information may include: name, email, phone number, address and payment information."
+        },
+        "infoUsage": {
+          "title": "2. Information Usage",
+          "content": "We use information to:",
+          "list": [
+            "Provide and maintain services",
+            "Improve user experience",
+            "Process transactions",
+            "Send important notifications"
+          ]
+        },
+        "infoSecurity": {
+          "title": "3. Information Security",
+          "content": "We apply security measures to protect your personal information from unauthorized access, alteration, disclosure or destruction."
+        },
+        "contact": {
+          "title": "4. Contact",
+          "content": "If you have any questions about this privacy policy, please contact us via email: support@aeiouly.com"
+        }
+      }
+    },
+    "termsPage": {
+      "title": "Terms of Service",
+      "description": "Terms and conditions of service usage",
+      "effectiveDate": "Effective from September 13, 2024",
+      "sections": {
+        "introduction": {
+          "title": "1. Introduction",
+          "content": "Welcome to AEIOULY. By accessing or using our services, you agree to comply with the following terms and conditions."
+        },
+        "accountRegistration": {
+          "title": "2. Account Registration",
+          "content": "To use some features of the service, you need to register an account. You commit to providing accurate and complete information."
+        },
+        "intellectualProperty": {
+          "title": "3. Intellectual Property Rights",
+          "content": "All content on this platform belongs to AEIOULY or licensed parties. You may not copy, distribute or create derivative works without written permission."
+        },
+        "liabilityLimitation": {
+          "title": "4. Liability Limitation",
+          "content": "Services are provided \"as is\" and \"as available\". We do not guarantee that:",
+          "list": [
+            "Services will be uninterrupted or error-free",
+            "Results obtained from using the service are accurate or reliable",
+            "Quality of products, services, information meets your expectations"
+          ]
+        },
+        "termsChanges": {
+          "title": "5. Terms Changes",
+          "content": "We reserve the right to update these terms at any time. We will notify you of important changes via email or website notifications."
+        },
+        "contact": {
+          "title": "6. Contact",
+          "content": "If you have any questions about these terms, please contact us via email: support@aeiouly.com"
+        }
+      }
+    },
+    "passwordStrength": {
+      "minLength": "At least 8 characters",
+      "minNumber": "At least 1 number",
+      "minLowercase": "At least 1 lowercase letter",
+      "minUppercase": "At least 1 uppercase letter"
+    }
   }
 }

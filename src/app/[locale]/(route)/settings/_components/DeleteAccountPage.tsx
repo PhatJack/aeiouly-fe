@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 
+import { useTranslations } from 'next-intl';
 import { useRouter } from 'next/navigation';
 
 import SettingHeader from '@/components/app/settings/SettingHeader';
@@ -17,34 +18,36 @@ export default function DeleteAccountPage() {
   const [confirmText, setConfirmText] = useState('');
   const [showConfirm, setShowConfirm] = useState(false);
   const deleteAccountMutation = useDeleteAccountMutation();
+  const t = useTranslations('Settings');
 
   const handleDeleteAccount = () => {
     if (!isValidConfirmation) {
-      toast.error('Vui lòng nhập chính xác cụm từ xác nhận');
+      toast.error(t('invalidConfirmation'));
       return;
     }
 
     deleteAccountMutation.mutate(undefined, {
       onSuccess: (data) => {
-        toast.success(data?.message || 'Tài khoản của bạn đã được xóa thành công');
+        toast.success(data?.message || t('accountDeletedSuccess'));
         setTimeout(() => {
           window.location.href = '/login';
         }, 1500);
       },
       onError: (error: any) => {
-        const errorMessage = error?.detail || error?.message || 'Đã xảy ra lỗi khi xóa tài khoản';
+        const errorMessage = error?.detail || error?.message || t('accountDeleteError');
         toast.error(errorMessage);
       },
     });
   };
 
-  const isValidConfirmation = confirmText.toLowerCase() === 'xoá tài khoản';
+  const isValidConfirmation =
+    confirmText.toLowerCase() === t('confirmDelete').toLowerCase().replace(/"/g, '');
 
   return (
     <div className="space-y-8">
       <SettingHeader
-        title="Xóa tài khoản"
-        description="Hành động này không thể hoàn tác"
+        title={t('deleteAccountTitle')}
+        description={t('deleteAccountWarning')}
         icon={Trash2}
         className="text-destructive"
       />
@@ -52,12 +55,11 @@ export default function DeleteAccountPage() {
       <div className="max-w-2xl space-y-4">
         {!showConfirm ? (
           <div className="space-y-4">
-            <p className="text-foreground/80 text-base">Trước khi xóa tài khoản, vui lòng lưu ý:</p>
+            <p className="text-foreground/80 text-base">{t('deleteAccountNote')}</p>
             <ul className="text-foreground/80 list-disc space-y-2 pl-4 text-sm font-medium">
-              <li>Tất cả dữ liệu cá nhân của bạn sẽ bị xóa vĩnh viễn</li>
-              <li>Bạn sẽ mất quyền truy cập vào tất cả các khóa học và tài nguyên</li>
-              <li>Không thể khôi phục tài khoản sau khi xóa</li>
-              <li>Mọi đăng ký hiện tại sẽ bị hủy bỏ</li>
+              {t.raw('deleteAccountRisks').map((risk: string, index: number) => (
+                <li key={index}>{risk}</li>
+              ))}
             </ul>
 
             <div className="pt-4">
@@ -66,7 +68,7 @@ export default function DeleteAccountPage() {
                 onClick={() => setShowConfirm(true)}
                 className="w-full sm:w-auto"
               >
-                Tôi hiểu rủi ro, vẫn muốn xóa tài khoản
+                {t('understandRisks')}
               </Button>
             </div>
           </div>
@@ -74,9 +76,10 @@ export default function DeleteAccountPage() {
           <div className="space-y-4">
             <div className="space-y-2">
               <Label htmlFor="confirm">
-                Để xác nhận, vui lòng nhập{' '}
-                <span className="bg-primary rounded-sm px-2 py-1 font-bold">xoá tài khoản</span> vào
-                ô bên dưới:
+                {t('confirmDelete')}{' '}
+                <span className="bg-primary text-foreground rounded-sm px-2 py-1 font-bold">
+                  {t('confirmDeleteText')}
+                </span>{' '}
               </Label>
               <Input
                 id="confirm"
@@ -90,12 +93,8 @@ export default function DeleteAccountPage() {
               <div className="flex">
                 <ShieldAlert className="text-destructive mt-0.5 mr-2 h-5 w-5 flex-shrink-0" />
                 <div>
-                  <h3 className="text-destructive font-medium">
-                    Bạn có chắc chắn muốn xóa tài khoản?
-                  </h3>
-                  <p className="text-destructive/80 text-sm">
-                    Hành động này sẽ xóa vĩnh viễn tất cả dữ liệu của bạn trên nền tảng này.
-                  </p>
+                  <h3 className="text-destructive font-medium">{t('confirmDeleteWarning')}</h3>
+                  <p className="text-destructive/80 text-sm">{t('confirmDeleteDescription')}</p>
                 </div>
               </div>
 
@@ -107,7 +106,7 @@ export default function DeleteAccountPage() {
                   disabled={!isValidConfirmation || deleteAccountMutation.isPending}
                   className="w-full sm:w-auto"
                 >
-                  {'Có, xóa tài khoản của tôi'}
+                  {t('confirmDeleteButton')}
                 </Button>
                 <Button
                   variant="outline"
@@ -116,7 +115,7 @@ export default function DeleteAccountPage() {
                   disabled={deleteAccountMutation.isPending}
                   className="w-full sm:w-auto"
                 >
-                  Hủy bỏ
+                  {t('cancel')}
                 </Button>
               </div>
             </div>

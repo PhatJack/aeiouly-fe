@@ -20,7 +20,7 @@ const adminRoutes = [
   ROUTE.SETTING,
 ];
 
-export async function proxy(request: NextRequest) {
+export async function middleware(request: NextRequest) {
   const path = request.nextUrl.pathname;
   const accessToken = (await cookies()).get(COOKIE_KEY_ACCESS_TOKEN)?.value;
   const refreshToken = (await cookies()).get(COOKIE_KEY_REFRESH_TOKEN)?.value;
