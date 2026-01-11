@@ -1,4 +1,6 @@
 import { Metadata } from 'next';
+import { useTranslations } from 'next-intl';
+import { getTranslations } from 'next-intl/server';
 
 import SettingHeader from '@/components/app/settings/SettingHeader';
 import {
@@ -11,17 +13,23 @@ import { FAQ } from '@/constants/faq';
 
 import { Mail, MapPin, MessageCircle, Phone } from 'lucide-react';
 
-export const metadata: Metadata = {
-  title: 'Liên hệ hỗ trợ',
-  description: 'Liên hệ hỗ trợ',
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const t = await getTranslations('Settings');
+
+  return {
+    title: t('contactPage.title'),
+    description: t('contactPage.description'),
+  };
+}
 
 export default function ContactPage() {
+  const t = useTranslations('Settings');
+
   return (
     <div className="space-y-4">
       <SettingHeader
-        title="Liên hệ hỗ trợ"
-        description="Chúng tôi luôn sẵn sàng hỗ trợ bạn"
+        title={t('contactPage.title')}
+        description={t('contactPage.description')}
         icon={MessageCircle}
       />
 
@@ -29,7 +37,7 @@ export default function ContactPage() {
         {/* Contact Information */}
         <div className="space-y-4">
           <div className="rounded-xl border p-4">
-            <h2 className="mb-4 text-xl font-semibold">Thông tin liên hệ</h2>
+            <h2 className="mb-4 text-xl font-semibold">{t('contactPage.contactInfo')}</h2>
 
             <div className="space-y-4">
               <div className="flex items-start gap-4">
@@ -37,9 +45,9 @@ export default function ContactPage() {
                   <Mail className="h-5 w-5" />
                 </div>
                 <div>
-                  <h3 className="font-medium">Email</h3>
-                  <p className="text-muted-foreground text-sm">support@aeiouly.com</p>
-                  <p className="text-muted-foreground text-sm">info@aeiouly.com</p>
+                  <h3 className="font-medium">{t('contactPage.email')}</h3>
+                  <p className="text-muted-foreground text-sm">{t('contactPage.supportEmail')}</p>
+                  <p className="text-muted-foreground text-sm">{t('contactPage.infoEmail')}</p>
                 </div>
               </div>
 
@@ -48,9 +56,9 @@ export default function ContactPage() {
                   <Phone className="h-5 w-5" />
                 </div>
                 <div>
-                  <h3 className="font-medium">Điện thoại</h3>
-                  <p className="text-muted-foreground text-sm">+84 123 456 789</p>
-                  <p className="text-muted-foreground text-sm">Thứ 2 - Thứ 6: 8:00 - 17:00</p>
+                  <h3 className="font-medium">{t('contactPage.phone')}</h3>
+                  <p className="text-muted-foreground text-sm">{t('contactPage.phoneNumber')}</p>
+                  <p className="text-muted-foreground text-sm">{t('contactPage.businessHours')}</p>
                 </div>
               </div>
 
@@ -59,19 +67,15 @@ export default function ContactPage() {
                   <MapPin className="h-5 w-5" />
                 </div>
                 <div>
-                  <h3 className="font-medium">Địa chỉ</h3>
-                  <p className="text-muted-foreground text-sm">
-                    Số 1, Đường ABC, Phường XYZ, Quận 1,
-                    <br />
-                    Thành phố Hồ Chí Minh, Việt Nam
-                  </p>
+                  <h3 className="font-medium">{t('contactPage.address')}</h3>
+                  <p className="text-muted-foreground text-sm">{t('contactPage.fullAddress')}</p>
                 </div>
               </div>
             </div>
           </div>
 
           <div className="rounded-xl border">
-            <h2 className="px-4 pt-4 text-xl font-semibold">Câu hỏi thường gặp</h2>
+            <h2 className="px-4 pt-4 text-xl font-semibold">{t('contactPage.faq')}</h2>
             <Accordion type="single" collapsible>
               {FAQ.map((item, index) => (
                 <AccordionItem key={index} value={item.question}>

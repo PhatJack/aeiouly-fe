@@ -2,6 +2,7 @@
 
 import React, { useMemo } from 'react';
 
+import { useTranslations } from 'next-intl';
 import { usePathname } from 'next/navigation';
 import { useRouter } from 'nextjs-toploader/app';
 
@@ -39,6 +40,7 @@ const Header = ({ isExpanded, handleToggleExpand }: HeaderProps) => {
   const router = useRouter();
   const user = useAuthStore((state) => state.user);
   const logoutMutation = useLogoutMutation();
+  const t = useTranslations('Header');
 
   const shouldHide = useMemo(() => {
     return (
@@ -51,12 +53,12 @@ const Header = ({ isExpanded, handleToggleExpand }: HeaderProps) => {
   const handleLogout = async () => {
     try {
       await logoutMutation.mutateAsync();
-      toast.success('Đăng xuất thành công');
+      toast.success(t('logoutSuccess'));
       disconnect?.();
       router.push(ROUTE.AUTH.LOGIN);
       router.refresh();
     } catch (error) {
-      toast.error('Đăng xuất thất bại');
+      toast.error(t('logoutFailed'));
       disconnect?.();
       router.push(ROUTE.AUTH.LOGIN);
       router.refresh();
@@ -77,7 +79,7 @@ const Header = ({ isExpanded, handleToggleExpand }: HeaderProps) => {
             </Button>
           )}
           <h1 className="font-semibold sm:text-lg">
-            Xin chào, {user?.full_name || user?.username || 'User'}
+            {t('greeting', { name: user?.full_name || user?.username || 'User' })}
           </h1>
         </div>
 
@@ -107,18 +109,18 @@ const Header = ({ isExpanded, handleToggleExpand }: HeaderProps) => {
                   {user.role === 'user' ? (
                     <DropdownMenuItem onClick={() => router.push(ROUTE.PROFILE)}>
                       <User2 className="mr-2 h-4 w-4" />
-                      <span>Thông tin cá nhân</span>
+                      <span>{t('personalInfo')}</span>
                     </DropdownMenuItem>
                   ) : null}
 
                   <DropdownMenuItem onClick={() => router.push(ROUTE.SETTING.INDEX)}>
                     <Settings className="mr-2 h-4 w-4" />
-                    <span>Cài đặt</span>
+                    <span>{t('settings')}</span>
                   </DropdownMenuItem>
                   <DropdownMenuSeparator />
                   <DropdownMenuItem onClick={handleLogout} className="text-destructive">
                     <LogOut className="mr-2 h-4 w-4" />
-                    <span>Đăng xuất</span>
+                    <span>{t('logout')}</span>
                   </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>

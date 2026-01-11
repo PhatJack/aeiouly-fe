@@ -2,6 +2,7 @@
 
 import React, { useMemo } from 'react';
 
+import { useTranslations } from 'next-intl';
 import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
@@ -32,103 +33,6 @@ import {
 } from 'lucide-react';
 import { motion } from 'motion/react';
 
-const menuWithImg: {
-  title: string;
-  icon: LucideIcon;
-  href: string;
-  id?: string;
-  role: 'user' | 'admin' | Array<'user' | 'admin'>;
-}[] = [
-  { title: 'Trang chủ', icon: Home, href: ROUTE.APP, id: 'app', role: 'user' },
-  {
-    title: 'Lộ trình học tập',
-    icon: Target,
-    href: ROUTE.STUDY_ROUTE,
-    id: 'study-route',
-    role: 'user',
-  },
-  {
-    title: 'Không gian tự học',
-    icon: GraduationCap,
-    href: ROUTE.SPACE,
-    id: 'self-study-space',
-    role: 'user',
-  },
-  {
-    title: 'Luyện nói',
-    icon: Mic,
-    href: ROUTE.ONION,
-    id: 'speaking-practice',
-    role: 'user',
-  },
-  {
-    title: 'Luyện viết',
-    icon: PenTool,
-    href: ROUTE.TOPIC,
-    id: 'writing-practice',
-    role: 'user',
-  },
-  {
-    title: 'Luyện nghe',
-    icon: Headphones,
-    href: ROUTE.GYM,
-    id: 'listening-practice',
-    role: 'user',
-  },
-  {
-    title: 'Luyện đọc',
-    icon: BookOpen,
-    href: ROUTE.READING,
-    id: 'reading-practice',
-    role: 'user',
-  },
-  {
-    title: 'Từ vựng đã lưu',
-    icon: BookMarked,
-    href: ROUTE.VOCABULARY,
-    id: 'saved-vocabulary',
-    role: 'user',
-  },
-  {
-    title: 'Hồ sơ cá nhân',
-    icon: User2,
-    href: ROUTE.PROFILE,
-    id: 'profile',
-    role: ['user'],
-  },
-  {
-    title: 'QL người dùng',
-    icon: Users,
-    href: ROUTE.ADMIN.USER_MANAGEMENT,
-    role: 'admin',
-  },
-  {
-    title: 'QL bài viết',
-    icon: FileText,
-    href: ROUTE.ADMIN.POST_MANAGEMENT,
-    role: 'admin',
-  },
-  {
-    title: 'QL bài học nghe',
-    icon: ListChecks,
-    href: ROUTE.ADMIN.LISTENING_SESSION_MANAGEMENT,
-    role: 'admin',
-  },
-  {
-    title: 'QL không gian tự học',
-    icon: Wrench,
-    href: ROUTE.ADMIN.SOLO_SPACE_MANAGEMENT.INDEX,
-    role: 'admin',
-  },
-  {
-    title: 'Cài đặt',
-    icon: Settings,
-    href: ROUTE.SETTING.INDEX,
-    id: 'settings',
-    role: ['admin', 'user'],
-  },
-];
-
 interface SidebarProps {
   isExpanded?: boolean;
   handleToggleExpand?: () => void;
@@ -138,6 +42,7 @@ const Sidebar = ({ isExpanded, handleToggleExpand }: SidebarProps) => {
   const pathname = usePathname();
   const router = useRouter();
   const user = useAuthStore((state) => state.user);
+  const t = useTranslations('Sidebar');
 
   const { width } = useWindowSize();
 
@@ -147,9 +52,102 @@ const Sidebar = ({ isExpanded, handleToggleExpand }: SidebarProps) => {
       /^\/reading\/\d+$/.test(pathname) ||
       /^\/speaking\/\d+$/.test(pathname) ||
       /^\/listening\/\d+$/.test(pathname)
-      // /^\/admin(\/.*)?$/.test(pathname)
     );
   }, [pathname]);
+
+  const menuWithImg = useMemo(
+    () => [
+      { title: t('home'), icon: Home, href: ROUTE.APP, id: 'app', role: 'user' },
+      {
+        title: t('studyRoute'),
+        icon: Target,
+        href: ROUTE.STUDY_ROUTE,
+        id: 'study-route',
+        role: 'user',
+      },
+      {
+        title: t('selfStudySpace'),
+        icon: GraduationCap,
+        href: ROUTE.SPACE,
+        id: 'self-study-space',
+        role: 'user',
+      },
+      {
+        title: t('speakingPractice'),
+        icon: Mic,
+        href: ROUTE.ONION,
+        id: 'speaking-practice',
+        role: 'user',
+      },
+      {
+        title: t('writingPractice'),
+        icon: PenTool,
+        href: ROUTE.TOPIC,
+        id: 'writing-practice',
+        role: 'user',
+      },
+      {
+        title: t('listeningPractice'),
+        icon: Headphones,
+        href: ROUTE.GYM,
+        id: 'listening-practice',
+        role: 'user',
+      },
+      {
+        title: t('readingPractice'),
+        icon: BookOpen,
+        href: ROUTE.READING,
+        id: 'reading-practice',
+        role: 'user',
+      },
+      {
+        title: t('savedVocabulary'),
+        icon: BookMarked,
+        href: ROUTE.VOCABULARY,
+        id: 'saved-vocabulary',
+        role: 'user',
+      },
+      {
+        title: t('profile'),
+        icon: User2,
+        href: ROUTE.PROFILE,
+        id: 'profile',
+        role: ['user'],
+      },
+      {
+        title: t('userManagement'),
+        icon: Users,
+        href: ROUTE.ADMIN.USER_MANAGEMENT,
+        role: 'admin',
+      },
+      {
+        title: t('postManagement'),
+        icon: FileText,
+        href: ROUTE.ADMIN.POST_MANAGEMENT,
+        role: 'admin',
+      },
+      {
+        title: t('listeningSessionManagement'),
+        icon: ListChecks,
+        href: ROUTE.ADMIN.LISTENING_SESSION_MANAGEMENT,
+        role: 'admin',
+      },
+      {
+        title: t('soloSpaceManagement'),
+        icon: Wrench,
+        href: ROUTE.ADMIN.SOLO_SPACE_MANAGEMENT.INDEX,
+        role: 'admin',
+      },
+      {
+        title: t('settings'),
+        icon: Settings,
+        href: ROUTE.SETTING.INDEX,
+        id: 'settings',
+        role: ['admin', 'user'],
+      },
+    ],
+    [t]
+  );
   return (
     <>
       <aside

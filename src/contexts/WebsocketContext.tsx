@@ -6,7 +6,6 @@ import { usePathname } from 'next/navigation';
 
 import { StreakNotificationDialog } from '@/components/streak/StreakNotificationDialog';
 import { ROUTE } from '@/configs/route';
-import { getMeApi } from '@/services/auth/get-me.api';
 
 import { createContext, useContextSelector } from 'use-context-selector';
 

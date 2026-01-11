@@ -1,3 +1,4 @@
+import createMiddleware from 'next-intl/middleware';
 import { cookies } from 'next/headers';
 import { NextRequest, NextResponse } from 'next/server';
 
@@ -5,6 +6,10 @@ import { jwtDecode } from 'jwt-decode';
 
 import { ROUTE } from './configs/route';
 import { COOKIE_KEY_ACCESS_TOKEN, COOKIE_KEY_REFRESH_TOKEN } from './constants/cookies';
+import { routing } from './i18n/routing';
+
+// Create the next-intl middleware
+const intlMiddleware = createMiddleware(routing);
 
 const adminRoutes = [
   ROUTE.ADMIN.INDEX,
@@ -15,29 +20,13 @@ const adminRoutes = [
   ROUTE.SETTING,
 ];
 
-const publicRoutes = [ROUTE.AUTH.LOGIN, ROUTE.AUTH.REGISTER, ROUTE.HOME];
-const userRoutes = [
-  ROUTE.APP,
-  ROUTE.SPACE,
-  ROUTE.ONION,
-  ROUTE.GYM,
-  ROUTE.LEARN,
-  ROUTE.PROFILE,
-  ROUTE.SETTING,
-  ROUTE.TOPIC,
-  ROUTE.READING,
-  ROUTE.VOCABULARY,
-];
-
-// This function can be marked `async` if using `await` inside
 export async function middleware(request: NextRequest) {
   const path = request.nextUrl.pathname;
   const accessToken = (await cookies()).get(COOKIE_KEY_ACCESS_TOKEN)?.value;
   const refreshToken = (await cookies()).get(COOKIE_KEY_REFRESH_TOKEN)?.value;
   const isAdminRoute = adminRoutes.some((route: any) => path.startsWith(route));
-  // const isPublicRoute = publicRoutes.some((route: any) => path.startsWith(route));
-  // const isUserRoute = userRoutes.some((route: any) => path.startsWith(route));
 
+  // Handle authentication and admin route checks
   if (accessToken && refreshToken) {
     const user: any = jwtDecode(accessToken);
     const isAdmin = user?.username === 'admin';
@@ -52,9 +41,16 @@ export async function middleware(request: NextRequest) {
     }
   }
 
-  return NextResponse.next();
+  // Apply the next-intl middleware for locale handling
+  return intlMiddleware(request);
 }
 
 export const config = {
-  matcher: ['/((?!api|_next/static|_next/image|.*\\.png$).*)'],
+  // Match all routes except:
+  // - API routes (/api/*)
+  // - tRPC routes (/trpc/*)
+  // - Next.js internals (/_next/*)
+  // - Vercel internals (/_vercel/*)
+  // - Static files (any path with a file extension)
+  matcher: ['/((?!api|trpc|_next|_vercel|.*\\..*).*)'],
 };

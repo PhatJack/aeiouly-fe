@@ -3,6 +3,8 @@
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 
+import { useTranslations } from 'next-intl';
+
 import SettingHeader from '@/components/app/settings/SettingHeader';
 import ThemeCustomizer from '@/components/app/settings/ThemeCustomizer';
 import { ModeToggle } from '@/components/mode-toggle';
@@ -28,6 +30,7 @@ import { toast } from 'sonner';
 const SettingPage = () => {
   const [isShowNewPassword, setIsShowNewPassword] = useState<boolean>(false);
   const { mutate: changePassword, isPending } = useChangePasswordMutation();
+  const t = useTranslations('Settings');
 
   const form = useForm<ChangePasswordSchema>({
     resolver: zodResolver(changePasswordSchema),
@@ -40,7 +43,7 @@ const SettingPage = () => {
   const onSubmit = (data: ChangePasswordSchema) => {
     changePassword(data, {
       onSuccess: () => {
-        toast.success('Mật khẩu đã được thay đổi thành công');
+        toast.success(t('passwordChangedSuccess'));
         form.reset();
       },
       onError: (error: any) => {
@@ -53,15 +56,15 @@ const SettingPage = () => {
   return (
     <div className="space-y-4">
       <div className="space-y-4">
-        <SettingHeader title="Cài đặt" icon={Lock} description="Quản lý cài đặt ứng dụng của bạn" />
+        <SettingHeader title={t('title')} icon={Lock} description={t('description')} />
 
-        <Label className="text-lg font-semibold">Giao diện</Label>
+        <Label className="text-lg font-semibold">{t('interface')}</Label>
         <div className="rounded-xl border">
           <div className="divide-y">
             <div className="flex items-center justify-between p-4">
               <div>
-                <Label className="font-medium text-gray-500">Chế độ sáng/tối</Label>
-                <p className="mt-1 font-medium">Chuyển đổi giao diện đen/trắng</p>
+                <Label className="font-medium text-gray-500">{t('themeToggle')}</Label>
+                <p className="mt-1 font-medium">{t('themeToggleDescription')}</p>
               </div>
               <ModeToggle />
             </div>
@@ -73,11 +76,11 @@ const SettingPage = () => {
 
       {/* Change Password Section */}
       <div className="space-y-4">
-        <Label className="text-lg font-semibold">Bảo mật</Label>
+        <Label className="text-lg font-semibold">{t('security')}</Label>
         <div className="rounded-xl border p-4">
           <div className="mb-4">
-            <h3 className="text-lg font-semibold">Thay đổi mật khẩu</h3>
-            <p className="text-muted-foreground text-sm">Cập nhật mật khẩu để bảo mật tài khoản</p>
+            <h3 className="text-lg font-semibold">{t('changePassword')}</h3>
+            <p className="text-muted-foreground text-sm">{t('changePasswordDescription')}</p>
           </div>
 
           <Form {...form}>
@@ -90,12 +93,12 @@ const SettingPage = () => {
                   <FormItem>
                     <FormLabel className="text-foreground flex items-center gap-2 text-sm font-medium">
                       <Lock size={16} className="text-muted-foreground" />
-                      Mật khẩu hiện tại
+                      {t('currentPassword')}
                     </FormLabel>
                     <FormControl>
                       <Input
                         type="password"
-                        placeholder="Nhập mật khẩu hiện tại của bạn"
+                        placeholder={t('currentPasswordPlaceholder')}
                         {...field}
                         disabled={isPending}
                         className="border-border focus:border-primary h-10 rounded-lg"
@@ -113,13 +116,13 @@ const SettingPage = () => {
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel className="text-foreground text-sm font-medium">
-                      Mật khẩu mới
+                      {t('newPassword')}
                     </FormLabel>
                     <FormControl>
                       <div className="relative">
                         <Input
                           type={isShowNewPassword ? 'text' : 'password'}
-                          placeholder="Nhập mật khẩu mới"
+                          placeholder={t('newPasswordPlaceholder')}
                           {...field}
                           disabled={isPending}
                           className="border-border focus:border-primary h-10 rounded-lg"
@@ -154,7 +157,7 @@ const SettingPage = () => {
                 ) : (
                   <CheckCircle className="h-5 w-5" />
                 )}
-                {isPending ? 'Đang cập nhật...' : 'Cập nhật mật khẩu'}
+                {isPending ? t('updating') : t('updatePassword')}
               </Button>
             </form>
           </Form>

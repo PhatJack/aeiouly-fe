@@ -1,7 +1,8 @@
 'use client';
 
-import React from 'react';
+import React, { useMemo } from 'react';
 
+import { useTranslations } from 'next-intl';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
@@ -11,64 +12,61 @@ import { useAuthStore } from '@/contexts/AuthContext';
 import { FileText, Lock, MessageCircle, Trash2 } from 'lucide-react';
 import { motion } from 'motion/react';
 
-const menu: {
-  title: string;
-  href: string;
-  icon: React.ElementType;
-  description: string;
-  danger?: boolean;
-  role?: 'user' | 'admin' | Array<'user' | 'admin'>;
-}[] = [
-  {
-    title: 'Cài đặt chung',
-    href: '/settings',
-    icon: Lock,
-    description: 'Cài đặt bảo mật và thay đổi chủ đề',
-    role: ['user', 'admin'],
-  },
-  {
-    title: 'Chính sách bảo mật',
-    href: '/settings/policy',
-    icon: Lock,
-    description: 'Chính sách bảo mật và quyền riêng tư',
-    role: ['user', 'admin'],
-  },
-  {
-    title: 'Điều khoản dịch vụ',
-    href: '/settings/terms',
-    icon: FileText,
-    description: 'Điều khoản và điều kiện sử dụng',
-    role: ['user', 'admin'],
-  },
-  {
-    title: 'Liên hệ',
-    href: '/settings/contact',
-    icon: MessageCircle,
-    description: 'Hỗ trợ khách hàng và phản hồi',
-    role: ['user', 'admin'],
-  },
-  {
-    title: 'Xoá tài khoản',
-    href: '/settings/delete-account',
-    icon: Trash2,
-    description: 'Xoá vĩnh viễn tài khoản của bạn',
-    danger: true,
-    role: 'user',
-  },
-];
-
 const SettingNav = () => {
   const pathname = usePathname();
   const user = useAuthStore((state) => state.user);
+  const t = useTranslations('Settings');
+
+  const menu = useMemo(
+    () => [
+      {
+        title: t('nav.menu.general.title'),
+        href: '/settings',
+        icon: Lock,
+        description: t('nav.menu.general.description'),
+        role: ['user', 'admin'],
+      },
+      {
+        title: t('nav.menu.privacy.title'),
+        href: '/settings/policy',
+        icon: Lock,
+        description: t('nav.menu.privacy.description'),
+        role: ['user', 'admin'],
+      },
+      {
+        title: t('nav.menu.terms.title'),
+        href: '/settings/terms',
+        icon: FileText,
+        description: t('nav.menu.terms.description'),
+        role: ['user', 'admin'],
+      },
+      {
+        title: t('nav.menu.contact.title'),
+        href: '/settings/contact',
+        icon: MessageCircle,
+        description: t('nav.menu.contact.description'),
+        role: ['user', 'admin'],
+      },
+      {
+        title: t('nav.menu.deleteAccount.title'),
+        href: '/settings/delete-account',
+        icon: Trash2,
+        description: t('nav.menu.deleteAccount.description'),
+        danger: true,
+        role: 'user',
+      },
+    ],
+    [t]
+  );
 
   return (
     <div className="mx-auto w-full lg:max-w-md">
       <div className="overflow-hidden transition-all">
         <div className="border-b pb-4 sm:p-4">
-          <h2 className="text-foreground text-xl font-semibold dark:text-white">Cài đặt</h2>
-          <p className="text-muted-foreground text-sm dark:text-gray-400">
-            Quản lý tài khoản và tùy chọn
-          </p>
+          <h2 className="text-foreground text-xl font-semibold dark:text-white">
+            {t('nav.title')}
+          </h2>
+          <p className="text-muted-foreground text-sm dark:text-gray-400">{t('nav.description')}</p>
         </div>
 
         <div className="flex flex-col gap-2 py-4 sm:p-2">
