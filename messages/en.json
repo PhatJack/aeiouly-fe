@@ -252,5 +252,45 @@
       "minLowercase": "At least 1 lowercase letter",
       "minUppercase": "At least 1 uppercase letter"
     }
+  },
+  "Auth": {
+    "login": {
+      "title": "Login",
+      "description": "Enter your information below to log in to your account",
+      "username": "Username",
+      "password": "Password",
+      "forgotPassword": "Forgot password?",
+      "submit": "Login",
+      "divider": "Or continue with",
+      "noAccount": "Don't have an account?",
+      "register": "Register"
+    },
+    "register": {
+      "title": "Create new account",
+      "description": "Enter your information below to register",
+      "fullName": "Full name",
+      "email": "Email",
+      "username": "Username",
+      "password": "Password",
+      "submit": "Register",
+      "divider": "Or continue with",
+      "hasAccount": "Already have an account?",
+      "login": "Login"
+    },
+    "forgotPassword": {
+      "title": "Forgot password",
+      "description": "Enter your email below to receive password reset instructions",
+      "email": "Email",
+      "submit": "Send password reset request",
+      "backToLogin": "Back to login page"
+    },
+    "resetPassword": {
+      "title": "Change password",
+      "description": "Enter your new password below",
+      "newPassword": "New Password",
+      "submit": "Reset password",
+      "backToForgotPassword": "Back to forgot password page",
+      "backToLogin": "Back to login page"
+    }
   }
 }

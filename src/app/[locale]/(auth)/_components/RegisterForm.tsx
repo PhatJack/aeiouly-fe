@@ -3,6 +3,7 @@
 import React, { useMemo, useState } from 'react';
 import { useForm } from 'react-hook-form';
 
+import { useTranslations } from 'next-intl';
 import Link from 'next/link';
 import { useRouter } from 'nextjs-toploader/app';
 
@@ -33,6 +34,8 @@ import { toast } from 'sonner';
 const RegisterForm = () => {
   const router = useRouter();
   const [isShowPassword, setIsShowPassword] = useState<boolean>(false);
+  const t = useTranslations('Auth');
+
   const registerForm = useForm<RegisterBodySchema>({
     resolver: zodResolver(registerBodySchema),
     defaultValues: {
@@ -62,10 +65,8 @@ const RegisterForm = () => {
       <form onSubmit={registerForm.handleSubmit(onSubmit)} className={cn('space-y-4')}>
         {/* Header */}
         <div className="flex flex-col items-center gap-2 text-center">
-          <h1 className="text-2xl font-bold">Tạo tài khoản mới</h1>
-          <p className="text-muted-foreground text-sm text-balance">
-            Nhập thông tin của bạn bên dưới để đăng ký
-          </p>
+          <h1 className="text-2xl font-bold">{t('register.title')}</h1>
+          <p className="text-muted-foreground text-sm text-balance">{t('register.description')}</p>
         </div>
 
         {/* Confirm Password */}
@@ -74,7 +75,7 @@ const RegisterForm = () => {
           name="full_name"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Họ và tên</FormLabel>
+              <FormLabel>{t('register.fullName')}</FormLabel>
               <FormControl>
                 <Input placeholder="John Doe" {...field} />
               </FormControl>
@@ -89,7 +90,7 @@ const RegisterForm = () => {
           name="email"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Email</FormLabel>
+              <FormLabel>{t('register.email')}</FormLabel>
               <FormControl>
                 <Input type="email" placeholder="m@example.com" {...field} />
               </FormControl>
@@ -104,7 +105,7 @@ const RegisterForm = () => {
           name="username"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Username</FormLabel>
+              <FormLabel>{t('register.username')}</FormLabel>
               <FormControl>
                 <Input placeholder="johndoe" {...field} />
               </FormControl>
@@ -119,7 +120,7 @@ const RegisterForm = () => {
           name="password"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Mật khẩu</FormLabel>
+              <FormLabel>{t('register.password')}</FormLabel>
               <FormControl>
                 <div className="relative">
                   <Input type={isShowPassword ? 'text' : 'password'} {...field} />
@@ -146,13 +147,13 @@ const RegisterForm = () => {
 
         {/* Submit */}
         <Button type="submit" className="w-full cursor-pointer">
-          Đăng ký
+          {t('register.submit')}
         </Button>
 
         {/* Divider */}
         <div className="after:border-border relative text-center text-sm after:absolute after:inset-0 after:top-1/2 after:z-0 after:flex after:items-center after:border-t">
           <span className="text-muted-foreground relative z-10 bg-white px-2 dark:bg-[#121212]">
-            Hoặc tiếp tục với
+            {t('register.divider')}
           </span>
         </div>
 
@@ -163,9 +164,9 @@ const RegisterForm = () => {
 
         {/* Footer */}
         <div className="text-center text-sm">
-          Đã có tài khoản?{' '}
+          {t('register.hasAccount')}{' '}
           <Link href="/login" className="underline underline-offset-4">
-            Đăng nhập
+            {t('register.login')}
           </Link>
         </div>
       </form>
