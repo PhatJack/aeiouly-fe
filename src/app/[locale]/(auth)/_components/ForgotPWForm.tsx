@@ -3,6 +3,7 @@
 import * as React from 'react';
 import { useForm } from 'react-hook-form';
 
+import { useTranslations } from 'next-intl';
 import { useRouter } from 'nextjs-toploader/app';
 
 import { Button } from '@/components/ui/button';
@@ -27,6 +28,8 @@ import { toast } from 'sonner';
 
 const ForgotPWForm = () => {
   const router = useRouter();
+  const t = useTranslations('Auth');
+
   const forgotPWForm = useForm<RequestPasswordResetSchema>({
     resolver: zodResolver(requestPasswordResetSchema),
     defaultValues: {
@@ -52,9 +55,9 @@ const ForgotPWForm = () => {
       <form onSubmit={forgotPWForm.handleSubmit(onSubmit)} className={cn('space-y-6')}>
         {/* Header */}
         <div className="flex flex-col items-center gap-2 text-center">
-          <h1 className="text-2xl font-bold">Quên mật khẩu</h1>
+          <h1 className="text-2xl font-bold">{t('forgotPassword.title')}</h1>
           <p className="text-muted-foreground text-sm text-balance">
-            Nhập email của bạn vào bên dưới để nhận được email đặt lại mật khẩu
+            {t('forgotPassword.description')}
           </p>
         </div>
 
@@ -66,7 +69,7 @@ const ForgotPWForm = () => {
             name="email"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Email</FormLabel>
+                <FormLabel>{t('forgotPassword.email')}</FormLabel>
                 <FormControl>
                   <Input placeholder="m@example.com" {...field} />
                 </FormControl>
@@ -77,7 +80,7 @@ const ForgotPWForm = () => {
 
           {/* Submit Button */}
           <Button type="submit" className="w-full">
-            Gửi yêu cầu đặt lại mật khẩu
+            {t('forgotPassword.submit')}
           </Button>
           <Button
             type="button"
@@ -85,7 +88,7 @@ const ForgotPWForm = () => {
             className="w-full"
             onClick={() => router.push('/login')}
           >
-            Trở lại trang đăng nhập
+            {t('forgotPassword.backToLogin')}
           </Button>
         </div>
       </form>

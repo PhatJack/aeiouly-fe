@@ -3,6 +3,7 @@
 import * as React from 'react';
 import { useForm } from 'react-hook-form';
 
+import { useTranslations } from 'next-intl';
 import { useSearchParams } from 'next/navigation';
 import { useRouter } from 'nextjs-toploader/app';
 
@@ -29,6 +30,8 @@ import { toast } from 'sonner';
 const PasswordResetForm = () => {
   const searchParams = useSearchParams();
   const router = useRouter();
+  const t = useTranslations('Auth');
+
   const passwordResetForm = useForm<ConfirmPasswordResetSchema>({
     resolver: zodResolver(confirmPasswordResetSchema),
     defaultValues: {
@@ -56,9 +59,9 @@ const PasswordResetForm = () => {
       <form onSubmit={passwordResetForm.handleSubmit(onSubmit)} className={cn('space-y-6')}>
         {/* Header */}
         <div className="flex flex-col items-center gap-2 text-center">
-          <h1 className="text-2xl font-bold">Đổi mật khẩu</h1>
+          <h1 className="text-2xl font-bold">{t('resetPassword.title')}</h1>
           <p className="text-muted-foreground text-sm text-balance">
-            Nhập mật khẩu mới của bạn vào bên dưới
+            {t('resetPassword.description')}
           </p>
         </div>
 
@@ -70,7 +73,7 @@ const PasswordResetForm = () => {
             name="new_password"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>New Password</FormLabel>
+                <FormLabel>{t('resetPassword.newPassword')}</FormLabel>
                 <FormControl>
                   <Input placeholder="New Password" type="password" {...field} />
                 </FormControl>
@@ -80,7 +83,7 @@ const PasswordResetForm = () => {
           />
           {/* Submit Button */}
           <Button type="submit" className="w-full">
-            Đặt lại mật khẩu
+            {t('resetPassword.submit')}
           </Button>
           <div className="grid">
             <Button
@@ -89,7 +92,7 @@ const PasswordResetForm = () => {
               className="w-full"
               onClick={() => router.push('/forgot-password')}
             >
-              Trở lại trang quên mật khẩu
+              {t('resetPassword.backToForgotPassword')}
             </Button>
             <Button
               type="button"
@@ -97,7 +100,7 @@ const PasswordResetForm = () => {
               className="w-full"
               onClick={() => router.push('/login')}
             >
-              Trở lại trang đăng nhập
+              {t('resetPassword.backToLogin')}
             </Button>
           </div>
         </div>

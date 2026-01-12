@@ -3,6 +3,7 @@
 import * as React from 'react';
 import { useForm } from 'react-hook-form';
 
+import { useTranslations } from 'next-intl';
 import Link from 'next/link';
 import { useRouter } from 'nextjs-toploader/app';
 
@@ -29,6 +30,8 @@ import { toast } from 'sonner';
 const LoginForm = () => {
   const router = useRouter();
   const [isShowPassword, setIsShowPassword] = React.useState<boolean>(false);
+  const t = useTranslations('Auth');
+
   const loginForm = useForm<LoginBodySchema>({
     resolver: zodResolver(loginBodySchema),
     defaultValues: {
@@ -59,10 +62,8 @@ const LoginForm = () => {
       <form onSubmit={loginForm.handleSubmit(onSubmit)} className={cn('space-y-6')}>
         {/* Header */}
         <div className="flex flex-col items-center gap-2 text-center">
-          <h1 className="text-2xl font-bold">Đăng nhập</h1>
-          <p className="text-muted-foreground text-sm text-balance">
-            Nhập thông tin bên dưới để đăng nhập vào tài khoản
-          </p>
+          <h1 className="text-2xl font-bold">{t('login.title')}</h1>
+          <p className="text-muted-foreground text-sm text-balance">{t('login.description')}</p>
         </div>
 
         {/* Fields */}
@@ -73,7 +74,7 @@ const LoginForm = () => {
             name="username"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Username</FormLabel>
+                <FormLabel>{t('login.username')}</FormLabel>
                 <FormControl>
                   <Input placeholder="johndoe" {...field} />
                 </FormControl>
@@ -89,13 +90,13 @@ const LoginForm = () => {
             render={({ field }) => (
               <FormItem>
                 <div className="flex items-center">
-                  <FormLabel>Mật khẩu</FormLabel>
+                  <FormLabel>{t('login.password')}</FormLabel>
                   <Link
                     href="/forgot-password"
                     tabIndex={-1}
                     className="ml-auto text-sm underline-offset-4 hover:underline"
                   >
-                    Quên mật khẩu?
+                    {t('login.forgotPassword')}
                   </Link>
                 </div>
                 <FormControl>
@@ -120,13 +121,13 @@ const LoginForm = () => {
 
           {/* Submit Button */}
           <Button type="submit" className="w-full">
-            Đăng nhập
+            {t('login.submit')}
           </Button>
 
           {/* Divider */}
           <div className="after:border-border relative text-center text-sm after:absolute after:inset-0 after:top-1/2 after:z-0 after:flex after:items-center after:border-t">
             <span className="text-muted-foreground relative z-10 bg-white px-2 dark:bg-[#121212]">
-              Hoặc tiếp tục với
+              {t('login.divider')}
             </span>
           </div>
           <div className="flex w-full justify-center">
@@ -136,9 +137,9 @@ const LoginForm = () => {
 
         {/* Footer */}
         <div className="text-center text-sm">
-          Không có tài khoản?{' '}
+          {t('login.noAccount')}{' '}
           <Link href={'/register'} className="underline underline-offset-4">
-            Đăng ký
+            {t('login.register')}
           </Link>
         </div>
       </form>
