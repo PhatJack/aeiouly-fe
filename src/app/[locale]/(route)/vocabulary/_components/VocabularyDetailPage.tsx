@@ -337,7 +337,7 @@ const VocabularyDetailPage = ({ id }: VocabularyDetailPageProps) => {
       {/* Loading Overlays */}
       {removeItemMutation.isPending && (
         <LoadingWithText
-          text={t('detail.loading.remove')}
+          text={t('detail.loading.deleting')}
           className="fixed inset-0 z-50 bg-black/20"
         />
       )}
