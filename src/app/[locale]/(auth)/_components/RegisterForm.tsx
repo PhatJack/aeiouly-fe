@@ -58,7 +58,7 @@ const RegisterForm = () => {
         toast.error(
           t(`api.auth.${(error as any).detail?.code}`) ||
             (error as any).detail?.message ||
-            'Đăng ký thất bại!'
+            t('api.auth.REGISTER_FAILED')
         );
       },
     });
