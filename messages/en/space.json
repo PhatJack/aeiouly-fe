@@ -86,7 +86,8 @@
 		},
 		"deleteVideo": {
 			"confirmTitle": "Confirm Delete",
-			"confirmDescription": "Are you sure you want to remove from your favorites? This action cannot be undone.",
+			"confirmDescription": "Are you sure you want to remove \"{title}\" from your favorites? This action cannot be undone.",
+			"fallbackTitle": "this video",
 			"cancel": "Cancel",
 			"delete": "Delete"
 		},

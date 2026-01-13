@@ -42,7 +42,7 @@ const DeleteFavoriteVideo = ({
         <AlertDialogHeader>
           <AlertDialogTitle>{t('deleteVideo.confirmTitle')}</AlertDialogTitle>
           <AlertDialogDescription>
-            {t('deleteVideo.confirmDescription', { title: videoTitle || 'video này' })}
+            {t('deleteVideo.confirmDescription', { title: videoTitle || t('deleteVideo.fallbackTitle') })}
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
