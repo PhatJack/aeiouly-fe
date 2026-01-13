@@ -17,6 +17,7 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
+import { ROUTE } from '@/configs/route';
 import { cn } from '@/lib/utils';
 import {
   ConfirmPasswordResetSchema,
@@ -30,7 +31,7 @@ import { toast } from 'sonner';
 const PasswordResetForm = () => {
   const searchParams = useSearchParams();
   const router = useRouter();
-  const t = useTranslations('Auth');
+  const t = useTranslations('auth');
 
   const passwordResetForm = useForm<ConfirmPasswordResetSchema>({
     resolver: zodResolver(confirmPasswordResetSchema),
@@ -44,12 +45,16 @@ const PasswordResetForm = () => {
 
   const onSubmit = (data: ConfirmPasswordResetSchema) => {
     confirmPWResetMutate.mutate(data, {
-      onSuccess: (data) => {
-        toast.success('Đặt lại mật khẩu thành công!');
-        router.push('/login');
+      onSuccess: () => {
+        toast.success(t('api.auth.PASSWORD_RESET_SUCCESS'));
+        router.push(ROUTE.AUTH.LOGIN);
       },
       onError: (error) => {
-        toast.error((error as any).detail || 'Đặt lại mật khẩu thất bại!');
+        toast.error(
+          t(`api.auth.${(error as any).detail?.code}`) ||
+            (error as any).detail?.message ||
+            t('resetPassword.error')
+        );
       },
     });
   };

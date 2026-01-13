@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useMemo, useState } from 'react';
+import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 
 import { useTranslations } from 'next-intl';
@@ -34,7 +34,7 @@ import { toast } from 'sonner';
 const RegisterForm = () => {
   const router = useRouter();
   const [isShowPassword, setIsShowPassword] = useState<boolean>(false);
-  const t = useTranslations('Auth');
+  const t = useTranslations('auth');
 
   const registerForm = useForm<RegisterBodySchema>({
     resolver: zodResolver(registerBodySchema),
@@ -51,11 +51,15 @@ const RegisterForm = () => {
   const onSubmit = (data: RegisterBodySchema) => {
     registerMutate.mutate(data, {
       onSuccess: () => {
-        toast.success('Đăng ký thành công!');
-        router.push(ROUTE.AUTH.LOGIN, {});
+        toast.success(t(`api.auth.REGISTER_SUCCESSFULLY`));
+        router.push(ROUTE.AUTH.LOGIN);
       },
       onError: (error) => {
-        toast.error((error as any).detail || 'Đăng ký thất bại!');
+        toast.error(
+          t(`api.auth.${(error as any).detail?.code}`) ||
+            (error as any).detail?.message ||
+            'Đăng ký thất bại!'
+        );
       },
     });
   };
@@ -165,7 +169,7 @@ const RegisterForm = () => {
         {/* Footer */}
         <div className="text-center text-sm">
           {t('register.hasAccount')}{' '}
-          <Link href="/login" className="underline underline-offset-4">
+          <Link href={ROUTE.AUTH.LOGIN} className="underline underline-offset-4">
             {t('register.login')}
           </Link>
         </div>

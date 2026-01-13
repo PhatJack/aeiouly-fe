@@ -30,7 +30,7 @@ import { toast } from 'sonner';
 const LoginForm = () => {
   const router = useRouter();
   const [isShowPassword, setIsShowPassword] = React.useState<boolean>(false);
-  const t = useTranslations('Auth');
+  const t = useTranslations('auth');
 
   const loginForm = useForm<LoginBodySchema>({
     resolver: zodResolver(loginBodySchema),
@@ -46,13 +46,17 @@ const LoginForm = () => {
     loginMutation.mutate(data, {
       onSuccess: (data) => {
         const userInfo = jwtDecode(data.access_token) as any;
-        toast.success('Đăng nhập thành công!');
+        toast.success(t(`api.auth.${data.code}`));
         router.push(userInfo.username === 'admin' ? ROUTE.ADMIN.USER_MANAGEMENT : ROUTE.APP, {
           scroll: false,
         });
       },
       onError: (error) => {
-        toast.error((error as any).detail || 'Đăng nhập thất bại!');
+        toast.error(
+          t(`api.auth.${(error as any).detail?.code}`) ||
+            (error as any).detail?.message ||
+            'Đăng nhập thất bại!'
+        );
       },
     });
   };
@@ -92,7 +96,7 @@ const LoginForm = () => {
                 <div className="flex items-center">
                   <FormLabel>{t('login.password')}</FormLabel>
                   <Link
-                    href="/forgot-password"
+                    href={ROUTE.AUTH.FORGOT_PASSWORD}
                     tabIndex={-1}
                     className="ml-auto text-sm underline-offset-4 hover:underline"
                   >
@@ -138,7 +142,7 @@ const LoginForm = () => {
         {/* Footer */}
         <div className="text-center text-sm">
           {t('login.noAccount')}{' '}
-          <Link href={'/register'} className="underline underline-offset-4">
+          <Link href={ROUTE.AUTH.REGISTER} className="underline underline-offset-4">
             {t('login.register')}
           </Link>
         </div>

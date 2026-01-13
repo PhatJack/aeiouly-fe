@@ -2,6 +2,8 @@
 
 import React, { useCallback, useState } from 'react';
 
+import { useTranslations } from 'next-intl';
+
 import YoutubeLinkInput from '@/components/app/solo/YoutubeLinkInput';
 import BackgroundContainer from '@/components/app/solo/background-list/background-container';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
@@ -11,6 +13,7 @@ import { FolderOpenDot, Heart } from 'lucide-react';
 import UserFavoriteVideos from './user-favorite-videos';
 
 const BackgroundList = () => {
+  const t = useTranslations('space');
   const [activeTab, setActiveTab] = useState<'default' | 'favorite'>('default');
   const onTabChange = useCallback((value: string) => {
     setActiveTab(value as 'default' | 'favorite');
@@ -40,7 +43,7 @@ const BackgroundList = () => {
         </TabsContent>
         <TabsContent value="favorite" className="mt-0">
           <p className="text-muted-foreground mb-3 text-xs italic">
-            Bạn có thể thêm video yêu thích của mình để dễ dàng truy cập sau này.
+            {t('background.favoriteHint')}
           </p>
           <UserFavoriteVideos />
         </TabsContent>

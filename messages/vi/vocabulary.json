@@ -1,0 +1,61 @@
+{
+  "vocabulary": {
+    "page": {
+      "title": "Bộ từ vựng của tôi",
+      "description": "Quản lý và học tập với {count} bộ từ vựng",
+      "createNew": "Tạo bộ từ mới",
+      "findVocabulary": "Tìm kiếm từ vựng",
+      "searchPlaceholder": "Tìm kiếm bộ từ vựng...",
+      "alertNote": "Chú ý: Bạn có thể tạo flashcards từ highlights (bao gồm các highlights các bạn đã tạo trước đây) trong trang chi tiết luyện thi.",
+      "empty": {
+        "noResults": "Không tìm thấy bộ từ vựng",
+        "noResultsDesc": "Thử tìm kiếm với từ khóa khác",
+        "noSets": "Chưa có bộ từ vựng nào",
+        "noSetsDesc": "Tạo bộ từ vựng đầu tiên để bắt đầu học",
+        "createFirst": "Tạo bộ từ mới"
+      },
+      "loading": "Đang xóa...",
+      "confirmDelete": "Bạn có chắc chắn muốn xóa bộ từ vựng này?",
+      "success": {
+        "create": "Tạo bộ từ vựng mới thành công!",
+        "delete": "Xóa bộ từ vựng thành công!"
+      },
+      "error": {
+        "create": "Có lỗi xảy ra khi tạo bộ từ vựng",
+        "delete": "Có lỗi xảy ra khi xóa bộ từ vựng"
+      }
+    },
+    "detail": {
+      "notFound": "Không tìm thấy bộ từ vựng",
+      "back": "Quay lại",
+      "default": "Mặc định",
+      "words": "từ",
+      "alertNote": "Chú ý: bạn được học tối đa 20 từ mới một ngày. Đây là lượng từ phù hợp để bạn có thể học hiệu quả.",
+      "practice": {
+        "flashcard": "Luyện tập với Flashcard",
+        "multipleChoice": "Luyện tập Multiple Choice"
+      },
+      "backToList": "Quay lại danh sách từ",
+      "empty": {
+        "title": "Chưa có từ vựng nào",
+        "description": "Thêm từ vựng vào bộ từ này để bắt đầu học"
+      },
+      "loading": {
+        "creatingFlashcard": "Đang tạo flashcard...",
+        "creatingQuiz": "Đang tạo bài trắc nghiệm...",
+        "deleting": "Đang xóa..."
+      },
+      "confirmRemove": "Bạn có chắc chắn muốn xóa từ này khỏi bộ từ vựng?",
+      "success": {
+        "remove": "Đã xóa từ khỏi bộ từ vựng!",
+        "flashcardCreated": "Đã tạo {count} thẻ flashcard!",
+        "quizCreated": "Đã tạo {count} câu hỏi trắc nghiệm!",
+        "submitted": "Đã nộp bài!"
+      },
+      "error": {
+        "remove": "Có lỗi xảy ra khi xóa từ",
+        "practice": "Có lỗi xảy ra khi tạo phiên luyện tập"
+      }
+    }
+  }
+}

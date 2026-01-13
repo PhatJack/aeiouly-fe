@@ -7,7 +7,7 @@ import SettingHeader from '@/components/app/settings/SettingHeader';
 import { FileText } from 'lucide-react';
 
 export async function generateMetadata(): Promise<Metadata> {
-  const t = await getTranslations('Settings');
+  const t = await getTranslations('setting');
 
   return {
     title: t('termsPage.title'),
@@ -16,7 +16,7 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default function TermsPage() {
-  const t = useTranslations('Settings');
+  const t = useTranslations('setting');
 
   return (
     <div className="space-y-4">

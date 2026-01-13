@@ -2,6 +2,8 @@
 
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 
+import { useTranslations } from 'next-intl';
+
 import { useSoloStore } from '@/hooks/use-solo-store';
 import { UrlToEmbeded } from '@/lib/utils';
 
@@ -27,6 +29,7 @@ import { UrlToEmbeded } from '@/lib/utils';
  */
 
 function BackgroundIframe() {
+  const t = useTranslations('space');
   const { backgroundURL, volume, isAddYtbScript, setAddYtbScript } = useSoloStore();
   const youtubeRef = useRef<any>(null);
   const videoRef = useRef<any>(null);
@@ -151,7 +154,7 @@ function BackgroundIframe() {
     <div className="pointer-events-none absolute inset-0 overflow-hidden">
       {videoError && backgroundURL && (
         <div className="absolute top-1/2 left-1/2 z-10 -translate-x-1/2 -translate-y-1/2 rounded-md bg-black/50 p-4 text-white">
-          Video không khả dụng. Vui lòng thử video khác.
+          {t('background.videoUnavailable')}
         </div>
       )}
       <div

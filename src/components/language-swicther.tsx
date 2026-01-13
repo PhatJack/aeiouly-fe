@@ -1,8 +1,9 @@
 'use client';
 
 import * as React from 'react';
-import { Us, Vi } from 'react-flags-select';
+import { Us, Vn } from 'react-flags-select';
 
+import { useLocale } from 'next-intl';
 import { useRouter } from 'next/navigation';
 
 import { Button } from '@/components/ui/button';
@@ -23,10 +24,11 @@ type Language = {
 
 const LANGUAGES: Language[] = [
   { flag: <Us />, code: 'en', label: 'English' },
-  { flag: <Vi />, code: 'vi', label: 'Tiếng Việt' },
+  { flag: <Vn />, code: 'vi', label: 'Tiếng Việt' },
 ];
 
-export function LanguageSwitcher({ locale }: { locale: string }) {
+export function LanguageSwitcher() {
+  const locale = useLocale();
   const router = useRouter();
 
   const switchLanguage = (nextLocale: string) => {
@@ -53,12 +55,11 @@ export function LanguageSwitcher({ locale }: { locale: string }) {
           <DropdownMenuItem
             key={lang.code}
             onClick={() => switchLanguage(lang.code)}
-            className="flex items-center justify-between"
+            className="flex items-center gap-2"
           >
-            <span>
-              {lang.flag} {lang.label}
-            </span>
-            {lang.code === locale && <Check className="text-primary h-4 w-4" />}
+            <span>{lang.flag}</span>
+            <span className="text-left">{lang.label}</span>
+            {locale === lang.code ? <Check className="ml-auto h-4 w-4" /> : null}
           </DropdownMenuItem>
         ))}
       </DropdownMenuContent>

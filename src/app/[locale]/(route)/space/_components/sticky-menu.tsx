@@ -2,9 +2,11 @@
 
 import React, { useCallback } from 'react';
 
+import { useTranslations } from 'next-intl';
+
 import TooltipCustom from '@/components/custom/TooltipCustom';
 import { Button } from '@/components/ui/button';
-import { menuButton } from '@/constants/solo-button-menu';
+import { getMenuButton } from '@/constants/solo-button-menu';
 import { formatTime, usePomodoroStore } from '@/hooks/use-pomodoro-store';
 import { PanelType } from '@/hooks/use-solo-store';
 import { useSoloStore } from '@/hooks/use-solo-store';
@@ -13,6 +15,7 @@ import { cn } from '@/lib/utils';
 import { Clock, Expand, Minimize, Target } from 'lucide-react';
 
 const StickyMenu = () => {
+  const t = useTranslations('space');
   const { remainingTime } = usePomodoroStore();
   const { hours, minutes, seconds } = formatTime(remainingTime);
   const {
@@ -57,7 +60,7 @@ const StickyMenu = () => {
             <div className="flex items-center">
               <Clock size={14} />
             </div>
-            <span className="text-xs leading-[1.15rem] font-medium">Pomodoro Timer</span>
+            <span className="text-xs leading-[1.15rem] font-medium">{t('buttons.pomodoro')}</span>
           </div>
           <p className="text-sm font-bold">
             <span>{hours}</span>
@@ -77,7 +80,9 @@ const StickyMenu = () => {
             <div className="flex items-center">
               <Target size={14} />
             </div>
-            <span className="text-xs leading-[1.15rem] font-medium">Mục tiêu phiên</span>
+            <span className="text-xs leading-[1.15rem] font-medium">
+              {t('buttons.sessionGoal')}
+            </span>
           </div>
           <p className="text-sm">
             <strong>
@@ -89,7 +94,7 @@ const StickyMenu = () => {
 
       {/* Menu Buttons */}
       <div className="flex w-full justify-between gap-4 md:w-auto md:justify-start md:gap-4">
-        {menuButton.map((item, index) => (
+        {getMenuButton(t).map((item, index) => (
           <TooltipCustom side="bottom" content={item.label} key={index}>
             <Button
               type="button"
@@ -107,7 +112,7 @@ const StickyMenu = () => {
             </Button>
           </TooltipCustom>
         ))}
-        <TooltipCustom side="bottom" content={'Toàn màn hình'}>
+        <TooltipCustom side="bottom" content={t('buttons.fullscreen')}>
           <Button
             type="button"
             onClick={toggleFullscreenHandler}

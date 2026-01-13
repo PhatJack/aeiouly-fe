@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 
+import { useTranslations } from 'next-intl';
 import { useRouter } from 'nextjs-toploader/app';
 
 import LoadingWithText from '@/components/LoadingWithText';
@@ -25,6 +26,7 @@ import { toast } from 'sonner';
 
 const VocabularyPage = () => {
   const router = useRouter();
+  const t = useTranslations('vocabulary');
   const [openCreateDialog, setOpenCreateDialog] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
 
@@ -36,23 +38,23 @@ const VocabularyPage = () => {
   const handleCreateOrUpdate = (data: VocabularySetCreateSchema) => {
     createSetMutation.mutate(data, {
       onSuccess: () => {
-        toast.success('Tạo bộ từ vựng mới thành công!');
+        toast.success(t('page.success.create'));
         setOpenCreateDialog(false);
       },
       onError: (error) => {
-        toast.error(error.detail || 'Có lỗi xảy ra khi tạo bộ từ vựng');
+        toast.error(error.detail || t('page.error.create'));
       },
     });
   };
 
   const handleDelete = (setId: number) => {
-    if (confirm('Bạn có chắc chắn muốn xóa bộ từ vựng này?')) {
+    if (confirm(t('page.confirmDelete'))) {
       deleteSetMutation.mutate(setId, {
         onSuccess: () => {
-          toast.success('Xóa bộ từ vựng thành công!');
+          toast.success(t('page.success.delete'));
         },
         onError: (error) => {
-          toast.error(error.detail || 'Có lỗi xảy ra khi xóa bộ từ vựng');
+          toast.error(error.detail || t('page.error.delete'));
         },
       });
     }
@@ -87,15 +89,15 @@ const VocabularyPage = () => {
       {/* Header */}
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <h1 className="text-3xl font-bold">Bộ từ vựng của tôi</h1>
+          <h1 className="text-3xl font-bold">{t('page.title')}</h1>
           <p className="text-muted-foreground mt-1">
-            Quản lý và học tập với {vocabularySetsData?.total || 0} bộ từ vựng
+            {t('page.description', { count: vocabularySetsData?.total || 0 })}
           </p>
         </div>
         <div className="flex items-center gap-4">
           <Button onClick={handleCreateNew} className="gap-2">
             <Plus className="h-4 w-4" />
-            Tạo bộ từ mới
+            {t('page.createNew')}
           </Button>
           <Button
             onClick={() => router.push('/vocabulary/find')}
@@ -103,7 +105,7 @@ const VocabularyPage = () => {
             className="gap-2"
           >
             <Binoculars className="h-4 w-4" />
-            Tìm kiếm từ vựng
+            {t('page.findVocabulary')}
           </Button>
         </div>
       </div>
@@ -113,18 +115,14 @@ const VocabularyPage = () => {
         <Search className="text-muted-foreground absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2" />
         <Input
           type="text"
-          placeholder="Tìm kiếm bộ từ vựng..."
+          placeholder={t('page.searchPlaceholder')}
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
           className="h-10 pl-10"
         />
       </div>
 
-      <AlertCustom
-        title="Chú ý: Bạn có thể tạo flashcards từ highlights (bao gồm các highlights các bạn đã tạo trước đây) trong trang chi tiết luyện thi."
-        variant={'success'}
-        icon={<CircleAlert />}
-      />
+      <AlertCustom title={t('page.alertNote')} variant={'success'} icon={<CircleAlert />} />
 
       {/* Vocabulary Sets Grid */}
       {vocabularySetsData && vocabularySetsData.items.length > 0 ? (
@@ -141,15 +139,13 @@ const VocabularyPage = () => {
       ) : (
         <EmptyCustom
           icon={<BookOpen className="text-muted-foreground h-12 w-12" />}
-          title={searchTerm ? 'Không tìm thấy bộ từ vựng' : 'Chưa có bộ từ vựng nào'}
-          description={
-            searchTerm ? 'Thử tìm kiếm với từ khóa khác' : 'Tạo bộ từ vựng đầu tiên để bắt đầu học'
-          }
+          title={searchTerm ? t('page.empty.noResults') : t('page.empty.noSets')}
+          description={searchTerm ? t('page.empty.noResultsDesc') : t('page.empty.noSetsDesc')}
           content={
             !searchTerm ? (
               <Button onClick={handleCreateNew} className="gap-2">
                 <Plus className="h-4 w-4" />
-                Tạo bộ từ mới
+                {t('page.empty.createFirst')}
               </Button>
             ) : undefined
           }
@@ -168,7 +164,7 @@ const VocabularyPage = () => {
 
       {/* Loading Overlays */}
       {deleteSetMutation.isPending && (
-        <LoadingWithText text="Đang xóa..." className="fixed inset-0 z-50 bg-black/20" />
+        <LoadingWithText text={t('page.loading')} className="fixed inset-0 z-50 bg-black/20" />
       )}
     </div>
   );

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useInView } from 'react-intersection-observer';
 
+import { useTranslations } from 'next-intl';
 import Image from 'next/image';
 import Link from 'next/link';
 
@@ -18,6 +19,7 @@ import { Check, Loader2, Plus, Trash2 } from 'lucide-react';
 import { toast } from 'sonner';
 
 const UserFavoriteVideos = () => {
+  const t = useTranslations('space');
   const { ref, inView } = useInView();
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const { backgroundURL, setBackground } = useSoloStore();
@@ -55,7 +57,7 @@ const UserFavoriteVideos = () => {
   const handleDelete = (videoId: number) => {
     deleteVideoMutation.mutate(videoId, {
       onSuccess: () => {
-        toast.success('Video yêu thích đã được xóa thành công!');
+        toast.success(t('background.deleteSuccess'));
       },
     });
   };
@@ -72,7 +74,7 @@ const UserFavoriteVideos = () => {
           </Button>
         </AddFavoriteVideoModal>
         {isQueryLoading && (
-          <LoadingWithText text="Đang tải video yêu thích..." className="col-span-4" />
+          <LoadingWithText text={t('background.loadingFavorites')} className="col-span-4" />
         )}
         {data?.items.map((backgroundVideo) => (
           <HoverCard key={backgroundVideo.id}>
@@ -104,7 +106,7 @@ const UserFavoriteVideos = () => {
             <HoverCardContent className="bg-background max-w-md rounded-xl border p-4 shadow-lg">
               <div className="flex flex-col gap-2">
                 <p className="text-sm">
-                  Youtube:{' '}
+                  {t('background.youtube')}{' '}
                   <Link
                     href={backgroundVideo.author_url}
                     target="_blank"
@@ -128,7 +130,7 @@ const UserFavoriteVideos = () => {
                 <h3 className="text-sm font-semibold">{backgroundVideo.name}</h3>
                 <div className="text-muted-foreground flex items-center justify-between text-sm">
                   <span>
-                    Ngày thêm:{' '}
+                    {t('background.dateAdded')}{' '}
                     <span className="text-primary font-semibold">
                       {new Date(backgroundVideo.created_at).toLocaleDateString('vi-VN')}
                     </span>

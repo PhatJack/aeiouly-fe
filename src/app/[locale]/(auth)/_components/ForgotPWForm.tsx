@@ -16,6 +16,7 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
+import { ROUTE } from '@/configs/route';
 import { cn } from '@/lib/utils';
 import {
   RequestPasswordResetSchema,
@@ -28,7 +29,7 @@ import { toast } from 'sonner';
 
 const ForgotPWForm = () => {
   const router = useRouter();
-  const t = useTranslations('Auth');
+  const t = useTranslations('auth');
 
   const forgotPWForm = useForm<RequestPasswordResetSchema>({
     resolver: zodResolver(requestPasswordResetSchema),
@@ -42,10 +43,14 @@ const ForgotPWForm = () => {
   const onSubmit = (data: RequestPasswordResetSchema) => {
     requestPWMutate.mutate(data, {
       onSuccess: () => {
-        toast.success('Nếu email tồn tại, bạn sẽ nhận được hướng dẫn đặt lại mật khẩu!');
+        toast.success(t('api.auth.PASSWORD_RESET_REQUEST_SUCCESS'));
       },
       onError: (error) => {
-        toast.error((error as any).detail || 'Đăng nhập thất bại!');
+        toast.error(
+          t(`api.auth.${(error as any).detail?.code}`) ||
+            (error as any).detail?.message ||
+            t('forgotPassword.error')
+        );
       },
     });
   };
@@ -86,7 +91,7 @@ const ForgotPWForm = () => {
             type="button"
             variant="link"
             className="w-full"
-            onClick={() => router.push('/login')}
+            onClick={() => router.push(ROUTE.AUTH.LOGIN)}
           >
             {t('forgotPassword.backToLogin')}
           </Button>

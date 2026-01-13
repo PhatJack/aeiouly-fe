@@ -3,6 +3,8 @@
 import React, { useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 
+import { useTranslations } from 'next-intl';
+
 import { Button } from '@/components/ui/button';
 import {
   Dialog,
@@ -26,6 +28,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { toast } from 'sonner';
 
 const AddFavoriteVideoModal = ({ children }: { children: React.ReactNode }) => {
+  const t = useTranslations('space');
   const { setBackground } = useSoloStore();
   const [open, setOpen] = useState(false);
   const [playVideoOpen, setPlayVideoOpen] = useState(false);
@@ -41,7 +44,7 @@ const AddFavoriteVideoModal = ({ children }: { children: React.ReactNode }) => {
 
   const onSubmit = (data: UserFavoriteVideoCreateSchema) => {
     if (data.youtube_url === '') {
-      toast.error('Vui lòng nhập URL Youtube.');
+      toast.error(t('addVideo.emptyUrl'));
       return;
     }
 
@@ -49,12 +52,12 @@ const AddFavoriteVideoModal = ({ children }: { children: React.ReactNode }) => {
     try {
       url = new URL(data.youtube_url);
     } catch {
-      toast.error('URL Youtube không hợp lệ.');
+      toast.error(t('addVideo.invalidUrl'));
       return;
     }
     const youtubeId = url.searchParams.get('v');
     if (!youtubeId) {
-      toast.error('URL Youtube không hợp lệ. Vui lòng cung cấp URL video Youtube hợp lệ.');
+      toast.error(t('addVideo.invalidUrlLong'));
       return;
     }
 
@@ -64,7 +67,7 @@ const AddFavoriteVideoModal = ({ children }: { children: React.ReactNode }) => {
       { youtube_url: normalizedUrl },
       {
         onSuccess: () => {
-          toast.success('Đã thêm bài hát yêu thích thành công!');
+          toast.success(t('addVideo.success'));
           form.reset();
           setOpen(false);
           // Save video embed info and show play confirmation dialog
@@ -72,10 +75,7 @@ const AddFavoriteVideoModal = ({ children }: { children: React.ReactNode }) => {
           setPlayVideoOpen(true);
         },
         onError: (error: any) => {
-          const errorMessage =
-            error?.detail ||
-            error?.message ||
-            'Không thể thêm bài hát yêu thích. Vui lòng thử lại.';
+          const errorMessage = error?.detail || error?.message || t('addVideo.error');
           toast.error(errorMessage);
         },
       }
@@ -86,7 +86,7 @@ const AddFavoriteVideoModal = ({ children }: { children: React.ReactNode }) => {
     // Set the video as background
     if (videoEmbed) {
       setBackground(videoEmbed);
-      toast.success('Đang phát bài hát yêu thích của bạn!');
+      toast.success(t('addVideo.playing'));
     }
     setPlayVideoOpen(false);
   };
@@ -97,10 +97,8 @@ const AddFavoriteVideoModal = ({ children }: { children: React.ReactNode }) => {
         <DialogTrigger asChild>{children}</DialogTrigger>
         <DialogContent className="sm:max-w-[425px]">
           <DialogHeader>
-            <DialogTitle>Thêm bài hát yêu thích</DialogTitle>
-            <DialogDescription>
-              Thêm bài hát mới vào danh sách yêu thích của bạn. Nhấn lưu khi hoàn tất.
-            </DialogDescription>
+            <DialogTitle>{t('addVideo.modalTitle')}</DialogTitle>
+            <DialogDescription>{t('addVideo.modalDescription')}</DialogDescription>
           </DialogHeader>
 
           <form onSubmit={form.handleSubmit(onSubmit)}>
@@ -110,11 +108,11 @@ const AddFavoriteVideoModal = ({ children }: { children: React.ReactNode }) => {
                 name="youtube_url"
                 render={({ field, fieldState }) => (
                   <Field>
-                    <FieldLabel>URL Youtube</FieldLabel>
+                    <FieldLabel>{t('addVideo.urlLabel')}</FieldLabel>
                     <Input
                       {...field}
                       aria-invalid={fieldState.invalid}
-                      placeholder="Nhập URL Youtube"
+                      placeholder={t('addVideo.urlPlaceholder')}
                       autoComplete="off"
                     />
                     <p className="text-muted-foreground text-sm">
@@ -128,7 +126,7 @@ const AddFavoriteVideoModal = ({ children }: { children: React.ReactNode }) => {
             </FieldGroup>
             <DialogFooter className="mt-4">
               <Button type="submit" disabled={createFavoriteMutation.isPending}>
-                {createFavoriteMutation.isPending ? 'Đang lưu...' : 'Lưu bài hát'}
+                {createFavoriteMutation.isPending ? t('addVideo.saving') : t('addVideo.saveSong')}
               </Button>
             </DialogFooter>
           </form>
@@ -139,14 +137,14 @@ const AddFavoriteVideoModal = ({ children }: { children: React.ReactNode }) => {
       <Dialog open={playVideoOpen} onOpenChange={setPlayVideoOpen}>
         <DialogContent className="sm:max-w-[425px]">
           <DialogHeader>
-            <DialogTitle>Phát bài hát</DialogTitle>
-            <DialogDescription>Bạn có muốn phát bài hát này ngay bây giờ không?</DialogDescription>
+            <DialogTitle>{t('addVideo.playModalTitle')}</DialogTitle>
+            <DialogDescription>{t('addVideo.playModalDescription')}</DialogDescription>
           </DialogHeader>
           <DialogFooter className="flex justify-between sm:justify-between">
             <Button variant="outline" onClick={() => setPlayVideoOpen(false)}>
-              Để sau
+              {t('addVideo.playLater')}
             </Button>
-            <Button onClick={handlePlayVideo}>Phát ngay</Button>
+            <Button onClick={handlePlayVideo}>{t('addVideo.playNow')}</Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>

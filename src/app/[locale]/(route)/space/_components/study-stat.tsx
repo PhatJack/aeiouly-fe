@@ -2,6 +2,7 @@
 
 import React, { useMemo } from 'react';
 
+import { useTranslations } from 'next-intl';
 import Image from 'next/image';
 
 import LoadingWithText from '@/components/LoadingWithText';
@@ -11,6 +12,7 @@ import { useGetOnlineStreakStatsQuery } from '@/services/online';
 import { Clock, Trophy, UserRoundCog } from 'lucide-react';
 
 const StudyStat = () => {
+  const t = useTranslations('space');
   const studyStatsQuery = useGetOnlineStreakStatsQuery();
 
   const studyStats = useMemo(() => studyStatsQuery.data, [studyStatsQuery]);
@@ -28,15 +30,8 @@ const StudyStat = () => {
   };
 
   const getLevelLabel = (level: string) => {
-    const labelMap: Record<string, string> = {
-      newbie: 'Mọt sách', // Cách gọi vui vẻ
-      bronze: 'Học viên',
-      silver: 'Học khá',
-      gold: 'Học giỏi',
-      diamond: 'Học bá', // Từ lóng chỉ người học cực giỏi (Top tier)
-      legend: 'Học thần', // Trên cả Học bá, đẳng cấp thần thánh
-    };
-    return labelMap[level] || level;
+    const levelLabels = t.raw('stats.levels') as Record<string, string>;
+    return levelLabels[level] || level;
   };
 
   const rankStyles: Record<string, string> = {
@@ -55,7 +50,7 @@ const StudyStat = () => {
   return (
     <div className="bg-background w-full rounded-lg p-4 shadow-sm">
       {studyStatsQuery.isLoading ? (
-        <LoadingWithText text="Đang tải thống kê..." />
+        <LoadingWithText text={t('stats.loading')} />
       ) : (
         <div className="grid gap-3">
           {/* Current streak */}
@@ -64,10 +59,10 @@ const StudyStat = () => {
               <Clock className="text-primary" />
             </div>
             <div>
-              <p className="text-muted-foreground text-xs">Chuỗi hiện tại</p>
+              <p className="text-muted-foreground text-xs">{t('stats.currentStreak')}</p>
               <p className="text-2xl font-extrabold">
                 {studyStats?.current_streak ?? 0}
-                <span className="ml-1 text-sm font-medium">ngày</span>
+                <span className="ml-1 text-sm font-medium">{t('stats.days')}</span>
               </p>
             </div>
           </div>
@@ -78,10 +73,10 @@ const StudyStat = () => {
               <Trophy className="text-yellow-500" />
             </div>
             <div>
-              <p className="text-muted-foreground text-xs">Chuỗi dài nhất</p>
+              <p className="text-muted-foreground text-xs">{t('stats.longestStreak')}</p>
               <p className="text-2xl font-extrabold">
                 {studyStats?.longest_streak ?? 0}
-                <span className="ml-1 text-sm font-medium">ngày</span>
+                <span className="ml-1 text-sm font-medium">{t('stats.days')}</span>
               </p>
             </div>
           </div>
@@ -101,7 +96,7 @@ const StudyStat = () => {
                 )}
               </div>
               <div className="flex-1">
-                <p className="text-muted-foreground text-xs font-medium">Cấp độ của bạn</p>
+                <p className="text-muted-foreground text-xs font-medium">{t('stats.yourLevel')}</p>
                 {studyStats?.level && (
                   <p
                     className={cn(
@@ -119,12 +114,10 @@ const StudyStat = () => {
             {studyStats?.next_milestone && (
               <div className="bg-background/50 mt-3 rounded-sm p-2">
                 <p className="text-muted-foreground text-xs">
-                  Còn{' '}
-                  <strong className="text-primary">
-                    {studyStats.remaining_to_next_milestone} ngày
-                  </strong>{' '}
-                  để đạt mốc{' '}
-                  <strong className="text-primary">{studyStats.next_milestone} ngày</strong>
+                  {t('stats.milestone', {
+                    remaining: studyStats.remaining_to_next_milestone,
+                    milestone: studyStats.next_milestone,
+                  })}
                 </p>
               </div>
             )}

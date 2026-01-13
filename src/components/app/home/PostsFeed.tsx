@@ -3,12 +3,16 @@
 import React, { useEffect } from 'react';
 import { useInView } from 'react-intersection-observer';
 
+import { useTranslations } from 'next-intl';
+
 import LoadingWithText from '@/components/LoadingWithText';
 import PostItem from '@/components/app/news/PostItem';
 import { useInfiniteGetAllPostsQuery } from '@/services/posts';
 import { useInfiniteQuery } from '@tanstack/react-query';
 
 const PostsFeed = () => {
+  const t = useTranslations('PostsFeed');
+
   const { ref, inView } = useInView({
     rootMargin: '100px',
     threshold: 0.5,
@@ -25,11 +29,11 @@ const PostsFeed = () => {
   }, [inView, hasNextPage, isFetchingNextPage, fetchNextPage]);
 
   if (status === 'pending') {
-    return <LoadingWithText text="Đang tải các bài viết" />;
+    return <LoadingWithText text={t('loading')} />;
   }
 
   if (status === 'error') {
-    return <div className="flex justify-center p-8 text-red-500">Lỗi khi tải bài viết</div>;
+    return <div className="flex justify-center p-8 text-red-500">{t('error')}</div>;
   }
 
   return (
@@ -40,7 +44,7 @@ const PostsFeed = () => {
 
       {/* Loading indicator */}
       <div ref={ref} className="flex justify-center p-4">
-        {isFetchingNextPage && <div>Đang tải thêm...</div>}
+        {isFetchingNextPage && <div>{t('loadingMore')}</div>}
       </div>
     </div>
   );

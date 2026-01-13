@@ -2,6 +2,8 @@
 
 import React, { useEffect, useRef, useState } from 'react';
 
+import { useTranslations } from 'next-intl';
+
 import TooltipCustom from '@/components/custom/TooltipCustom';
 import { Button } from '@/components/ui/button';
 import { formatTime, usePomodoroStore } from '@/hooks/use-pomodoro-store';
@@ -9,6 +11,7 @@ import { formatTime, usePomodoroStore } from '@/hooks/use-pomodoro-store';
 import { PictureInPicture } from 'lucide-react';
 
 const PomodoroPiP: React.FC = () => {
+  const t = useTranslations('space');
   const { remainingTime, isRunning, toggleTimer } = usePomodoroStore();
 
   const [isPipActive, setIsPipActive] = useState(false);
@@ -146,7 +149,7 @@ const PomodoroPiP: React.FC = () => {
 
   return (
     <>
-      <TooltipCustom content={isPipActive ? 'Thoát PiP' : 'Chế độ hình trong hình (PiP)'}>
+      <TooltipCustom content={isPipActive ? t('pomodoro.pip.exit') : t('pomodoro.pip.enter')}>
         <Button variant={isPipActive ? 'secondary' : 'outline'} size="icon" onClick={togglePiP}>
           <PictureInPicture size={18} />
         </Button>

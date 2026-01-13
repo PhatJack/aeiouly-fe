@@ -2,6 +2,8 @@
 
 import React from 'react';
 
+import { useTranslations } from 'next-intl';
+
 import {
   AlertDialog,
   AlertDialogAction,
@@ -28,6 +30,7 @@ const DeleteFavoriteVideo = ({
   onDelete,
   children,
 }: DeleteFavoriteVideoProps) => {
+  const t = useTranslations('space');
   const handleDelete = () => {
     onDelete(videoId);
   };
@@ -37,25 +40,21 @@ const DeleteFavoriteVideo = ({
       <AlertDialogTrigger asChild>{children}</AlertDialogTrigger>
       <AlertDialogContent className="sm:max-w-[425px]">
         <AlertDialogHeader>
-          <AlertDialogTitle>Xác nhận xóa</AlertDialogTitle>
+          <AlertDialogTitle>{t('deleteVideo.confirmTitle')}</AlertDialogTitle>
           <AlertDialogDescription>
-            Bạn có chắc chắn muốn xóa{' '}
-            <span className="font-bold">{videoTitle ? `"${videoTitle}"` : 'video này'}</span> khỏi
-            danh sách yêu thích?
-            <br />
-            Hành động này không thể hoàn tác.
+            {t('deleteVideo.confirmDescription', { title: videoTitle || 'video này' })}
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel asChild>
-            <Button variant={'ghost'}>Hủy</Button>
+            <Button variant={'ghost'}>{t('deleteVideo.cancel')}</Button>
           </AlertDialogCancel>
           <AlertDialogAction
             className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
             asChild
           >
             <Button variant={'destructive'} type="button" onClick={handleDelete}>
-              Xóa
+              {t('deleteVideo.delete')}
             </Button>
           </AlertDialogAction>
         </AlertDialogFooter>

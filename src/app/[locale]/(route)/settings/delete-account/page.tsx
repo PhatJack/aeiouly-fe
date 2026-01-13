@@ -6,7 +6,7 @@ import { getTranslations } from 'next-intl/server';
 import DeleteAccountPage from '../_components/DeleteAccountPage';
 
 export async function generateMetadata(): Promise<Metadata> {
-  const t = await getTranslations('Settings');
+  const t = await getTranslations('setting');
 
   return {
     title: t('deleteAccountTitle'),

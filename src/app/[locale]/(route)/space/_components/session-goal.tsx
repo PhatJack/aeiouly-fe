@@ -3,6 +3,8 @@
 import React, { useEffect } from 'react';
 import { useInView } from 'react-intersection-observer';
 
+import { useTranslations } from 'next-intl';
+
 import { getQueryClient } from '@/app/get-query-client';
 import { PlayfulTodolist } from '@/components/animate-ui/playful-todolist';
 import AddTodoForm from '@/components/app/solo/AddTodoForm';
@@ -16,6 +18,7 @@ import { OctagonAlert, Target, X } from 'lucide-react';
 import { toast } from 'sonner';
 
 const SessionGoal = () => {
+  const t = useTranslations('space');
   const queryClient = getQueryClient();
   const { ref, inView } = useInView();
   const { completedGoals, saveCompletedGoal, saveOpenGoals } = useSoloStore();
@@ -66,7 +69,7 @@ const SessionGoal = () => {
         );
       })
       .catch(() => {
-        toast.error('Tạo mục tiêu không thành công. Vui lòng thử lại.');
+        toast.error(t('sessionGoal.error'));
       });
   };
 
@@ -75,15 +78,10 @@ const SessionGoal = () => {
       <div className="flex items-center justify-between">
         <span className="inline-flex items-center gap-1 text-xs">
           <Target size={14} />
-          <strong>Mục tiêu phiên</strong>
+          <strong>{t('sessionGoal.title')}</strong>
         </span>
         <div className="flex items-center gap-2">
-          <TooltipCustom
-            content={
-              'Tăng cường tập trung bằng cách đặt mục tiêu nhỏ, rõ ràng cho mỗi buổi làm việc. Thay vì “hoàn thành dự án”, hãy thử “viết 500 từ” hay “xem lại 3 trang”. Dùng hẹn giờ 25 phút để duy trì nhịp độ — những bước nhỏ sẽ tạo nên tiến bộ lớn!'
-            }
-            className="max-w-48"
-          >
+          <TooltipCustom content={t('sessionGoal.tooltip')} className="max-w-48">
             <span className="cursor-pointer">
               <OctagonAlert size={16} />
             </span>
@@ -118,7 +116,7 @@ const SessionGoal = () => {
             />
             {isFetchingNextPage && (
               <div ref={ref} className="w-full text-center text-xs">
-                Loading...
+                {t('sessionGoal.loading')}
               </div>
             )}
           </div>

@@ -1,0 +1,166 @@
+{
+  "setting": {
+    "title": "Cài đặt",
+    "description": "Quản lý cài đặt ứng dụng của bạn",
+    "nav": {
+      "title": "Cài đặt",
+      "description": "Quản lý tài khoản và tùy chọn",
+      "menu": {
+        "general": {
+          "title": "Cài đặt chung",
+          "description": "Cài đặt bảo mật và thay đổi chủ đề"
+        },
+        "privacy": {
+          "title": "Chính sách bảo mật",
+          "description": "Chính sách bảo mật và quyền riêng tư"
+        },
+        "terms": {
+          "title": "Điều khoản dịch vụ",
+          "description": "Điều khoản và điều kiện sử dụng"
+        },
+        "contact": {
+          "title": "Liên hệ",
+          "description": "Hỗ trợ khách hàng và phản hồi"
+        },
+        "deleteAccount": {
+          "title": "Xoá tài khoản",
+          "description": "Xoá vĩnh viễn tài khoản của bạn"
+        }
+      }
+    },
+    "interface": "Giao diện",
+    "themeToggle": "Chế độ sáng/tối",
+    "themeToggleDescription": "Chuyển đổi giao diện đen/trắng",
+    "security": "Bảo mật",
+    "changePassword": "Thay đổi mật khẩu",
+    "changePasswordDescription": "Cập nhật mật khẩu để bảo mật tài khoản",
+    "currentPassword": "Mật khẩu hiện tại",
+    "currentPasswordPlaceholder": "Nhập mật khẩu hiện tại của bạn",
+    "newPassword": "Mật khẩu mới",
+    "newPasswordPlaceholder": "Nhập mật khẩu mới",
+    "updating": "Đang cập nhật...",
+    "updatePassword": "Cập nhật mật khẩu",
+    "passwordChangedSuccess": "Mật khẩu đã được thay đổi thành công",
+    "manageAccount": "Quản lý tài khoản và tùy chọn",
+    "generalSettings": "Cài đặt chung",
+    "generalSettingsDescription": "Cài đặt bảo mật và thay đổi chủ đề",
+    "privacyPolicy": "Chính sách bảo mật",
+    "privacyPolicyDescription": "Chính sách bảo mật và quyền riêng tư",
+    "termsOfService": "Điều khoản dịch vụ",
+    "termsOfServiceDescription": "Điều khoản và điều kiện sử dụng",
+    "contact": "Liên hệ",
+    "contactDescription": "Hỗ trợ khách hàng và phản hồi",
+    "deleteAccount": "Xoá tài khoản",
+    "deleteAccountDescription": "Xoá vĩnh viễn tài khoản của bạn",
+    "deleteAccountTitle": "Xóa tài khoản",
+    "deleteAccountWarning": "Hành động này không thể hoàn tác",
+    "deleteAccountNote": "Trước khi xóa tài khoản, vui lòng lưu ý:",
+    "deleteAccountRisks": [
+      "Tất cả dữ liệu cá nhân của bạn sẽ bị xóa vĩnh viễn",
+      "Bạn sẽ mất quyền truy cập vào tất cả các khóa học và tài nguyên",
+      "Không thể khôi phục tài khoản sau khi xóa",
+      "Mọi đăng ký hiện tại sẽ bị hủy bỏ"
+    ],
+    "understandRisks": "Tôi hiểu rủi ro, vẫn muốn xóa tài khoản",
+    "confirmDelete": "Để xác nhận, vui lòng nhập \"{{confirmDeleteText}}\" vào ô bên dưới:",
+		"confirmDeleteText": "xoá tài khoản",
+    "confirmDeleteWarning": "Bạn có chắc chắn muốn xóa tài khoản?",
+    "confirmDeleteDescription": "Hành động này sẽ xóa vĩnh viễn tất cả dữ liệu của bạn trên nền tảng này.",
+    "confirmDeleteButton": "Có, xóa tài khoản của tôi",
+    "cancel": "Hủy bỏ",
+    "invalidConfirmation": "Vui lòng nhập chính xác cụm từ xác nhận",
+    "accountDeletedSuccess": "Tài khoản của bạn đã được xóa thành công",
+    "accountDeleteError": "Đã xảy ra lỗi khi xóa tài khoản",
+    "contactPage": {
+      "title": "Liên hệ hỗ trợ",
+      "description": "Chúng tôi luôn sẵn sàng hỗ trợ bạn",
+      "contactInfo": "Thông tin liên hệ",
+      "email": "Email",
+      "phone": "Điện thoại",
+      "address": "Địa chỉ",
+      "faq": "Câu hỏi thường gặp",
+      "supportEmail": "support@aeiouly.com",
+      "infoEmail": "info@aeiouly.com",
+      "phoneNumber": "+84 123 456 789",
+      "businessHours": "Thứ 2 - Thứ 6: 8:00 - 17:00",
+      "fullAddress": "Số 1, Đường ABC, Phường XYZ, Quận 1, Thành phố Hồ Chí Minh, Việt Nam"
+    },
+    "policyPage": {
+      "title": "Chính sách bảo mật",
+      "description": "Chính sách bảo mật của chúng tôi",
+      "lastUpdated": "Cập nhật lần cuối: 13/09/2024",
+      "sections": {
+        "infoCollection": {
+          "title": "1. Thu thập thông tin",
+          "content": "Chúng tôi thu thập thông tin cá nhân khi bạn đăng ký tài khoản, đăng nhập, sử dụng dịch vụ hoặc liên hệ với chúng tôi. Các thông tin có thể bao gồm: tên, email, số điện thoại, địa chỉ và thông tin thanh toán."
+        },
+        "infoUsage": {
+          "title": "2. Sử dụng thông tin",
+          "content": "Chúng tôi sử dụng thông tin để:",
+          "list": [
+            "Cung cấp và duy trì dịch vụ",
+            "Cải thiện trải nghiệm người dùng",
+            "Xử lý giao dịch",
+            "Gửi thông báo quan trọng"
+          ]
+        },
+        "infoSecurity": {
+          "title": "3. Bảo mật thông tin",
+          "content": "Chúng tôi áp dụng các biện pháp bảo mật để bảo vệ thông tin cá nhân của bạn khỏi truy cập trái phép, thay đổi, tiết lộ hoặc phá hủy."
+        },
+        "contact": {
+          "title": "4. Liên hệ",
+          "content": "Nếu bạn có bất kỳ câu hỏi nào về chính sách bảo mật này, vui lòng liên hệ với chúng tôi qua email: support@aeiouly.com"
+        }
+      }
+    },
+    "termsPage": {
+      "title": "Điều khoản dịch vụ",
+      "description": "Điều khoản và điều kiện sử dụng dịch vụ",
+      "effectiveDate": "Có hiệu lực từ ngày 13/09/2024",
+      "sections": {
+        "introduction": {
+          "title": "1. Giới thiệu",
+          "content": "Chào mừng bạn đến với AEIOULY. Bằng cách truy cập hoặc sử dụng dịch vụ của chúng tôi, bạn đồng ý tuân thủ các điều khoản và điều kiện sau đây."
+        },
+        "accountRegistration": {
+          "title": "2. Đăng ký tài khoản",
+          "content": "Để sử dụng một số tính năng của dịch vụ, bạn cần đăng ký tài khoản. Bạn cam kết cung cấp thông tin chính xác và cập nhật đầy đủ."
+        },
+        "intellectualProperty": {
+          "title": "3. Quyền sở hữu trí tuệ",
+          "content": "Mọi nội dung trên nền tảng này đều thuộc quyền sở hữu của AEIOULY hoặc các bên cấp phép. Bạn không được phép sao chép, phân phối hoặc tạo ra các tác phẩm phái sinh mà không có sự cho phép bằng văn bản."
+        },
+        "liabilityLimitation": {
+          "title": "4. Giới hạn trách nhiệm",
+          "content": "Dịch vụ được cung cấp \"nguyên trạng\" và \"theo khả năng hiện có\". Chúng tôi không đảm bảo rằng:",
+          "list": [
+            "Dịch vụ sẽ không bị gián đoạn hoặc không có lỗi",
+            "Kết quả nhận được từ việc sử dụng dịch vụ là chính xác hoặc đáng tin cậy",
+            "Chất lượng của sản phẩm, dịch vụ, thông tin đáp ứng mong đợi của bạn"
+          ]
+        },
+        "termsChanges": {
+          "title": "5. Thay đổi điều khoản",
+          "content": "Chúng tôi có quyền cập nhật các điều khoản này bất cứ lúc nào. Chúng tôi sẽ thông báo cho bạn về những thay đổi quan trọng qua email hoặc thông báo trên trang web."
+        },
+        "contact": {
+          "title": "6. Liên hệ",
+          "content": "Nếu bạn có bất kỳ câu hỏi nào về các điều khoản này, vui lòng liên hệ với chúng tôi qua email: support@aeiouly.com"
+        }
+      }
+    },
+    "passwordStrength": {
+      "minLength": "Ít nhất 8 ký tự",
+      "minNumber": "Ít nhất 1 số",
+      "minLowercase": "Ít nhất 1 chữ cái thường",
+      "minUppercase": "Ít nhất 1 chữ cái hoa"
+    },
+    "themeCustomizer": {
+      "title": "Chủ đề",
+      "presetApplied": "Đã áp dụng chủ đề",
+      "themeReset": "Đã đặt lại chủ đề về mặc định",
+      "resetToDefault": "Đặt lại về mặc định"
+    }
+  }
+}

@@ -2,6 +2,8 @@
 
 import { useEffect, useRef } from 'react';
 
+import { useLocale, useTranslations } from 'next-intl';
+
 import { useLoginWithGoogleMutation } from '@/services/auth/login-with-google.api';
 
 import { toast } from 'sonner';
@@ -15,6 +17,8 @@ export function LoginWithGoogleButton({
   onSuccess,
   text = 'signin_with',
 }: LoginWithGoogleButtonProps) {
+  const locale = useLocale();
+  const t = useTranslations('auth');
   const googleRef = useRef<HTMLDivElement | null>(null);
   const loginGoogle = useLoginWithGoogleMutation();
 
@@ -43,6 +47,7 @@ export function LoginWithGoogleButton({
       text,
       shape: 'pill',
       logo_alignment: 'center',
+      locale: locale.replace('-', '_'),
       type: 'standard',
     });
   }
@@ -54,9 +59,9 @@ export function LoginWithGoogleButton({
       }),
 
       {
-        loading: 'Đang đăng nhập với Google...',
-        success: 'Đăng nhập với Google thành công!',
-        error: (e: any) => e?.detail || 'Đăng nhập với Google thất bại!',
+        loading: t('api.auth.LOGGING_IN_WITH_GOOGLE'),
+        success: t('api.auth.GOOGLE_LOGIN_SUCCESSFULLY'),
+        error: (e: any) => t(`${e?.detail?.code}`) || t('api.auth.GOOGLE_LOGIN_FAILED'),
       }
     );
   }

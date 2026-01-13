@@ -70,7 +70,12 @@ export const WebSocketProvider: React.FC<WebSocketProviderProps> = ({ children }
     };
 
     ws.onerror = (error) => {
-      console.error('WebSocket error:', error);
+      console.error('WebSocket error:', {
+        error,
+        url,
+        readyState: ws.readyState,
+        message: error instanceof ErrorEvent ? error.message : 'Unknown error',
+      });
     };
 
     ws.onclose = (event) => {
@@ -99,9 +104,9 @@ export const WebSocketProvider: React.FC<WebSocketProviderProps> = ({ children }
   useEffect(() => {
     const checkAuthAndConnect = async () => {
       try {
+        if (Object.values(ROUTE.AUTH).includes(location) || location === ROUTE.HOME) return;
         if (!user) return;
         if (user.role === 'admin') return;
-        if (Object.values(ROUTE.AUTH).includes(location) || location === ROUTE.HOME) return;
 
         setAutoConnect(true);
         connect();

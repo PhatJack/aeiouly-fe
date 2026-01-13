@@ -30,7 +30,7 @@ import { toast } from 'sonner';
 const SettingPage = () => {
   const [isShowNewPassword, setIsShowNewPassword] = useState<boolean>(false);
   const { mutate: changePassword, isPending } = useChangePasswordMutation();
-  const t = useTranslations('Settings');
+  const t = useTranslations('setting');
 
   const form = useForm<ChangePasswordSchema>({
     resolver: zodResolver(changePasswordSchema),

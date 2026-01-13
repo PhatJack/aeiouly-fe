@@ -1,5 +1,7 @@
 import React, { memo, useCallback, useEffect, useState } from 'react';
 
+import { useTranslations } from 'next-intl';
+
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useSoloStore } from '@/hooks/use-solo-store';
@@ -11,6 +13,7 @@ import { Info } from 'lucide-react';
 import OriginalVideoSound from './OriginalVideoSound';
 
 const YoutubeLinkInput = () => {
+  const t = useTranslations('space');
   const [errorLink, setErrorLink] = useState<boolean>(false);
   const backgroundURL = useSoloStore((state) => state.backgroundURL);
   const setBackground = useSoloStore((state) => state.setBackground);
@@ -67,7 +70,7 @@ const YoutubeLinkInput = () => {
             </svg>
           </span>
           <span>
-            <strong>Youtube Video</strong>
+            <strong>{t('youtube.title')}</strong>
           </span>
         </Label>
         <Input
@@ -75,13 +78,13 @@ const YoutubeLinkInput = () => {
           type="text"
           value={inputValue}
           onChange={handleChangeBackground}
-          placeholder="Paste the youtube link here"
+          placeholder={t('youtube.placeholder')}
           className="border-muted bg-white"
         />
         {errorLink && (
           <p className="border-destructive flex items-center gap-2 rounded-md border p-2">
             <Info size={16} className="text-destructive" />
-            <span className="text-destructive text-sm">Link youtube không hợp lệ</span>
+            <span className="text-destructive text-sm">{t('youtube.invalidLink')}</span>
           </p>
         )}
       </div>

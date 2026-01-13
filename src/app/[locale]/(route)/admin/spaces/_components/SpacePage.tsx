@@ -2,13 +2,7 @@
 
 import React, { useState } from 'react';
 
-import {
-  Tabs,
-  TabsContent,
-  TabsContents,
-  TabsList,
-  TabsTrigger,
-} from '@/components/animate-ui/components/animate/tabs';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
 import BackgroundVideoTypesTable from './BackgroundVideoTypesTable';
 import BackgroundVideosTable from './BackgroundVideosTable';
@@ -37,7 +31,7 @@ const SpacePage = () => {
 
   return (
     <div className="flex w-full flex-col overflow-hidden">
-      <div className="mb-6">
+      <div className="mb-4">
         <h1 className="text-2xl font-bold">Quản lý Không gian tự học</h1>
         <p className="text-muted-foreground text-sm">
           Quản lý âm thanh, video nền và loại video cho không gian tự học
@@ -52,13 +46,13 @@ const SpacePage = () => {
               </TabsTrigger>
             ))}
           </TabsList>
-          <TabsContents>
-            {tabs.map((tab) => (
-              <TabsContent key={tab.value} value={tab.value}>
-                {tab.content}
-              </TabsContent>
-            ))}
-          </TabsContents>
+          {/* <TabsContents> */}
+          {tabs.map((tab) => (
+            <TabsContent key={tab.value} value={tab.value}>
+              {tab.content}
+            </TabsContent>
+          ))}
+          {/* </TabsContents> */}
         </Tabs>
       </div>
     </div>
