@@ -2,6 +2,8 @@
 
 import React from 'react';
 
+import { useTranslations } from 'next-intl';
+
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { VocabularySetResponseSchema } from '@/lib/schema/vocabulary.schema';
@@ -15,6 +17,8 @@ interface VocabularySetCardProps {
 }
 
 const VocabularySetCard = ({ vocabularySet, onDelete, onView }: VocabularySetCardProps) => {
+  const t = useTranslations('vocabulary');
+
   return (
     <Card onClick={() => onView(vocabularySet.id)} className="cursor-pointer">
       <CardContent>
@@ -24,7 +28,7 @@ const VocabularySetCard = ({ vocabularySet, onDelete, onView }: VocabularySetCar
               <h3 className="text-lg font-semibold">{vocabularySet.name}</h3>
               {vocabularySet.is_default && (
                 <span className="bg-primary/10 text-primary rounded-full px-2 py-0.5 text-xs font-medium">
-                  Mặc định
+                  {t('detail.default')}
                 </span>
               )}
             </div>
@@ -39,7 +43,7 @@ const VocabularySetCard = ({ vocabularySet, onDelete, onView }: VocabularySetCar
                   <WholeWord className="h-4 w-4 text-white" />
                 </span>
                 <span className="text-base font-medium">{vocabularySet.total_words}</span>
-                <span className="text-muted-foreground">từ</span>
+                <span className="text-muted-foreground">{t('detail.words')}</span>
               </div>
             </div>
           </div>

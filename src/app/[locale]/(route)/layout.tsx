@@ -7,6 +7,7 @@ import { usePathname } from 'next/navigation';
 import Header from '@/components/shared/Header';
 import Sidebar from '@/components/shared/Sidebar';
 import AIChatBox from '@/components/shared/chat/AIChatBox';
+import { ScrollArea } from '@/components/ui/scroll-area';
 import { ROUTE } from '@/configs/route';
 import { cn } from '@/lib/utils';
 
@@ -46,18 +47,20 @@ export default function RootLayout({
       <main
         id="main-layout"
         className={cn(
-          'bg-background relative min-h-screen w-full flex-1 transition-[margin] lg:border-l',
+          'bg-background relative h-screen w-full flex-1 transition-[margin] lg:border-l',
           isExpanded ? 'lg:ml-60' : 'lg:ml-[72px]',
           shouldHide && 'lg:ml-0',
           isAdminRoute && 'overflow-hidden'
         )}
       >
-        {location !== ROUTE.SPACE && (
-          <Header isExpanded={isExpanded} handleToggleExpand={handleToggleExpand} />
-        )}
-        <div id="content-wrapper" className={'w-full overflow-x-hidden overflow-y-auto p-4'}>
-          {children}
-        </div>
+        <ScrollArea className="h-full w-full">
+          {location !== ROUTE.SPACE && (
+            <Header isExpanded={isExpanded} handleToggleExpand={handleToggleExpand} />
+          )}
+          <div id="content-wrapper" className="w-full min-w-0 overflow-hidden p-4">
+            {children}
+          </div>
+        </ScrollArea>
       </main>
       {/* <AIChatBox /> */}
       {/* <ScrollToTop /> */}

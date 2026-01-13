@@ -18,7 +18,7 @@ export default function DeleteAccountPage() {
   const [confirmText, setConfirmText] = useState('');
   const [showConfirm, setShowConfirm] = useState(false);
   const deleteAccountMutation = useDeleteAccountMutation();
-  const t = useTranslations('Settings');
+  const t = useTranslations('setting');
 
   const handleDeleteAccount = () => {
     if (!isValidConfirmation) {

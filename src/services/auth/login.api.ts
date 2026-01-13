@@ -17,6 +17,7 @@ export const loginResponseSchema = z.object({
   refresh_token: z.string(),
   token_type: z.string().optional(),
   expires_in: z.number(),
+  code: z.string(),
 });
 
 export type LoginResponseSchema = z.infer<typeof loginResponseSchema>;

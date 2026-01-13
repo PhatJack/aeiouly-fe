@@ -1,5 +1,7 @@
 import React from 'react';
 
+import { useTranslations } from 'next-intl';
+
 import TooltipCustom from '@/components/custom/TooltipCustom';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
@@ -12,6 +14,7 @@ import { Clock, Minus, OctagonAlert, Plus, X } from 'lucide-react';
 import PomodoroPiP from './pomodoro-pip';
 
 const Pomodoro: React.FC = () => {
+  const t = useTranslations('space');
   const {
     focusTime,
     breakTime,
@@ -32,24 +35,16 @@ const Pomodoro: React.FC = () => {
   return (
     <>
       {isRunning ? (
-        <title>{` ${hours}:${minutes}:${seconds} - Không gian tự học | Aeiouly`}</title>
+        <title>{` ${hours}:${minutes}:${seconds} - ${t('metadata.title')} | Aeiouly`}</title>
       ) : null}
       <div className="bg-background flex w-full flex-col space-y-3 rounded-md p-4 shadow-lg">
         <div className="flex items-center justify-between">
           <span className="inline-flex items-center gap-1 text-xs">
             <Clock size={14} />
-            <strong>Hẹn giờ cá nhân</strong>
+            <strong>{t('pomodoro.title')}</strong>
           </span>
           <div className="flex items-center gap-2">
-            <TooltipCustom
-              content={
-                <p>
-                  Tăng cường <strong>năng suất</strong> với một <strong>phiên tập trung</strong>,
-                  sau đó là <strong>thời gian nghỉ</strong>. Bật chế độ{' '}
-                  <strong>Vòng lặp (Loop)</strong> để tự động lặp lại chu trình.
-                </p>
-              }
-            >
+            <TooltipCustom content={<p>{t('pomodoro.tooltip')}</p>}>
               <span className="cursor-pointer">
                 <OctagonAlert size={16} />
               </span>
@@ -62,7 +57,7 @@ const Pomodoro: React.FC = () => {
         {!isRunning ? (
           <div className="">
             <p className="mb-1 text-center text-xs">
-              <strong>Thời gian tập trung (phút)</strong>
+              <strong>{t('pomodoro.focusTime')}</strong>
             </p>
             <div className="flex w-full items-center gap-2">
               <Button
@@ -92,7 +87,7 @@ const Pomodoro: React.FC = () => {
               </Button>
             </div>
             <p className="mt-3 mb-1 text-center text-xs">
-              <strong>Thời gian nghỉ (phút)</strong>
+              <strong>{t('pomodoro.breakTime')}</strong>
             </p>
             <div className="flex w-full items-center gap-2">
               <Button
@@ -131,14 +126,14 @@ const Pomodoro: React.FC = () => {
               checked={isLoopMode}
               onCheckedChange={setIsLoopMode}
             />
-            <Label htmlFor="loop-mode">Vòng lặp</Label>
+            <Label htmlFor="loop-mode">{t('pomodoro.loop')}</Label>
           </div>
         ) : null}
         <div className="flex flex-col gap-2">
           {isRunning ? (
             <div className="mt-4">
               <div className="text-center text-sm font-bold">
-                {isFocusMode ? 'Focus Time' : 'Break Time'}
+                {isFocusMode ? t('pomodoro.focusMode') : t('pomodoro.breakMode')}
               </div>
               <div className="text-center text-3xl font-bold">
                 {hours}:{minutes}:{seconds}
@@ -147,7 +142,7 @@ const Pomodoro: React.FC = () => {
           ) : null}
           {!isRunning ? (
             <Button className="font-semibold" onClick={toggleTimer}>
-              Bắt đầu
+              {t('pomodoro.start')}
             </Button>
           ) : (
             <Button
@@ -155,12 +150,12 @@ const Pomodoro: React.FC = () => {
               variant={isPaused ? 'default' : 'secondary'}
               onClick={togglePause}
             >
-              {isPaused ? 'Tiếp tục' : 'Tạm dừng'}
+              {isPaused ? t('pomodoro.resume') : t('pomodoro.pause')}
             </Button>
           )}
           {isRunning && (
             <Button variant="outline" className="font-semibold" onClick={resetTimer}>
-              Reset thời gian
+              {t('pomodoro.reset')}
             </Button>
           )}
           <PomodoroPiP />

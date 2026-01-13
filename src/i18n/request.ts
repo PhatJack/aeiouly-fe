@@ -8,9 +8,21 @@ export default getRequestConfig(async ({ requestLocale }) => {
   const requested = await requestLocale;
   const locale = hasLocale(routing.locales, requested) ? requested : routing.defaultLocale;
 
+  const mainMessages = (await import(`../../messages/${locale}.json`)).default;
+  const settingMessages = (await import(`../../messages/${locale}/setting.json`)).default;
+  const authMessages = (await import(`../../messages/${locale}/auth.json`)).default;
+  const vocabularyMessages = (await import(`../../messages/${locale}/vocabulary.json`)).default;
+  const spaceMessages = (await import(`../../messages/${locale}/space.json`)).default;
+
   return {
     locale,
-    messages: (await import(`../../messages/${locale}.json`)).default,
+    messages: {
+      ...mainMessages,
+      ...settingMessages,
+      ...authMessages,
+      ...vocabularyMessages,
+      ...spaceMessages,
+    },
     // ...
   };
 });

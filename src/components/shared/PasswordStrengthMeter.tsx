@@ -19,7 +19,7 @@ export const PasswordStrengthMeter = ({
   control,
   className,
 }: PasswordStrengthMeterProps) => {
-  const t = useTranslations('Settings');
+  const t = useTranslations('setting');
 
   const password = useWatch({ control, name: passwordFieldName });
 

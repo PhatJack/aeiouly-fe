@@ -1,0 +1,61 @@
+{
+	"vocabulary": {
+		"page": {
+			"title": "My Vocabulary Sets",
+			"description": "Manage and learn with {count} vocabulary sets",
+			"createNew": "Create New Set",
+			"findVocabulary": "Find Vocabulary",
+			"searchPlaceholder": "Search vocabulary sets...",
+			"alertNote": "Note: You can create flashcards from highlights (including highlights you created previously) on the practice detail page.",
+			"empty": {
+				"noResults": "No vocabulary sets found",
+				"noResultsDesc": "Try searching with a different keyword",
+				"noSets": "No vocabulary sets yet",
+				"noSetsDesc": "Create your first vocabulary set to start learning",
+				"createFirst": "Create First Set"
+			},
+			"loading": "Deleting...",
+			"confirmDelete": "Are you sure you want to delete this vocabulary set?",
+			"success": {
+				"create": "New vocabulary set created successfully!",
+				"delete": "Vocabulary set deleted successfully!"
+			},
+			"error": {
+				"create": "An error occurred while creating the vocabulary set",
+				"delete": "An error occurred while deleting the vocabulary set"
+			}
+		},
+		"detail": {
+			"notFound": "Vocabulary set not found",
+			"back": "Back",
+			"default": "Default",
+			"words": "words",
+			"alertNote": "Note: you can learn a maximum of 20 new words per day. This is the appropriate amount for effective learning.",
+			"practice": {
+				"flashcard": "Practice with Flashcard",
+				"multipleChoice": "Practice Multiple Choice"
+			},
+			"backToList": "Back to word list",
+			"empty": {
+				"title": "No vocabulary yet",
+				"description": "Add vocabulary to this set to start learning"
+			},
+			"loading": {
+				"creatingFlashcard": "Creating flashcard...",
+				"creatingQuiz": "Creating quiz...",
+				"deleting": "Deleting..."
+			},
+			"confirmRemove": "Are you sure you want to remove this word from the vocabulary set?",
+			"success": {
+				"remove": "Word removed from vocabulary set!",
+				"flashcardCreated": "Created {count} flashcard(s)!",
+				"quizCreated": "Created {count} multiple choice question(s)!",
+				"submitted": "Submitted!"
+			},
+			"error": {
+				"remove": "An error occurred while removing the word",
+				"practice": "An error occurred while creating the practice session"
+			}
+		}
+	}
+}

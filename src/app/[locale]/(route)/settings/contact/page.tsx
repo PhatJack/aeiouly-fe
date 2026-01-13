@@ -14,7 +14,7 @@ import { FAQ } from '@/constants/faq';
 import { Mail, MapPin, MessageCircle, Phone } from 'lucide-react';
 
 export async function generateMetadata(): Promise<Metadata> {
-  const t = await getTranslations('Settings');
+  const t = await getTranslations('setting');
 
   return {
     title: t('contactPage.title'),
@@ -23,7 +23,7 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default function ContactPage() {
-  const t = useTranslations('Settings');
+  const t = useTranslations('setting');
 
   return (
     <div className="space-y-4">

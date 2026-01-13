@@ -2,6 +2,8 @@
 
 import React from 'react';
 
+import { useTranslations } from 'next-intl';
+
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
@@ -11,21 +13,23 @@ import { RotateCcw } from 'lucide-react';
 import { toast } from 'sonner';
 
 const ThemeCustomizer = () => {
+  const t = useTranslations('setting');
+
   const { currentPreset, presets, applyPreset, resetTheme } = useThemeCustom();
 
   const handlePresetChange = (presetName: string) => {
     applyPreset(presetName);
-    toast.success('Đã áp dụng theme preset');
+    toast.success(t('themeCustomizer.presetApplied'));
   };
 
   const handleReset = () => {
     resetTheme();
-    toast.success('Đã reset về theme mặc định');
+    toast.success(t('themeCustomizer.themeReset'));
   };
 
   return (
     <div className="space-y-4">
-      <Label className="text-lg font-semibold">Chủ đề</Label>
+      <Label className="text-lg font-semibold">{t('themeCustomizer.title')}</Label>
 
       <div className="space-y-4">
         <RadioGroup
@@ -51,7 +55,7 @@ const ThemeCustomizer = () => {
 
         <Button variant="outline" size="lg" onClick={handleReset} className="w-full gap-2">
           <RotateCcw className="h-4 w-4" />
-          Reset về mặc định
+          {t('themeCustomizer.resetToDefault')}
         </Button>
       </div>
     </div>

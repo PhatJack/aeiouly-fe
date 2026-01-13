@@ -1,0 +1,113 @@
+{
+	"space": {
+		"metadata": {
+			"title": "Solo Study Space",
+			"description": "Focused learning environment with background music, videos, and Pomodoro tools. Optimize your English learning efficiency with personalized workspace.",
+			"keywords": [
+				"focused learning",
+				"solo study",
+				"pomodoro",
+				"background music",
+				"background videos",
+				"learning efficiency"
+			]
+		},
+		"buttons": {
+			"soundcloudPlayer": "Soundcloud Player",
+			"backgroundIframe": "Video | Background Images",
+			"sound": "Background Sounds",
+			"studyStats": "Study Statistics",
+			"fullscreen": "Fullscreen",
+			"pomodoro": "Pomodoro Timer",
+			"sessionGoal": "Session Goal"
+		},
+		"pomodoro": {
+			"title": "Personal Timer",
+			"tooltip": "Boost productivity with a focused session followed by break time. Enable Loop mode to automatically repeat the cycle.",
+			"focusTime": "Focus Time (minutes)",
+			"breakTime": "Break Time (minutes)",
+			"loop": "Loop",
+			"focusMode": "Focus Time",
+			"breakMode": "Break Time",
+			"start": "Start",
+			"resume": "Resume",
+			"pause": "Pause",
+			"reset": "Reset Timer",
+			"pip": {
+				"enter": "Picture-in-Picture mode (PiP)",
+				"exit": "Exit PiP"
+			}
+		},
+		"sessionGoal": {
+			"title": "Session Goal",
+			"input_placeholder": "Enter your goal...",
+			"tooltip": "Enhance focus by setting small, clear goals for each work session. Instead of 'complete project', try 'write 500 words' or 'review 3 pages'. Use 25-minute timer to maintain pace — small steps create big progress!",
+			"error": "Failed to create goal. Please try again.",
+			"loading": "Loading..."
+		},
+		"background": {
+			"favoriteHint": "You can add your favorite videos for easy access later.",
+			"videoUnavailable": "Video unavailable. Please try a different video.",
+			"loadingFavorites": "Loading favorite videos...",
+			"deleteSuccess": "Favorite video deleted successfully!",
+			"youtube": "Youtube:",
+			"dateAdded": "Date added:"
+		},
+		"soundcloud": {
+			"title": "SoundCloud Player",
+			"new": "NEW",
+			"tooltip": "Currently only supports individual tracks, not playlists!",
+			"urlPlaceholder": "Enter SoundCloud URL",
+			"invalidUrl": "Please enter a valid SoundCloud URL."
+		},
+		"stats": {
+			"loading": "Loading statistics...",
+			"currentStreak": "Current Streak",
+			"longestStreak": "Longest Streak",
+			"days": "days",
+			"yourLevel": "Your Level",
+			"levels": {
+				"newbie": "Bookworm",
+				"bronze": "Learner",
+				"silver": "Good Student",
+				"gold": "Excellent Student",
+				"diamond": "Top Student",
+				"legend": "Learning Legend"
+			},
+			"milestone": "{remaining} days left to reach milestone of {milestone} days"
+		},
+		"youtube": {
+			"title": "Youtube Video",
+			"placeholder": "Paste the youtube link here",
+			"invalidLink": "Invalid YouTube link"
+		},
+		"videoSound": {
+			"title": "Original Video Sound"
+		},
+		"deleteVideo": {
+			"confirmTitle": "Confirm Delete",
+			"confirmDescription": "Are you sure you want to remove from your favorites? This action cannot be undone.",
+			"cancel": "Cancel",
+			"delete": "Delete"
+		},
+		"addVideo": {
+			"modalTitle": "Add Favorite Song",
+			"modalDescription": "Add a new song to your favorites list. Click save when done.",
+			"urlLabel": "YouTube URL",
+			"urlPlaceholder": "Enter YouTube URL",
+			"example": "Example: https://www.youtube.com/watch?v=VIDEO_ID",
+			"emptyUrl": "Please enter a YouTube URL.",
+			"invalidUrl": "Invalid YouTube URL.",
+			"invalidUrlLong": "Invalid YouTube URL. Please provide a valid YouTube video URL.",
+			"success": "Favorite song added successfully!",
+			"error": "Unable to add favorite song. Please try again.",
+			"saving": "Saving...",
+			"saveSong": "Save Song",
+			"playModalTitle": "Play Song",
+			"playModalDescription": "Would you like to play this song right now?",
+			"playLater": "Later",
+			"playNow": "Play Now",
+			"playingSuccess": "Playing your favorite song!"
+		}
+	}
+}

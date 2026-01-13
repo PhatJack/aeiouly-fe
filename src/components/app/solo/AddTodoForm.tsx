@@ -3,6 +3,8 @@
 import React, { useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 
+import { useTranslations } from 'next-intl';
+
 import { getQueryClient } from '@/app/get-query-client';
 import { Button } from '@/components/ui/button';
 import { Field } from '@/components/ui/field';
@@ -23,6 +25,7 @@ interface Props {
 }
 
 const AddTodoForm = ({ isDisplayIcon = true, className }: Props) => {
+  const t = useTranslations('space');
   const user = useAuthStore((state) => state.user);
   const queryClient = getQueryClient();
   const [isLoading, setIsLoading] = useState(false);
@@ -86,7 +89,7 @@ const AddTodoForm = ({ isDisplayIcon = true, className }: Props) => {
                 {...field}
                 disabled={isLoading}
                 className="h-6 border-none bg-transparent px-2 shadow-none focus-visible:ring-0 dark:bg-transparent"
-                placeholder="Nhập mục tiêu..."
+                placeholder={t('sessionGoal.input_placeholder')}
               />
             </div>
           </Field>

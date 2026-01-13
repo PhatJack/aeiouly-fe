@@ -15,7 +15,7 @@ import { motion } from 'motion/react';
 const SettingNav = () => {
   const pathname = usePathname();
   const user = useAuthStore((state) => state.user);
-  const t = useTranslations('Settings');
+  const t = useTranslations('setting');
 
   const menu = useMemo(
     () => [

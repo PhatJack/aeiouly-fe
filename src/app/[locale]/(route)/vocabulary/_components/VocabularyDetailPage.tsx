@@ -2,6 +2,7 @@
 
 import React, { useCallback, useState } from 'react';
 
+import { useTranslations } from 'next-intl';
 import { useRouter } from 'nextjs-toploader/app';
 
 import LoadingWithText from '@/components/LoadingWithText';
@@ -34,6 +35,7 @@ interface VocabularyDetailPageProps {
 
 const VocabularyDetailPage = ({ id }: VocabularyDetailPageProps) => {
   const router = useRouter();
+  const t = useTranslations('vocabulary');
   const [page, setPage] = useState(1);
   const setId = Number(id);
   const [quizQuestions, setQuizQuestions] = useState<MultipleChoiceQuestionSchema[] | null>(null);
@@ -56,13 +58,13 @@ const VocabularyDetailPage = ({ id }: VocabularyDetailPageProps) => {
   const createMultipleChoiceMutation = useCreateMultipleChoiceSessionMutation();
 
   const handleRemoveItem = (itemId: number) => {
-    if (confirm('Bạn có chắc chắn muốn xóa từ này khỏi bộ từ vựng?')) {
+    if (confirm(t('detail.confirmRemove'))) {
       removeItemMutation.mutate(itemId, {
         onSuccess: () => {
-          toast.success('Đã xóa từ khỏi bộ từ vựng!');
+          toast.success(t('detail.success.remove'));
         },
         onError: (error) => {
-          toast.error(error.detail || 'Có lỗi xảy ra khi xóa từ');
+          toast.error(error.detail || t('detail.error.remove'));
         },
       });
     }
@@ -75,10 +77,10 @@ const VocabularyDetailPage = ({ id }: VocabularyDetailPageProps) => {
         onSuccess: (data) => {
           setFlashcards(data.cards);
           setShowFlashcardMode(true);
-          toast.success(`Đã tạo ${data.cards.length} thẻ flashcard!`);
+          toast.success(t('detail.success.flashcardCreated', { count: data.cards.length }));
         },
         onError: (error) => {
-          toast.error(error.detail || 'Có lỗi xảy ra khi tạo phiên luyện tập');
+          toast.error(error.detail || t('detail.error.practice'));
         },
       }
     );
@@ -93,10 +95,10 @@ const VocabularyDetailPage = ({ id }: VocabularyDetailPageProps) => {
           setSelectedAnswers({});
           setShowResults(false);
           setShowQuizMode(true);
-          toast.success(`Đã tạo ${data.questions.length} câu hỏi trắc nghiệm!`);
+          toast.success(t('detail.success.quizCreated', { count: data.questions.length }));
         },
         onError: (error) => {
-          toast.error(error.detail || 'Có lỗi xảy ra khi tạo phiên luyện tập');
+          toast.error(error.detail || t('detail.error.practice'));
         },
       }
     );
@@ -108,8 +110,8 @@ const VocabularyDetailPage = ({ id }: VocabularyDetailPageProps) => {
 
   const handleSubmitQuiz = useCallback(() => {
     setShowResults(true);
-    toast.success('Đã nộp bài!');
-  }, []);
+    toast.success(t('detail.success.submitted'));
+  }, [t]);
 
   const handleBackToList = useCallback(() => {
     setShowQuizMode(false);
@@ -143,13 +145,13 @@ const VocabularyDetailPage = ({ id }: VocabularyDetailPageProps) => {
         <Card className="dark:bg-card/50 dark:border-border/30 dark:backdrop-blur-sm">
           <CardContent className="py-12 text-center">
             <h2 className="text-foreground mb-4 text-2xl font-bold dark:text-white">
-              Không tìm thấy bộ từ vựng
+              {t('detail.notFound')}
             </h2>
             <Button
               onClick={() => router.push('/vocabulary')}
               className="dark:bg-primary dark:text-primary-foreground dark:hover:bg-primary/90"
             >
-              Quay lại
+              {t('detail.back')}
             </Button>
           </CardContent>
         </Card>
@@ -181,7 +183,7 @@ const VocabularyDetailPage = ({ id }: VocabularyDetailPageProps) => {
             </h1>
             {vocabularySetData.is_default && (
               <span className="bg-primary/10 text-primary dark:bg-primary/20 dark:text-primary rounded-full px-3 py-1 text-sm font-medium">
-                Mặc định
+                {t('detail.default')}
               </span>
             )}
           </div>
@@ -197,16 +199,13 @@ const VocabularyDetailPage = ({ id }: VocabularyDetailPageProps) => {
             <span className="text-foreground text-base font-medium dark:text-white">
               {vocabularySetData.total_words}
             </span>
-            <span className="text-muted-foreground dark:text-gray-400">từ</span>
+            <span className="text-muted-foreground dark:text-gray-400">{t('detail.words')}</span>
           </div>
         </div>
       </div>
       {!showQuizMode && !showFlashcardMode && (
         <>
-          <AlertCustom
-            variant={'warning'}
-            title="Chú ý: bạn được học tối đa 20 từ mới một ngày. Đây là lượng từ phù hợp để bạn có thể học hiệu quả."
-          />
+          <AlertCustom variant={'warning'} title={t('detail.note')} />
           {/* Practice Buttons */}
           {totalItems > 0 && (
             <div className="grid gap-4">
@@ -218,7 +217,7 @@ const VocabularyDetailPage = ({ id }: VocabularyDetailPageProps) => {
                 className="dark:bg-primary dark:text-primary-foreground dark:hover:bg-primary/90"
               >
                 <Layers className="text-primary-foreground h-6 w-6 dark:text-white" />
-                <h3 className="font-semibold">Luyện tập với Flashcard</h3>
+                <h3 className="font-semibold">{t('detail.practice.flashcard')}</h3>
               </Button>
 
               {/* Multiple Choice Practice */}
@@ -230,7 +229,7 @@ const VocabularyDetailPage = ({ id }: VocabularyDetailPageProps) => {
                 className="dark:border-secondary/50 dark:bg-secondary/10 dark:text-secondary dark:hover:bg-secondary/20"
               >
                 <BrainCircuit className="text-secondary h-6 w-6" />
-                <h3 className="font-semibold">Luyện tập Multiple Choice</h3>
+                <h3 className="font-semibold">{t('detail.practice.multipleChoice')}</h3>
               </Button>
             </div>
           )}
@@ -248,13 +247,13 @@ const VocabularyDetailPage = ({ id }: VocabularyDetailPageProps) => {
                 size="lg"
                 className="dark:bg-primary dark:text-primary-foreground dark:hover:bg-primary/90"
               >
-                Quay lại danh sách từ
+                {t('detail.backToList')}
               </Button>
             </CardContent>
           </Card>
           {createFlashcardMutation.isPending && (
             <LoadingWithText
-              text="Đang tạo flashcard..."
+              text={t('detail.loading.flashcard')}
               className="bg-background absolute inset-0 size-full backdrop-blur-sm"
             />
           )}
@@ -279,14 +278,14 @@ const VocabularyDetailPage = ({ id }: VocabularyDetailPageProps) => {
                   size="lg"
                   className="dark:bg-primary dark:text-primary-foreground dark:hover:bg-primary/90"
                 >
-                  Quay lại danh sách từ
+                  {t('detail.backToList')}
                 </Button>
               </CardContent>
             </Card>
           )}
           {createMultipleChoiceMutation.isPending && (
             <LoadingWithText
-              text="Đang tạo bài trắc nghiệm..."
+              text={t('detail.loading.quiz')}
               className="bg-background absolute inset-0 size-full backdrop-blur-sm"
             />
           )}
@@ -326,10 +325,10 @@ const VocabularyDetailPage = ({ id }: VocabularyDetailPageProps) => {
             <CardContent className="flex min-h-[300px] flex-col items-center justify-center py-12">
               <BookOpen className="text-muted-foreground mb-4 h-16 w-16 dark:text-gray-500" />
               <h3 className="text-foreground mb-2 text-lg font-semibold dark:text-white">
-                Chưa có từ vựng nào
+                {t('detail.empty.title')}
               </h3>
               <p className="text-muted-foreground text-center dark:text-gray-400">
-                Thêm từ vựng vào bộ từ này để bắt đầu học
+                {t('detail.empty.description')}
               </p>
             </CardContent>
           </Card>
@@ -337,7 +336,10 @@ const VocabularyDetailPage = ({ id }: VocabularyDetailPageProps) => {
 
       {/* Loading Overlays */}
       {removeItemMutation.isPending && (
-        <LoadingWithText text="Đang xóa..." className="fixed inset-0 z-50 bg-black/20" />
+        <LoadingWithText
+          text={t('detail.loading.deleting')}
+          className="fixed inset-0 z-50 bg-black/20"
+        />
       )}
     </div>
   );

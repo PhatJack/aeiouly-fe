@@ -26,6 +26,7 @@ import { LogOut, PanelRightClose, Settings, User2 } from 'lucide-react';
 import { toast } from 'sonner';
 import { useContextSelector } from 'use-context-selector';
 
+import { LanguageSwitcher } from '../language-swicther';
 import { ModeToggle } from '../mode-toggle';
 import HeaderShortcutStreak from './streak/HeaderShortcutStreak';
 
@@ -84,6 +85,7 @@ const Header = ({ isExpanded, handleToggleExpand }: HeaderProps) => {
         </div>
 
         <div className="flex items-center gap-3">
+          <LanguageSwitcher />
           <ModeToggle />
           {user ? (
             <>

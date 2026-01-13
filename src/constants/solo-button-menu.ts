@@ -8,24 +8,24 @@ export interface MenuButtonItem {
   icon: typeof Quote;
 }
 
-export const menuButton: MenuButtonItem[] = [
-  // {
-  //   label: 'Soundcloud Player',
-  //   variable: 'soundcloudPlayer',
-  //   icon: Music,
-  // },
+export const getMenuButton = (t: (key: string) => string): MenuButtonItem[] => [
   {
-    label: 'Video | Ảnh nền',
+    label: t('buttons.soundcloudPlayer'),
+    variable: 'soundcloudPlayer',
+    icon: Music,
+  },
+  {
+    label: t('buttons.backgroundIframe'),
     variable: 'backgroundIframe',
     icon: ImageIcon,
   },
   {
-    label: 'Âm thanh nền',
+    label: t('buttons.sound'),
     variable: 'sound',
     icon: Volume2,
   },
   {
-    label: 'Thống kê học tập',
+    label: t('buttons.studyStats'),
     variable: 'studyStats',
     icon: TrendingUp,
   },

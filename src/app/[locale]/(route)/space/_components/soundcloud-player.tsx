@@ -2,6 +2,7 @@
 
 import React, { useEffect, useRef, useState } from 'react';
 
+import { useTranslations } from 'next-intl';
 import Image from 'next/image';
 
 import TooltipCustom from '@/components/custom/TooltipCustom';
@@ -31,6 +32,7 @@ const formatTime = (ms: number) => {
 };
 
 const SoundcloudPlayer = () => {
+  const t = useTranslations('space');
   const iframeRef = useRef<HTMLIFrameElement>(null);
   const widgetRef = useRef<any>(null);
   const timerRef = useRef<NodeJS.Timeout | null>(null);
@@ -61,7 +63,7 @@ const SoundcloudPlayer = () => {
   useEffect(() => {
     if (!url || !url.includes('soundcloud.com')) {
       if (url && !url.includes('soundcloud.com')) {
-        setError('Vui lòng nhập URL hợp lệ từ SoundCloud.');
+        setError(t('soundcloud.invalidUrl'));
       }
       return;
     }
@@ -153,10 +155,10 @@ const SoundcloudPlayer = () => {
         <CardTitle className="flex items-center justify-between gap-2">
           <div className="flex items-center gap-2">
             <Music className="h-5 w-5" />
-            SoundCloud Player
-            <Badge className="ml-2">MỚI</Badge>
+            {t('soundcloud.title')}
+            <Badge className="ml-2">{t('soundcloud.new')}</Badge>
           </div>
-          <TooltipCustom content="Hiện tại chỉ support bài hát chưa hỗ trợ playlist!">
+          <TooltipCustom content={t('soundcloud.tooltip')}>
             <Button size="icon" variant="ghost">
               <Info />
             </Button>
@@ -190,7 +192,11 @@ const SoundcloudPlayer = () => {
           <Button size="icon" variant="primary-outline" onClick={togglePlay}>
             {isPlaying ? <Pause /> : <Play />}
           </Button>
-          <Input placeholder="Nhập URL SoundCloud" value={url} onChange={handleUrlChange} />
+          <Input
+            placeholder={t('soundcloud.urlPlaceholder')}
+            value={url}
+            onChange={handleUrlChange}
+          />
           <HoverCard openDelay={200}>
             <HoverCardTrigger asChild>
               <Button
