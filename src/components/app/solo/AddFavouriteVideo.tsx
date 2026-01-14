@@ -86,7 +86,7 @@ const AddFavoriteVideoModal = ({ children }: { children: React.ReactNode }) => {
     // Set the video as background
     if (videoEmbed) {
       setBackground(videoEmbed);
-      toast.success(t('addVideo.playing'));
+      toast.success(t('addVideo.playingSuccess'));
     }
     setPlayVideoOpen(false);
   };
