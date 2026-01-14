@@ -2,6 +2,8 @@
 
 import React, { memo } from 'react';
 
+import { useTranslations } from 'next-intl';
+
 import ListeningSessionCard from '@/components/app/gym/ListeningSessionCard';
 import EmptyCustom from '@/components/custom/EmptyCustom';
 import { SessionResponseSchema } from '@/lib/schema/listening-session.schema';
@@ -19,12 +21,14 @@ const ListeningSessionsList = ({
   onContinueSession,
   onDeleteLesson,
 }: ListeningSessionsListProps) => {
+  const t = useTranslations('listening');
+
   if (sessions.length === 0) {
     return (
       <EmptyCustom
         icon={<Headset className="h-12 w-12 text-blue-500" />}
-        title="Chưa có phiên luyện nghe nào"
-        description="Bắt đầu một phiên luyện nghe mới để cải thiện kỹ năng của bạn!"
+        title={t('empty.noSessions')}
+        description={t('empty.noSessionsDescription')}
       />
     );
   }

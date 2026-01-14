@@ -13,6 +13,7 @@ export default getRequestConfig(async ({ requestLocale }) => {
   const authMessages = (await import(`../../messages/${locale}/auth.json`)).default;
   const vocabularyMessages = (await import(`../../messages/${locale}/vocabulary.json`)).default;
   const spaceMessages = (await import(`../../messages/${locale}/space.json`)).default;
+  const listeningMessages = (await import(`../../messages/${locale}/listening.json`)).default;
 
   return {
     locale,
@@ -22,6 +23,7 @@ export default getRequestConfig(async ({ requestLocale }) => {
       ...authMessages,
       ...vocabularyMessages,
       ...spaceMessages,
+      ...listeningMessages,
     },
     // ...
   };

@@ -2,6 +2,7 @@
 
 import React from 'react';
 
+import { useLocale, useTranslations } from 'next-intl';
 import Image from 'next/image';
 
 import { Badge } from '@/components/ui/badge';
@@ -10,6 +11,7 @@ import { LessonResponseSchema } from '@/lib/schema/listening-session.schema';
 import { distanceToNowVN } from '@/lib/timezone';
 import { UrlToEmbeded, cn, getLevelColor } from '@/lib/utils';
 
+import { enUS, vi } from 'date-fns/locale';
 import { BookOpen, Calendar, Clock, PlayCircle } from 'lucide-react';
 
 interface ListeningLessonCardProps {
@@ -18,6 +20,9 @@ interface ListeningLessonCardProps {
 }
 
 const ListeningLessonCard = ({ lesson, onClick }: ListeningLessonCardProps) => {
+  const locale = useLocale();
+  const t = useTranslations('listening');
+
   // Mock duration for demo purposes (replace with actual duration if available)
   const duration = '12:34'; // Example duration, adjust based on your data
 
@@ -67,11 +72,11 @@ const ListeningLessonCard = ({ lesson, onClick }: ListeningLessonCardProps) => {
               </Badge>
               <div className="flex items-center gap-1">
                 <BookOpen className="h-3.5 w-3.5" />
-                <span>{lesson.total_sentences} câu</span>
+                <span>{t('lesson.sentences', { count: lesson.total_sentences })}</span>
               </div>
               <div className="flex items-center gap-1">
                 <Calendar className="h-3.5 w-3.5" />
-                <span>{distanceToNowVN(lesson.created_at)}</span>
+                <span>{distanceToNowVN(lesson.created_at, locale === 'vi' ? vi : enUS)}</span>
               </div>
             </div>
           </div>

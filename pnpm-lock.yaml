@@ -188,9 +188,6 @@ importers:
       nextjs-toploader:
         specifier: ^3.8.16
         version: 3.8.16(next@15.4.10(react-dom@19.2.3(react@19.2.3))(react@19.2.3)(sass@1.93.3))(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
-      overlayscrollbars:
-        specifier: ^2.12.0
-        version: 2.12.0
       react:
         specifier: 19.2.3
         version: 19.2.3
@@ -3846,9 +3843,6 @@ packages:
 
   orderedmap@2.1.1:
     resolution: {integrity: sha512-TvAWxi0nDe1j/rtMcWcIj94+Ffe6n7zhow33h40SKxmsmozs6dz/e+EajymfoFcHd7sxNn8yHM8839uixMOV6g==}
-
-  overlayscrollbars@2.12.0:
-    resolution: {integrity: sha512-mWJ5MOkcZ/ljHwfLw8+bN0V9ziGCoNoqULcp994j5DTGNQvnkWKWkA7rnO29Kyew5AoHxUnJ4Ndqfcl0HSQjXg==}
 
   own-keys@1.0.1:
     resolution: {integrity: sha512-qFOyK5PjiWZd+QQIh+1jhdb9LpxTF0qs7Pm8o5QHYZ0M3vKqSqzsZaEB6oWlxZ+q2sJBMI/Ktgd2N5ZwQoRHfg==}
@@ -8670,8 +8664,6 @@ snapshots:
       word-wrap: 1.2.5
 
   orderedmap@2.1.1: {}
-
-  overlayscrollbars@2.12.0: {}
 
   own-keys@1.0.1:
     dependencies:

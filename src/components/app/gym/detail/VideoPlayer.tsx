@@ -2,6 +2,7 @@
 
 import React, { memo, useEffect, useRef, useState } from 'react';
 
+import { useTranslations } from 'next-intl';
 import { useRouter } from 'nextjs-toploader/app';
 
 import { Button } from '@/components/ui/button';
@@ -21,6 +22,7 @@ const VideoPlayer = memo(() => {
 
   const { toggleVideo, setAddYtbScript } = useGymDetailStore();
   const router = useRouter();
+  const t = useTranslations('listening');
   const videoRef = useRef<YT.PlayerEvent['target']>(null);
   const youtubeRef = useRef<any>(null);
   const [videoError, setVideoError] = useState<boolean>(false);
@@ -155,14 +157,14 @@ const VideoPlayer = memo(() => {
           <h1 className="text-lg font-semibold">{session?.lesson.title}</h1>
         </div>
       </CardHeader>
-      {videoError && <div className="text-red-500">Video không khả dụng</div>}
+      {videoError && <div className="text-red-500">{t('video.unavailable')}</div>}
       <div className="relative aspect-video">
         <div id="yt-player" className="h-full w-full" />
         {!showVideo && (
           <div className="bg-muted absolute inset-0 flex aspect-video items-center justify-center">
             <Button variant="outline" size="lg" onClick={toggleVideo} className="gap-2">
               <Play className="h-5 w-5" />
-              Hiện video
+              {t('video.show')}
             </Button>
           </div>
         )}

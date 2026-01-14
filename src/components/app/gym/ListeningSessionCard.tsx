@@ -1,5 +1,7 @@
 import React, { memo } from 'react';
 
+import { useTranslations } from 'next-intl';
+
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Progress } from '@/components/ui/progress';
@@ -15,6 +17,8 @@ interface ListeningSessionCardProps {
 
 const ListeningSessionCard = memo(
   ({ session, onContinueSession, onDeleteLesson }: ListeningSessionCardProps) => {
+    const t = useTranslations('listening');
+
     const progress = Math.round(
       (session.current_sentence_index / session.lesson.total_sentences) * 100
     );
@@ -26,7 +30,10 @@ const ListeningSessionCard = memo(
               <div className="flex-1">
                 <CardTitle className="line-clamp-2 text-base">{session.lesson.title}</CardTitle>
                 <CardDescription className="text-sm">
-                  Cấp độ {session.lesson.level} • {session.lesson.total_sentences} câu
+                  {t('lesson.level', {
+                    level: session.lesson.level,
+                    count: session.lesson.total_sentences,
+                  })}
                 </CardDescription>
               </div>
               <div
@@ -36,14 +43,14 @@ const ListeningSessionCard = memo(
                     : 'bg-green-100 text-green-700 dark:bg-green-900 dark:text-green-300'
                 }`}
               >
-                {session.status === 'active' ? 'Đang học' : 'Hoàn thành'}
+                {session.status === 'active' ? t('session.active') : t('session.completed')}
               </div>
             </div>
           </CardHeader>
           <CardContent className="px-4 pt-0">
             <div className="space-y-3">
               <div className="flex items-center justify-between text-sm">
-                <span className="text-muted-foreground">Tiến độ</span>
+                <span className="text-muted-foreground">{t('session.progress')}</span>
                 <span className="font-medium">
                   {session.current_sentence_index}/{session.lesson.total_sentences}
                 </span>
@@ -52,13 +59,13 @@ const ListeningSessionCard = memo(
               <div className="flex items-center gap-2">
                 <Button className="flex-1" onClick={() => onContinueSession(session.id)}>
                   <Play className="mr-1 h-4 w-4" />
-                  {session.status === 'active' ? 'Tiếp tục' : 'Học lại'}
+                  {session.status === 'active' ? t('session.continue') : t('session.restart')}
                 </Button>
 
                 <Button
                   variant="destructive"
                   onClick={() => onDeleteLesson(session.id)}
-                  aria-label={`Xóa phiên #${session.id}`}
+                  aria-label={t('session.delete', { id: session.id })}
                 >
                   <Trash2 className="size-4" />
                 </Button>
