@@ -3,6 +3,7 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useHotkeys } from 'react-hotkeys-hook';
 
+import { useTranslations } from 'next-intl';
 import { useSearchParams } from 'next/navigation';
 import { useRouter } from 'nextjs-toploader/app';
 
@@ -33,6 +34,7 @@ interface GymDetailPageProps {
 const GymDetailPage = ({ id }: GymDetailPageProps) => {
   const searchParams = useSearchParams();
   const router = useRouter();
+  const t = useTranslations('listening');
   const lessonId = Number(id);
   const inputRef = useRef<HTMLTextAreaElement | null>(null);
   const contentRef = useRef<HTMLDivElement | null>(null);
@@ -90,7 +92,7 @@ const GymDetailPage = ({ id }: GymDetailPageProps) => {
     getNextSentenceMutation.mutate(Number(id), {
       onSuccess: (data) => {
         if (data.status === 'completed') {
-          toast.success('Hoàn thành bài học! 🎊');
+          toast.success(t('lessonDetail.completed'));
           if (searchParams.get('source') === 'study-route') {
             completeLessonMutation.mutate(session.lesson_id);
           }
@@ -158,8 +160,8 @@ const GymDetailPage = ({ id }: GymDetailPageProps) => {
     return (
       <div>
         <div className="text-center">
-          <h2 className="mb-4 text-2xl font-bold">Không tìm thấy bài học</h2>
-          <Button onClick={handleBack}>Quay lại</Button>
+          <h2 className="mb-4 text-2xl font-bold">{t('lessonDetail.notFound')}</h2>
+          <Button onClick={handleBack}>{t('lessonDetail.back')}</Button>
         </div>
       </div>
     );
@@ -184,14 +186,12 @@ const GymDetailPage = ({ id }: GymDetailPageProps) => {
                   <Play className="h-8 w-8 text-white" />
                 </div>
                 <div className="space-y-2">
-                  <h3 className="text-2xl font-bold">Sẵn sàng bắt đầu?</h3>
-                  <p className="text-muted-foreground">
-                    Nhấp vào nút bên dưới để bắt đầu bài học và nghe câu đầu tiên
-                  </p>
+                  <h3 className="text-2xl font-bold">{t('lessonDetail.ready')}</h3>
+                  <p className="text-muted-foreground">{t('lessonDetail.instruction')}</p>
                 </div>
                 <Button size="lg" onClick={handleStartLearning} className="px-8 py-3 text-lg">
                   <Play className="mr-2 h-5 w-5" />
-                  Bắt đầu học
+                  {t('lessonDetail.start')}
                 </Button>
               </div>
             </div>

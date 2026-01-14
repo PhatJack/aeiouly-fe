@@ -1,0 +1,33 @@
+{
+	"listening": {
+		"lesson": {
+			"sentences": "{count} sentences",
+			"level": "Level {level} • {count} sentences"
+		},
+		"session": {
+			"active": "Learning",
+			"completed": "Completed",
+			"progress": "Progress",
+			"continue": "Continue",
+			"restart": "Restart",
+			"delete": "Delete session #{id}"
+		},
+		"video": {
+			"unavailable": "Video unavailable",
+			"show": "Show video",
+			"hide": "Hide video"
+		},
+		"lessonDetail": {
+			"notFound": "Lesson not found",
+			"back": "Go back",
+			"ready": "Ready to start?",
+			"instruction": "Click the button below to start the lesson and listen to the first sentence",
+			"completed": "Lesson completed! 🎊",
+			"start": "Start learning"
+		},
+		"empty": {
+			"noSessions": "No listening sessions yet",
+			"noSessionsDescription": "Start a new listening session to improve your skills!"
+		}
+	}
+}

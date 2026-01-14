@@ -1,0 +1,33 @@
+{
+	"listening": {
+		"lesson": {
+			"sentences": "{count} câu",
+			"level": "Cấp độ {level} • {count} câu"
+		},
+		"session": {
+			"active": "Đang học",
+			"completed": "Hoàn thành",
+			"progress": "Tiến độ",
+			"continue": "Tiếp tục",
+			"restart": "Học lại",
+			"delete": "Xóa phiên #{id}"
+		},
+		"video": {
+			"unavailable": "Video không khả dụng",
+			"show": "Hiện video",
+			"hide": "Ẩn video"
+		},
+		"lessonDetail": {
+			"notFound": "Không tìm thấy bài học",
+			"back": "Quay lại",
+			"ready": "Sẵn sàng bắt đầu?",
+			"instruction": "Nhấp vào nút bên dưới để bắt đầu bài học và nghe câu đầu tiên",
+			"completed": "Hoàn thành bài học! 🎊",
+			"start": "Bắt đầu học"
+		},
+		"empty": {
+			"noSessions": "Chưa có phiên luyện nghe nào",
+			"noSessionsDescription": "Bắt đầu một phiên luyện nghe mới để cải thiện kỹ năng của bạn!"
+		}
+	}
+}
