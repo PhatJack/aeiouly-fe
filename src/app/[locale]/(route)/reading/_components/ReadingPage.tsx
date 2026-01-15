@@ -2,11 +2,13 @@
 
 import React, { useCallback, useState } from 'react';
 
+import { useTranslations } from 'next-intl';
 import { useRouter } from 'nextjs-toploader/app';
 
 import PageHeader from '@/components/PageHeader';
 import ReadingSessionCard from '@/components/app/reading/ReadingSessionCard';
 import EmptyCustom from '@/components/custom/EmptyCustom';
+import PaginationCustom from '@/components/custom/PaginationCustom';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
@@ -23,6 +25,7 @@ import CreateSessionForm from './CreateSessionForm';
 
 const ReadingPage = () => {
   const router = useRouter();
+  const t = useTranslations('reading.page');
   const [page, setPage] = useState(1);
   const [deletingId, setDeletingId] = useState<number | null>(null);
 
@@ -45,41 +48,37 @@ const ReadingPage = () => {
       setDeletingId(sessionId);
       deleteSessionMutation.mutate(sessionId, {
         onSuccess: () => {
-          toast.success('Đã xóa phiên đọc thành công!');
+          toast.success(t('deleteSuccess'));
           refetch();
         },
         onError: () => {
-          toast.error('Có lỗi xảy ra khi xóa phiên đọc.');
+          toast.error(t('deleteError'));
         },
         onSettled: () => {
           setDeletingId(null);
         },
       });
     },
-    [deleteSessionMutation, refetch]
+    [deleteSessionMutation, refetch, t]
   );
 
-  const handlePreviousPage = useCallback(() => {
-    setPage((p) => Math.max(1, p - 1));
+  const handlePageChange = useCallback((newPage: number) => {
+    setPage(newPage);
   }, []);
-
-  const handleNextPage = useCallback(() => {
-    setPage((p) => (data ? Math.min(data.pages, p + 1) : p));
-  }, [data]);
 
   return (
     <div className="h-full">
       <PageHeader
-        title="Luyện Đọc"
-        description="Cải thiện kỹ năng đọc hiểu tiếng Anh qua các bài đọc đa dạng hoặc văn bản tự chọn"
+        title={t('title')}
+        description={t('description')}
         icon="/sidebarIcon/reading.png"
         iconAlt="Reading icon"
         ringColor="ring-orange-600"
         stats={
           data
             ? [
-                { label: 'phiên đọc', value: data.total, isLive: true },
-                { label: '', value: 'Cấp độ A1 - C2' },
+                { label: t('stats.sessions'), value: data.total, isLive: true },
+                { label: '', value: t('stats.levels') },
               ]
             : undefined
         }
@@ -101,11 +100,9 @@ const ReadingPage = () => {
             <Card>
               <CardContent className="py-12 text-center">
                 <BookOpen className="text-muted-foreground mx-auto mb-4 h-12 w-12" />
-                <h3 className="mb-2 font-semibold">Không thể tải dữ liệu</h3>
-                <p className="text-muted-foreground mb-4 text-sm">
-                  Đã xảy ra lỗi khi tải danh sách phiên đọc
-                </p>
-                <Button onClick={() => refetch()}>Thử lại</Button>
+                <h3 className="mb-2 font-semibold">{t('error.title')}</h3>
+                <p className="text-muted-foreground mb-4 text-sm">{t('error.description')}</p>
+                <Button onClick={() => refetch()}>{t('error.retry')}</Button>
               </CardContent>
             </Card>
           )}
@@ -128,23 +125,17 @@ const ReadingPage = () => {
               ) : (
                 <EmptyCustom
                   icon={<FileText className="text-primary h-12 w-12" />}
-                  title="Chưa có phiên đọc nào"
-                  description="Tạo phiên đọc đầu tiên của bạn để bắt đầu luyện tập"
+                  title={t('empty.title')}
+                  description={t('empty.description')}
                 />
               )}
 
               {data.pages > 1 && (
-                <div className="flex justify-center gap-2">
-                  <Button variant="outline" onClick={handlePreviousPage} disabled={page === 1}>
-                    Trang trước
-                  </Button>
-                  <span className="text-muted-foreground flex items-center px-4 text-sm">
-                    Trang {page} / {data.pages}
-                  </span>
-                  <Button variant="outline" onClick={handleNextPage} disabled={page === data.pages}>
-                    Trang sau
-                  </Button>
-                </div>
+                <PaginationCustom
+                  currentPage={page}
+                  totalPages={data.pages}
+                  onPageChange={handlePageChange}
+                />
               )}
             </>
           )}

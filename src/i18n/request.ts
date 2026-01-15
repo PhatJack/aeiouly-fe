@@ -14,6 +14,8 @@ export default getRequestConfig(async ({ requestLocale }) => {
   const vocabularyMessages = (await import(`../../messages/${locale}/vocabulary.json`)).default;
   const spaceMessages = (await import(`../../messages/${locale}/space.json`)).default;
   const listeningMessages = (await import(`../../messages/${locale}/listening.json`)).default;
+  const readingMessages = (await import(`../../messages/${locale}/reading.json`)).default;
+  const paginationMessages = (await import(`../../messages/${locale}/pagination.json`)).default;
 
   return {
     locale,
@@ -24,6 +26,8 @@ export default getRequestConfig(async ({ requestLocale }) => {
       ...vocabularyMessages,
       ...spaceMessages,
       ...listeningMessages,
+      ...readingMessages,
+      ...paginationMessages,
     },
     // ...
   };

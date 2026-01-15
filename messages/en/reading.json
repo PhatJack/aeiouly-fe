@@ -1,0 +1,104 @@
+{
+  "reading": {
+    "metadata": {
+      "title": "English Reading Comprehension | Reading - Aeiouly",
+      "description": "Practice English reading comprehension with diverse texts, rich vocabulary, and interactive exercises. Develop reading skills and expand vocabulary.",
+      "keywords": [
+        "english reading comprehension",
+        "reading practice",
+        "english texts",
+        "vocabulary",
+        "reading skills"
+      ]
+    },
+    "page": {
+      "title": "Reading Practice",
+      "description": "Improve English reading comprehension skills through diverse reading materials or custom texts",
+      "stats": {
+        "sessions": "reading sessions",
+        "levels": "Levels A1 - C2"
+      },
+      "deleteSuccess": "Reading session deleted successfully!",
+      "deleteError": "An error occurred while deleting the reading session.",
+      "error": {
+        "title": "Unable to load data",
+        "description": "An error occurred while loading the reading session list",
+        "retry": "Try again"
+      },
+      "empty": {
+        "title": "No reading sessions yet",
+        "description": "Create your first reading session to start practicing"
+      }
+    },
+    "create": {
+      "title": "Create new reading session",
+      "tabs": {
+        "ai": "AI Generated",
+        "custom": "Custom text"
+      },
+      "form": {
+        "level": "Level",
+        "levelPlaceholder": "Select level",
+        "genre": "Genre",
+        "genrePlaceholder": "Select genre",
+        "topic": "Topic (optional)",
+        "topicPlaceholder": "Example: Technology, Travel...",
+        "topicHelp": "Leave blank to let AI choose the topic",
+        "wordCount": "Word count (100-1000)",
+        "customText": "Your text",
+        "customTextPlaceholder": "Enter or paste your English text (minimum 100 characters)...",
+        "characterCount": "{count} / 5000 characters"
+      },
+      "success": "Reading session created successfully!",
+      "error": "An error occurred. Please try again.",
+      "loading": "Creating...",
+      "submit": "Create reading session"
+    },
+    "discussion": {
+      "title": "Discussion questions",
+      "languageToggle": {
+        "english": "English",
+        "vietnamese": "Vietnamese"
+      },
+      "instruction": "You can answer in English or Vietnamese. The system will evaluate your answer based on the language you choose.",
+      "placeholder": "Enter your answer...",
+      "analyze": "Analyze answer",
+      "analyzing": "Analyzing...",
+      "score": "Score:",
+      "feedback": "Comments",
+      "questionCountError": "Number of questions must be between 3 and 10",
+      "generationSuccess": "Created {count} discussion questions!",
+      "generationError": "An error occurred while creating discussion questions.",
+      "analysisSuccess": "Answer analyzed!",
+      "minLengthError": "Please enter at least 20 characters for your answer.",
+      "analysisError": "An error occurred while analyzing the answer."
+    },
+    "session": {
+      "words": "{count} words",
+      "customText": "Custom text",
+      "deleteConfirm": "Are you sure you want to delete this reading session? This action cannot be undone.",
+      "deleteAria": "Delete reading session"
+    },
+    "detail": {
+      "notFound": {
+        "title": "Reading session not found",
+        "back": "Go back"
+      },
+      "content": {
+        "title": "Reading content",
+        "instruction": "Please read the content carefully before continuing",
+        "understand": "I understand",
+        "checkComprehension": "Check comprehension",
+        "comprehensionDescription": "If you understand the lesson, you can choose one of two ways to test your comprehension",
+        "numQuestionsLabel": "Number of questions (3-10)",
+        "numQuestionsHelp": "Enter the number of questions you want to create (applies to both discussion and quiz)",
+        "generateDiscussion": "Create discussion questions",
+        "generateQuiz": "Create quiz",
+        "generatingDiscussion": "Generating discussion questions...",
+        "generatingQuiz": "Generating quiz...",
+        "practiceAgain": "Practice again"
+      },
+      "highlightTip": "You can highlight words to save and learn more"
+    }
+	}
+}

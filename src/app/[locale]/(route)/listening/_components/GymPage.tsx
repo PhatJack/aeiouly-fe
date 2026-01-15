@@ -2,6 +2,7 @@
 
 import React, { useCallback, useState } from 'react';
 
+import { useTranslations } from 'next-intl';
 import { useRouter } from 'nextjs-toploader/app';
 
 import PageHeader from '@/components/PageHeader';
@@ -43,6 +44,7 @@ import ListeningSessionsList from './ListeningSessionsList';
 
 const GymPage = () => {
   const router = useRouter();
+  const t = useTranslations('listening');
   const [search, setSearch] = useState('');
   const [level, setLevel] = useState<string>('all');
   const [page, setPage] = useState(1);
@@ -60,12 +62,12 @@ const GymPage = () => {
 
   const handleLessonClick = (lessonId: number) => {
     toast.promise(createListeningSessionMutation.mutateAsync({ lesson_id: lessonId }), {
-      loading: 'Đang tạo phiên luyện nghe...',
+      loading: t('toast.creating'),
       success: (data) => {
         router.push(`${ROUTE.GYM}/${data.id}`);
-        return 'Phiên luyện nghe đã được tạo!';
+        return t('toast.created');
       },
-      error: 'Đã có lỗi xảy ra. Vui lòng thử lại.',
+      error: t('toast.error'),
     });
   };
 
@@ -77,31 +79,31 @@ const GymPage = () => {
     if (pendingDeleteId === null) return;
 
     toast.promise(deleteMutation.mutateAsync(pendingDeleteId), {
-      loading: 'Đang xoá ...',
+      loading: t('toast.deleting'),
       success: () => {
         setPendingDeleteId(null);
-        return 'Xoá phiên thành công!';
+        return t('toast.deleted');
       },
       error: (e: any) => {
         setPendingDeleteId(null);
-        return e?.detail || 'Xoá phiên thất bại. Vui lòng thử lại.';
+        return e?.detail || t('toast.deleteError');
       },
     });
-  }, [deleteMutation, pendingDeleteId]);
+  }, [deleteMutation, pendingDeleteId, t]);
 
   return (
     <div className="min-h-screen">
       <PageHeader
-        title="Luyện Nghe"
-        description="Nâng cao khả năng nghe hiểu tiếng Anh qua các bài học chất lượng cao từ YouTube với phụ đề song ngữ"
+        title={t('page.title')}
+        description={t('page.description')}
         icon="/sidebarIcon/headphone.png"
         iconAlt="Headphone icon"
         ringColor="ring-blue-600"
         stats={
           data
             ? [
-                { label: 'bài học', value: data.total, isLive: true },
-                { label: '', value: 'Cấp độ A1 - C2' },
+                { label: t('page.stats.lessons'), value: data.total, isLive: true },
+                { label: '', value: t('page.stats.levels') },
               ]
             : undefined
         }
@@ -109,7 +111,7 @@ const GymPage = () => {
 
       <div className="relative grid gap-4 py-4">
         <section className="space-y-4 xl:col-span-1">
-          <h2 className="text-foreground text-xl font-bold">Tiếp tục học</h2>
+          <h2 className="text-foreground text-xl font-bold">{t('sections.continue')}</h2>
 
           {/* My Sessions Content */}
           {listeningSessions ? (
@@ -135,14 +137,14 @@ const GymPage = () => {
         </section>
 
         <section className="space-y-4">
-          <h2 className="text-foreground text-xl font-bold">Khám phá bài học</h2>
+          <h2 className="text-foreground text-xl font-bold">{t('sections.explore')}</h2>
           {/* Search & Filter Section */}
           <div className="flex flex-col gap-4 sm:flex-row">
             <div className="group relative flex-1">
               <div className="from-primary/0 via-primary/5 to-primary/0 pointer-events-none absolute inset-0 rounded-lg bg-gradient-to-r opacity-0 blur transition-opacity duration-300 group-focus-within:opacity-100" />
               <Search className="text-muted-foreground group-focus-within:text-primary absolute top-1/2 left-4 h-4 w-4 -translate-y-1/2 transition-colors" />
               <Input
-                placeholder="Tìm kiếm bài học theo tiêu đề hoặc chủ đề..."
+                placeholder={t('search.placeholder')}
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
                 className="h-11 pr-4 pl-11 transition-all duration-200"
@@ -151,16 +153,16 @@ const GymPage = () => {
             <Select value={level} onValueChange={setLevel}>
               <SelectTrigger className="w-full shadow-sm transition-all duration-200 data-[size=default]:h-11 sm:w-[200px]">
                 <Filter className="mr-2 h-4 w-4" />
-                <SelectValue placeholder="Tất cả cấp độ" />
+                <SelectValue placeholder={t('filter.all')} />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="all">Tất cả cấp độ</SelectItem>
-                <SelectItem value="A1">A1 - Sơ cấp</SelectItem>
-                <SelectItem value="A2">A2 - Tiền trung cấp</SelectItem>
-                <SelectItem value="B1">B1 - Trung cấp</SelectItem>
-                <SelectItem value="B2">B2 - Trung cấp cao</SelectItem>
-                <SelectItem value="C1">C1 - Nâng cao</SelectItem>
-                <SelectItem value="C2">C2 - Thành thạo</SelectItem>
+                <SelectItem value="all">{t('filter.all')}</SelectItem>
+                <SelectItem value="A1">{t('filter.a1')}</SelectItem>
+                <SelectItem value="A2">{t('filter.a2')}</SelectItem>
+                <SelectItem value="B1">{t('filter.b1')}</SelectItem>
+                <SelectItem value="B2">{t('filter.b2')}</SelectItem>
+                <SelectItem value="C1">{t('filter.c1')}</SelectItem>
+                <SelectItem value="C2">{t('filter.c2')}</SelectItem>
               </SelectContent>
             </Select>
           </div>
@@ -188,9 +190,9 @@ const GymPage = () => {
           {isError && (
             <EmptyCustom
               icon={<Headphones className="text-muted-foreground h-12 w-12" />}
-              title="Không thể tải dữ liệu"
-              description="Đã xảy ra lỗi khi tải danh sách bài học. Vui lòng thử lại sau."
-              content={<Button onClick={() => refetch()}>Thử lại</Button>}
+              title={t('error.title')}
+              description={t('error.description')}
+              content={<Button onClick={() => refetch()}>{t('error.retry')}</Button>}
             />
           )}
 
@@ -214,15 +216,15 @@ const GymPage = () => {
       >
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle>Xóa phiên #{pendingDeleteId}?</AlertDialogTitle>
-            <AlertDialogDescription>
-              Thao tác này không thể hoàn tác. Phiên và dữ liệu liên quan sẽ bị xóa.
-            </AlertDialogDescription>
+            <AlertDialogTitle>{t('delete.title', { id: pendingDeleteId ?? '' })}</AlertDialogTitle>
+            <AlertDialogDescription>{t('delete.description')}</AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel onClick={() => setPendingDeleteId(null)}>Hủy</AlertDialogCancel>
+            <AlertDialogCancel onClick={() => setPendingDeleteId(null)}>
+              {t('delete.cancel')}
+            </AlertDialogCancel>
             <AlertDialogAction onClick={handleDeleteConfirm} disabled={deleteMutation.isPending}>
-              Xác nhận
+              {t('delete.confirm')}
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>

@@ -1,0 +1,10 @@
+{
+  "pagination": {
+		"rowsPerPage": "Rows per page",
+    "previous": "Previous",
+		"first": "To First page",
+		"last": "To Last page",
+    "next": "Next",
+    "page": "Page {current} / {total}"
+  }
+}

@@ -3,6 +3,7 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import ReactMarkdown from 'react-markdown';
 
+import { useTranslations } from 'next-intl';
 import { useSearchParams } from 'next/navigation';
 import { useRouter } from 'nextjs-toploader/app';
 
@@ -44,6 +45,7 @@ interface ReadingDetailPageProps {
 
 const ReadingDetailPage = ({ id }: ReadingDetailPageProps) => {
   const searchParams = useSearchParams();
+  const t = useTranslations('reading');
   const contentRef = useRef<HTMLDivElement | null>(null);
   const tooltipRef = useRef<HTMLDivElement | null>(null);
   const selection = useContentTextSelection({
@@ -82,7 +84,7 @@ const ReadingDetailPage = ({ id }: ReadingDetailPageProps) => {
 
   const handleGenerateDiscussion = useCallback(() => {
     if (numberOfQuestions < 3 || numberOfQuestions > 10) {
-      toast.error('Số câu hỏi phải từ 3 đến 10');
+      toast.error(t('discussion.questionCountError'));
       return;
     }
 
@@ -92,10 +94,10 @@ const ReadingDetailPage = ({ id }: ReadingDetailPageProps) => {
         onSuccess: (result) => {
           setDiscussions(result.questions);
           setShowOptions(false);
-          toast.success(`Đã tạo ${result.questions.length} câu hỏi thảo luận!`);
+          toast.success(t('discussion.generationSuccess', { count: result.questions.length }));
         },
         onError: () => {
-          toast.error('Có lỗi xảy ra khi tạo câu hỏi thảo luận.');
+          toast.error(t('discussion.generationError'));
         },
       }
     );
@@ -109,14 +111,14 @@ const ReadingDetailPage = ({ id }: ReadingDetailPageProps) => {
         {
           onSuccess: (result) => {
             setDiscussionFeedback((prev) => ({ ...prev, [questionId]: result }));
-            toast.success('Đã phân tích câu trả lời!');
+            toast.success(t('discussion.analysisSuccess'));
           },
           onError: (error: any) => {
             if (error?.detail?.[0]?.type === 'string_too_short') {
-              toast.error('Vui lòng nhập ít nhất 20 ký tự cho câu trả lời.');
+              toast.error(t('discussion.minLengthError'));
               return;
             }
-            toast.error('Có lỗi xảy ra khi phân tích câu trả lời.');
+            toast.error(t('discussion.analysisError'));
           },
           onSettled: () => {
             setEvaluating((prev) => ({ ...prev, [questionId]: false }));
@@ -129,7 +131,7 @@ const ReadingDetailPage = ({ id }: ReadingDetailPageProps) => {
 
   const handleGenerateQuiz = useCallback(() => {
     if (numberOfQuestions < 3 || numberOfQuestions > 10) {
-      toast.error('Số câu hỏi phải từ 3 đến 10');
+      toast.error(t('discussion.questionCountError'));
       return;
     }
 
@@ -140,10 +142,10 @@ const ReadingDetailPage = ({ id }: ReadingDetailPageProps) => {
           setQuiz(result.questions);
           setSelectedAnswers({});
           setShowOptions(false);
-          toast.success(`Đã tạo ${result.questions.length} câu hỏi trắc nghiệm!`);
+          toast.success(t('discussion.generationSuccess', { count: result.questions.length }));
         },
         onError: () => {
-          toast.error('Có lỗi xảy ra khi tạo bài trắc nghiệm.');
+          toast.error(t('discussion.generationError'));
         },
       }
     );
@@ -189,7 +191,7 @@ const ReadingDetailPage = ({ id }: ReadingDetailPageProps) => {
       <div>
         <Card>
           <CardContent className="py-12 text-center">
-            <h2 className="mb-4 text-2xl font-bold">Không tìm thấy phiên đọc</h2>
+            <h2 className="mb-4 text-2xl font-bold">{t('detail.notFound.title')}</h2>
             <Button
               onClick={() =>
                 router.push(
@@ -197,7 +199,7 @@ const ReadingDetailPage = ({ id }: ReadingDetailPageProps) => {
                 )
               }
             >
-              Quay lại
+              {t('detail.notFound.back')}
             </Button>
           </CardContent>
         </Card>
@@ -234,12 +236,12 @@ const ReadingDetailPage = ({ id }: ReadingDetailPageProps) => {
                   <span>•</span>
                   <span>{session.genre}</span>
                   <span>•</span>
-                  <span>{session.word_count} từ</span>
+                  <span>{t('session.words', { count: session.word_count })}</span>
                   {session.is_custom && (
                     <>
                       <span>•</span>
                       <Badge variant="outline" className="bg-amber-50 text-xs text-amber-700">
-                        Tự chọn
+                        {t('session.customText')}
                       </Badge>
                     </>
                   )}
@@ -254,16 +256,12 @@ const ReadingDetailPage = ({ id }: ReadingDetailPageProps) => {
       {/* Content */}
       <div className="container mx-auto max-w-4xl space-y-4 py-4">
         {/* Reading Content */}
-        <AlertCustom
-          variant={'success'}
-          icon={<CircleAlert />}
-          title="Bạn có thể bôi đen từ để lưu lại và học thêm"
-        />
+        <AlertCustom variant={'success'} icon={<CircleAlert />} title={t('detail.highlightTip')} />
         <Card>
           <CardContent ref={contentRef}>
             <BlockquoteCustom
               variants="info"
-              title="Nội dung bài đọc"
+              title={t('detail.content.title')}
               content={
                 <div className="max-w-none">
                   <ReactMarkdown>{session.content}</ReactMarkdown>
@@ -278,14 +276,14 @@ const ReadingDetailPage = ({ id }: ReadingDetailPageProps) => {
           <Card>
             <CardContent className="py-8 text-center">
               <p className="text-muted-foreground mb-4 text-base dark:text-gray-300">
-                Hãy đọc kỹ nội dung bài đọc trước khi tiếp tục
+                {t('detail.content.instruction')}
               </p>
               <Button
                 onClick={handleUnderstandContent}
                 size="lg"
                 className="dark:bg-primary dark:text-primary-foreground dark:hover:bg-primary/90"
               >
-                Tôi hiểu rồi
+                {t('detail.content.understand')}
               </Button>
             </CardContent>
           </Card>
@@ -296,16 +294,16 @@ const ReadingDetailPage = ({ id }: ReadingDetailPageProps) => {
           <Card className="relative">
             <CardHeader>
               <CardTitle className="text-foreground dark:text-white">
-                Kiểm tra độ hiểu biết
+                {t('detail.content.checkComprehension')}
               </CardTitle>
               <p className="text-muted-foreground text-sm dark:text-gray-400">
-                Nếu bạn đã hiểu bài rồi, có thể chọn 1 trong 2 cách sau để thử độ hiểu biết
+                {t('detail.content.comprehensionDescription')}
               </p>
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="space-y-2">
                 <Label htmlFor="numQuestions" className="text-sm font-medium">
-                  Số lượng câu hỏi (3-10)
+                  {t('detail.content.numQuestionsLabel')}
                 </Label>
                 <Input
                   id="numQuestions"
@@ -318,7 +316,7 @@ const ReadingDetailPage = ({ id }: ReadingDetailPageProps) => {
                   disabled={generateDiscussionMutation.isPending || generateQuizMutation.isPending}
                 />
                 <p className="text-muted-foreground text-xs dark:text-gray-400">
-                  Nhập số câu hỏi bạn muốn tạo (áp dụng cho cả thảo luận và trắc nghiệm)
+                  {t('detail.content.numQuestionsHelp')}
                 </p>
               </div>
               <div className="flex gap-3">
@@ -328,7 +326,7 @@ const ReadingDetailPage = ({ id }: ReadingDetailPageProps) => {
                   size="lg"
                   className="dark:bg-primary dark:text-primary-foreground dark:hover:bg-primary/90 flex-1"
                 >
-                  Tạo câu hỏi thảo luận
+                  {t('detail.content.generateDiscussion')}
                 </Button>
                 <Button
                   onClick={handleGenerateQuiz}
@@ -337,7 +335,7 @@ const ReadingDetailPage = ({ id }: ReadingDetailPageProps) => {
                   variant="secondary"
                   className="flex-1"
                 >
-                  Tạo quiz
+                  {t('detail.content.generateQuiz')}
                 </Button>
               </div>
             </CardContent>
@@ -345,8 +343,8 @@ const ReadingDetailPage = ({ id }: ReadingDetailPageProps) => {
               <LoadingWithText
                 text={
                   generateDiscussionMutation.isPending
-                    ? 'Đang tạo câu hỏi thảo luận...'
-                    : 'Đang tạo bài trắc nghiệm...'
+                    ? t('detail.content.generatingDiscussion')
+                    : t('detail.content.generatingQuiz')
                 }
                 className="bg-background absolute inset-0 size-full backdrop-blur-sm"
               />
@@ -376,7 +374,7 @@ const ReadingDetailPage = ({ id }: ReadingDetailPageProps) => {
         {(discussions || quiz) && (
           <div className="flex w-full justify-center">
             <Button size={'lg'} className="mt-4" onClick={handleReset}>
-              Luyện tập lại
+              {t('detail.content.practiceAgain')}
             </Button>
           </div>
         )}

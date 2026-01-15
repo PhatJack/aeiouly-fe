@@ -1,5 +1,7 @@
 import * as React from 'react';
 
+import { useTranslations } from 'next-intl';
+
 import { Button, buttonVariants } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 
@@ -55,6 +57,7 @@ function PaginationLink({ className, isActive, size = 'icon', ...props }: Pagina
 }
 
 function PaginationPrevious({ className, ...props }: React.ComponentProps<typeof PaginationLink>) {
+  const t = useTranslations('pagination');
   return (
     <PaginationLink
       aria-label="Go to previous page"
@@ -63,12 +66,13 @@ function PaginationPrevious({ className, ...props }: React.ComponentProps<typeof
       {...props}
     >
       <ChevronLeftIcon />
-      <span className="hidden sm:block">Trước</span>
+      <span className="hidden sm:block">{t('previous')}</span>
     </PaginationLink>
   );
 }
 
 function PaginationNext({ className, ...props }: React.ComponentProps<typeof PaginationLink>) {
+  const t = useTranslations('pagination');
   return (
     <PaginationLink
       aria-label="Go to next page"
@@ -76,7 +80,7 @@ function PaginationNext({ className, ...props }: React.ComponentProps<typeof Pag
       className={cn('gap-1 px-2.5 sm:pr-2.5', className)}
       {...props}
     >
-      <span className="hidden sm:block">Sau</span>
+      <span className="hidden sm:block">{t('next')}</span>
       <ChevronRightIcon />
     </PaginationLink>
   );

@@ -1,0 +1,104 @@
+{
+  "reading": {
+    "metadata": {
+      "title": "Đọc hiểu tiếng Anh | Reading - Aeiouly",
+      "description": "Luyện đọc hiểu tiếng Anh với các bài đọc đa dạng, từ vựng phong phú và bài tập tương tác. Phát triển kỹ năng đọc và mở rộng vốn từ vựng.",
+      "keywords": [
+        "đọc hiểu tiếng anh",
+        "luyện đọc tiếng anh",
+        "bài đọc tiếng anh",
+        "từ vựng tiếng anh",
+        "kỹ năng đọc"
+      ]
+    },
+    "page": {
+      "title": "Luyện Đọc",
+      "description": "Cải thiện kỹ năng đọc hiểu tiếng Anh qua các bài đọc đa dạng hoặc văn bản tự chọn",
+      "stats": {
+        "sessions": "phiên đọc",
+        "levels": "Cấp độ A1 - C2"
+      },
+      "deleteSuccess": "Đã xóa phiên đọc thành công!",
+      "deleteError": "Có lỗi xảy ra khi xóa phiên đọc.",
+      "error": {
+        "title": "Không thể tải dữ liệu",
+        "description": "Đã xảy ra lỗi khi tải danh sách phiên đọc",
+        "retry": "Thử lại"
+      },
+      "empty": {
+        "title": "Chưa có phiên đọc nào",
+        "description": "Tạo phiên đọc đầu tiên của bạn để bắt đầu luyện tập"
+      }
+    },
+    "create": {
+      "title": "Tạo phiên đọc mới",
+      "tabs": {
+        "ai": "AI Tạo",
+        "custom": "Văn bản tự chọn"
+      },
+      "form": {
+        "level": "Cấp độ",
+        "levelPlaceholder": "Chọn cấp độ",
+        "genre": "Thể loại",
+        "genrePlaceholder": "Chọn thể loại",
+        "topic": "Chủ đề (tùy chọn)",
+        "topicPlaceholder": "Ví dụ: Technology, Travel...",
+        "topicHelp": "Để trống để AI tự chọn chủ đề",
+        "wordCount": "Số từ (100-1000)",
+        "customText": "Văn bản của bạn",
+        "customTextPlaceholder": "Nhập hoặc dán văn bản tiếng Anh của bạn (tối thiểu 100 ký tự)...",
+        "characterCount": "{count} / 5000 ký tự"
+      },
+      "success": "Tạo phiên đọc thành công!",
+      "error": "Có lỗi xảy ra. Vui lòng thử lại.",
+      "loading": "Đang tạo...",
+      "submit": "Tạo phiên đọc"
+    },
+    "discussion": {
+      "title": "Câu hỏi thảo luận",
+      "languageToggle": {
+        "english": "Tiếng Anh",
+        "vietnamese": "Tiếng Việt"
+      },
+      "instruction": "Bạn có thể trả lời bằng tiếng Anh hoặc tiếng Việt. Hệ thống sẽ đánh giá câu trả lời của bạn dựa trên ngôn ngữ bạn chọn.",
+      "placeholder": "Nhập câu trả lời của bạn...",
+      "analyze": "Phân tích câu",
+      "analyzing": "Đang phân tích...",
+      "score": "Điểm số:",
+      "feedback": "Nhận xét",
+      "questionCountError": "Số câu hỏi phải từ 3 đến 10",
+      "generationSuccess": "Đã tạo {{count}} câu hỏi thảo luận!",
+      "generationError": "Có lỗi xảy ra khi tạo câu hỏi thảo luận.",
+      "analysisSuccess": "Đã phân tích câu trả lời!",
+      "minLengthError": "Vui lòng nhập ít nhất 20 ký tự cho câu trả lời.",
+      "analysisError": "Có lỗi xảy ra khi phân tích câu trả lời."
+    },
+    "session": {
+      "words": "{count} từ",
+      "customText": "Văn bản tự chọn",
+      "deleteConfirm": "Bạn có chắc chắn muốn xóa phiên đọc này? Hành động này không thể hoàn tác.",
+      "deleteAria": "Xóa phiên đọc"
+    },
+    "detail": {
+      "notFound": {
+        "title": "Không tìm thấy phiên đọc",
+        "back": "Quay lại"
+      },
+      "content": {
+        "title": "Nội dung bài đọc",
+        "instruction": "Hãy đọc kỹ nội dung bài đọc trước khi tiếp tục",
+        "understand": "Tôi hiểu rồi",
+        "checkComprehension": "Kiểm tra độ hiểu biết",
+        "comprehensionDescription": "Nếu bạn đã hiểu bài rồi, có thể chọn 1 trong 2 cách sau để thử độ hiểu biết",
+        "numQuestionsLabel": "Số lượng câu hỏi (3-10)",
+        "numQuestionsHelp": "Nhập số câu hỏi bạn muốn tạo (áp dụng cho cả thảo luận và trắc nghiệm)",
+        "generateDiscussion": "Tạo câu hỏi thảo luận",
+        "generateQuiz": "Tạo quiz",
+        "generatingDiscussion": "Đang tạo câu hỏi thảo luận...",
+        "generatingQuiz": "Đang tạo bài trắc nghiệm...",
+        "practiceAgain": "Luyện tập lại"
+      },
+      "highlightTip": "Bạn có thể bôi đen từ để lưu lại và học thêm"
+    }
+	}
+}
