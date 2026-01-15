@@ -3,6 +3,7 @@
 import React, { memo, useCallback, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 
+import { useTranslations } from 'next-intl';
 import { useRouter } from 'nextjs-toploader/app';
 
 import {
@@ -41,6 +42,7 @@ interface CreateSessionFormProps {
 
 const CreateSessionForm = memo(({ onSuccess }: CreateSessionFormProps) => {
   const router = useRouter();
+  const t = useTranslations('reading.create');
   const [activeTab, setActiveTab] = useState<'ai' | 'custom'>('ai');
 
   const createSessionMutation = useCreateReadingSessionMutation();
@@ -62,13 +64,13 @@ const CreateSessionForm = memo(({ onSuccess }: CreateSessionFormProps) => {
 
       createSessionMutation.mutate(activeTab === 'ai' ? rest : { custom_text }, {
         onSuccess: (session) => {
-          toast.success('Tạo phiên đọc thành công!');
+          toast.success(t('success'));
           form.reset();
           onSuccess?.();
           router.push(`/reading/${session.id}`);
         },
         onError: () => {
-          toast.error('Có lỗi xảy ra. Vui lòng thử lại.');
+          toast.error(t('error'));
         },
       });
     },
@@ -88,14 +90,14 @@ const CreateSessionForm = memo(({ onSuccess }: CreateSessionFormProps) => {
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
           <Plus className="h-5 w-5" />
-          Tạo phiên đọc mới
+          {t('title')}
         </CardTitle>
       </CardHeader>
       <CardContent>
         <Tabs value={activeTab} onValueChange={handleTabChange}>
           <TabsList className="grid w-full grid-cols-2">
-            <TabsTrigger value="ai">AI Tạo</TabsTrigger>
-            <TabsTrigger value="custom">Văn bản tự chọn</TabsTrigger>
+            <TabsTrigger value="ai">{t('tabs.ai')}</TabsTrigger>
+            <TabsTrigger value="custom">{t('tabs.custom')}</TabsTrigger>
           </TabsList>
 
           <form onSubmit={form.handleSubmit(onSubmit, onError)} className="mt-2 space-y-2">
@@ -107,14 +109,14 @@ const CreateSessionForm = memo(({ onSuccess }: CreateSessionFormProps) => {
                     name="level"
                     render={({ field, fieldState }) => (
                       <Field data-invalid={fieldState.invalid}>
-                        <FieldLabel>Cấp độ</FieldLabel>
+                        <FieldLabel>{t('form.level')}</FieldLabel>
                         <Select
                           name={field.name}
                           value={field.value}
                           onValueChange={field.onChange}
                         >
                           <SelectTrigger aria-invalid={fieldState.invalid}>
-                            <SelectValue placeholder="Chọn cấp độ" />
+                            <SelectValue placeholder={t('form.levelPlaceholder')} />
                           </SelectTrigger>
                           <SelectContent>
                             {CEFRLevelSchema.options.map((level) => (
@@ -134,14 +136,14 @@ const CreateSessionForm = memo(({ onSuccess }: CreateSessionFormProps) => {
                     name="genre"
                     render={({ field, fieldState }) => (
                       <Field data-invalid={fieldState.invalid}>
-                        <FieldLabel>Thể loại</FieldLabel>
+                        <FieldLabel>{t('form.genre')}</FieldLabel>
                         <Select
                           name={field.name}
                           value={field.value}
                           onValueChange={field.onChange}
                         >
                           <SelectTrigger aria-invalid={fieldState.invalid}>
-                            <SelectValue placeholder="Chọn thể loại" />
+                            <SelectValue placeholder={t('form.genrePlaceholder')} />
                           </SelectTrigger>
                           <SelectContent>
                             {ReadingGenreSchema.options.map((genre) => (
@@ -161,16 +163,14 @@ const CreateSessionForm = memo(({ onSuccess }: CreateSessionFormProps) => {
                     name="topic"
                     render={({ field, fieldState }) => (
                       <Field>
-                        <FieldLabel>Chủ đề (tùy chọn)</FieldLabel>
+                        <FieldLabel>{t('form.topic')}</FieldLabel>
                         <Input
                           {...field}
                           aria-invalid={fieldState.invalid}
-                          placeholder="Ví dụ: Technology, Travel..."
+                          placeholder={t('form.topicPlaceholder')}
                           autoComplete="off"
                         />
-                        <p className="text-muted-foreground text-xs">
-                          Để trống để AI tự chọn chủ đề
-                        </p>
+                        <p className="text-muted-foreground text-xs">{t('form.topicHelp')}</p>
                         {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
                       </Field>
                     )}
@@ -181,7 +181,7 @@ const CreateSessionForm = memo(({ onSuccess }: CreateSessionFormProps) => {
                     name="word_count"
                     render={({ field, fieldState }) => (
                       <Field>
-                        <FieldLabel>Số từ (100-1000)</FieldLabel>
+                        <FieldLabel>{t('form.wordCount')}</FieldLabel>
                         <Input
                           {...field}
                           type="number"
@@ -212,15 +212,15 @@ const CreateSessionForm = memo(({ onSuccess }: CreateSessionFormProps) => {
                     name="custom_text"
                     render={({ field, fieldState }) => (
                       <Field>
-                        <FieldLabel>Văn bản của bạn</FieldLabel>
+                        <FieldLabel>{t('form.customText')}</FieldLabel>
                         <Textarea
                           {...field}
-                          placeholder="Nhập hoặc dán văn bản tiếng Anh của bạn (tối thiểu 100 ký tự)..."
+                          placeholder={t('form.customTextPlaceholder')}
                           className="min-h-[300px] resize-none"
                           aria-invalid={fieldState.invalid}
                         />
                         <p className="text-muted-foreground text-xs">
-                          {field.value?.length || 0} / 5000 ký tự
+                          {t('form.characterCount', { count: field.value?.length || 0 })}
                         </p>
                         {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
                       </Field>
@@ -231,7 +231,7 @@ const CreateSessionForm = memo(({ onSuccess }: CreateSessionFormProps) => {
             </TabsContents>
 
             <Button type="submit" className="w-full" disabled={createSessionMutation.isPending}>
-              {createSessionMutation.isPending ? 'Đang tạo...' : 'Tạo phiên đọc'}
+              {createSessionMutation.isPending ? t('loading') : t('submit')}
             </Button>
           </form>
         </Tabs>

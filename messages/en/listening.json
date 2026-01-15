@@ -28,6 +28,49 @@
 		"empty": {
 			"noSessions": "No listening sessions yet",
 			"noSessionsDescription": "Start a new listening session to improve your skills!"
+		},
+		"page": {
+			"title": "Listening Practice",
+			"description": "Improve your English listening skills through high-quality lessons from YouTube with bilingual subtitles",
+			"stats": {
+				"lessons": "lessons",
+				"levels": "Levels A1 - C2"
+			}
+		},
+		"sections": {
+			"continue": "Continue Learning",
+			"explore": "Explore Lessons"
+		},
+		"search": {
+			"placeholder": "Search lessons by title or topic..."
+		},
+		"filter": {
+			"all": "All levels",
+			"a1": "A1 - Beginner",
+			"a2": "A2 - Elementary",
+			"b1": "B1 - Intermediate",
+			"b2": "B2 - Upper Intermediate",
+			"c1": "C1 - Advanced",
+			"c2": "C2 - Proficient"
+		},
+		"error": {
+			"title": "Unable to load data",
+			"description": "An error occurred while loading the lesson list. Please try again later.",
+			"retry": "Try again"
+		},
+		"delete": {
+			"title": "Delete session #{id}?",
+			"description": "This action cannot be undone. The session and related data will be deleted.",
+			"cancel": "Cancel",
+			"confirm": "Confirm"
+		},
+		"toast": {
+			"creating": "Creating listening session...",
+			"created": "Listening session created!",
+			"error": "An error occurred. Please try again.",
+			"deleting": "Deleting...",
+			"deleted": "Session deleted successfully!",
+			"deleteError": "Failed to delete session. Please try again."
 		}
 	}
 }

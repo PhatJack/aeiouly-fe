@@ -2,6 +2,7 @@
 
 import React, { memo, useState } from 'react';
 
+import { useTranslations } from 'next-intl';
 import { useRouter } from 'nextjs-toploader/app';
 
 import LoadingWithText from '@/components/LoadingWithText';
@@ -22,10 +23,11 @@ interface QuizSectionProps {
 
 const QuizSection = ({ quiz, selectedAnswers, onAnswerSelect, isLoading }: QuizSectionProps) => {
   const router = useRouter();
+  const t = useTranslations('reading');
   const [language, setLanguage] = useState<'en' | 'vi'>('en');
 
   if (isLoading) {
-    return <LoadingWithText text="Đang tạo bài trắc nghiệm..." />;
+    return <LoadingWithText text={t('quiz.loading')} />;
   }
 
   return (
@@ -34,7 +36,7 @@ const QuizSection = ({ quiz, selectedAnswers, onAnswerSelect, isLoading }: QuizS
         <div className="flex items-center justify-between">
           <CardTitle className="text-foreground flex items-center gap-2 dark:text-white">
             <Brain className="text-primary h-5 w-5" />
-            Bài trắc nghiệm
+            {t('quiz.title')}
           </CardTitle>
           <Button
             variant="outline"
@@ -42,7 +44,7 @@ const QuizSection = ({ quiz, selectedAnswers, onAnswerSelect, isLoading }: QuizS
             className="gap-2"
           >
             <Languages className="h-4 w-4" />
-            {language === 'en' ? 'Tiếng Anh' : 'Tiếng Việt'}
+            {language === 'en' ? t('quiz.english') : t('quiz.vietnamese')}
           </Button>
         </div>
       </CardHeader>

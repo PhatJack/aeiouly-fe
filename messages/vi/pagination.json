@@ -1,0 +1,10 @@
+{
+  "pagination": {
+    "rowsPerPage": "Số dòng mỗi trang",
+    "previous": "Trước",
+    "first": "Đến trang đầu",
+    "last": "Đến trang cuối",
+    "next": "Sau",
+    "page": "Trang {current} / {total}"
+  }
+}

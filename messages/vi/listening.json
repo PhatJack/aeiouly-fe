@@ -28,6 +28,49 @@
 		"empty": {
 			"noSessions": "Chưa có phiên luyện nghe nào",
 			"noSessionsDescription": "Bắt đầu một phiên luyện nghe mới để cải thiện kỹ năng của bạn!"
+		},
+		"page": {
+			"title": "Luyện Nghe",
+			"description": "Nâng cao khả năng nghe hiểu tiếng Anh qua các bài học chất lượng cao từ YouTube với phụ đề song ngữ",
+			"stats": {
+				"lessons": "bài học",
+				"levels": "Cấp độ A1 - C2"
+			}
+		},
+		"sections": {
+			"continue": "Tiếp tục học",
+			"explore": "Khám phá bài học"
+		},
+		"search": {
+			"placeholder": "Tìm kiếm bài học theo tiêu đề hoặc chủ đề..."
+		},
+		"filter": {
+			"all": "Tất cả cấp độ",
+			"a1": "A1 - Sơ cấp",
+			"a2": "A2 - Tiền trung cấp",
+			"b1": "B1 - Trung cấp",
+			"b2": "B2 - Trung cấp cao",
+			"c1": "C1 - Nâng cao",
+			"c2": "C2 - Thành thạo"
+		},
+		"error": {
+			"title": "Không thể tải dữ liệu",
+			"description": "Đã xảy ra lỗi khi tải danh sách bài học. Vui lòng thử lại sau.",
+			"retry": "Thử lại"
+		},
+		"delete": {
+			"title": "Xóa phiên #{id}?",
+			"description": "Thao tác này không thể hoàn tác. Phiên và dữ liệu liên quan sẽ bị xóa.",
+			"cancel": "Hủy",
+			"confirm": "Xác nhận"
+		},
+		"toast": {
+			"creating": "Đang tạo phiên luyện nghe...",
+			"created": "Phiên luyện nghe đã được tạo!",
+			"error": "Đã có lỗi xảy ra. Vui lòng thử lại.",
+			"deleting": "Đang xoá ...",
+			"deleted": "Xoá phiên thành công!",
+			"deleteError": "Xoá phiên thất bại. Vui lòng thử lại."
 		}
 	}
 }

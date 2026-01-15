@@ -2,6 +2,8 @@
 
 import React, { memo } from 'react';
 
+import { useTranslations } from 'next-intl';
+
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
@@ -19,12 +21,11 @@ interface ReadingSessionCardProps {
 
 const ReadingSessionCard = memo(
   ({ session, onClick, onDelete, isDeleting }: ReadingSessionCardProps) => {
+    const t = useTranslations('reading');
+
     const handleDelete = (e: React.MouseEvent) => {
       e.stopPropagation();
-      if (
-        onDelete &&
-        confirm('Bạn có chắc chắn muốn xóa phiên đọc này? Hành động này không thể hoàn tác.')
-      ) {
+      if (onDelete && confirm(t('session.deleteConfirm'))) {
         onDelete(session.id);
       }
     };
@@ -65,7 +66,7 @@ const ReadingSessionCard = memo(
                   </div>
                   <div className="flex items-center gap-1.5">
                     <BookOpen className="h-4 w-4" />
-                    <span>{session.word_count} từ</span>
+                    <span>{t('session.words', { count: session.word_count })}</span>
                   </div>
                 </div>
 
@@ -74,7 +75,7 @@ const ReadingSessionCard = memo(
                   variant="outline"
                   className="border-amber-300 bg-amber-50 px-2.5 py-0.5 text-xs font-medium text-amber-700"
                 >
-                  Văn bản tự chọn
+                  {t('session.customText')}
                 </Badge>
               </div>
             </div>
@@ -95,7 +96,7 @@ const ReadingSessionCard = memo(
                   onClick={handleDelete}
                   disabled={isDeleting}
                   className="text-destructive hover:bg-destructive/10 hover:text-destructive dark:hover:bg-destructive/20 h-8 w-8 opacity-0 transition-all group-hover:opacity-100"
-                  aria-label="Xóa phiên đọc"
+                  aria-label={t('session.deleteAria')}
                 >
                   <Trash2 className="h-4 w-4" />
                 </Button>

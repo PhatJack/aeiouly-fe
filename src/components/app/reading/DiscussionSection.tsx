@@ -3,6 +3,8 @@
 import React, { useState } from 'react';
 import Markdown from 'react-markdown';
 
+import { useTranslations } from 'next-intl';
+
 import BlockquoteCustom from '@/components/custom/BlockquoteCustom';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -31,6 +33,7 @@ const DiscussionSection = ({
   evaluating = {},
   feedback = {},
 }: DiscussionSectionProps) => {
+  const t = useTranslations('reading.discussion');
   const [language, setLanguage] = useState<'en' | 'vi'>('vi');
   const [answers, setAnswers] = useState<Record<string, string>>({});
 
@@ -69,7 +72,7 @@ const DiscussionSection = ({
           <div className="flex items-center justify-between">
             <CardTitle className="text-foreground flex items-center gap-2 dark:text-white">
               <MessageSquare className="h-5 w-5" />
-              Câu hỏi thảo luận
+              {t('title')}
             </CardTitle>
             <Button
               variant="outline"
@@ -78,13 +81,10 @@ const DiscussionSection = ({
               className="gap-2"
             >
               <Languages className="h-4 w-4" />
-              {language === 'en' ? 'Tiếng Anh' : 'Tiếng Việt'}
+              {language === 'en' ? t('languageToggle.english') : t('languageToggle.vietnamese')}
             </Button>
           </div>
-          <BlockquoteCustom
-            variants="success"
-            content="Bạn có thể trả lời bằng tiếng Anh hoặc tiếng Việt. Hệ thống sẽ đánh giá câu trả lời của bạn dựa trên ngôn ngữ bạn chọn."
-          />
+          <BlockquoteCustom variants="success" content={t('instruction')} />
         </div>
       </CardHeader>
       <CardContent className="space-y-6">
@@ -102,7 +102,7 @@ const DiscussionSection = ({
                   </p>
 
                   <Textarea
-                    placeholder="Nhập câu trả lời của bạn..."
+                    placeholder={t('placeholder')}
                     value={answers[q.questionEn] || ''}
                     onChange={(e) => handleAnswerChange(q.questionEn, e.target.value)}
                     rows={4}
@@ -122,14 +122,14 @@ const DiscussionSection = ({
                     size="sm"
                     className="dark:bg-primary dark:text-primary-foreground dark:hover:bg-primary/90"
                   >
-                    {isCurrentEvaluating ? 'Đang phân tích...' : 'Phân tích câu'}
+                    {isCurrentEvaluating ? t('analyzing') : t('analyze')}
                   </Button>
 
                   {feedback[q.questionEn] && (
                     <div className="border-border/50 bg-muted/50 dark:border-border/30 dark:bg-card/30 space-y-2 rounded-lg border p-4">
                       <div className="flex items-center gap-2">
                         <div className="text-muted-foreground text-sm font-semibold dark:text-gray-400">
-                          Điểm số:
+                          {t('score')}
                         </div>
                         <div className="text-primary text-lg font-bold">
                           {feedback[q.questionEn].score}/100
@@ -137,7 +137,7 @@ const DiscussionSection = ({
                       </div>
                       <BlockquoteCustom
                         variants="warning"
-                        title="Nhận xét"
+                        title={t('feedback')}
                         content={
                           <Markdown remarkPlugins={[remarkBreaks]}>
                             {feedback[q.questionEn].feedback.replace(/\\n/g, '\n')}
