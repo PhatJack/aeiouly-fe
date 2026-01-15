@@ -66,7 +66,6 @@
       "analyzing": "Đang phân tích...",
       "score": "Điểm số:",
       "feedback": "Nhận xét",
-      "questionCountError": "Số câu hỏi phải từ 3 đến 10",
       "generationSuccess": "Đã tạo {count} câu hỏi thảo luận!",
       "generationError": "Có lỗi xảy ra khi tạo câu hỏi thảo luận.",
       "analysisSuccess": "Đã phân tích câu trả lời!",
@@ -96,7 +95,8 @@
         "generateQuiz": "Tạo quiz",
         "generatingDiscussion": "Đang tạo câu hỏi thảo luận...",
         "generatingQuiz": "Đang tạo bài trắc nghiệm...",
-        "practiceAgain": "Luyện tập lại"
+        "practiceAgain": "Luyện tập lại",
+        "questionCountError": "Số câu hỏi phải từ 3 đến 10"
       },
       "highlightTip": "Bạn có thể bôi đen từ để lưu lại và học thêm"
     }

@@ -84,7 +84,7 @@ const ReadingDetailPage = ({ id }: ReadingDetailPageProps) => {
 
   const handleGenerateDiscussion = useCallback(() => {
     if (numberOfQuestions < 3 || numberOfQuestions > 10) {
-      toast.error(t('discussion.questionCountError'));
+      toast.error(t('detail.content.questionCountError'));
       return;
     }
 
@@ -131,7 +131,7 @@ const ReadingDetailPage = ({ id }: ReadingDetailPageProps) => {
 
   const handleGenerateQuiz = useCallback(() => {
     if (numberOfQuestions < 3 || numberOfQuestions > 10) {
-      toast.error(t('discussion.questionCountError'));
+      toast.error(t('detail.content.questionCountError'));
       return;
     }
 
