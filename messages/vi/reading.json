@@ -67,7 +67,7 @@
       "score": "Điểm số:",
       "feedback": "Nhận xét",
       "questionCountError": "Số câu hỏi phải từ 3 đến 10",
-      "generationSuccess": "Đã tạo {{count}} câu hỏi thảo luận!",
+      "generationSuccess": "Đã tạo {count} câu hỏi thảo luận!",
       "generationError": "Có lỗi xảy ra khi tạo câu hỏi thảo luận.",
       "analysisSuccess": "Đã phân tích câu trả lời!",
       "minLengthError": "Vui lòng nhập ít nhất 20 ký tự cho câu trả lời.",
