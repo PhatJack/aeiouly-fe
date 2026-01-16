@@ -54,7 +54,7 @@
 			"level": "Cấp độ",
       "deleteConfirm": {
         "title": "Xóa phiên #{id}?",
-        "description": "Hành động này không thể hoàn tác. Phiên sẽ bị xóa vĩnh viễn.",
+        "description": "Thao tác này không thể hoàn tác. Phiên sẽ bị xóa vĩnh viễn.",
         "cancel": "Hủy",
         "confirm": "Xóa"
       }
