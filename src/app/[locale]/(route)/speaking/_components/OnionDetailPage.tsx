@@ -2,6 +2,8 @@
 
 import React, { useRef, useState } from 'react';
 
+import { useTranslations } from 'next-intl';
+
 import LoadingWithText from '@/components/LoadingWithText';
 import DetailRightPanel from '@/components/app/onion/DetailRightPanel';
 import TextSelectionModal from '@/components/shared/TextSelectionModal';
@@ -16,6 +18,7 @@ interface OnionDetailPageProps {
 }
 
 const OnionDetailPage = ({ id }: OnionDetailPageProps) => {
+  const t = useTranslations('speaking');
   const contentRef = useRef<HTMLDivElement | null>(null);
   const tooltipRef = useRef<HTMLDivElement | null>(null);
   const selection = useTextSelection({
@@ -27,7 +30,7 @@ const OnionDetailPage = ({ id }: OnionDetailPageProps) => {
   });
 
   if (isLoading || !speakingSession) {
-    return <LoadingWithText text="Đang tải dữ liệu..." />;
+    return <LoadingWithText text={t('loading')} />;
   }
 
   return (

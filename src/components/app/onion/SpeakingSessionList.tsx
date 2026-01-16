@@ -1,5 +1,6 @@
 import React, { useCallback, useState } from 'react';
 
+import { useTranslations } from 'next-intl';
 import { useRouter } from 'nextjs-toploader/app';
 
 import EmptyCustom from '@/components/custom/EmptyCustom';
@@ -29,6 +30,7 @@ import { CalendarClock, MessageSquare, MoveRight, Trash2 } from 'lucide-react';
 import { toast } from 'sonner';
 
 export const SpeakingSessionList = () => {
+  const t = useTranslations('speaking');
   const router = useRouter();
   const { data, isLoading, isError } = useGetSpeakingSessionsQuery({ page: 1, size: 50 });
   const [pendingDeleteId, setPendingDeleteId] = useState<number | null>(null);
@@ -37,12 +39,12 @@ export const SpeakingSessionList = () => {
   const handleDelete = useCallback(
     async (id: number) => {
       toast.promise(deleteMutation.mutateAsync(id), {
-        loading: 'Đang xoá ...',
-        success: 'Xoá phiên thành công!',
-        error: (e: any) => e?.detail || 'Xoá phiên thất bại. Vui lòng thử lại.',
+        loading: t('sessionList.loading'),
+        success: t('sessionList.deleteSuccess'),
+        error: (e: any) => e?.detail || t('sessionList.deleteError'),
       });
     },
-    [deleteMutation]
+    [deleteMutation, t]
   );
 
   if (isLoading) {
@@ -55,21 +57,21 @@ export const SpeakingSessionList = () => {
     );
   }
   if (isError) {
-    return <p className="text-sm text-red-500">Lỗi tải danh sách phiên.</p>;
+    return <p className="text-sm text-red-500">{t('sessionList.error')}</p>;
   }
   if (!data || data.items.length === 0) {
     return (
       <EmptyCustom
         icon={<MessageSquare className="h-12 w-12 text-green-500" />}
-        title="Chưa có phiên nói chuyện nào"
-        description="Bắt đầu một phiên nói chuyện mới để cải thiện kỹ năng nói của bạn!"
+        title={t('sessionList.empty.title')}
+        description={t('sessionList.empty.description')}
       />
     );
   }
 
   return (
     <div className="space-y-2">
-      <h2 className="text-xl font-bold lg:text-2xl">Phiên đã tạo</h2>
+      <h2 className="text-xl font-bold lg:text-2xl">{t('sessionList.createdSessions')}</h2>
       <div className="grid gap-3 md:grid-cols-2">
         {data.items.map((item: SpeakingSessionListItemSchema) => {
           const createdAt = new Date(item.created_at).toLocaleString();
@@ -112,7 +114,7 @@ export const SpeakingSessionList = () => {
                     </h3>
                     <div className="flex flex-wrap gap-2 pt-1">
                       <Badge variant="outline" className={cn(getLevelColor(item.level))}>
-                        Level: {item.level}
+                        {t('sessionList.level')}: {item.level}
                       </Badge>
                     </div>
                   </div>
@@ -124,7 +126,9 @@ export const SpeakingSessionList = () => {
                 <span className="flex items-center gap-1 text-xs">
                   <CalendarClock className="size-3.5" /> {createdAt}
                 </span>
-                {item.status === 'completed' && <Badge variant="success">Hoàn thành</Badge>}
+                {item.status === 'completed' && (
+                  <Badge variant="success">{t('sessionList.completed')}</Badge>
+                )}
               </div>
               <div className="flex items-center gap-1">
                 {item.status === 'active' && (
@@ -133,35 +137,40 @@ export const SpeakingSessionList = () => {
                       e.stopPropagation();
                       router.push(`${ROUTE.ONION}/${item.id}`);
                     }}
-                    aria-label={`Mở phiên #${item.id}`}
+                    aria-label={t('sessionList.openSession', { id: item.id })}
                   >
                     <MoveRight />
-                    <span>Tiếp tục</span>
+                    <span>{t('sessionList.continue')}</span>
                   </Button>
                 )}
 
                 <AlertDialog>
                   <AlertDialogTrigger asChild>
-                    <Button variant="destructive" aria-label={`Xóa phiên #${item.id}`}>
-                      <Trash2 className="size-4" /> <span>Xóa phiên</span>
+                    <Button
+                      variant="destructive"
+                      aria-label={t('sessionList.deleteSession', { id: item.id })}
+                    >
+                      <Trash2 className="size-4" /> <span>{t('sessionList.delete')}</span>
                     </Button>
                   </AlertDialogTrigger>
                   <AlertDialogContent>
                     <AlertDialogHeader>
-                      <AlertDialogTitle>Xóa phiên #{item.id}?</AlertDialogTitle>
+                      <AlertDialogTitle>
+                        {t('sessionList.deleteConfirm.title', { id: item.id })}
+                      </AlertDialogTitle>
                       <AlertDialogDescription>
-                        Thao tác này không thể hoàn tác. Phiên và dữ liệu liên quan sẽ bị xóa.
+                        {t('sessionList.deleteConfirm.description')}
                       </AlertDialogDescription>
                     </AlertDialogHeader>
                     <AlertDialogFooter>
                       <AlertDialogCancel onClick={() => setPendingDeleteId(null)}>
-                        Hủy
+                        {t('sessionList.deleteConfirm.cancel')}
                       </AlertDialogCancel>
                       <AlertDialogAction
                         onClick={() => handleDelete(item.id)}
                         disabled={deleteMutation.isPending && pendingDeleteId === item.id}
                       >
-                        Xác nhận
+                        {t('sessionList.deleteConfirm.confirm')}
                       </AlertDialogAction>
                     </AlertDialogFooter>
                   </AlertDialogContent>

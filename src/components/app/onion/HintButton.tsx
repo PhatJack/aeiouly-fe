@@ -3,6 +3,8 @@
 import React, { memo, useCallback, useEffect, useRef, useState } from 'react';
 import Markdown from 'react-markdown';
 
+import { useTranslations } from 'next-intl';
+
 import BlockquoteCustom from '@/components/custom/BlockquoteCustom';
 import { Button } from '@/components/ui/button';
 import { SpeakingSessionContext } from '@/contexts/SpeakingSessionContext';
@@ -17,6 +19,7 @@ interface HintButtonProps {
 }
 
 const HintButton = ({ id }: HintButtonProps) => {
+  const t = useTranslations('speaking');
   const currentSentenceIndex = useContextSelector(
     SpeakingSessionContext,
     (ctx) => ctx?.currentSentenceIndex ?? 0
@@ -47,20 +50,20 @@ const HintButton = ({ id }: HintButtonProps) => {
   return (
     <div className="w-full space-y-2">
       <Button variant="secondary" size="lg" type="button" onClick={handleClick}>
-        {isFetching ? <Loader2 size={20} className="animate-spin" /> : 'Gợi ý'}
+        {isFetching ? <Loader2 size={20} className="animate-spin" /> : t('hint.button')}
       </Button>
 
       {data && (
         <div className="space-y-2">
           <BlockquoteCustom
             variants="primary"
-            title={`Gợi ý tiếp tục cuộc hội thoại`}
+            title={t('hint.conversationHint')}
             content={<Markdown>{data.hint}</Markdown>}
           />
           {data.last_ai_message && (
             <BlockquoteCustom
               variants="info"
-              title="Tin nhắn AI gần nhất"
+              title={t('hint.lastAiMessage')}
               content={<Markdown>{data.last_ai_message}</Markdown>}
             />
           )}

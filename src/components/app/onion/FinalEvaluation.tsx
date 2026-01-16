@@ -1,6 +1,7 @@
 import React from 'react';
 
-import { Button } from '@/components/ui/button';
+import { useTranslations } from 'next-intl';
+
 import { Progress } from '@/components/ui/progress';
 import { FinalEvaluationResponseSchema } from '@/lib/schema/speaking-session.schema';
 import { getScoreColor, getScoreLabel } from '@/lib/utils';
@@ -11,11 +12,13 @@ interface FinalEvaluationProps {
 }
 
 const FinalEvaluation = ({ data, onClose }: FinalEvaluationProps) => {
+  const t = useTranslations('speaking');
+
   return (
     <div className="space-y-6 py-4">
       {/* Overall Score */}
       <div className="border-border bg-card rounded-lg border p-6 text-center">
-        <p className="text-muted-foreground mb-2 text-sm">Điểm tổng quan</p>
+        <p className="text-muted-foreground mb-2 text-sm">{t('evaluation.overallScore')}</p>
         <p className={`text-5xl font-bold ${getScoreColor(data.overall_score)}`}>
           {data.overall_score}
         </p>
@@ -24,14 +27,14 @@ const FinalEvaluation = ({ data, onClose }: FinalEvaluationProps) => {
 
       {/* Detailed Scores */}
       <div className="space-y-4">
-        <h3 className="text-lg font-semibold">Chi tiết điểm số</h3>
+        <h3 className="text-lg font-semibold">{t('evaluation.detailedScores')}</h3>
         <div className="grid grid-cols-5 gap-4">
           {[
-            { label: 'Phát âm', score: data.pronunciation_score },
-            { label: 'Trôi chảy', score: data.fluency_score },
-            { label: 'Từ vựng', score: data.vocabulary_score },
-            { label: 'Ngữ pháp', score: data.grammar_score },
-            { label: 'Tương tác', score: data.interaction_score },
+            { label: t('evaluation.pronunciation'), score: data.pronunciation_score },
+            { label: t('evaluation.fluency'), score: data.fluency_score },
+            { label: t('evaluation.vocabulary'), score: data.vocabulary_score },
+            { label: t('evaluation.grammar'), score: data.grammar_score },
+            { label: t('evaluation.interaction'), score: data.interaction_score },
           ].map((item) => (
             <div key={item.label} className="border-border bg-card rounded-lg border p-4">
               <p className="text-muted-foreground mb-2 text-sm">{item.label}</p>
@@ -48,7 +51,7 @@ const FinalEvaluation = ({ data, onClose }: FinalEvaluationProps) => {
       {/* Feedback */}
       {data.feedback && (
         <div className="space-y-2">
-          <h3 className="text-lg font-semibold">Nhận xét</h3>
+          <h3 className="text-lg font-semibold">{t('evaluation.feedback')}</h3>
           <div className="border-border dark:bg-background rounded-lg border bg-white p-4">
             <p className="text-sm leading-relaxed">{data.feedback}</p>
           </div>
@@ -58,7 +61,7 @@ const FinalEvaluation = ({ data, onClose }: FinalEvaluationProps) => {
       {/* Suggestions */}
       {data.suggestions && data.suggestions.length > 0 && (
         <div className="space-y-2">
-          <h3 className="text-lg font-semibold">Gợi ý cải thiện</h3>
+          <h3 className="text-lg font-semibold">{t('evaluation.suggestions')}</h3>
           <ul className="space-y-2">
             {data.suggestions.map((suggestion, index) => (
               <li
@@ -78,7 +81,7 @@ const FinalEvaluation = ({ data, onClose }: FinalEvaluationProps) => {
       {/* Completed Time */}
       {data.completed_at && (
         <div className="text-muted-foreground border-t pt-4 text-center text-sm">
-          Hoàn thành lúc:{' '}
+          {t('evaluation.completedAt')}:{' '}
           {new Date(data.completed_at).toLocaleString('vi-VN', {
             year: 'numeric',
             month: 'long',

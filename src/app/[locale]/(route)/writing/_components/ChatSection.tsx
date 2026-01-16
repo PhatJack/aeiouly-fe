@@ -134,7 +134,7 @@ const ChatSection = ({ sessionId, className }: ChatSectionProps) => {
           messages={localMessages}
           historyMessageIds={historyMessageIds}
           className="mb-4 flex-1"
-          backUrl={`/${searchParams.get('source')}` || undefined}
+          backUrl={searchParams.get('source') ? `/${searchParams.get('source')}` : ROUTE.TOPIC}
         >
           {sendChatMutation.isPending && (
             <MessageItem
@@ -176,7 +176,9 @@ const ChatSection = ({ sessionId, className }: ChatSectionProps) => {
           <DialogFooter className="sm:justify-center">
             <Button
               onClick={() => {
-                router.push(searchParams.get('source') ? ROUTE.STUDY_ROUTE : ROUTE.TOPIC);
+                router.push(
+                  searchParams.get('source') ? `/${searchParams.get('source')}` : ROUTE.TOPIC
+                );
               }}
               size="lg"
               className="min-w-[200px]"

@@ -1,0 +1,182 @@
+{
+  "speaking": {
+    "metadata": {
+      "title": "Luyện nói tiếng Anh | Speaking",
+      "description": "Luyện nói tiếng Anh với AI chat bot thông minh. Thực hành giao tiếp tiếng Anh hàng ngày với phản hồi tức thời và bài tập cá nhân hóa.",
+      "keywords": [
+        "luyện nói tiếng anh",
+        "nói tiếng anh",
+        "AI chat bot",
+        "giao tiếp tiếng anh",
+        "thực hành nói"
+      ]
+    },
+    "page": {
+      "title": "Luyện Nói",
+      "description": "Thực hành giao tiếp tiếng Anh trong các tình huống thực tế với AI Coach thông minh",
+      "stats": {
+        "scenarios": "tình huống mẫu",
+        "levels": "CEFR A1 - C2"
+      },
+      "customScenario": "Tự tạo tình huống"
+    },
+    "sampleScenarios": {
+      "title": "Tình huống mẫu",
+      "level": "Cấp độ:",
+      "gender": "Giới tính:",
+      "male": "Nam",
+      "female": "Nữ",
+      "select": "Chọn"
+    },
+    "loading": "Đang tải dữ liệu...",
+    "chat": {
+      "speechRecognitionError": "Không thể nhận dạng giọng nói. Vui lòng thử lại.",
+      "thinking": "Đang suy nghĩ...",
+      "analyzingAudio": "Đang phân tích âm thanh...",
+      "messagePlaceholder": "Nhập tin nhắn hoặc dùng mic để nói..."
+    },
+    "sessionList": {
+      "loading": "Đang xoá ...",
+      "deleteSuccess": "Xoá phiên thành công!",
+      "deleteError": "Xoá phiên thất bại. Vui lòng thử lại.",
+      "error": "Lỗi tải danh sách phiên.",
+      "empty": {
+        "title": "Chưa có phiên nói chuyện nào",
+        "description": "Bắt đầu một phiên nói chuyện mới để cải thiện kỹ năng nói của bạn!"
+      },
+      "title": "Phiên đã tạo",
+      "completed": "Hoàn thành",
+      "continue": "Tiếp tục",
+      "delete": "Xóa",
+      "openSession": "Mở phiên #{id}",
+      "deleteSession": "Xóa phiên #{id}",
+			"createdSessions": "Phiên đã tạo",
+			"level": "Cấp độ",
+      "deleteConfirm": {
+        "title": "Xóa phiên #{id}?",
+        "description": "Hành động này không thể hoàn tác. Phiên sẽ bị xóa vĩnh viễn.",
+        "cancel": "Hủy",
+        "confirm": "Xóa"
+      }
+    },
+    "evaluation": {
+      "overallScore": "Điểm tổng quan",
+      "detailedScores": "Chi tiết điểm số",
+      "pronunciation": "Phát âm",
+      "fluency": "Trôi chảy",
+      "vocabulary": "Từ vựng",
+      "grammar": "Ngữ pháp",
+      "interaction": "Tương tác",
+      "feedback": "Nhận xét",
+      "suggestions": "Gợi ý cải thiện",
+      "completedAt": "Hoàn thành lúc:"
+    },
+    "buttons": {
+      "hint": "Gợi ý",
+      "skip": "Bỏ qua",
+      "endSession": "Kết thúc sớm",
+      "reset": "Reset",
+      "create": "Tạo phiên",
+      "creating": "Đang tạo...",
+      "cancel": "Hủy",
+      "confirm": "Xác nhận",
+      "complete": "Hoàn tất"
+    },
+    "endSession": {
+      "endEarly": "Kết thúc sớm",
+      "confirm": {
+        "title": "Kết thúc phiên luyện nói?",
+        "description": "Hệ thống sẽ tổng hợp và hiển thị kết quả đánh giá cuối cùng.",
+        "cancel": "Hủy",
+        "confirm": "Xác nhận"
+      },
+      "evaluation": {
+        "title": "Kết quả đánh giá",
+        "description": "Chi tiết kết quả phiên luyện nói của bạn",
+        "loading": "Đang đánh giá phiên học...",
+        "complete": "Hoàn tất"
+      }
+    },
+    "skip": {
+      "button": "Bỏ qua",
+      "confirm": {
+        "title": "Bạn muốn bỏ qua câu này",
+        "description": "Hãy cố gắng suy nghĩ và nói câu trả lời của bạn trước khi bỏ qua.",
+        "cancel": "Hủy",
+        "confirm": "Bỏ qua"
+      }
+    },
+    "form": {
+      "myCharacter": "Nhân vật của bạn",
+      "myCharacterPlaceholder": "Ví dụ: Khách hàng",
+      "aiCharacter": "Nhân vật AI",
+      "aiCharacterPlaceholder": "Ví dụ: Nhân viên pha chế",
+      "scenario": "Mô tả tình huống",
+      "scenarioPlaceholder": "Mô tả ngắn về tình huống...",
+      "aiGender": "Giới tính AI",
+      "level": "Cấp độ",
+      "createSuccess": "Tạo phiên thành công!",
+      "selectGender": "Chọn giới tính",
+      "selectLevel": "Chọn cấp độ",
+      "createSession": "Tạo phiên",
+      "male": "Nam",
+      "female": "Nữ"
+    },
+    "dialogs": {
+    },
+    "panel": {
+      "myCharacter": "Nhân vật của bạn:",
+      "aiCharacter": "Nhân vật AI:",
+      "difficulty": "Độ khó:",
+      "scenario": "Tình huống",
+      "noScenario": "Chưa có tình huống."
+    },
+    "hint": {
+      "button": "Gợi ý",
+      "conversationHint": "Gợi ý tiếp tục cuộc hội thoại",
+      "lastAiMessage": "Tin nhắn AI gần nhất"
+    },
+    "scenarios": {
+      "coffeeShop": {
+        "myCharacter": "Khách hàng",
+        "aiCharacter": "Nhân viên pha chế",
+        "scenario": "Bạn bước vào quán cà phê đông đúc giờ cao điểm và gọi đồ uống yêu thích của mình."
+      },
+      "jobInterview": {
+        "myCharacter": "Ứng viên",
+        "aiCharacter": "Người phỏng vấn",
+        "scenario": "Bạn tham gia buổi phỏng vấn chuyên nghiệp cho vị trí mong muốn, được hỏi về kinh nghiệm và mục tiêu."
+      },
+      "firstDate": {
+        "myCharacter": "Người tham gia hẹn hò",
+        "aiCharacter": "Đối phương",
+        "scenario": "Buổi hẹn đầu tiên tại nhà hàng ấm cúng, hai bên tìm hiểu sở thích và câu chuyện cá nhân."
+      },
+      "presentation": {
+        "myCharacter": "Sinh viên thuyết trình",
+        "aiCharacter": "Giáo sư",
+        "scenario": "Bạn thuyết trình nghiên cứu trước lớp và trả lời câu hỏi từ giáo sư."
+      },
+      "airport": {
+        "myCharacter": "Hành khách",
+        "aiCharacter": "Nhân viên check-in",
+        "scenario": "Bạn làm thủ tục tại sân bay quốc tế và hỏi về hành lý cũng như thay đổi chỗ ngồi."
+      },
+      "teamMeeting": {
+        "myCharacter": "Thành viên nhóm",
+        "aiCharacter": "Quản lý dự án",
+        "scenario": "Cuộc họp nhóm hàng tuần để báo cáo tiến độ và thảo luận giải pháp cho vấn đề mới."
+      },
+      "shopping": {
+        "myCharacter": "Khách mua sắm",
+        "aiCharacter": "Nhân viên bán hàng",
+        "scenario": "Bạn tìm kiếm một sản phẩm cụ thể và hỏi về các lựa chọn thay thế hoặc bảo hành."
+      },
+      "doctorVisit": {
+        "myCharacter": "Bệnh nhân",
+        "aiCharacter": "Bác sĩ",
+        "scenario": "Bạn mô tả triệu chứng trong buổi tái khám và hỏi về lựa chọn điều trị."
+      }
+    }
+  }
+}

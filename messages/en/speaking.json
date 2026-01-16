@@ -1,0 +1,182 @@
+{
+  "speaking": {
+    "metadata": {
+      "title": "English Speaking Practice | Speaking",
+      "description": "Practice English speaking with AI chat bot for intelligent conversations. Practice daily English communication with instant feedback and personalized exercises.",
+      "keywords": [
+        "english speaking practice",
+        "speaking english",
+        "AI chat bot",
+        "english communication",
+        "speaking practice"
+      ]
+    },
+    "page": {
+      "title": "Speaking Practice",
+      "description": "Practice communication in real-life situations with intelligent AI Coach",
+      "stats": {
+        "scenarios": "sample scenarios",
+        "levels": "CEFR A1 - C2"
+      },
+      "customScenario": "Create custom scenario"
+    },
+    "sampleScenarios": {
+      "title": "Sample Scenarios",
+      "level": "Level:",
+      "gender": "Gender:",
+      "male": "Male",
+      "female": "Female",
+      "select": "Select"
+    },
+    "loading": "Loading data...",
+    "chat": {
+      "speechRecognitionError": "Unable to recognize speech. Please try again.",
+      "thinking": "Thinking...",
+      "analyzingAudio": "Analyzing audio...",
+      "messagePlaceholder": "Type a message or use the mic to speak..."
+    },
+    "sessionList": {
+      "loading": "Deleting...",
+      "deleteSuccess": "Session deleted successfully!",
+      "deleteError": "Failed to delete session. Please try again.",
+      "error": "Error loading session list.",
+      "empty": {
+        "title": "No speaking sessions yet",
+        "description": "Start a new speaking session to improve your speaking skills!"
+      },
+      "title": "Created Sessions",
+      "completed": "Completed",
+      "continue": "Continue",
+      "delete": "Delete",
+      "openSession": "Open session #{id}",
+      "deleteSession": "Delete session #{id}",
+			"createdSessions": "Created Sessions",
+			"level": "Level",
+      "deleteConfirm": {
+        "title": "Delete session #{id}?",
+        "description": "This action cannot be undone. This will permanently delete the session.",
+        "cancel": "Cancel",
+        "confirm": "Delete"
+      }
+    },
+    "evaluation": {
+      "overallScore": "Overall Score",
+      "detailedScores": "Detailed Scores",
+      "pronunciation": "Pronunciation",
+      "fluency": "Fluency",
+      "vocabulary": "Vocabulary",
+      "grammar": "Grammar",
+      "interaction": "Interaction",
+      "feedback": "Comments",
+      "suggestions": "Improvement Suggestions",
+      "completedAt": "Completed at:"
+    },
+    "buttons": {
+      "hint": "Hint",
+      "skip": "Skip",
+      "endSession": "End Early",
+      "reset": "Reset",
+      "create": "Create Session",
+      "creating": "Creating...",
+      "cancel": "Cancel",
+      "confirm": "Confirm",
+      "complete": "Complete"
+    },
+    "endSession": {
+      "endEarly": "End Early",
+      "confirm": {
+        "title": "End speaking session?",
+        "description": "The system will compile and display the final evaluation results.",
+        "cancel": "Cancel",
+        "confirm": "Confirm"
+      },
+      "evaluation": {
+        "title": "Evaluation Results",
+        "description": "Detailed results of your speaking session",
+        "loading": "Evaluating session...",
+        "complete": "Complete"
+      }
+    },
+    "skip": {
+      "button": "Skip",
+      "confirm": {
+        "title": "Skip this sentence?",
+        "description": "Try to think and speak your answer before skipping.",
+        "cancel": "Cancel",
+        "confirm": "Skip"
+      }
+    },
+    "form": {
+      "myCharacter": "Your Character",
+      "myCharacterPlaceholder": "Example: Customer",
+      "aiCharacter": "AI Character",
+      "aiCharacterPlaceholder": "Example: Barista",
+      "scenario": "Scenario Description",
+      "scenarioPlaceholder": "Brief description of the situation...",
+      "aiGender": "AI Gender",
+      "level": "Level",
+      "createSuccess": "Session created successfully!",
+      "selectGender": "Select gender",
+      "selectLevel": "Select level",
+      "createSession": "Create Session",
+      "male": "Male",
+      "female": "Female"
+    },
+    "dialogs": {
+    },
+    "panel": {
+      "myCharacter": "Your Character",
+      "aiCharacter": "AI Character",
+      "difficulty": "Difficulty",
+      "scenario": "Scenario",
+      "noScenario": "No scenario available."
+    },
+    "hint": {
+      "button": "Hint",
+      "conversationHint": "Hint to continue conversation",
+      "lastAiMessage": "Latest AI Message"
+    },
+    "scenarios": {
+      "coffeeShop": {
+        "myCharacter": "Customer",
+        "aiCharacter": "Barista",
+        "scenario": "You walk into a busy coffee shop during peak hours and order your favorite drink."
+      },
+      "jobInterview": {
+        "myCharacter": "Interviewee",
+        "aiCharacter": "Interviewer",
+        "scenario": "You participate in a professional interview for your desired position, being asked about your experience and goals."
+      },
+      "firstDate": {
+        "myCharacter": "Date participant",
+        "aiCharacter": "Date partner",
+        "scenario": "First date at a cozy restaurant, both sides learn about interests and personal stories."
+      },
+      "presentation": {
+        "myCharacter": "Presenting student",
+        "aiCharacter": "Professor",
+        "scenario": "You present your research in front of the class and answer questions from the professor."
+      },
+      "airport": {
+        "myCharacter": "Passenger",
+        "aiCharacter": "Check-in staff",
+        "scenario": "You check-in at an international airport and ask about luggage and seat changes."
+      },
+      "teamMeeting": {
+        "myCharacter": "Team member",
+        "aiCharacter": "Project manager",
+        "scenario": "Weekly team meeting to report progress and discuss solutions for new issues."
+      },
+      "shopping": {
+        "myCharacter": "Shopper",
+        "aiCharacter": "Salesperson",
+        "scenario": "You look for a specific product and ask about alternative options or warranties."
+      },
+      "doctorVisit": {
+        "myCharacter": "Patient",
+        "aiCharacter": "Doctor",
+        "scenario": "You describe symptoms during a follow-up visit and ask about treatment options."
+      }
+    }
+  }
+}

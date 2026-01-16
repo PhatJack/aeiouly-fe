@@ -2,6 +2,7 @@
 
 import React, { memo, useEffect, useState } from 'react';
 
+import { useTranslations } from 'next-intl';
 import { useSearchParams } from 'next/navigation';
 import { useRouter } from 'nextjs-toploader/app';
 
@@ -44,6 +45,7 @@ interface ChatSectionProps {
 }
 
 const ChatSection = ({ sessionId, className }: ChatSectionProps) => {
+  const t = useTranslations('speaking');
   const searchParams = useSearchParams();
   const router = useRouter();
   const { data: chatHistory } = useGetSpeakingChatHistoryQuery(sessionId, {
@@ -202,7 +204,7 @@ const ChatSection = ({ sessionId, className }: ChatSectionProps) => {
           }
         );
       } catch (error) {
-        toast.error('Không thể nhận dạng giọng nói. Vui lòng thử lại.');
+        toast.error(t('chat.speechRecognitionError'));
       } finally {
         resetRecorder();
         resetStream();
@@ -225,12 +227,12 @@ const ChatSection = ({ sessionId, className }: ChatSectionProps) => {
           messages={localMessages as any}
           historyMessageIds={historyMessageIds}
           className="mb-4 flex-1"
-          backUrl={`/${searchParams.get('source')}` || undefined}
+          backUrl={searchParams.get('source') ? `/${searchParams.get('source')}` : ROUTE.ONION}
           voice={voice}
         >
           {(sendChatMutation.isPending || isAudioLoading) && (
             <MessageItem
-              content="Đang suy nghĩ..."
+              content={t('chat.thinking')}
               senderRole="assistant"
               index={-1}
               isLoading={true}
@@ -238,7 +240,7 @@ const ChatSection = ({ sessionId, className }: ChatSectionProps) => {
           )}
           {speechToTextMutation.isPending && (
             <MessageItem
-              content="Đang phân tích âm thanh..."
+              content={t('chat.analyzingAudio')}
               senderRole="user"
               index={-1}
               isLoading={true}
@@ -249,7 +251,7 @@ const ChatSection = ({ sessionId, className }: ChatSectionProps) => {
           <MessageInput
             onSendMessage={handleSendTextMessage}
             disabled={sendChatMutation.isPending || isAudioLoading}
-            placeholder="Nhập tin nhắn hoặc dùng mic để nói..."
+            placeholder={t('chat.messagePlaceholder')}
             showAudioButton
             isRecording={isRecording}
             onAudioClick={() => (isRecording ? stopRecording() : startRecording())}
@@ -280,7 +282,9 @@ const ChatSection = ({ sessionId, className }: ChatSectionProps) => {
           <DialogFooter className="sm:justify-center">
             <Button
               onClick={() => {
-                router.push(searchParams.get('source') ? ROUTE.STUDY_ROUTE : ROUTE.ONION);
+                router.push(
+                  searchParams.get('source') ? `/${searchParams.get('source')}` : ROUTE.ONION
+                );
               }}
               size="lg"
               className="min-w-[200px]"

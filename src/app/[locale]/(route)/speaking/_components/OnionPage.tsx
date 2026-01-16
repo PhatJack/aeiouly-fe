@@ -2,6 +2,8 @@
 
 import React, { useCallback, useState } from 'react';
 
+import { useTranslations } from 'next-intl';
+
 import PageHeader from '@/components/PageHeader';
 import {
   SpeakingSampleScenarios,
@@ -11,6 +13,7 @@ import { SpeakingSessionForm } from '@/components/app/onion/SpeakingSessionForm'
 import { SpeakingSessionList } from '@/components/app/onion/SpeakingSessionList';
 
 const OnionPage = () => {
+  const t = useTranslations('speaking');
   const [selectedScenario, setSelectedScenario] = useState<SpeakingScenario | null>(null);
 
   const handleSelectScenario = useCallback((scenario: SpeakingScenario) => {
@@ -20,14 +23,14 @@ const OnionPage = () => {
   return (
     <div className="min-h-screen space-y-4">
       <PageHeader
-        title="Luyện Nói"
-        description="Thực hành giao tiếp tiếng Anh trong các tình huống thực tế với AI Coach thông minh"
+        title={t('page.title')}
+        description={t('page.description')}
         icon="/sidebarIcon/microphone.png"
         iconAlt="Microphone icon"
         ringColor="ring-green-600"
         stats={[
-          { label: 'tình huống mẫu', value: 8, isLive: true },
-          { label: '', value: 'CEFR A1 - C2' },
+          { label: t('page.stats.scenarios'), value: 8, isLive: true },
+          { label: '', value: t('page.stats.levels') },
         ]}
       />
 
@@ -38,7 +41,7 @@ const OnionPage = () => {
           <SpeakingSampleScenarios onSelect={handleSelectScenario} />
         </div>
         <div className="row-start-1 space-y-2 lg:col-span-1 lg:row-start-auto">
-          <h2 className="text-xl font-bold lg:text-2xl">Tự tạo tình huống</h2>
+          <h2 className="text-xl font-bold lg:text-2xl">{t('page.customScenario')}</h2>
           <SpeakingSessionForm
             initialValues={
               selectedScenario

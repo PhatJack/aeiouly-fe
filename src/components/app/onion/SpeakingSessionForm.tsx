@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 
+import { useTranslations } from 'next-intl';
 import { useRouter } from 'nextjs-toploader/app';
 
 import { Button } from '@/components/ui/button';
@@ -32,6 +33,7 @@ interface SpeakingSessionFormProps {
 }
 
 export const SpeakingSessionForm: React.FC<SpeakingSessionFormProps> = ({ initialValues }) => {
+  const t = useTranslations('speaking');
   const router = useRouter();
   const form = useForm<SpeakingSessionCreateSchema>({
     resolver: zodResolver(speakingSessionCreateSchema),
@@ -59,7 +61,7 @@ export const SpeakingSessionForm: React.FC<SpeakingSessionFormProps> = ({ initia
 
   const mutation = useCreateSpeakingSessionMutation({
     onSuccess: (data) => {
-      toast.success('Tạo phiên luyện nói thành công');
+      toast.success(t('form.createSuccess'));
       router.push(`${ROUTE.ONION}/${data.id}`);
       form.reset();
     },
@@ -78,13 +80,13 @@ export const SpeakingSessionForm: React.FC<SpeakingSessionFormProps> = ({ initia
               render={({ field, fieldState }) => (
                 <Field>
                   <FieldLabel htmlFor="form-create-speaking-session-my-character">
-                    Nhân vật của bạn
+                    {t('form.myCharacter')}
                   </FieldLabel>
                   <Input
                     {...field}
                     id="form-create-speaking-session-my-character"
                     aria-invalid={fieldState.invalid}
-                    placeholder="Ví dụ: Khách hàng"
+                    placeholder={t('form.myCharacterPlaceholder')}
                   />
                   {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
                 </Field>
@@ -96,13 +98,13 @@ export const SpeakingSessionForm: React.FC<SpeakingSessionFormProps> = ({ initia
               render={({ field, fieldState }) => (
                 <Field>
                   <FieldLabel htmlFor="form-create-speaking-session-ai-character">
-                    Nhân vật AI
+                    {t('form.aiCharacter')}
                   </FieldLabel>
                   <Input
                     {...field}
                     id="form-create-speaking-session-ai-character"
                     aria-invalid={fieldState.invalid}
-                    placeholder="Ví dụ: Nhân viên pha chế"
+                    placeholder={t('form.aiCharacterPlaceholder')}
                   />
                   {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
                 </Field>
@@ -114,18 +116,18 @@ export const SpeakingSessionForm: React.FC<SpeakingSessionFormProps> = ({ initia
               render={({ field, fieldState }) => (
                 <Field orientation="responsive" data-invalid={fieldState.invalid}>
                   <FieldLabel htmlFor="form-create-speaking-session-ai-gender">
-                    Giới tính AI
+                    {t('form.aiGender')}
                   </FieldLabel>
                   <Select value={field.value} onValueChange={field.onChange}>
                     <SelectTrigger
                       id="form-create-speaking-session-ai-gender"
                       aria-invalid={fieldState.invalid}
                     >
-                      <SelectValue placeholder="Chọn giới tính" />
+                      <SelectValue placeholder={t('form.selectGender')} />
                     </SelectTrigger>
                     <SelectContent position="item-aligned">
-                      <SelectItem value="male">Nam</SelectItem>
-                      <SelectItem value="female">Nữ</SelectItem>
+                      <SelectItem value="male">{t('form.male')}</SelectItem>
+                      <SelectItem value="female">{t('form.female')}</SelectItem>
                     </SelectContent>
                   </Select>
                   {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
@@ -138,13 +140,13 @@ export const SpeakingSessionForm: React.FC<SpeakingSessionFormProps> = ({ initia
               render={({ field, fieldState }) => (
                 <Field>
                   <FieldLabel htmlFor="form-create-speaking-session-scenario">
-                    Tình huống
+                    {t('form.scenario')}
                   </FieldLabel>
                   <Textarea
                     {...field}
                     id="form-create-speaking-session-scenario"
                     aria-invalid={fieldState.invalid}
-                    placeholder="Mô tả ngắn về tình huống..."
+                    placeholder={t('form.scenarioPlaceholder')}
                     className="min-h-[135px]"
                     rows={4}
                   />
@@ -158,14 +160,14 @@ export const SpeakingSessionForm: React.FC<SpeakingSessionFormProps> = ({ initia
               render={({ field, fieldState }) => (
                 <Field orientation="responsive" data-invalid={fieldState.invalid}>
                   <FieldLabel htmlFor="form-create-speaking-session-level">
-                    Cấp độ (CEFR)
+                    {t('form.level')}
                   </FieldLabel>
                   <Select value={field.value} onValueChange={field.onChange}>
                     <SelectTrigger
                       id="form-create-speaking-session-level"
                       aria-invalid={fieldState.invalid}
                     >
-                      <SelectValue placeholder="Chọn cấp độ" />
+                      <SelectValue placeholder={t('form.selectLevel')} />
                     </SelectTrigger>
                     <SelectContent position="item-aligned">
                       <SelectItem value="A1">A1</SelectItem>
@@ -190,7 +192,7 @@ export const SpeakingSessionForm: React.FC<SpeakingSessionFormProps> = ({ initia
             Reset
           </Button>
           <Button type="submit" form="form-create-speaking-session" disabled={mutation.isPending}>
-            {mutation.isPending ? 'Đang tạo...' : 'Tạo phiên'}
+            {mutation.isPending ? t('form.creating') : t('form.createSession')}
           </Button>
         </Field>
       </CardFooter>
