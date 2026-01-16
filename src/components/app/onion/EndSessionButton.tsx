@@ -1,5 +1,6 @@
 import React, { memo, useState } from 'react';
 
+import { useTranslations } from 'next-intl';
 import { useRouter } from 'nextjs-toploader/app';
 
 import LoadingWithText from '@/components/LoadingWithText';
@@ -35,6 +36,7 @@ interface EndSessionButtonProps {
 }
 
 const EndSessionButton = ({ id, lid }: EndSessionButtonProps) => {
+  const t = useTranslations('speaking');
   const router = useRouter();
   const [openEvaluation, setOpenEvaluation] = useState(false);
   const { data, refetch, isLoading } = useGetSpeakingFinalEvaluationQuery(id || 0, {
@@ -56,18 +58,18 @@ const EndSessionButton = ({ id, lid }: EndSessionButtonProps) => {
     <>
       <AlertDialog>
         <AlertDialogTrigger asChild>
-          <Button className="w-full">Kết thúc sớm</Button>
+          <Button className="w-full">{t('endSession.endEarly')}</Button>
         </AlertDialogTrigger>
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle>Kết thúc phiên luyện nói?</AlertDialogTitle>
-            <AlertDialogDescription>
-              Hệ thống sẽ tổng hợp và hiển thị kết quả đánh giá cuối cùng.
-            </AlertDialogDescription>
+            <AlertDialogTitle>{t('endSession.confirm.title')}</AlertDialogTitle>
+            <AlertDialogDescription>{t('endSession.confirm.description')}</AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel>Hủy</AlertDialogCancel>
-            <AlertDialogAction onClick={handleEnd}>Xác nhận</AlertDialogAction>
+            <AlertDialogCancel>{t('endSession.confirm.cancel')}</AlertDialogCancel>
+            <AlertDialogAction onClick={handleEnd}>
+              {t('endSession.confirm.confirm')}
+            </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
@@ -78,10 +80,12 @@ const EndSessionButton = ({ id, lid }: EndSessionButtonProps) => {
           className="max-h-[90vh] max-w-3xl min-w-3xl overflow-y-auto px-4"
         >
           <DialogHeader>
-            <DialogTitle className="text-2xl font-bold">Kết quả đánh giá</DialogTitle>
-            <DialogDescription>Chi tiết kết quả phiên luyện nói của bạn</DialogDescription>
+            <DialogTitle className="text-2xl font-bold">
+              {t('endSession.evaluation.title')}
+            </DialogTitle>
+            <DialogDescription>{t('endSession.evaluation.description')}</DialogDescription>
           </DialogHeader>
-          {isLoading && <LoadingWithText text="Đang đánh giá phiên học..." />}
+          {isLoading && <LoadingWithText text={t('endSession.evaluation.loading')} />}
           {data && <FinalEvaluation data={data} />}
           <DialogFooter className="sm:justify-center">
             {!isLoading && (
@@ -92,7 +96,7 @@ const EndSessionButton = ({ id, lid }: EndSessionButtonProps) => {
                 size="lg"
                 className="min-w-[200px]"
               >
-                Hoàn tất
+                {t('endSession.evaluation.complete')}
               </Button>
             )}
           </DialogFooter>
