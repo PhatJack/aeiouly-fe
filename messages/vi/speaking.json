@@ -125,7 +125,7 @@
     "dialogs": {
     },
     "panel": {
-      "myCharacter": "Nhân vật của bạn:",
+      "myCharacter": "Nhân vật của bạn",
       "aiCharacter": "Nhân vật AI:",
       "difficulty": "Độ khó:",
       "scenario": "Tình huống",
