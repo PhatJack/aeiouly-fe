@@ -54,7 +54,7 @@
 			"level": "Cấp độ",
       "deleteConfirm": {
         "title": "Xóa phiên #{id}?",
-        "description": "Hành động này không thể hoàn tác. Phiên sẽ bị xóa vĩnh viễn.",
+        "description": "Thao tác này không thể hoàn tác. Phiên sẽ bị xóa vĩnh viễn.",
         "cancel": "Hủy",
         "confirm": "Xóa"
       }
@@ -111,7 +111,7 @@
       "myCharacterPlaceholder": "Ví dụ: Khách hàng",
       "aiCharacter": "Nhân vật AI",
       "aiCharacterPlaceholder": "Ví dụ: Nhân viên pha chế",
-      "scenario": "Mô tả tình huống",
+      "scenario": "Tình huống",
       "scenarioPlaceholder": "Mô tả ngắn về tình huống...",
       "aiGender": "Giới tính AI",
       "level": "Cấp độ",
@@ -125,7 +125,7 @@
     "dialogs": {
     },
     "panel": {
-      "myCharacter": "Nhân vật của bạn:",
+      "myCharacter": "Nhân vật của bạn",
       "aiCharacter": "Nhân vật AI:",
       "difficulty": "Độ khó:",
       "scenario": "Tình huống",
