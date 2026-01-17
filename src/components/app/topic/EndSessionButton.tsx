@@ -1,5 +1,6 @@
 import React, { memo, useEffect, useState } from 'react';
 
+import { useTranslations } from 'next-intl';
 import { useRouter } from 'nextjs-toploader/app';
 
 import {
@@ -39,6 +40,7 @@ interface EndSessionButtonProps {
 }
 
 const EndSessionButton = ({ id, lid }: EndSessionButtonProps) => {
+  const t = useTranslations('writing');
   const router = useRouter();
   const [showEvaluation, setShowEvaluation] = useState(false);
   const endWritingSession = useCompleteWritingSessionMutation();
@@ -55,13 +57,13 @@ const EndSessionButton = ({ id, lid }: EndSessionButtonProps) => {
     if (!id) return;
     endWritingSession.mutate(id, {
       onSuccess: (data) => {
-        toast.success(data.message || 'Kết thúc phiên học thành công!');
+        toast.success(data.message || t('endSession.toast.success'));
         setShowEvaluation(true);
         refetch();
         if (lid) completeLessonMutation.mutateAsync(lid);
       },
       onError: (error: any) => {
-        toast.error(error.message || 'Đã có lỗi xảy ra khi kết thúc phiên học.');
+        toast.error(error.message || t('endSession.toast.error'));
       },
     });
   };
@@ -76,19 +78,20 @@ const EndSessionButton = ({ id, lid }: EndSessionButtonProps) => {
     <>
       <AlertDialog>
         <AlertDialogTrigger asChild>
-          <Button className="w-full">Kết thúc sớm</Button>
+          <Button className="w-full">{t('endSession.button')}</Button>
         </AlertDialogTrigger>
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle>Bạn chưa hoàn thành bài học này?</AlertDialogTitle>
+            <AlertDialogTitle>{t('endSession.alertDialog.title')}</AlertDialogTitle>
             <AlertDialogDescription>
-              Nếu bạn kết thúc sớm, tiến trình hiện tại của bạn sẽ không được lưu lại. Bạn có chắc
-              chắn muốn kết thúc không?
+              {t('endSession.alertDialog.description')}
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel>Hủy</AlertDialogCancel>
-            <AlertDialogAction onClick={handleEndSession}>Xác nhận</AlertDialogAction>
+            <AlertDialogCancel>{t('endSession.alertDialog.cancel')}</AlertDialogCancel>
+            <AlertDialogAction onClick={handleEndSession}>
+              {t('endSession.alertDialog.confirm')}
+            </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
@@ -102,12 +105,14 @@ const EndSessionButton = ({ id, lid }: EndSessionButtonProps) => {
         >
           <DialogHeader>
             <DialogTitle className="text-2xl font-bold">
-              {isLoading ? 'Đang tải kết quả...' : 'Kết quả đánh giá'}
+              {isLoading
+                ? t('endSession.evaluationDialog.loadingTitle')
+                : t('endSession.evaluationDialog.title')}
             </DialogTitle>
             <DialogDescription>
               {isLoading
-                ? 'Hệ thống đang đánh giá...'
-                : 'Dưới đây là kết quả chi tiết về phiên học của bạn'}
+                ? t('endSession.evaluationDialog.loadingDescription')
+                : t('endSession.evaluationDialog.description')}
             </DialogDescription>
           </DialogHeader>
 
@@ -121,7 +126,7 @@ const EndSessionButton = ({ id, lid }: EndSessionButtonProps) => {
                 size="lg"
                 className="min-w-[200px]"
               >
-                Hoàn tất
+                {t('endSession.evaluationDialog.completeButton')}
               </Button>
             )}
           </DialogFooter>

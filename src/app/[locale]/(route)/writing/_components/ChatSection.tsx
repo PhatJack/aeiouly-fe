@@ -2,6 +2,7 @@
 
 import React, { memo, useEffect, useRef, useState } from 'react';
 
+import { useTranslations } from 'next-intl';
 import { useSearchParams } from 'next/navigation';
 import { useRouter } from 'nextjs-toploader/app';
 
@@ -38,6 +39,7 @@ interface ChatSectionProps {
 }
 
 const ChatSection = ({ sessionId, className }: ChatSectionProps) => {
+  const t = useTranslations('writing');
   const currentSentenceIndex = useContextSelector(
     WritingSessionContext,
     (ctx) => ctx?.currentSentenceIndex ?? 0
@@ -138,7 +140,7 @@ const ChatSection = ({ sessionId, className }: ChatSectionProps) => {
         >
           {sendChatMutation.isPending && (
             <MessageItem
-              content="Đang suy nghĩ..."
+              content={t('chat.thinking')}
               senderRole="assistant"
               index={-1}
               isLoading={true}
@@ -168,10 +170,10 @@ const ChatSection = ({ sessionId, className }: ChatSectionProps) => {
       <Dialog open={showEvaluation} onOpenChange={setShowEvaluation}>
         <DialogContent className="max-h-[90vh] max-w-3xl min-w-3xl overflow-y-auto">
           <DialogHeader>
-            <DialogTitle className="text-2xl font-bold">Kết quả đánh giá</DialogTitle>
-            <DialogDescription>Dưới đây là kết quả chi tiết về phiên học của bạn</DialogDescription>
+            <DialogTitle className="text-2xl font-bold">{t('chat.evaluation.title')}</DialogTitle>
+            <DialogDescription>{t('chat.evaluation.description')}</DialogDescription>
           </DialogHeader>
-          {isLoadingEvaluation && <LoadingWithText text="Đang tải kết quả đánh giá..." />}
+          {isLoadingEvaluation && <LoadingWithText text={t('chat.evaluation.loading')} />}
           {finalEvaluation && <FinalEvaluation data={finalEvaluation} />}
           <DialogFooter className="sm:justify-center">
             <Button
@@ -183,7 +185,7 @@ const ChatSection = ({ sessionId, className }: ChatSectionProps) => {
               size="lg"
               className="min-w-[200px]"
             >
-              Hoàn tất
+              {t('chat.evaluation.complete')}
             </Button>
           </DialogFooter>
         </DialogContent>

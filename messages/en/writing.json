@@ -1,0 +1,135 @@
+{
+  "writing": {
+    "metadata": {
+      "title": "Topic Discussion",
+      "description": "Discuss and exchange ideas on interesting English topics with the community. Learn English through sharing opinions and real communication.",
+      "keywords": [
+        "english discussion",
+        "topic discussion",
+        "english community",
+        "english communication",
+        "learn english"
+      ]
+    },
+    "page": {
+      "title": "Writing Practice",
+      "description": "Help learners practice natural English writing, expand vocabulary, and learn to express themselves like native speakers through writing with AI (AI continues writing or suggests sentence improvements)."
+    },
+    "tabs": {
+      "recent": "Recent",
+      "explore": "Explore"
+    },
+    "createSession": {
+      "title": "Create New Writing Session",
+      "description": "Customize topic and difficulty according to your preferences"
+    },
+    "recentSessions": {
+      "loading": "Loading recent sessions...",
+      "empty": {
+        "title": "No writing sessions yet",
+        "description": "Start a new writing session to improve your writing skills!"
+      },
+      "deleteSuccess": "Session deleted successfully!",
+      "deleteError": "Failed to delete session. Please try again!"
+    },
+    "randomTopics": {
+      "title": "Suggested Topics",
+      "description": "Explore {count} diverse randomly generated topics",
+      "filter": "Difficulty",
+      "all": "All",
+      "shuffle": "Generate New",
+      "noTopics": "No topics match your filter",
+      "createSuccess": "Writing session created successfully!"
+    },
+    "topicCard": {
+      "sentences": "{count} sentences"
+    },
+    "sessionCard": {
+      "completed": "Completed",
+      "inProgress": "In Progress",
+      "continue": "Continue",
+      "deleteConfirm": "Are you sure you want to delete this session?"
+    },
+    "topicDetail": {
+      "loading": "Loading data...",
+      "difficulty": "Difficulty",
+      "totalSentences": "Total sentences",
+      "topic": "Topic",
+      "fullText": "Full Text",
+      "currentSentence": "Current Sentence"
+    },
+    "form": {
+      "topic": "Writing Topic",
+      "topicPlaceholder": "Enter writing topic",
+      "difficulty": "Difficulty",
+      "selectDifficulty": "Select difficulty",
+      "totalSentences": "Total Sentences",
+      "totalSentencesPlaceholder": "Enter number of sentences",
+      "reset": "Reset",
+      "startNow": "Start Now",
+      "createSuccess": "Writing session created successfully!",
+      "createError": "An error occurred while creating the writing session. Please try again."
+    },
+    "chat": {
+      "thinking": "Thinking...",
+      "evaluation": {
+        "title": "Evaluation Results",
+        "description": "Here are the detailed results of your learning session",
+        "loading": "Loading evaluation results...",
+        "complete": "Complete"
+      }
+    },
+    "endSession": {
+      "button": "End Early",
+      "alertDialog": {
+        "title": "Haven't completed this lesson yet?",
+        "description": "If you end early, your current progress will not be saved. Are you sure you want to end?",
+        "cancel": "Cancel",
+        "confirm": "Confirm"
+      },
+      "toast": {
+        "success": "Session ended successfully!",
+        "error": "An error occurred while ending the session."
+      },
+      "evaluationDialog": {
+        "loadingTitle": "Loading results...",
+        "title": "Evaluation Results",
+        "loadingDescription": "System is evaluating...",
+        "description": "Here are the detailed results of your learning session",
+        "completeButton": "Complete"
+      }
+    },
+    "hint": {
+      "button": "Hint",
+      "title": "Hint for sentence {sentenceIndex}",
+      "translationHint": "Translation hint for sentence {number}"
+    },
+    "sessionComplete": {
+      "title": "🎉 Congratulations on completing the session!",
+      "description": "You have completed all sentences in this session.",
+      "viewResultButton": "View Results"
+    },
+    "evaluation": {
+      "overallScore": "Overall Score",
+      "progress": "Completion Progress",
+      "sentences": "{completed}/{total} sentences",
+      "detailedScores": "Detailed Scores",
+      "accuracy": "Accuracy",
+      "fluency": "Fluency",
+      "vocabulary": "Vocabulary",
+      "grammar": "Grammar",
+      "feedback": "Feedback",
+      "suggestions": "Improvement Suggestions",
+      "completedAt": "Completed at:"
+    },
+    "skip": {
+      "button": "Skip",
+      "alertDialog": {
+        "title": "Want to skip this sentence",
+        "description": "Please try to think and write your answer before skipping.",
+        "cancel": "Cancel",
+        "confirm": "Confirm"
+      }
+    }
+  }
+}

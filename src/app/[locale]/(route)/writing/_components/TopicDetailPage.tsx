@@ -2,6 +2,8 @@
 
 import React, { useRef, useState } from 'react';
 
+import { useTranslations } from 'next-intl';
+
 import LoadingWithText from '@/components/LoadingWithText';
 import TextSelectionModal from '@/components/shared/TextSelectionModal';
 import VocabularyDialog from '@/components/shared/VocabularyDialog';
@@ -16,6 +18,7 @@ interface TopicDetailPageProps {
 }
 
 const TopicDetailPage = ({ id }: TopicDetailPageProps) => {
+  const t = useTranslations('writing');
   const contentRef = useRef<HTMLDivElement | null>(null);
   const tooltipRef = useRef<HTMLDivElement | null>(null);
   const selection = useTextSelection({
@@ -27,7 +30,7 @@ const TopicDetailPage = ({ id }: TopicDetailPageProps) => {
   });
 
   if (isLoading || !writingSession) {
-    return <LoadingWithText text="Đang tải dữ liệu..." />;
+    return <LoadingWithText text={t('topicDetail.loading')} />;
   }
 
   return (

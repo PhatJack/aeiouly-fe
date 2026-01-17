@@ -3,6 +3,8 @@
 import React, { memo, useCallback, useEffect, useRef, useState } from 'react';
 import Markdown from 'react-markdown';
 
+import { useTranslations } from 'next-intl';
+
 import BlockquoteCustom from '@/components/custom/BlockquoteCustom';
 import { Button } from '@/components/ui/button';
 import { HintResponseSchema } from '@/lib/schema/writing-session.schema';
@@ -16,6 +18,7 @@ interface HintButtonProps {
 }
 
 const HintButton = ({ id, currentSentenceIndex }: HintButtonProps) => {
+  const t = useTranslations('writing');
   const [currentIndex, setCurrentIndex] = useState<number | null>(currentSentenceIndex ?? null);
   const [data, setData] = useState<HintResponseSchema | null>(null);
 
@@ -51,13 +54,13 @@ const HintButton = ({ id, currentSentenceIndex }: HintButtonProps) => {
   return (
     <div className="w-full space-y-2">
       <Button variant="secondary" size="lg" type="button" onClick={handleClick}>
-        {isFetching ? <Loader2 size={20} className="animate-spin" /> : 'Gợi ý'}
+        {isFetching ? <Loader2 size={20} className="animate-spin" /> : t('hint.button')}
       </Button>
 
       {currentIndex !== null && data && (
         <BlockquoteCustom
           variants="primary"
-          title={`Gợi ý dịch câu ${data.sentence_index + 1}`}
+          title={t('hint.title', { sentenceIndex: data.sentence_index + 1 })}
           content={<Markdown>{data.hint}</Markdown>}
         />
       )}

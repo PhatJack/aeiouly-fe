@@ -2,6 +2,8 @@
 
 import React, { useState } from 'react';
 
+import { useTranslations } from 'next-intl';
+
 import PageHeader from '@/components/PageHeader';
 import {
   Tabs,
@@ -17,13 +19,14 @@ import RandomTopics from './RandomTopics';
 import RecentSessions from './RecentSessions';
 
 const TopicPage = () => {
+  const t = useTranslations('writing');
   const [activeTab, setActiveTab] = useState<string>('recent');
 
   return (
     <div className="space-y-4">
       <PageHeader
-        title="Luyện Viết"
-        description="Giúp người học luyện viết tiếng Anh tự nhiên, mở rộng vốn từ, và học cách diễn đạt như người bản ngữ thông qua việc viết cùng AI (AI viết tiếp hoặc gợi ý nâng cấp câu)."
+        title={t('page.title')}
+        description={t('page.description')}
         icon="/sidebarIcon/pen.png"
         iconAlt="Pen icon"
         ringColor="ring-violet-600"
@@ -34,11 +37,11 @@ const TopicPage = () => {
         <TabsList className="w-full sm:w-fit sm:min-w-md">
           <TabsTrigger value="recent" className="gap-2">
             <History className="size-4" />
-            <span>Gần đây</span>
+            <span>{t('tabs.recent')}</span>
           </TabsTrigger>
           <TabsTrigger value="explore" className="gap-2">
             <Sparkles className="size-4" />
-            <span>Khám phá</span>
+            <span>{t('tabs.explore')}</span>
           </TabsTrigger>
         </TabsList>
         <TabsContents className="mt-4">

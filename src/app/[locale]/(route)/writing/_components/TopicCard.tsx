@@ -2,6 +2,7 @@
 
 import React from 'react';
 
+import { useTranslations } from 'next-intl';
 import Image from 'next/image';
 
 import { Badge } from '@/components/ui/badge';
@@ -28,6 +29,7 @@ const levelColors: Record<WritingSessionCreateSchema['level'], string> = {
 };
 
 const TopicCard: React.FC<TopicCardProps> = ({ topic, level, total_sentences, image, onClick }) => {
+  const t = useTranslations('writing');
   return (
     <div
       onClick={onClick}
@@ -65,7 +67,9 @@ const TopicCard: React.FC<TopicCardProps> = ({ topic, level, total_sentences, im
           </h3>
           <div className="flex items-center gap-0.5">
             <Hash className="size-4" />
-            <span className="font-medium">{total_sentences} câu</span>
+            <span className="font-medium">
+              {t('topicCard.sentences', { count: total_sentences })}
+            </span>
           </div>
         </div>
       </div>

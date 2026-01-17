@@ -2,6 +2,8 @@
 
 import React, { memo } from 'react';
 
+import { useTranslations } from 'next-intl';
+
 import LoadingWithText from '@/components/LoadingWithText';
 import EmptyCustom from '@/components/custom/EmptyCustom';
 import { WritingSessionCreateSchema } from '@/lib/schema/writing-session.schema';
@@ -21,6 +23,7 @@ interface RecentSessionsProps {
 }
 
 const RecentSessions: React.FC<RecentSessionsProps> = ({ selectedTopic }) => {
+  const t = useTranslations('writing');
   const { data, isLoading } = useGetWritingSessionsQuery({ page: 1, size: 99 });
 
   const deleteMutation = useDeleteWritingSessionMutation();
@@ -30,10 +33,10 @@ const RecentSessions: React.FC<RecentSessionsProps> = ({ selectedTopic }) => {
   const handleDelete = (sessionId: number) => {
     deleteMutation.mutate(sessionId, {
       onSuccess: () => {
-        toast.success('Đã xóa phiên học thành công!');
+        toast.success(t('recentSessions.deleteSuccess'));
       },
       onError: () => {
-        toast.error('Không thể xóa phiên học. Vui lòng thử lại!');
+        toast.error(t('recentSessions.deleteError'));
       },
     });
   };
@@ -44,12 +47,12 @@ const RecentSessions: React.FC<RecentSessionsProps> = ({ selectedTopic }) => {
         <CreateSessionSection selectedTopic={selectedTopic} />
       </div>
       <div className="col-span-12 space-y-4 lg:col-span-8">
-        {isLoading && <LoadingWithText text="Đang tải các phiên học gần đây..." />}
+        {isLoading && <LoadingWithText text={t('recentSessions.loading')} />}
         {sessions.length === 0 ? (
           <EmptyCustom
             icon={<Sparkles className="h-12 w-12 text-violet-500" />}
-            title="Chưa có phiên viết nào"
-            description="Bắt đầu một phiên viết mới để cải thiện kỹ năng viết của bạn!"
+            title={t('recentSessions.empty.title')}
+            description={t('recentSessions.empty.description')}
           />
         ) : (
           <div className="grid gap-4 sm:grid-cols-2">

@@ -1,0 +1,129 @@
+{
+  "writing": {
+    "metadata": {
+      "title": "Thảo luận chủ đề",
+      "description": "Thảo luận và trao đổi về các chủ đề tiếng Anh thú vị với cộng đồng. Học tiếng Anh thông qua việc chia sẻ ý kiến và giao tiếp thực tế.",
+      "keywords": [
+        "thảo luận tiếng anh",
+        "topic discussion",
+        "cộng đồng tiếng anh",
+        "giao tiếp tiếng anh",
+        "học tiếng anh"
+      ]
+    },
+    "page": {
+      "title": "Luyện Viết",
+      "description": "Giúp người học luyện viết tiếng Anh tự nhiên, mở rộng vốn từ, và học cách diễn đạt như người bản ngữ thông qua việc viết cùng AI (AI viết tiếp hoặc gợi ý nâng cấp câu)."
+    },
+    "tabs": {
+      "recent": "Gần đây",
+      "explore": "Khám phá"
+    },
+    "createSession": {
+      "title": "Tạo phiên viết mới",
+      "description": "Tùy chỉnh chủ đề và độ khó theo ý muốn của bạn"
+    },
+    "recentSessions": {
+      "loading": "Đang tải các phiên học gần đây...",
+      "empty": {
+        "title": "Chưa có phiên viết nào",
+        "description": "Bắt đầu một phiên viết mới để cải thiện kỹ năng viết của bạn!"
+      },
+      "deleteSuccess": "Đã xóa phiên học thành công!",
+      "deleteError": "Không thể xóa phiên học. Vui lòng thử lại!"
+    },
+    "randomTopics": {
+      "title": "Gợi ý chủ đề",
+      "description": "Khám phá {count} chủ đề đa dạng được tạo ngẫu nhiên",
+      "filter": "Độ khó",
+      "all": "Tất cả",
+      "shuffle": "Tạo mới",
+      "noTopics": "Không có chủ đề nào phù hợp với bộ lọc của bạn",
+      "createSuccess": "Tạo phiên viết thành công!"
+    },
+    "topicCard": {
+      "sentences": "{count} câu"
+    },
+    "sessionCard": {
+      "completed": "Hoàn thành",
+      "inProgress": "Đang học",
+      "continue": "Tiếp tục",
+      "deleteConfirm": "Bạn có chắc chắn muốn xóa phiên học này?"
+    },
+    "topicDetail": {
+      "loading": "Đang tải dữ liệu...",
+      "difficulty": "Độ khó",
+      "totalSentences": "Tổng số câu",
+      "topic": "Chủ đề",
+      "fullText": "Đoạn văn",
+      "currentSentence": "Câu hiện tại"
+    },
+    "form": {
+      "topic": "Chủ đề viết",
+      "topicPlaceholder": "Nhập chủ đề viết",
+      "difficulty": "Độ khó",
+      "selectDifficulty": "Chọn độ khó",
+      "totalSentences": "Tổng số câu",
+      "totalSentencesPlaceholder": "Nhập số lượng câu",
+      "reset": "Reset",
+      "startNow": "Bắt đầu ngay",
+      "createSuccess": "Tạo phiên viết thành công!",
+      "createError": "Đã có lỗi xảy ra khi tạo phiên viết. Vui lòng thử lại."
+    },
+    "chat": {
+      "thinking": "Đang suy nghĩ...",
+      "evaluation": {
+        "title": "Kết quả đánh giá",
+        "description": "Dưới đây là kết quả chi tiết về phiên học của bạn",
+        "loading": "Đang tải kết quả đánh giá...",
+        "complete": "Hoàn tất"
+      }
+    },
+    "endSession": {
+      "endEarly": "Kết thúc sớm",
+      "confirm": {
+        "title": "Bạn chưa hoàn thành bài học này?",
+        "description": "Nếu bạn kết thúc sớm, tiến trình hiện tại của bạn sẽ không được lưu lại. Bạn có chắc chắn muốn kết thúc không?",
+        "cancel": "Hủy",
+        "confirm": "Xác nhận"
+      },
+      "success": "Kết thúc phiên học thành công!",
+      "error": "Đã có lỗi xảy ra khi kết thúc phiên học.",
+      "loading": "Đang tải kết quả...",
+      "evaluating": "Hệ thống đang đánh giá...",
+      "complete": "Hoàn tất"
+    },
+    "hint": {
+      "button": "Gợi ý",
+      "title": "Gợi ý dịch câu {sentenceIndex}",
+      "translationHint": "Gợi ý dịch câu {number}"
+    },
+    "sessionComplete": {
+      "title": "🎉 Chúc mừng bạn đã hoàn thành phiên học!",
+      "description": "Bạn đã hoàn thành tất cả các câu trong phiên học này.",
+      "viewResult": "Xem kết quả"
+    },
+    "evaluation": {
+      "overallScore": "Điểm tổng quan",
+      "progress": "Tiến độ hoàn thành",
+      "sentences": "{completed}/{total} câu",
+      "detailedScores": "Chi tiết điểm số",
+      "accuracy": "Độ chính xác",
+      "fluency": "Độ trôi chảy",
+      "vocabulary": "Từ vựng",
+      "grammar": "Ngữ pháp",
+      "feedback": "Nhận xét",
+      "suggestions": "Gợi ý cải thiện",
+      "completedAt": "Hoàn thành lúc:"
+    },
+    "skip": {
+      "button": "Bỏ qua",
+      "confirm": {
+        "title": "Bạn muốn bỏ qua câu này",
+        "description": "Hãy cố gắng suy nghĩ và viết câu trả lời của bạn trước khi bỏ qua.",
+        "cancel": "Hủy",
+        "confirm": "Xác nhận"
+      }
+    }
+  }
+}

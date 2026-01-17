@@ -2,6 +2,8 @@
 
 import React, { memo, useCallback } from 'react';
 
+import { useTranslations } from 'next-intl';
+
 import {
   AlertDialog,
   AlertDialogAction,
@@ -25,6 +27,7 @@ interface SkipSentenceButtonProps {
 }
 
 const SkipSentenceButton = ({ id }: SkipSentenceButtonProps) => {
+  const t = useTranslations('writing');
   const handleSelectedSentenceIndex = useContextSelector(
     WritingSessionContext,
     (ctx) => ctx!.handleSelectedSentenceIndex
@@ -48,20 +51,20 @@ const SkipSentenceButton = ({ id }: SkipSentenceButtonProps) => {
           {skipSentenceMutation.isPending ? (
             <Loader2 size={20} className="animate-spin" />
           ) : (
-            'Bỏ qua'
+            t('skip.button')
           )}
         </Button>
       </AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogTitle>Bạn muốn bỏ qua câu này</AlertDialogTitle>
-          <AlertDialogDescription>
-            Hãy cố gắng suy nghĩ và viết câu trả lời của bạn trước khi bỏ qua.{' '}
-          </AlertDialogDescription>
+          <AlertDialogTitle>{t('skip.alertDialog.title')}</AlertDialogTitle>
+          <AlertDialogDescription>{t('skip.alertDialog.description')}</AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogCancel>Hủy</AlertDialogCancel>
-          <AlertDialogAction onClick={handleClick}>Xác nhận</AlertDialogAction>
+          <AlertDialogCancel>{t('skip.alertDialog.cancel')}</AlertDialogCancel>
+          <AlertDialogAction onClick={handleClick}>
+            {t('skip.alertDialog.confirm')}
+          </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>

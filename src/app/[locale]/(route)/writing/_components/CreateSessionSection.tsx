@@ -2,6 +2,8 @@
 
 import React, { useRef } from 'react';
 
+import { useTranslations } from 'next-intl';
+
 import TopicInsertForm from '@/components/app/topic/TopicInsertForm';
 import { WritingSessionCreateSchema } from '@/lib/schema/writing-session.schema';
 
@@ -12,6 +14,7 @@ interface CreateSessionSectionProps {
 }
 
 const CreateSessionSection: React.FC<CreateSessionSectionProps> = ({ selectedTopic }) => {
+  const t = useTranslations('writing');
   const formRef = useRef<HTMLDivElement>(null);
 
   return (
@@ -21,10 +24,8 @@ const CreateSessionSection: React.FC<CreateSessionSectionProps> = ({ selectedTop
           <Edit3 className="text-primary size-5" />
         </div>
         <div>
-          <h2 className="text-foreground text-2xl font-bold">Tạo phiên viết mới</h2>
-          <p className="text-muted-foreground text-sm">
-            Tùy chỉnh chủ đề và độ khó theo ý muốn của bạn
-          </p>
+          <h2 className="text-foreground text-2xl font-bold">{t('createSession.title')}</h2>
+          <p className="text-muted-foreground text-sm">{t('createSession.description')}</p>
         </div>
       </div>
       <TopicInsertForm values={selectedTopic} />

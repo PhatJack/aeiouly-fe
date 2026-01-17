@@ -2,6 +2,7 @@
 
 import React, { useCallback } from 'react';
 
+import { useTranslations } from 'next-intl';
 import { useRouter } from 'nextjs-toploader/app';
 
 import { Badge } from '@/components/ui/badge';
@@ -21,6 +22,7 @@ interface SessionCardProps {
 }
 
 const SessionCard: React.FC<SessionCardProps> = ({ session, onDelete, isDeleting }) => {
+  const t = useTranslations('writing');
   const router = useRouter();
   const isCompleted = session.status === 'completed';
 
@@ -31,11 +33,11 @@ const SessionCard: React.FC<SessionCardProps> = ({ session, onDelete, isDeleting
   const handleDelete = useCallback(
     (e: React.MouseEvent) => {
       e.stopPropagation();
-      if (window.confirm('Bạn có chắc chắn muốn xóa phiên học này?')) {
+      if (window.confirm(t('sessionCard.deleteConfirm'))) {
         onDelete?.(session.id);
       }
     },
-    [session.id, onDelete]
+    [session.id, onDelete, t]
   );
 
   return (
@@ -94,12 +96,12 @@ const SessionCard: React.FC<SessionCardProps> = ({ session, onDelete, isDeleting
                 {isCompleted ? (
                   <>
                     <CheckCircle2 className="mr-1 size-3" />
-                    Hoàn thành
+                    {t('sessionCard.completed')}
                   </>
                 ) : (
                   <>
                     <Clock className="mr-1 size-3" />
-                    Đang học
+                    {t('sessionCard.inProgress')}
                   </>
                 )}
               </Badge>
@@ -112,7 +114,7 @@ const SessionCard: React.FC<SessionCardProps> = ({ session, onDelete, isDeleting
           {!isCompleted && (
             <Button className="w-full" onClick={handleContinue}>
               <Play />
-              Tiếp tục
+              {t('sessionCard.continue')}
             </Button>
           )}
         </div>
