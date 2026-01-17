@@ -3,6 +3,7 @@
 import React, { memo, useEffect } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 
+import { useTranslations } from 'next-intl';
 import { useRouter } from 'nextjs-toploader/app';
 
 import { Button } from '@/components/ui/button';
@@ -32,6 +33,7 @@ interface TopicInsertFormProps {
 }
 
 const TopicInsertForm = ({ values }: TopicInsertFormProps) => {
+  const t = useTranslations('writing');
   const router = useRouter();
   const createWritingSessionMutation = useCreateWritingSessionMutation();
   const formRef = React.useRef<HTMLDivElement>(null);
@@ -65,11 +67,11 @@ const TopicInsertForm = ({ values }: TopicInsertFormProps) => {
   const onSubmit = (data: WritingSessionCreateSchema) => {
     createWritingSessionMutation.mutate(data, {
       onSuccess: (data) => {
-        toast.success('Tạo phiên viết thành công!');
+        toast.success(t('form.createSuccess'));
         router.push(`${ROUTE.TOPIC}/${data.id}`);
       },
       onError: () => {
-        toast.error('Đã có lỗi xảy ra khi tạo phiên viết. Vui lòng thử lại.');
+        toast.error(t('form.createError'));
       },
     });
   };
@@ -83,12 +85,12 @@ const TopicInsertForm = ({ values }: TopicInsertFormProps) => {
               name="topic"
               render={({ field, fieldState }) => (
                 <Field>
-                  <FieldLabel>Chủ đề viết</FieldLabel>
+                  <FieldLabel>{t('form.topic')}</FieldLabel>
                   <Input
                     {...field}
                     id="form-create-writing-session-title"
                     aria-invalid={fieldState.invalid}
-                    placeholder="Nhập chủ đề viết"
+                    placeholder={t('form.topicPlaceholder')}
                     autoComplete="off"
                   />
                   {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
@@ -100,13 +102,13 @@ const TopicInsertForm = ({ values }: TopicInsertFormProps) => {
               name="level"
               render={({ field, fieldState }) => (
                 <Field orientation="responsive" data-invalid={fieldState.invalid}>
-                  <FieldLabel>Độ khó</FieldLabel>
+                  <FieldLabel>{t('form.difficulty')}</FieldLabel>
                   <Select name={field.name} value={field.value} onValueChange={field.onChange}>
                     <SelectTrigger
                       id="form-create-writing-session-select-difficulty"
                       aria-invalid={fieldState.invalid}
                     >
-                      <SelectValue placeholder="Chọn độ khó" />
+                      <SelectValue placeholder={t('form.selectDifficulty')} />
                     </SelectTrigger>
                     <SelectContent position="item-aligned">
                       <SelectItem value={'A1'}>A1</SelectItem>
@@ -126,7 +128,7 @@ const TopicInsertForm = ({ values }: TopicInsertFormProps) => {
               name="total_sentences"
               render={({ field, fieldState }) => (
                 <Field>
-                  <FieldLabel>Tổng số câu</FieldLabel>
+                  <FieldLabel>{t('form.totalSentences')}</FieldLabel>
                   <Input
                     {...field}
                     type="number"
@@ -134,7 +136,7 @@ const TopicInsertForm = ({ values }: TopicInsertFormProps) => {
                     onChange={(e) => field.onChange(Number(e.target.value))}
                     id="form-create-writing-session-input-total_sentences"
                     aria-invalid={fieldState.invalid}
-                    placeholder="Nhập số lượng câu"
+                    placeholder={t('form.totalSentencesPlaceholder')}
                     autoComplete="off"
                     min={1}
                     max={20}
@@ -149,10 +151,10 @@ const TopicInsertForm = ({ values }: TopicInsertFormProps) => {
       <CardFooter>
         <Field orientation="horizontal">
           <Button tabIndex={-1} type="button" variant="outline" onClick={() => form.reset()}>
-            Reset
+            {t('form.reset')}
           </Button>
           <Button type="submit" form="form-create-writing-session">
-            Bắt đầu ngay
+            {t('form.startNow')}
           </Button>
         </Field>
       </CardFooter>

@@ -2,6 +2,7 @@
 
 import React, { useCallback, useEffect, useState } from 'react';
 
+import { useTranslations } from 'next-intl';
 import { useRouter } from 'nextjs-toploader/app';
 
 import { Button } from '@/components/ui/button';
@@ -23,6 +24,7 @@ import { toast } from 'sonner';
 import TopicCard from './TopicCard';
 
 const RandomTopics = () => {
+  const t = useTranslations('writing');
   const [randomTopics, setRandomTopics] = useState<any[]>([]);
   const [levelFilter, setLevelFilter] = useState<string>('all');
   const router = useRouter();
@@ -44,14 +46,17 @@ const RandomTopics = () => {
     generateRandomTopics();
   }, [generateRandomTopics]);
 
-  const handleTopicClick = useCallback((topic: WritingSessionCreateSchema) => {
-    createWritingSessionMutation.mutate(topic, {
-      onSuccess: (data) => {
-        toast.success('Tạo phiên viết thành công!');
-        router.push(`${ROUTE.TOPIC}/${data.id}`);
-      },
-    });
-  }, []);
+  const handleTopicClick = useCallback(
+    (topic: WritingSessionCreateSchema) => {
+      createWritingSessionMutation.mutate(topic, {
+        onSuccess: (data) => {
+          toast.success(t('randomTopics.createSuccess'));
+          router.push(`${ROUTE.TOPIC}/${data.id}`);
+        },
+      });
+    },
+    [createWritingSessionMutation, router, t]
+  );
 
   const filteredTopics =
     levelFilter === 'all' ? randomTopics : randomTopics.filter((t) => t.level === levelFilter);
@@ -61,9 +66,9 @@ const RandomTopics = () => {
       {/* Section Header */}
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <h2 className="text-foreground text-2xl font-bold">Gợi ý chủ đề</h2>
+          <h2 className="text-foreground text-2xl font-bold">{t('randomTopics.title')}</h2>
           <p className="text-muted-foreground text-sm">
-            Khám phá {filteredTopics.length} chủ đề đa dạng được tạo ngẫu nhiên
+            {t('randomTopics.description', { count: filteredTopics.length })}
           </p>
         </div>
 
@@ -72,10 +77,10 @@ const RandomTopics = () => {
           <Select value={levelFilter} onValueChange={setLevelFilter}>
             <SelectTrigger className="w-[140px]">
               <Filter className="mr-2 size-4" />
-              <SelectValue placeholder="Độ khó" />
+              <SelectValue placeholder={t('randomTopics.filter')} />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="all">Tất cả</SelectItem>
+              <SelectItem value="all">{t('randomTopics.all')}</SelectItem>
               {levels.map((level) => (
                 <SelectItem key={level} value={level}>
                   {level}
@@ -87,7 +92,7 @@ const RandomTopics = () => {
           {/* Shuffle Button */}
           <Button variant="secondary-outline" onClick={generateRandomTopics} className="gap-2">
             <Dices className="size-4" />
-            <span className="hidden sm:inline">Tạo mới</span>
+            <span className="hidden sm:inline">{t('randomTopics.shuffle')}</span>
           </Button>
         </div>
       </div>
@@ -111,9 +116,7 @@ const RandomTopics = () => {
         </div>
       ) : (
         <div className="border-muted-foreground/25 bg-muted/30 rounded-lg border-2 border-dashed p-12 text-center">
-          <p className="text-muted-foreground text-sm">
-            Không có chủ đề nào phù hợp với bộ lọc của bạn
-          </p>
+          <p className="text-muted-foreground text-sm">{t('randomTopics.noTopics')}</p>
         </div>
       )}
     </div>

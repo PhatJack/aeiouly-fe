@@ -2,6 +2,7 @@
 
 import React, { memo } from 'react';
 
+import { useTranslations } from 'next-intl';
 import { useSearchParams } from 'next/navigation';
 
 import EndSessionButton from '@/components/app/topic/EndSessionButton';
@@ -19,6 +20,7 @@ interface TopicInfoSectionProps {
 }
 
 const TopicInfoSection = ({ writingSession }: TopicInfoSectionProps) => {
+  const t = useTranslations('writing');
   const searchParams = useSearchParams();
   const currentSentenceIndex = useContextSelector(
     WritingSessionContext,
@@ -46,13 +48,13 @@ const TopicInfoSection = ({ writingSession }: TopicInfoSectionProps) => {
               <p className="text-success font-medium line-clamp-1" title={writingSession.topic}>{writingSession.topic}</p>
             </div> */}
             <div className="flex items-center space-x-1 p-4">
-              <span className="text-muted-foreground">Độ khó:</span>
+              <span className="text-muted-foreground">{t('topicDetail.difficulty')}:</span>
               <p className="text-error font-medium" title={writingSession.level}>
                 {writingSession.level}
               </p>
             </div>
             <div className="flex items-center space-x-1 p-4">
-              <span className="text-muted-foreground">Tổng số câu:</span>
+              <span className="text-muted-foreground">{t('topicDetail.totalSentences')}:</span>
               <p className="text-info font-medium" title={String(writingSession.total_sentences)}>
                 {writingSession.total_sentences}
               </p>
@@ -60,14 +62,14 @@ const TopicInfoSection = ({ writingSession }: TopicInfoSectionProps) => {
           </div>
           <div className="space-y-4 px-4 pt-2 pb-4">
             <BlockquoteCustom
-              title="Chủ đề"
+              title={t('topicDetail.topic')}
               content={<p title={writingSession.topic}>{writingSession.topic}</p>}
               variants="warning"
             />
 
             {/* Full Text */}
             <BlockquoteCustom
-              title="Đoạn văn"
+              title={t('topicDetail.fullText')}
               content={
                 <div
                   className="text-base leading-relaxed"
@@ -79,7 +81,7 @@ const TopicInfoSection = ({ writingSession }: TopicInfoSectionProps) => {
 
             {/* Current Sentence */}
             <BlockquoteCustom
-              title="Câu hiện tại"
+              title={t('topicDetail.currentSentence')}
               content={
                 <div className="text-base leading-relaxed">
                   {writingSession.vietnamese_sentences[currentSentenceIndex]}
