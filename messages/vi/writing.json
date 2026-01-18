@@ -80,18 +80,24 @@
       }
     },
     "endSession": {
-      "endEarly": "Kết thúc sớm",
-      "confirm": {
+      "button": "Kết thúc sớm",
+      "alertDialog": {
         "title": "Bạn chưa hoàn thành bài học này?",
         "description": "Nếu bạn kết thúc sớm, tiến trình hiện tại của bạn sẽ không được lưu lại. Bạn có chắc chắn muốn kết thúc không?",
         "cancel": "Hủy",
         "confirm": "Xác nhận"
       },
-      "success": "Kết thúc phiên học thành công!",
-      "error": "Đã có lỗi xảy ra khi kết thúc phiên học.",
-      "loading": "Đang tải kết quả...",
-      "evaluating": "Hệ thống đang đánh giá...",
-      "complete": "Hoàn tất"
+      "toast": {
+        "success": "Kết thúc phiên học thành công!",
+        "error": "Đã có lỗi xảy ra khi kết thúc phiên học."
+      },
+      "evaluationDialog": {
+        "loadingTitle": "Đang tải kết quả...",
+        "title": "Kết quả đánh giá",
+        "loadingDescription": "Hệ thống đang đánh giá...",
+        "description": "Dưới đây là kết quả chi tiết về phiên học của bạn",
+        "completeButton": "Hoàn tất"
+      }
     },
     "hint": {
       "button": "Gợi ý",
@@ -101,24 +107,34 @@
     "sessionComplete": {
       "title": "🎉 Chúc mừng bạn đã hoàn thành phiên học!",
       "description": "Bạn đã hoàn thành tất cả các câu trong phiên học này.",
-      "viewResult": "Xem kết quả"
+      "viewResultButton": "Xem kết quả"
     },
     "evaluation": {
-      "overallScore": "Điểm tổng quan",
-      "progress": "Tiến độ hoàn thành",
-      "sentences": "{completed}/{total} câu",
-      "detailedScores": "Chi tiết điểm số",
-      "accuracy": "Độ chính xác",
-      "fluency": "Độ trôi chảy",
-      "vocabulary": "Từ vựng",
-      "grammar": "Ngữ pháp",
-      "feedback": "Nhận xét",
-      "suggestions": "Gợi ý cải thiện",
-      "completedAt": "Hoàn thành lúc:"
+      "overallScore": {
+        "title": "Điểm tổng quan"
+      },
+      "progress": {
+        "title": "Tiến độ hoàn thành",
+        "completed": "{completed}/{total} câu"
+      },
+      "detailedScores": {
+        "title": "Chi tiết điểm số",
+        "accuracy": "Độ chính xác",
+        "fluency": "Độ trôi chảy",
+        "vocabulary": "Từ vựng",
+        "grammar": "Ngữ pháp"
+      },
+      "feedback": {
+        "title": "Nhận xét"
+      },
+      "suggestions": {
+        "title": "Gợi ý cải thiện"
+      },
+      "completedAt": "Hoàn thành lúc"
     },
     "skip": {
       "button": "Bỏ qua",
-      "confirm": {
+      "alertDialog": {
         "title": "Bạn muốn bỏ qua câu này",
         "description": "Hãy cố gắng suy nghĩ và viết câu trả lời của bạn trước khi bỏ qua.",
         "cancel": "Hủy",

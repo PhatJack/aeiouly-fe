@@ -69,7 +69,7 @@
       "interaction": "Interaction",
       "feedback": "Comments",
       "suggestions": "Improvement Suggestions",
-      "completedAt": "Completed at:"
+      "completedAt": "Completed at"
     },
     "buttons": {
       "hint": "Hint",
