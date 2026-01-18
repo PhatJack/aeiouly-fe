@@ -95,7 +95,7 @@ const FinalEvaluation = ({ data }: FinalEvaluationProps) => {
       {/* Completed Time */}
       {data.completed_at && (
         <div className="text-muted-foreground border-t pt-4 text-center text-sm">
-          {t('evaluation.completedAt')}{' '}
+          {t('evaluation.completedAt')}:
           {new Date(data.completed_at).toLocaleString(getLocaleTag(locale), {
             year: 'numeric',
             month: 'long',
