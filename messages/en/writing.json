@@ -110,17 +110,27 @@
       "viewResultButton": "View Results"
     },
     "evaluation": {
-      "overallScore": "Overall Score",
-      "progress": "Completion Progress",
-      "sentences": "{completed}/{total} sentences",
-      "detailedScores": "Detailed Scores",
-      "accuracy": "Accuracy",
-      "fluency": "Fluency",
-      "vocabulary": "Vocabulary",
-      "grammar": "Grammar",
-      "feedback": "Feedback",
-      "suggestions": "Improvement Suggestions",
-      "completedAt": "Completed at:"
+      "overallScore": {
+        "title": "Overall Score"
+      },
+      "progress": {
+        "title": "Completion Progress",
+        "completed": "{completed}/{total} sentences"
+      },
+      "detailedScores": {
+        "title": "Detailed Scores",
+        "accuracy": "Accuracy",
+        "fluency": "Fluency",
+        "vocabulary": "Vocabulary",
+        "grammar": "Grammar"
+      },
+      "feedback": {
+        "title": "Feedback"
+      },
+      "suggestions": {
+        "title": "Improvement Suggestions"
+      },
+      "completedAt": "Completed at"
     },
     "skip": {
       "button": "Skip",

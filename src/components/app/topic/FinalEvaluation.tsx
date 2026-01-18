@@ -1,10 +1,10 @@
 import React from 'react';
 
-import { useTranslations } from 'next-intl';
+import { useLocale, useTranslations } from 'next-intl';
 
 import { Progress } from '@/components/ui/progress';
 import { FinalEvaluationResponseSchema } from '@/lib/schema/writing-session.schema';
-import { getScoreColor, getScoreLabel } from '@/lib/utils';
+import { getScoreColor, getScoreLabel, getLocaleTag } from '@/lib/utils';
 
 interface FinalEvaluationProps {
   data: FinalEvaluationResponseSchema;
@@ -13,6 +13,7 @@ interface FinalEvaluationProps {
 
 const FinalEvaluation = ({ data }: FinalEvaluationProps) => {
   const t = useTranslations('writing');
+  const locale = useLocale();
 
   return (
     <div className="space-y-6 py-4">
@@ -94,8 +95,8 @@ const FinalEvaluation = ({ data }: FinalEvaluationProps) => {
       {/* Completed Time */}
       {data.completed_at && (
         <div className="text-muted-foreground border-t pt-4 text-center text-sm">
-          {t('evaluation.completedAt')}{' '}
-          {new Date(data.completed_at).toLocaleString('vi-VN', {
+          {t('evaluation.completedAt')}:
+          {new Date(data.completed_at).toLocaleString(getLocaleTag(locale), {
             year: 'numeric',
             month: 'long',
             day: 'numeric',
