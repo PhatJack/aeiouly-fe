@@ -291,3 +291,16 @@ export const getFireProps = (streak: number, checked: boolean) => {
 
   return { size, imgClass };
 };
+
+/**
+ * Converts a locale code to a BCP 47 language tag for use with toLocaleString
+ * @param locale - The locale code (e.g., 'en', 'vi')
+ * @returns BCP 47 language tag (e.g., 'en-US', 'vi-VN')
+ */
+export const getLocaleTag = (locale: string): string => {
+  const localeMap: Record<string, string> = {
+    en: 'en-US',
+    vi: 'vi-VN',
+  };
+  return localeMap[locale] || 'en-US';
+};
