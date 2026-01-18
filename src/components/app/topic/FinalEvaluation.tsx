@@ -4,7 +4,7 @@ import { useLocale, useTranslations } from 'next-intl';
 
 import { Progress } from '@/components/ui/progress';
 import { FinalEvaluationResponseSchema } from '@/lib/schema/writing-session.schema';
-import { getScoreColor, getScoreLabel } from '@/lib/utils';
+import { getScoreColor, getScoreLabel, getLocaleTag } from '@/lib/utils';
 
 interface FinalEvaluationProps {
   data: FinalEvaluationResponseSchema;
@@ -96,7 +96,7 @@ const FinalEvaluation = ({ data }: FinalEvaluationProps) => {
       {data.completed_at && (
         <div className="text-muted-foreground border-t pt-4 text-center text-sm">
           {t('evaluation.completedAt')}{' '}
-          {new Date(data.completed_at).toLocaleString(locale === 'vi' ? 'vi-VN' : 'en-US', {
+          {new Date(data.completed_at).toLocaleString(getLocaleTag(locale), {
             year: 'numeric',
             month: 'long',
             day: 'numeric',
