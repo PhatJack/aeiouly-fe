@@ -2,6 +2,8 @@
 
 import React, { memo, useCallback, useEffect, useRef, useState } from 'react';
 
+import { useTranslations } from 'next-intl';
+import { useLocale } from 'next-intl';
 import Image from 'next/image';
 
 import AvatarCustom from '@/components/custom/AvatarCustom';
@@ -12,6 +14,7 @@ import { distanceToNowVN } from '@/lib/timezone';
 import { cn } from '@/lib/utils';
 import { useTogglePostLikeMutation } from '@/services/posts';
 
+import { enUS, vi } from 'date-fns/locale';
 import { toast } from 'sonner';
 
 import LikeButton from './LikeButton';
@@ -21,6 +24,8 @@ interface PostItemProps {
 }
 
 const PostItem = ({ post }: PostItemProps) => {
+  const locale = useLocale();
+  const t = useTranslations('PostsFeed');
   const contentRef = useRef<HTMLDivElement>(null);
   const [isExpanded, setIsExpanded] = useState(false);
   const [needsClamp, setNeedsClamp] = useState(false);
@@ -77,7 +82,7 @@ const PostItem = ({ post }: PostItemProps) => {
                   {post.author.username}
                 </p>
                 <p className="text-muted-foreground text-sm dark:text-gray-400">
-                  {distanceToNowVN(post.created_at)}
+                  {distanceToNowVN(post.created_at, locale === 'vi' ? vi : enUS)}
                 </p>
               </div>
 
@@ -120,7 +125,7 @@ const PostItem = ({ post }: PostItemProps) => {
           {needsClamp && (
             <div>
               <Button variant="ghost" size="sm" onClick={() => setIsExpanded((v) => !v)}>
-                {isExpanded ? 'Thu gọn' : 'Xem thêm'}
+                {isExpanded ? t('showLess') : t('showMore')}
               </Button>
             </div>
           )}

@@ -3,6 +3,7 @@
 import React, { memo, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 
+import { useTranslations } from 'next-intl';
 import Image from 'next/image';
 
 import AlertCustom from '@/components/custom/AlertCustom';
@@ -19,7 +20,6 @@ import { PROFESSIONS } from '@/constants/study-route/profession';
 import { STUDY_ROUNTINE } from '@/constants/study-route/routine';
 import { SKILLS } from '@/constants/study-route/skills';
 import { STUDY_TIME_OPTIONS } from '@/constants/study-route/study-time';
-import { GOALS } from '@/constants/study-route/targets';
 import {
   LearningPathFormSchema,
   LearningPathStatusResponseSchema,
@@ -39,6 +39,46 @@ interface StudyRouteFormProps {
 }
 
 const StudyRouteForm = ({ onSubmit, status, isLoading, onViewRoute }: StudyRouteFormProps) => {
+  const t = useTranslations('studyRoute');
+
+  const GOALS = [
+    {
+      id: 'daily_communication',
+      label: t('goals.daily_communication.label'),
+      description: t('goals.daily_communication.description'),
+    },
+    {
+      id: 'work',
+      label: t('goals.work.label'),
+      description: t('goals.work.description'),
+    },
+    {
+      id: 'travel',
+      label: t('goals.travel.label'),
+      description: t('goals.travel.description'),
+    },
+    {
+      id: 'study_exam',
+      label: t('goals.study_exam.label'),
+      description: t('goals.study_exam.description'),
+    },
+    {
+      id: 'certificate',
+      label: t('goals.certificate.label'),
+      description: t('goals.certificate.description'),
+    },
+    {
+      id: 'immigration',
+      label: t('goals.immigration.label'),
+      description: t('goals.immigration.description'),
+    },
+    {
+      id: 'personal_interest',
+      label: t('goals.personal_interest.label'),
+      description: t('goals.personal_interest.description'),
+    },
+  ];
+
   const form = useForm<LearningPathFormSchema>({
     defaultValues: {
       goals: [],

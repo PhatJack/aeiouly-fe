@@ -1,40 +1,42 @@
 export const GOALS = [
   {
     id: 'daily_communication',
-    label: 'Giao tiếp hàng ngày',
-    description: 'Tự tin trò chuyện, kết bạn và xử lý các tình huống thông thường trong cuộc sống.',
+    label: 'Daily communication',
+    description: 'Confidently converse, make friends, and handle common situations in life.',
   },
   {
     id: 'work',
-    label: 'Phục vụ công việc',
+    label: 'Work purposes',
     description:
-      'Sử dụng tiếng Anh trong môi trường công sở, viết email, họp hành và thuyết trình.',
+      'Use English in the workplace, write emails, attend meetings, and give presentations.',
   },
   {
     id: 'travel',
-    label: 'Du lịch',
-    description: 'Đủ vốn từ để hỏi đường, đặt phòng, gọi món và khám phá thế giới một cách tự lập.',
+    label: 'Travel',
+    description:
+      'Have enough vocabulary to ask for directions, book rooms, order food, and explore the world independently.',
   },
   {
     id: 'study_exam',
-    label: 'Học tập / Thi cử',
-    description: 'Cải thiện điểm số tại trường hoặc chuẩn bị cho các kỳ thi chuyển cấp, đại học.',
+    label: 'Study / Exams',
+    description: 'Improve school grades or prepare for level-up exams, university entrance exams.',
   },
   {
     id: 'certificate',
-    label: 'Luyện thi chứng chỉ',
-    description: 'Ôn luyện để lấy các chứng chỉ quốc tế như IELTS, TOEIC, TOEFL hoặc Cambridge.',
+    label: 'Certificate preparation',
+    description:
+      'Practice for international certificates such as IELTS, TOEIC, TOEFL, or Cambridge.',
   },
   {
     id: 'immigration',
-    label: 'Định cư nước ngoài',
+    label: 'Overseas settlement',
     description:
-      'Chuẩn bị ngôn ngữ để thích nghi với môi trường sống và làm việc tại một quốc gia mới.',
+      'Prepare language skills to adapt to living and working environments in a new country.',
   },
   {
     id: 'personal_interest',
-    label: 'Sở thích cá nhân',
+    label: 'Personal interest',
     description:
-      'Xem phim, nghe nhạc, đọc sách hoặc đơn giản là muốn thử thách bản thân với ngôn ngữ mới.',
+      'Watch movies, listen to music, read books, or simply challenge yourself with a new language.',
   },
 ];

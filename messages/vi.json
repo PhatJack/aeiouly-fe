@@ -70,11 +70,11 @@
     "listeningPractice": "Luyện nghe",
     "readingPractice": "Luyện đọc",
     "savedVocabulary": "Từ vựng đã lưu",
-    "profile": "Hồ sơ cá nhân",
-    "userManagement": "QL người dùng",
-    "postManagement": "QL bài viết",
-    "listeningSessionManagement": "QL bài học nghe",
-    "soloSpaceManagement": "QL không gian tự học",
+    "profile": "Hồ sơ",
+    "userManagement": "Quản lý người dùng",
+    "postManagement": "Quản lý bài viết",
+    "listeningSessionManagement": "Quản lý phiên nghe",
+    "soloSpaceManagement": "Quản lý không gian solo",
     "settings": "Cài đặt"
   },
   "Header": {
@@ -95,9 +95,11 @@
     "highest": "Cao nhất:",
     "noData": "Chưa có dữ liệu xếp hạng"
   },
-	"PostsFeed": {
-		"loading": "Đang tải các bài viết...",
-		"error": "Lỗi khi tải bài viết",
-		"loadingMore": "Đang tải thêm..."
-	}
+  "PostsFeed": {
+    "loading": "Đang tải các bài viết...",
+    "error": "Lỗi khi tải bài viết",
+    "loadingMore": "Đang tải thêm...",
+    "showMore": "Xem thêm",
+    "showLess": "Thu gọn"
+  }
 }

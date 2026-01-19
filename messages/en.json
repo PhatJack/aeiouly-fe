@@ -98,6 +98,8 @@
 	"PostsFeed": {
 		"loading": "Loading posts...",
 		"error": "Error loading posts",
-		"loadingMore": "Loading more..."
+		"loadingMore": "Loading more...",
+		"showMore": "See more",
+		"showLess": "Collapse"
 	}
 }

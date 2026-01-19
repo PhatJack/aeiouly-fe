@@ -1,3 +1,5 @@
+import { getTranslations } from 'next-intl/server';
+
 import { IconName } from 'lucide-react/dynamic';
 
 export const getSkillIcon = (skillType: string): IconName => {
@@ -15,24 +17,26 @@ export const getSkillIcon = (skillType: string): IconName => {
   }
 };
 
-export const getStatusText = (status: string) => {
+export const getStatusText = async (status: string) => {
+  const t = await getTranslations('studyRoute.status');
   switch (status) {
     case 'done':
-      return 'Hoàn thành';
+      return t('completed');
     case 'in_progress':
-      return 'Tiếp tục';
+      return t('inProgress');
     default:
-      return 'Bắt đầu';
+      return t('start');
   }
 };
 
-export const getGenderText = (gender: string) => {
+export const getGenderText = async (gender: string) => {
+  const t = await getTranslations('studyRoute.gender');
   switch (gender) {
     case 'male':
-      return 'Nam';
+      return t('male');
     case 'female':
-      return 'Nữ';
+      return t('female');
     default:
-      return 'Không xác định';
+      return t('unknown');
   }
 };

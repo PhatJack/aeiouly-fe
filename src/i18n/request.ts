@@ -9,6 +9,7 @@ export default getRequestConfig(async ({ requestLocale }) => {
   const locale = hasLocale(routing.locales, requested) ? requested : routing.defaultLocale;
 
   const mainMessages = (await import(`../../messages/${locale}.json`)).default;
+  const studyRouteMessages = (await import(`../../messages/${locale}/study-route.json`)).default;
   const settingMessages = (await import(`../../messages/${locale}/setting.json`)).default;
   const authMessages = (await import(`../../messages/${locale}/auth.json`)).default;
   const vocabularyMessages = (await import(`../../messages/${locale}/vocabulary.json`)).default;
@@ -23,6 +24,7 @@ export default getRequestConfig(async ({ requestLocale }) => {
     locale,
     messages: {
       ...mainMessages,
+      ...studyRouteMessages,
       ...settingMessages,
       ...authMessages,
       ...vocabularyMessages,
