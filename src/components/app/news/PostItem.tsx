@@ -2,8 +2,7 @@
 
 import React, { memo, useCallback, useEffect, useRef, useState } from 'react';
 
-import { useTranslations } from 'next-intl';
-import { useLocale } from 'next-intl';
+import { useTranslations, useLocale } from 'next-intl';
 import Image from 'next/image';
 
 import AvatarCustom from '@/components/custom/AvatarCustom';
