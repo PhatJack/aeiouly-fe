@@ -85,6 +85,76 @@
 		},
 		"loading": {
 			"loadingStudyRoute": "Loading your study route..."
+		},
+		"form": {
+			"buttons": {
+				"back": "Back",
+				"next": "Continue",
+				"createRoute": "Create Route",
+				"viewRoute": "View Route Now"
+			},
+			"errors": {
+				"selectGoals": "Please select learning goals",
+				"selectLevel": "Please select your level",
+				"selectSkills": "Please select skills",
+				"selectInterests": "Please select interests",
+				"selectAge": "Please select age range",
+				"selectProfession": "Please select profession",
+				"selectDailyLessons": "Please select daily lesson count",
+				"selectDuration": "Please select study duration"
+			},
+			"steps": {
+				"welcome": {
+					"title": "Welcome to Aeiouly",
+					"description": "Learn English with a personalized curriculum based on your interests and goals. Start your learning journey today!"
+				},
+				"goals": {
+					"title": "English Learning Goals"
+				},
+				"level": {
+					"title": "What's your current English level?"
+				},
+				"skills": {
+					"title": "Which English skills do you want to improve most?",
+					"alert": "The system will create more exercises for the skills you select!"
+				},
+				"interests": {
+					"title": "Great! Which topics do you like to learn?"
+				},
+				"age": {
+					"title": "How old are you?"
+				},
+				"profession": {
+					"title": "What's your profession?"
+				},
+				"dailyLessons": {
+					"title": "How many lessons do you want to study per day?",
+					"alert": "The system will create random lessons for 4 skills each day"
+				},
+				"routine": {
+					"title": "How long do you want to create your learning route?"
+				},
+				"summary": {
+					"goals": "English Learning Goals",
+					"level": "English Level",
+					"skills": "Skills to Improve",
+					"interests": "Topics of Interest",
+					"age": "Age Range",
+					"profession": "Profession",
+					"dailyLessons": "Daily Lesson Count",
+					"studyDuration": "Study Duration",
+					"moreTopics": "+{count} more topics",
+					"finalMessage": "Click \"Create Route\" to start your English learning journey!"
+				}
+			},
+			"completion": {
+				"title": "Completed!",
+				"message": "Your study route has been created successfully!"
+			},
+			"loading": {
+				"title": "Creating your study route...",
+				"message": "Please wait a moment while the system creates a personalized learning path for you."
+			}
 		}
 	}
 }

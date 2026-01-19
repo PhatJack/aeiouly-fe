@@ -1,6 +1,6 @@
 'use client';
 
-import React, { memo, useState } from 'react';
+import React, { memo, useMemo, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 
 import { useTranslations } from 'next-intl';
@@ -41,43 +41,46 @@ interface StudyRouteFormProps {
 const StudyRouteForm = ({ onSubmit, status, isLoading, onViewRoute }: StudyRouteFormProps) => {
   const t = useTranslations('studyRoute');
 
-  const GOALS = [
-    {
-      id: 'daily_communication',
-      label: t('goals.daily_communication.label'),
-      description: t('goals.daily_communication.description'),
-    },
-    {
-      id: 'work',
-      label: t('goals.work.label'),
-      description: t('goals.work.description'),
-    },
-    {
-      id: 'travel',
-      label: t('goals.travel.label'),
-      description: t('goals.travel.description'),
-    },
-    {
-      id: 'study_exam',
-      label: t('goals.study_exam.label'),
-      description: t('goals.study_exam.description'),
-    },
-    {
-      id: 'certificate',
-      label: t('goals.certificate.label'),
-      description: t('goals.certificate.description'),
-    },
-    {
-      id: 'immigration',
-      label: t('goals.immigration.label'),
-      description: t('goals.immigration.description'),
-    },
-    {
-      id: 'personal_interest',
-      label: t('goals.personal_interest.label'),
-      description: t('goals.personal_interest.description'),
-    },
-  ];
+  const GOALS = useMemo(
+    () => [
+      {
+        id: 'daily_communication',
+        label: t('goals.daily_communication.label'),
+        description: t('goals.daily_communication.description'),
+      },
+      {
+        id: 'work',
+        label: t('goals.work.label'),
+        description: t('goals.work.description'),
+      },
+      {
+        id: 'travel',
+        label: t('goals.travel.label'),
+        description: t('goals.travel.description'),
+      },
+      {
+        id: 'study_exam',
+        label: t('goals.study_exam.label'),
+        description: t('goals.study_exam.description'),
+      },
+      {
+        id: 'certificate',
+        label: t('goals.certificate.label'),
+        description: t('goals.certificate.description'),
+      },
+      {
+        id: 'immigration',
+        label: t('goals.immigration.label'),
+        description: t('goals.immigration.description'),
+      },
+      {
+        id: 'personal_interest',
+        label: t('goals.personal_interest.label'),
+        description: t('goals.personal_interest.description'),
+      },
+    ],
+    []
+  );
 
   const form = useForm<LearningPathFormSchema>({
     defaultValues: {
@@ -117,51 +120,51 @@ const StudyRouteForm = ({ onSubmit, status, isLoading, onViewRoute }: StudyRoute
             // Validate goals
             const goals = form.getValues('goals');
             if (!goals || goals.length === 0) {
-              toast.error('Vui lòng chọn ít nhất một mục tiêu học tiếng Anh');
+              toast.error(t('form.errors.selectGoals'));
               return false;
             }
           } else if (step === 4) {
             // Validate level
             if (form.getValues('level') === '') {
-              toast.error('Vui lòng chọn trình độ tiếng Anh hiện tại của bạn');
+              toast.error(t('form.errors.selectLevel'));
               return false;
             }
           } else if (step === 5) {
             // Validate skills
             const skills = form.getValues('skills');
             if (!skills || skills.length === 0) {
-              toast.error('Vui lòng chọn ít nhất một kĩ năng');
+              toast.error(t('form.errors.selectSkills'));
               return false;
             }
           } else if (step === 6) {
             // Validate interests
             const interests = form.getValues('interests');
             if (!interests || interests.length === 0) {
-              toast.error('Vui lòng chọn ít nhất một chủ đề');
+              toast.error(t('form.errors.selectInterests'));
               return false;
             }
           } else if (step === 7) {
             // Validate age
             if (form.getValues('ageRange') === '') {
-              toast.error('Vui lòng chọn độ tuổi');
+              toast.error(t('form.errors.selectAge'));
               return false;
             }
           } else if (step === 8) {
             // Validate profession
             if (form.getValues('profession') === '') {
-              toast.error('Vui lòng chọn nghề nghiệp');
+              toast.error(t('form.errors.selectProfession'));
               return false;
             }
           } else if (step === 9) {
             // Validate daily_lessons
             if (form.getValues('dailyLessonCount') === 0) {
-              toast.error('Vui lòng chọn số bài học mỗi ngày');
+              toast.error(t('form.errors.selectDailyLessons'));
               return false;
             }
           } else if (step === 10) {
             // Validate routine
             if (form.getValues('planDuration') === '') {
-              toast.error('Vui lòng chọn thời gian học');
+              toast.error(t('form.errors.selectDuration'));
               return false;
             }
           }
@@ -170,9 +173,9 @@ const StudyRouteForm = ({ onSubmit, status, isLoading, onViewRoute }: StudyRoute
         onFinalStepCompleted={() => {
           form.handleSubmit(onSubmitForm, onErrorForm)();
         }}
-        backButtonText="Quay lại"
-        nextButtonText="Tiếp tục"
-        lastStepButtonText="Tạo lộ trình"
+        backButtonText={t('form.buttons.back')}
+        nextButtonText={t('form.buttons.next')}
+        lastStepButtonText={t('form.buttons.createRoute')}
         footerClassName={status?.is_ready ? 'hidden' : ''}
         CompletedScreen={
           <div className="flex flex-1 flex-col items-center justify-center space-y-6">
@@ -182,12 +185,14 @@ const StudyRouteForm = ({ onSubmit, status, isLoading, onViewRoute }: StudyRoute
                   <CheckCircle2 className="text-primary h-48 w-48" strokeWidth={1.5} />
                 </div>
                 <div className="text-center">
-                  <h2 className="mb-2 text-2xl font-bold sm:text-3xl">Hoàn thành!</h2>
+                  <h2 className="mb-2 text-2xl font-bold sm:text-3xl">
+                    {t('form.completion.title')}
+                  </h2>
                   <p className="text-muted-foreground mb-6 text-base whitespace-pre-line">
-                    {status?.message || 'Lộ trình học tập của bạn đã được tạo thành công!'}
+                    {status?.message || t('form.completion.message')}
                   </p>
                   <Button size="lg" onClick={onViewRoute}>
-                    Xem lộ trình ngay
+                    {t('form.buttons.viewRoute')}
                   </Button>
                 </div>
               </>
@@ -226,12 +231,9 @@ const StudyRouteForm = ({ onSubmit, status, isLoading, onViewRoute }: StudyRoute
                 </div>
 
                 <div className="text-center">
-                  <h2 className="mb-2 text-2xl font-bold sm:text-3xl">
-                    Đang tạo lộ trình học cho bạn...
-                  </h2>
+                  <h2 className="mb-2 text-2xl font-bold sm:text-3xl">{t('form.loading.title')}</h2>
                   <p className="text-muted-foreground text-base whitespace-pre-line">
-                    {status?.message ||
-                      'Vui lòng chờ trong giây lát để hệ thống tạo lộ trình học tập phù hợp với bạn.'}
+                    {status?.message || t('form.loading.message')}
                   </p>
                 </div>
               </>
@@ -249,10 +251,9 @@ const StudyRouteForm = ({ onSubmit, status, isLoading, onViewRoute }: StudyRoute
               height={100}
               className="mx-auto rounded-full"
             />
-            <h1 className="text-2xl font-bold sm:text-3xl">Chào mừng bạn đến với Aeiouly</h1>
+            <h1 className="text-2xl font-bold sm:text-3xl">{t('form.steps.welcome.title')}</h1>
             <p className="text-muted-foreground text-base sm:text-lg">
-              Học tiếng Anh theo lộ trình cá nhân hóa dựa trên sở thích và mục tiêu của bạn. Hãy bắt
-              đầu hành trình học tập của bạn ngay hôm nay!
+              {t('form.steps.welcome.description')}
             </p>
           </div>
         </Step>
@@ -260,7 +261,7 @@ const StudyRouteForm = ({ onSubmit, status, isLoading, onViewRoute }: StudyRoute
         {/* Goal Step */}
         <Step>
           <FieldGroup>
-            <h2 className="text-2xl font-bold sm:text-3xl">Mục tiêu học tiếng Anh</h2>
+            <h2 className="text-2xl font-bold sm:text-3xl">{t('form.steps.goals.title')}</h2>
             <Controller
               control={form.control}
               name="goals"
@@ -298,9 +299,7 @@ const StudyRouteForm = ({ onSubmit, status, isLoading, onViewRoute }: StudyRoute
         {/* Level Step */}
         <Step>
           <FieldGroup>
-            <h2 className="text-2xl font-bold sm:text-3xl">
-              Trình độ tiếng Anh hiện tại của bạn như thế nào?
-            </h2>
+            <h2 className="text-2xl font-bold sm:text-3xl">{t('form.steps.level.title')}</h2>
             <Controller
               control={form.control}
               name="level"
@@ -332,11 +331,9 @@ const StudyRouteForm = ({ onSubmit, status, isLoading, onViewRoute }: StudyRoute
         {/* Skills Step */}
         <Step>
           <FieldGroup>
-            <h2 className="text-2xl font-bold sm:text-3xl">
-              Kĩ năng tiếng Anh bạn muốn cải thiện nhất?
-            </h2>
+            <h2 className="text-2xl font-bold sm:text-3xl">{t('form.steps.skills.title')}</h2>
             <AlertCustom
-              title="Hệ thống sẽ tạo số lượng bài các kĩ năng bạn chọn nhiều hơn!"
+              title={t('form.steps.skills.alert')}
               variant={'warning'}
               icon={<AlertCircleIcon />}
             />
@@ -377,7 +374,7 @@ const StudyRouteForm = ({ onSubmit, status, isLoading, onViewRoute }: StudyRoute
         {/* Interests Step */}
         <Step>
           <FieldGroup>
-            <h2 className="text-2xl font-bold sm:text-3xl">Tuyệt! Bạn thích học các chủ đề nào?</h2>
+            <h2 className="text-2xl font-bold sm:text-3xl">{t('form.steps.interests.title')}</h2>
             <Controller
               control={form.control}
               name="interests"
@@ -417,7 +414,7 @@ const StudyRouteForm = ({ onSubmit, status, isLoading, onViewRoute }: StudyRoute
         {/* Age Step */}
         <Step>
           <FieldGroup>
-            <h2 className="text-2xl font-bold sm:text-3xl">Bạn bao nhiêu tuổi?</h2>
+            <h2 className="text-2xl font-bold sm:text-3xl">{t('form.steps.age.title')}</h2>
             <Controller
               control={form.control}
               name="ageRange"
@@ -444,7 +441,7 @@ const StudyRouteForm = ({ onSubmit, status, isLoading, onViewRoute }: StudyRoute
         {/* Profession Step */}
         <Step>
           <FieldGroup>
-            <h2 className="text-2xl font-bold sm:text-3xl">Nghề nghiệp của bạn là gì?</h2>
+            <h2 className="text-2xl font-bold sm:text-3xl">{t('form.steps.profession.title')}</h2>
             <Controller
               control={form.control}
               name="profession"
@@ -471,11 +468,8 @@ const StudyRouteForm = ({ onSubmit, status, isLoading, onViewRoute }: StudyRoute
         {/* Daily Lessons Step */}
         <Step>
           <FieldGroup>
-            <h2 className="text-2xl font-bold sm:text-3xl">Mỗi ngày bạn muốn học bao nhiêu bài?</h2>
-            <AlertCustom
-              variant="info"
-              title="Hệ thống sẽ tạo số lượng bài học ngẫu nhiên 4 kĩ năng mỗi ngày"
-            />
+            <h2 className="text-2xl font-bold sm:text-3xl">{t('form.steps.dailyLessons.title')}</h2>
+            <AlertCustom variant="info" title={t('form.steps.dailyLessons.alert')} />
             <Controller
               control={form.control}
               name="dailyLessonCount"
@@ -506,9 +500,7 @@ const StudyRouteForm = ({ onSubmit, status, isLoading, onViewRoute }: StudyRoute
         {/* Routine Step */}
         <Step>
           <FieldGroup className="flex-1">
-            <h2 className="text-2xl font-bold sm:text-3xl">
-              Bạn muốn tạo lộ trình trong thời gian bao lâu?
-            </h2>
+            <h2 className="text-2xl font-bold sm:text-3xl">{t('form.steps.routine.title')}</h2>
             <Controller
               control={form.control}
               name="planDuration"
@@ -543,7 +535,7 @@ const StudyRouteForm = ({ onSubmit, status, isLoading, onViewRoute }: StudyRoute
               {/* Goals */}
               <div>
                 <h3 className="text-muted-foreground mb-2 text-sm font-semibold tracking-wide uppercase">
-                  Mục tiêu học tiếng Anh
+                  {t('form.steps.summary.goals')}
                 </h3>
                 <div className="flex flex-wrap gap-2">
                   {form.watch('goals')?.map((goalId) => {
@@ -563,7 +555,7 @@ const StudyRouteForm = ({ onSubmit, status, isLoading, onViewRoute }: StudyRoute
               {/* Level */}
               <div>
                 <h3 className="text-muted-foreground mb-2 text-sm font-semibold tracking-wide uppercase">
-                  Trình độ tiếng Anh
+                  {t('form.steps.summary.level')}
                 </h3>
                 <p className="text-base font-medium">
                   {LEVELS.find((l) => l.id === form.watch('level'))?.label}
@@ -573,7 +565,7 @@ const StudyRouteForm = ({ onSubmit, status, isLoading, onViewRoute }: StudyRoute
               {/* Skills */}
               <div>
                 <h3 className="text-muted-foreground mb-2 text-sm font-semibold tracking-wide uppercase">
-                  Kĩ năng muốn cải thiện
+                  {t('form.steps.summary.skills')}
                 </h3>
                 <div className="flex flex-wrap gap-2">
                   {form.watch('skills')?.map((skillId) => {
@@ -593,7 +585,7 @@ const StudyRouteForm = ({ onSubmit, status, isLoading, onViewRoute }: StudyRoute
               {/* Interests */}
               <div>
                 <h3 className="text-muted-foreground mb-2 text-sm font-semibold tracking-wide uppercase">
-                  Chủ đề quan tâm
+                  {t('form.steps.summary.interests')}
                 </h3>
                 <div className="flex flex-wrap gap-2">
                   {form
@@ -612,7 +604,9 @@ const StudyRouteForm = ({ onSubmit, status, isLoading, onViewRoute }: StudyRoute
                     })}
                   {(form.watch('interests')?.length ?? 0) > 10 && (
                     <span className="text-muted-foreground rounded-full px-3 py-1 text-sm">
-                      +{(form.watch('interests')?.length ?? 0) - 10} chủ đề khác
+                      {t('form.steps.summary.moreTopics', {
+                        count: (form.watch('interests')?.length ?? 0) - 10,
+                      })}
                     </span>
                   )}
                 </div>
@@ -622,7 +616,7 @@ const StudyRouteForm = ({ onSubmit, status, isLoading, onViewRoute }: StudyRoute
               <div className="grid gap-4 sm:grid-cols-2">
                 <div>
                   <h3 className="text-muted-foreground mb-2 text-sm font-semibold tracking-wide uppercase">
-                    Độ tuổi
+                    {t('form.steps.summary.age')}
                   </h3>
                   <p className="text-base font-medium">
                     {AGES.find((a) => a.id === form.watch('ageRange'))?.label}
@@ -630,7 +624,7 @@ const StudyRouteForm = ({ onSubmit, status, isLoading, onViewRoute }: StudyRoute
                 </div>
                 <div>
                   <h3 className="text-muted-foreground mb-2 text-sm font-semibold tracking-wide uppercase">
-                    Nghề nghiệp
+                    {t('form.steps.summary.profession')}
                   </h3>
                   <p className="text-base font-medium">
                     {PROFESSIONS.find((p) => p.id === form.watch('profession'))?.label}
@@ -642,7 +636,7 @@ const StudyRouteForm = ({ onSubmit, status, isLoading, onViewRoute }: StudyRoute
               <div className="grid gap-4 sm:grid-cols-2">
                 <div>
                   <h3 className="text-muted-foreground mb-2 text-sm font-semibold tracking-wide uppercase">
-                    Số bài học mỗi ngày
+                    {t('form.steps.summary.dailyLessons')}
                   </h3>
                   <p className="text-base font-medium">
                     {
@@ -653,7 +647,7 @@ const StudyRouteForm = ({ onSubmit, status, isLoading, onViewRoute }: StudyRoute
                 </div>
                 <div>
                   <h3 className="text-muted-foreground mb-2 text-sm font-semibold tracking-wide uppercase">
-                    Thời gian học
+                    {t('form.steps.summary.studyDuration')}
                   </h3>
                   <p className="text-base font-medium">
                     {STUDY_ROUNTINE.find((r) => r.value === form.watch('planDuration'))?.label}
@@ -663,7 +657,7 @@ const StudyRouteForm = ({ onSubmit, status, isLoading, onViewRoute }: StudyRoute
             </div>
 
             <p className="text-muted-foreground text-center text-sm">
-              Nhấn &quot;Tạo lộ trình&quot; để bắt đầu hành trình học tiếng Anh của bạn!
+              {t('form.steps.summary.finalMessage')}
             </p>
           </div>
         </Step>

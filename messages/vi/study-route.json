@@ -85,6 +85,76 @@
 		},
 		"loading": {
 			"loadingStudyRoute": "Đang tải lộ trình học tập của bạn..."
+		},
+		"form": {
+			"buttons": {
+				"back": "Quay lại",
+				"next": "Tiếp tục",
+				"createRoute": "Tạo lộ trình",
+				"viewRoute": "Xem lộ trình ngay"
+			},
+			"errors": {
+				"selectGoals": "Vui lòng chọn mục tiêu học tập",
+				"selectLevel": "Vui lòng chọn trình độ",
+				"selectSkills": "Vui lòng chọn kĩ năng",
+				"selectInterests": "Vui lòng chọn sở thích",
+				"selectAge": "Vui lòng chọn độ tuổi",
+				"selectProfession": "Vui lòng chọn nghề nghiệp",
+				"selectDailyLessons": "Vui lòng chọn số bài học mỗi ngày",
+				"selectDuration": "Vui lòng chọn thời gian học"
+			},
+			"steps": {
+				"welcome": {
+					"title": "Chào mừng bạn đến với Aeiouly",
+					"description": "Học tiếng Anh theo lộ trình cá nhân hóa dựa trên sở thích và mục tiêu của bạn. Hãy bắt đầu hành trình học tập của bạn ngay hôm nay!"
+				},
+				"goals": {
+					"title": "Mục tiêu học tiếng Anh"
+				},
+				"level": {
+					"title": "Trình độ tiếng Anh hiện tại của bạn như thế nào?"
+				},
+				"skills": {
+					"title": "Kĩ năng tiếng Anh bạn muốn cải thiện nhất?",
+					"alert": "Hệ thống sẽ tạo số lượng bài các kĩ năng bạn chọn nhiều hơn!"
+				},
+				"interests": {
+					"title": "Tuyệt! Bạn thích học các chủ đề nào?"
+				},
+				"age": {
+					"title": "Bạn bao nhiêu tuổi?"
+				},
+				"profession": {
+					"title": "Nghề nghiệp của bạn là gì?"
+				},
+				"dailyLessons": {
+					"title": "Mỗi ngày bạn muốn học bao nhiêu bài?",
+					"alert": "Hệ thống sẽ tạo số lượng bài học ngẫu nhiên 4 kĩ năng mỗi ngày"
+				},
+				"routine": {
+					"title": "Bạn muốn tạo lộ trình trong thời gian bao lâu?"
+				},
+				"summary": {
+					"goals": "Mục tiêu học tiếng Anh",
+					"level": "Trình độ tiếng Anh",
+					"skills": "Kĩ năng muốn cải thiện",
+					"interests": "Chủ đề quan tâm",
+					"age": "Độ tuổi",
+					"profession": "Nghề nghiệp",
+					"dailyLessons": "Số bài học mỗi ngày",
+					"studyDuration": "Thời gian học",
+					"moreTopics": "+{count} chủ đề khác",
+					"finalMessage": "Nhấn \"Tạo lộ trình\" để bắt đầu hành trình học tiếng Anh của bạn!"
+				}
+			},
+			"completion": {
+				"title": "Hoàn thành!",
+				"message": "Lộ trình học tập của bạn đã được tạo thành công!"
+			},
+			"loading": {
+				"title": "Đang tạo lộ trình học cho bạn...",
+				"message": "Vui lòng chờ trong giây lát để hệ thống tạo lộ trình học tập phù hợp với bạn."
+			}
 		}
 	}
 }
