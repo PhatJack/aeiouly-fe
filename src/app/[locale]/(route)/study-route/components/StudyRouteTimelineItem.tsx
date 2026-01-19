@@ -1,5 +1,6 @@
 import React, { memo, useCallback } from 'react';
 
+import { useTranslations } from 'next-intl';
 import { useRouter } from 'nextjs-toploader/app';
 
 import LoadingWithText from '@/components/LoadingWithText';
@@ -18,7 +19,29 @@ import { useCreateWritingSessionMutation } from '@/services/writing-session/crea
 import { DynamicIcon } from 'lucide-react/dynamic';
 import { toast } from 'sonner';
 
-import { getGenderText, getSkillIcon, getStatusText } from '../utils/util';
+import { getSkillIcon } from '../utils/util';
+
+const getStatusTextClient = (status: string, t: any) => {
+  switch (status) {
+    case 'done':
+      return t('status.completed');
+    case 'in_progress':
+      return t('status.inProgress');
+    default:
+      return t('status.start');
+  }
+};
+
+const getGenderTextClient = (gender: string, t: any) => {
+  switch (gender) {
+    case 'male':
+      return t('gender.male');
+    case 'female':
+      return t('gender.female');
+    default:
+      return t('gender.unknown');
+  }
+};
 
 interface StudyRouteTimelineItemProps {
   lesson: LessonWithProgressResponseSchema;
@@ -26,6 +49,7 @@ interface StudyRouteTimelineItemProps {
 }
 
 const StudyRouteTimelineItem = ({ lesson, isPending }: StudyRouteTimelineItemProps) => {
+  const t = useTranslations('studyRoute');
   const router = useRouter();
   const skillIcon = getSkillIcon(lesson.config.lesson_type);
   const isCompleted = lesson.status === 'done';
@@ -78,7 +102,7 @@ const StudyRouteTimelineItem = ({ lesson, isPending }: StudyRouteTimelineItemPro
       switch (lesson_type) {
         case 'listening':
           if (!lesson_id) {
-            toast.error('Thiếu thông tin bài học');
+            toast.error(t('errors.missingLessonInfo'));
             return;
           }
           if (!lesson.session_id) {
@@ -119,7 +143,7 @@ const StudyRouteTimelineItem = ({ lesson, isPending }: StudyRouteTimelineItemPro
 
         case 'speaking':
           if (!my_character || !ai_character || !ai_gender || !scenario || !level) {
-            toast.error('Thiếu thông tin bài học');
+            toast.error(t('errors.missingLessonInfo'));
             return;
           }
           if (!lesson.session_id) {
@@ -142,7 +166,7 @@ const StudyRouteTimelineItem = ({ lesson, isPending }: StudyRouteTimelineItemPro
 
         case 'writing':
           if (!topic || !level || !total_sentences) {
-            toast.error('Thiếu thông tin bài học');
+            toast.error(t('errors.missingLessonInfo'));
             return;
           }
           if (!lesson.session_id) {
@@ -162,10 +186,10 @@ const StudyRouteTimelineItem = ({ lesson, isPending }: StudyRouteTimelineItemPro
           break;
 
         default:
-          toast.error('Loại bài học không hợp lệ');
+          toast.error(t('errors.invalidLessonType'));
       }
     } catch (error: any) {
-      toast.error(error?.message || 'Có lỗi xảy ra khi tạo bài học');
+      toast.error(error?.message || t('errors.createSessionError'));
     }
   }, [
     lesson,
@@ -189,7 +213,7 @@ const StudyRouteTimelineItem = ({ lesson, isPending }: StudyRouteTimelineItemPro
     >
       {isLoading && (
         <LoadingWithText
-          text="Đang tạo phiên học"
+          text={t('errors.creatingSession')}
           className="bg-background absolute inset-0 z-50 size-full backdrop-blur-sm"
         />
       )}
@@ -222,26 +246,28 @@ const StudyRouteTimelineItem = ({ lesson, isPending }: StudyRouteTimelineItemPro
             <h5 className="font-medium capitalize">{lesson.title}</h5>
             {lesson.config.genre && (
               <p className="text-muted-foreground text-sm">
-                <span className="font-semibold">Thể loại:</span> {lesson.config.genre}
+                <span className="font-semibold">{t('lessonDetails.genre')}</span>{' '}
+                {lesson.config.genre}
               </p>
             )}
             {lesson.config.topic && (
               <p className="text-muted-foreground text-sm">
-                <span className="font-semibold">Chủ đề:</span> {lesson.config.topic}
+                <span className="font-semibold">{t('lessonDetails.topic')}</span>{' '}
+                {lesson.config.topic}
               </p>
             )}
             {(lesson.config.my_character || lesson.config.ai_character) && (
               <div className="flex flex-col gap-1">
                 {lesson.config.my_character && (
                   <p className="text-muted-foreground text-sm">
-                    <span className="font-semibold">Nhân vật của tôi:</span>{' '}
+                    <span className="font-semibold">{t('lessonDetails.myCharacter')}</span>{' '}
                     {lesson.config.my_character}
                   </p>
                 )}
                 <div className="flex items-center gap-4">
                   {lesson.config.ai_character && (
                     <p className="text-muted-foreground text-sm">
-                      <span className="font-semibold">Nhân vật AI:</span>{' '}
+                      <span className="font-semibold">{t('lessonDetails.aiCharacter')}</span>{' '}
                       {lesson.config.ai_character}
                     </p>
                   )}
@@ -250,8 +276,8 @@ const StudyRouteTimelineItem = ({ lesson, isPending }: StudyRouteTimelineItemPro
                   )}
                   {lesson.config.ai_gender && (
                     <p className="text-muted-foreground text-sm">
-                      <span className="font-semibold">Giới tính AI:</span>{' '}
-                      {getGenderText(lesson.config.ai_gender)}
+                      <span className="font-semibold">{t('lessonDetails.aiGender')}</span>{' '}
+                      {getGenderTextClient(lesson.config.ai_gender, t)}
                     </p>
                   )}
                 </div>
@@ -260,7 +286,8 @@ const StudyRouteTimelineItem = ({ lesson, isPending }: StudyRouteTimelineItemPro
 
             {lesson.config.scenario && (
               <p className="text-muted-foreground text-sm">
-                <span className="font-semibold">Bối cảnh:</span> {lesson.config.scenario}
+                <span className="font-semibold">{t('lessonDetails.scenario')}</span>{' '}
+                {lesson.config.scenario}
               </p>
             )}
           </div>
@@ -273,7 +300,7 @@ const StudyRouteTimelineItem = ({ lesson, isPending }: StudyRouteTimelineItemPro
           className="shrink-0"
         >
           {isCompleted && <DynamicIcon name="check-circle-2" className="size-4" />}
-          {getStatusText(lesson.status)}
+          {getStatusTextClient(lesson.status, t)}
         </Button>
       </div>
     </div>

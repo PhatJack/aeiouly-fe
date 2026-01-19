@@ -2,6 +2,8 @@
 
 import React, { useCallback, useEffect, useState } from 'react';
 
+import { useTranslations } from 'next-intl';
+
 import LoadingWithText from '@/components/LoadingWithText';
 import { LearningPathFormSchema } from '@/lib/schema/learning-path.schema';
 import {
@@ -14,6 +16,7 @@ import StudyRouteForm from './StudyRouteForm';
 import StudyRouteTimeline from './StudyRouteTimeline';
 
 const StudyRoutePage = () => {
+  const t = useTranslations('studyRoute');
   const [showTimeline, setShowTimeline] = useState(false);
   const createLearningPathMutation = useCreateLearningPathMutation();
   const [learningPathId, setLearningPathId] = useState<number | undefined>(undefined);
@@ -26,7 +29,7 @@ const StudyRoutePage = () => {
   } = useGetMyLearningPathQuery({
     enabled: !showTimeline,
     retry: (failureCount, error: any) => {
-      if (error?.detail === 'Bạn chưa tạo lộ trình học tập nào.') return false;
+      if (error?.detail === t('errors.noStudyRoute')) return false;
       return failureCount < 3;
     },
   });
@@ -46,10 +49,10 @@ const StudyRoutePage = () => {
   }, [learningPath]);
 
   if (isLearningPathLoading) {
-    return <LoadingWithText text="Đang tải lộ trình học tập của bạn..." />;
+    return <LoadingWithText text={t('loading.loadingStudyRoute')} />;
   }
 
-  if (!learningPath || error?.detail === 'Bạn chưa tạo lộ trình học tập nào.' || !showTimeline) {
+  if (!learningPath || error?.detail === t('errors.noStudyRoute') || !showTimeline) {
     return (
       <div className="mx-auto max-w-xl">
         <StudyRouteForm

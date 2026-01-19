@@ -2,6 +2,8 @@
 
 import React, { memo, useCallback } from 'react';
 
+import { useTranslations } from 'next-intl';
+
 import AlertCustom from '@/components/custom/AlertCustom';
 import EmptyCustom from '@/components/custom/EmptyCustom';
 import {
@@ -39,17 +41,15 @@ interface StudyRouteTimelineProps {
 }
 
 const DateDisplay = memo(({ planDuration }: { planDuration?: StudyRouteRoutine }) => {
+  const t = useTranslations('studyRoute.timeline.duration');
   if (!planDuration) return null;
 
-  return (
-    <span className="text-primary font-bold">
-      {planDuration === '7_days' ? '7 ngày' : planDuration === '30_days' ? '30 ngày' : '90 ngày'}
-    </span>
-  );
+  return <span className="text-primary font-bold">{t(planDuration)}</span>;
 });
 DateDisplay.displayName = 'DateDisplay';
 
 const StudyRouteTimeline = ({ learningPath, onDeleteRoute }: StudyRouteTimelineProps) => {
+  const t = useTranslations('studyRoute.timeline');
   const deleteLearningPathMutation = useDeleteMyLearningPathMutation();
 
   const handleDeleteLearningPath = useCallback(() => {
@@ -64,29 +64,19 @@ const StudyRouteTimeline = ({ learningPath, onDeleteRoute }: StudyRouteTimelineP
 
   if (!learningPath || !learningPath.daily_plans) {
     return (
-      <EmptyCustom
-        icon="book-open"
-        title="Lộ trình học tập trống"
-        description="Hiện tại bạn chưa có lộ trình học tập nào. Vui lòng tạo lộ trình để bắt đầu học tập."
-      />
+      <EmptyCustom icon="book-open" title={t('empty.title')} description={t('empty.description')} />
     );
   }
   return (
     <div className="mx-auto w-full space-y-4">
       <div className="space-y-2">
         <h1 className="text-3xl font-bold">
-          Lộ trình học tiếng Anh <DateDisplay planDuration={learningPath.form_data?.planDuration} />{' '}
-          của bạn
+          {t('title')} <DateDisplay planDuration={learningPath.form_data?.planDuration} />{' '}
+          {t('ofYou')}
         </h1>
-        <p className="text-muted-foreground">
-          Hoàn thành các hoạt động học tập theo thứ tự để đạt hiệu quả tốt nhất
-        </p>
+        <p className="text-muted-foreground">{t('description')}</p>
       </div>
-      <AlertCustom
-        variant={'info'}
-        title="Bạn chỉ được phép tạo mỗi lần 1 lộ trình."
-        icon={<CircleAlert />}
-      />
+      <AlertCustom variant={'info'} title={t('alert')} icon={<CircleAlert />} />
       <Timeline>
         {learningPath.daily_plans.map((day) => {
           const isCompleted = day.lessons.every((lesson) => lesson.status === 'done');
@@ -110,15 +100,15 @@ const StudyRouteTimeline = ({ learningPath, onDeleteRoute }: StudyRouteTimelineP
               </TimelineDot>
               <TimelineContent>
                 <TimelineHeading>
-                  {hasInProgress && 'Đang học: '}
-                  Ngày {day.day_number}
+                  {hasInProgress && `${t('inProgressPrefix')} `}
+                  {t('dayPrefix')} {day.day_number}
                 </TimelineHeading>
                 <div className="relative mt-4 space-y-3">
                   {isPending && (
                     <EmptyCustom
                       icon={<DynamicIcon name="lock" className="text-muted-foreground" />}
-                      title="Ngày học bị khoá"
-                      description="Hoàn thành các bài học trước để mở khoá"
+                      title={t('locked.title')}
+                      description={t('locked.description')}
                       className="absolute inset-0 z-40 flex items-center justify-center backdrop-blur-sm"
                     />
                   )}
@@ -140,20 +130,19 @@ const StudyRouteTimeline = ({ learningPath, onDeleteRoute }: StudyRouteTimelineP
       <AlertDialog>
         <AlertDialogTrigger asChild>
           <Button variant="error" className="w-full" size={'lg'}>
-            Xoá lộ trình
+            {t('delete.button')}
           </Button>
         </AlertDialogTrigger>
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle>Bạn có chắc chắn muốn xoá lộ trình này?</AlertDialogTitle>
-            <AlertDialogDescription>
-              Hành động này không thể hoàn tác. Tất cả tiến trình học tập của bạn trong lộ trình này
-              sẽ bị xoá.
-            </AlertDialogDescription>
+            <AlertDialogTitle>{t('delete.confirmTitle')}</AlertDialogTitle>
+            <AlertDialogDescription>{t('delete.confirmDescription')}</AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel>Huỷ</AlertDialogCancel>
-            <AlertDialogAction onClick={handleDeleteLearningPath}>Tiếp tục</AlertDialogAction>
+            <AlertDialogCancel>{t('delete.cancel')}</AlertDialogCancel>
+            <AlertDialogAction onClick={handleDeleteLearningPath}>
+              {t('delete.confirm')}
+            </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>

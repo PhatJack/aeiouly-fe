@@ -1,0 +1,160 @@
+{
+	"studyRoute": {
+		"status": {
+			"completed": "Completed",
+			"inProgress": "Continue",
+			"start": "Start"
+		},
+		"gender": {
+			"male": "Male",
+			"female": "Female",
+			"unknown": "Not specified"
+		},
+		"errors": {
+			"missingLessonInfo": "Missing lesson information",
+			"invalidLessonType": "Invalid lesson type",
+			"createSessionError": "An error occurred while creating the session",
+			"creatingSession": "Creating session",
+			"noStudyRoute": "You haven't created any study route yet."
+		},
+		"lessonDetails": {
+			"genre": "Genre:",
+			"topic": "Topic:",
+			"myCharacter": "My character:",
+			"aiCharacter": "AI character:",
+			"aiGender": "AI gender:",
+			"scenario": "Scenario:"
+		},
+		"timeline": {
+			"empty": {
+				"title": "Empty study route",
+				"description": "Currently you don't have any study route. Please create a route to start learning."
+			},
+			"duration": {
+				"7_days": "7 days",
+				"30_days": "30 days",
+				"90_days": "90 days"
+			},
+			"title": "English Learning Route",
+			"description": "Complete learning activities in order to achieve the best results",
+			"alert": "You can only create one route at a time.",
+			"ofYou": "of you",
+			"locked": {
+				"title": "Day is locked",
+				"description": "Complete previous lessons to unlock"
+			},
+			"delete": {
+				"button": "Delete Route",
+				"confirmTitle": "Are you sure you want to delete this route?",
+				"confirmDescription": "This action cannot be undone. All your learning progress in this route will be deleted.",
+				"cancel": "Cancel",
+				"confirm": "Continue"
+			},
+			"dayPrefix": "Day",
+			"inProgressPrefix": "Currently learning:"
+		},
+		"goals": {
+			"daily_communication": {
+				"label": "Daily communication",
+				"description": "Confidently converse, make friends, and handle common situations in life."
+			},
+			"work": {
+				"label": "Work purposes",
+				"description": "Use English in the workplace, write emails, attend meetings, and give presentations."
+			},
+			"travel": {
+				"label": "Travel",
+				"description": "Have enough vocabulary to ask for directions, book rooms, order food, and explore the world independently."
+			},
+			"study_exam": {
+				"label": "Study / Exams",
+				"description": "Improve school grades or prepare for level-up exams, university entrance exams."
+			},
+			"certificate": {
+				"label": "Certificate preparation",
+				"description": "Practice for international certificates such as IELTS, TOEIC, TOEFL, or Cambridge."
+			},
+			"immigration": {
+				"label": "Overseas settlement",
+				"description": "Prepare language skills to adapt to living and working environments in a new country."
+			},
+			"personal_interest": {
+				"label": "Personal interest",
+				"description": "Watch movies, listen to music, read books, or simply challenge yourself with a new language."
+			}
+		},
+		"loading": {
+			"loadingStudyRoute": "Loading your study route..."
+		},
+		"form": {
+			"buttons": {
+				"back": "Back",
+				"next": "Continue",
+				"createRoute": "Create Route",
+				"viewRoute": "View Route Now"
+			},
+			"errors": {
+				"selectGoals": "Please select learning goals",
+				"selectLevel": "Please select your level",
+				"selectSkills": "Please select skills",
+				"selectInterests": "Please select interests",
+				"selectAge": "Please select age range",
+				"selectProfession": "Please select profession",
+				"selectDailyLessons": "Please select daily lesson count",
+				"selectDuration": "Please select study duration"
+			},
+			"steps": {
+				"welcome": {
+					"title": "Welcome to Aeiouly",
+					"description": "Learn English with a personalized curriculum based on your interests and goals. Start your learning journey today!"
+				},
+				"goals": {
+					"title": "English Learning Goals"
+				},
+				"level": {
+					"title": "What's your current English level?"
+				},
+				"skills": {
+					"title": "Which English skills do you want to improve most?",
+					"alert": "The system will create more exercises for the skills you select!"
+				},
+				"interests": {
+					"title": "Great! Which topics do you like to learn?"
+				},
+				"age": {
+					"title": "How old are you?"
+				},
+				"profession": {
+					"title": "What's your profession?"
+				},
+				"dailyLessons": {
+					"title": "How many lessons do you want to study per day?",
+					"alert": "The system will create random lessons for 4 skills each day"
+				},
+				"routine": {
+					"title": "How long do you want to create your learning route?"
+				},
+				"summary": {
+					"goals": "English Learning Goals",
+					"level": "English Level",
+					"skills": "Skills to Improve",
+					"interests": "Topics of Interest",
+					"age": "Age Range",
+					"profession": "Profession",
+					"dailyLessons": "Daily Lesson Count",
+					"studyDuration": "Study Duration",
+					"moreTopics": "+{count} more topics",
+					"finalMessage": "Click \"Create Route\" to start your English learning journey!"
+				}
+			},
+			"completion": {
+				"title": "Completed!",
+				"message": "Your study route has been created successfully!"
+			},
+			"loading": {
+				"title": "Creating your study route...",
+				"message": "Please wait a moment while the system creates a personalized learning path for you."
+			}
+		}
+	}
+}

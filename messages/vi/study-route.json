@@ -1,0 +1,160 @@
+{
+	"studyRoute": {
+		"status": {
+			"completed": "Hoàn thành",
+			"inProgress": "Tiếp tục",
+			"start": "Bắt đầu"
+		},
+		"gender": {
+			"male": "Nam",
+			"female": "Nữ",
+			"unknown": "Không xác định"
+		},
+		"errors": {
+			"missingLessonInfo": "Thiếu thông tin bài học",
+			"invalidLessonType": "Loại bài học không hợp lệ",
+			"createSessionError": "Có lỗi xảy ra khi tạo phiên học",
+			"creatingSession": "Đang tạo phiên học",
+			"noStudyRoute": "Bạn chưa tạo lộ trình học tập nào."
+		},
+		"lessonDetails": {
+			"genre": "Thể loại:",
+			"topic": "Chủ đề:",
+			"myCharacter": "Nhân vật của tôi:",
+			"aiCharacter": "Nhân vật AI:",
+			"aiGender": "Giới tính AI:",
+			"scenario": "Bối cảnh:"
+		},
+		"timeline": {
+			"empty": {
+				"title": "Lộ trình học tập trống",
+				"description": "Hiện tại bạn chưa có lộ trình học tập nào. Vui lòng tạo lộ trình để bắt đầu học tập."
+			},
+			"duration": {
+				"7_days": "7 ngày",
+				"30_days": "30 ngày",
+				"90_days": "90 ngày"
+			},
+			"title": "Lộ trình học tiếng Anh",
+			"description": "Hoàn thành các hoạt động học tập theo thứ tự để đạt hiệu quả tốt nhất",
+			"alert": "Bạn chỉ được phép tạo mỗi lần 1 lộ trình.",
+			"ofYou": "của bạn",
+			"locked": {
+				"title": "Ngày học bị khoá",
+				"description": "Hoàn thành các bài học trước để mở khoá"
+			},
+			"delete": {
+				"button": "Xoá lộ trình",
+				"confirmTitle": "Bạn có chắc chắn muốn xoá lộ trình này?",
+				"confirmDescription": "Hành động này không thể hoàn tác. Tất cả tiến trình học tập của bạn trong lộ trình này sẽ bị xoá.",
+				"cancel": "Huỷ",
+				"confirm": "Tiếp tục"
+			},
+			"dayPrefix": "Ngày",
+			"inProgressPrefix": "Đang học:"
+		},
+		"goals": {
+			"daily_communication": {
+				"label": "Giao tiếp hàng ngày",
+				"description": "Tự tin trò chuyện, kết bạn và xử lý các tình huống thông thường trong cuộc sống."
+			},
+			"work": {
+				"label": "Phục vụ công việc",
+				"description": "Sử dụng tiếng Anh trong môi trường công sở, viết email, họp hành và thuyết trình."
+			},
+			"travel": {
+				"label": "Du lịch",
+				"description": "Đủ vốn từ để hỏi đường, đặt phòng, gọi món và khám phá thế giới một cách tự lập."
+			},
+			"study_exam": {
+				"label": "Học tập / Thi cử",
+				"description": "Cải thiện điểm số tại trường hoặc chuẩn bị cho các kỳ thi chuyển cấp, đại học."
+			},
+			"certificate": {
+				"label": "Luyện thi chứng chỉ",
+				"description": "Ôn luyện để lấy các chứng chỉ quốc tế như IELTS, TOEIC, TOEFL hoặc Cambridge."
+			},
+			"immigration": {
+				"label": "Định cư nước ngoài",
+				"description": "Chuẩn bị ngôn ngữ để thích nghi với môi trường sống và làm việc tại một quốc gia mới."
+			},
+			"personal_interest": {
+				"label": "Sở thích cá nhân",
+				"description": "Xem phim, nghe nhạc, đọc sách hoặc đơn giản là muốn thử thách bản thân với ngôn ngữ mới."
+			}
+		},
+		"loading": {
+			"loadingStudyRoute": "Đang tải lộ trình học tập của bạn..."
+		},
+		"form": {
+			"buttons": {
+				"back": "Quay lại",
+				"next": "Tiếp tục",
+				"createRoute": "Tạo lộ trình",
+				"viewRoute": "Xem lộ trình ngay"
+			},
+			"errors": {
+				"selectGoals": "Vui lòng chọn mục tiêu học tập",
+				"selectLevel": "Vui lòng chọn trình độ",
+				"selectSkills": "Vui lòng chọn kĩ năng",
+				"selectInterests": "Vui lòng chọn sở thích",
+				"selectAge": "Vui lòng chọn độ tuổi",
+				"selectProfession": "Vui lòng chọn nghề nghiệp",
+				"selectDailyLessons": "Vui lòng chọn số bài học mỗi ngày",
+				"selectDuration": "Vui lòng chọn thời gian học"
+			},
+			"steps": {
+				"welcome": {
+					"title": "Chào mừng bạn đến với Aeiouly",
+					"description": "Học tiếng Anh theo lộ trình cá nhân hóa dựa trên sở thích và mục tiêu của bạn. Hãy bắt đầu hành trình học tập của bạn ngay hôm nay!"
+				},
+				"goals": {
+					"title": "Mục tiêu học tiếng Anh"
+				},
+				"level": {
+					"title": "Trình độ tiếng Anh hiện tại của bạn như thế nào?"
+				},
+				"skills": {
+					"title": "Kĩ năng tiếng Anh bạn muốn cải thiện nhất?",
+					"alert": "Hệ thống sẽ tạo số lượng bài các kĩ năng bạn chọn nhiều hơn!"
+				},
+				"interests": {
+					"title": "Tuyệt! Bạn thích học các chủ đề nào?"
+				},
+				"age": {
+					"title": "Bạn bao nhiêu tuổi?"
+				},
+				"profession": {
+					"title": "Nghề nghiệp của bạn là gì?"
+				},
+				"dailyLessons": {
+					"title": "Mỗi ngày bạn muốn học bao nhiêu bài?",
+					"alert": "Hệ thống sẽ tạo số lượng bài học ngẫu nhiên 4 kĩ năng mỗi ngày"
+				},
+				"routine": {
+					"title": "Bạn muốn tạo lộ trình trong thời gian bao lâu?"
+				},
+				"summary": {
+					"goals": "Mục tiêu học tiếng Anh",
+					"level": "Trình độ tiếng Anh",
+					"skills": "Kĩ năng muốn cải thiện",
+					"interests": "Chủ đề quan tâm",
+					"age": "Độ tuổi",
+					"profession": "Nghề nghiệp",
+					"dailyLessons": "Số bài học mỗi ngày",
+					"studyDuration": "Thời gian học",
+					"moreTopics": "+{count} chủ đề khác",
+					"finalMessage": "Nhấn \"Tạo lộ trình\" để bắt đầu hành trình học tiếng Anh của bạn!"
+				}
+			},
+			"completion": {
+				"title": "Hoàn thành!",
+				"message": "Lộ trình học tập của bạn đã được tạo thành công!"
+			},
+			"loading": {
+				"title": "Đang tạo lộ trình học cho bạn...",
+				"message": "Vui lòng chờ trong giây lát để hệ thống tạo lộ trình học tập phù hợp với bạn."
+			}
+		}
+	}
+}
