@@ -101,5 +101,14 @@
     "loadingMore": "Đang tải thêm...",
     "showMore": "Xem thêm",
     "showLess": "Thu gọn"
+  },
+  "StreakNotification": {
+    "newRecordTitle": "Kỷ lục mới! 🏆",
+    "streakContinueTitle": "Streak tiếp tục! 🔥",
+    "current": "Hiện tại",
+    "highest": "Cao nhất",
+    "newRecordBadge": "Kỷ lục mới của bạn!",
+    "encouragement": "Tiếp tục phát huy nhé! 💪",
+    "close": "Đóng"
   }
 }

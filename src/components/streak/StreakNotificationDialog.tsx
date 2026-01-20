@@ -2,6 +2,8 @@
 
 import React, { useEffect, useRef, useState } from 'react';
 
+import { useTranslations } from 'next-intl';
+
 import {
   AlertDialog,
   AlertDialogContent,
@@ -26,6 +28,7 @@ interface StreakMessage {
 export const StreakNotificationDialog: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [streakData, setStreakData] = useState<StreakMessage | null>(null);
+  const t = useTranslations('StreakNotification');
 
   useEffect(() => {
     const handleWebSocketMessage = (event: Event) => {
@@ -127,11 +130,11 @@ export const StreakNotificationDialog: React.FC = () => {
                 <div className="text-3xl font-bold tracking-tight">
                   {isNewRecord ? (
                     <span className="from-primary via-primary to-secondary bg-gradient-to-r bg-clip-text text-transparent">
-                      Kỷ lục mới! 🏆
+                      {t('newRecordTitle')}
                     </span>
                   ) : (
                     <span className="from-primary via-primary to-secondary bg-gradient-to-r bg-clip-text text-transparent">
-                      Streak tiếp tục! 🔥
+                      {t('streakContinueTitle')}
                     </span>
                   )}
                 </div>
@@ -169,7 +172,9 @@ export const StreakNotificationDialog: React.FC = () => {
                     <span className="text-foreground text-3xl font-bold">
                       {streakData.current_streak}
                     </span>
-                    <span className="text-muted-foreground text-xs font-medium">Hiện tại</span>
+                    <span className="text-muted-foreground text-xs font-medium">
+                      {t('current')}
+                    </span>
                   </div>
 
                   <div className="border-border bg-card flex flex-1 flex-col items-center gap-2 rounded-2xl border p-4 shadow-sm backdrop-blur-sm transition-all hover:shadow-md">
@@ -179,7 +184,9 @@ export const StreakNotificationDialog: React.FC = () => {
                     <span className="text-foreground text-3xl font-bold">
                       {streakData.longest_streak}
                     </span>
-                    <span className="text-muted-foreground text-xs font-medium">Cao nhất</span>
+                    <span className="text-muted-foreground text-xs font-medium">
+                      {t('highest')}
+                    </span>
                   </div>
                 </motion.div>
 
@@ -193,7 +200,7 @@ export const StreakNotificationDialog: React.FC = () => {
                   >
                     <Badge className="border-primary bg-primary text-primary-foreground rounded-full border px-3 py-1 shadow-sm">
                       <Award className="mr-1.5 h-3.5 w-3.5" />
-                      Kỷ lục mới của bạn!
+                      {t('newRecordBadge')}
                     </Badge>
                   </motion.div>
                 )}
@@ -205,7 +212,7 @@ export const StreakNotificationDialog: React.FC = () => {
                   animate={{ opacity: 1 }}
                   transition={{ delay: 0.5 }}
                 >
-                  Tiếp tục phát huy nhé! 💪
+                  {t('encouragement')}
                 </motion.p>
 
                 {/* Close Button */}
@@ -220,7 +227,7 @@ export const StreakNotificationDialog: React.FC = () => {
                     size="lg"
                   >
                     <Zap className="mr-2 h-4 w-4" />
-                    Đóng
+                    {t('close')}
                   </Button>
                 </motion.div>
               </div>

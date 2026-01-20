@@ -101,5 +101,14 @@
 		"loadingMore": "Loading more...",
 		"showMore": "See more",
 		"showLess": "Collapse"
+	},
+	"StreakNotification": {
+		"newRecordTitle": "New Record! 🏆",
+		"streakContinueTitle": "Streak Continues! 🔥",
+		"current": "Current",
+		"highest": "Highest",
+		"newRecordBadge": "Your new record!",
+		"encouragement": "Keep it up! 💪",
+		"close": "Close"
 	}
 }
