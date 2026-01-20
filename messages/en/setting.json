@@ -31,6 +31,8 @@
 		"interface": "Interface",
 		"themeToggle": "Dark/Light Mode",
 		"themeToggleDescription": "Switch between dark/light interface",
+		"languageSwitcher": "Language",
+		"languageSwitcherDescription": "Select the display language of the application",
 		"security": "Security",
 		"changePassword": "Change Password",
 		"changePasswordDescription": "Update password to secure account",

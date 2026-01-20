@@ -31,6 +31,8 @@
     "interface": "Giao diện",
     "themeToggle": "Chế độ sáng/tối",
     "themeToggleDescription": "Chuyển đổi giao diện đen/trắng",
+		"languageSwitcher": "Ngôn ngữ",
+		"languageSwitcherDescription": "Chọn ngôn ngữ hiển thị của ứng dụng",
     "security": "Bảo mật",
     "changePassword": "Thay đổi mật khẩu",
     "changePasswordDescription": "Cập nhật mật khẩu để bảo mật tài khoản",

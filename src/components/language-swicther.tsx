@@ -44,7 +44,7 @@ export function LanguageSwitcher() {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="outline" className="gap-2">
+        <Button variant="outline" className="gap-2 bg-transparent dark:bg-transparent">
           <Languages />
           {locale}
         </Button>

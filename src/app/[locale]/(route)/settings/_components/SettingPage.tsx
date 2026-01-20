@@ -7,6 +7,7 @@ import { useTranslations } from 'next-intl';
 
 import SettingHeader from '@/components/app/settings/SettingHeader';
 import ThemeCustomizer from '@/components/app/settings/ThemeCustomizer';
+import { LanguageSwitcher } from '@/components/language-swicther';
 import { ModeToggle } from '@/components/mode-toggle';
 import { PasswordStrengthMeter } from '@/components/shared/PasswordStrengthMeter';
 import { Button } from '@/components/ui/button';
@@ -67,6 +68,13 @@ const SettingPage = () => {
                 <p className="mt-1 font-medium">{t('themeToggleDescription')}</p>
               </div>
               <ModeToggle />
+            </div>
+            <div className="flex items-center justify-between p-4">
+              <div>
+                <Label className="font-medium text-gray-500">{t('languageSwitcher')}</Label>
+                <p className="mt-1 font-medium">{t('languageSwitcherDescription')}</p>
+              </div>
+              <LanguageSwitcher />
             </div>
           </div>
         </div>
