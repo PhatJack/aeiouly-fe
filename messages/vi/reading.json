@@ -99,6 +99,12 @@
         "questionCountError": "Số câu hỏi phải từ 3 đến 10"
       },
       "highlightTip": "Bạn có thể bôi đen từ để lưu lại và học thêm"
+    },
+    "quiz": {
+      "title": "Bài kiểm tra đọc",
+      "english": "Tiếng Anh",
+      "vietnamese": "Tiếng Việt",
+      "loading": "Đang tạo bài kiểm tra..."
     }
 	}
 }

@@ -99,6 +99,12 @@
         "questionCountError": "Number of questions must be between 3 and 10"
       },
       "highlightTip": "You can highlight words to save and learn more"
+    },
+    "quiz": {
+      "title": "Reading Quiz",
+      "english": "English",
+      "vietnamese": "Vietnamese",
+      "loading": "Generating quiz..."
     }
 	}
 }

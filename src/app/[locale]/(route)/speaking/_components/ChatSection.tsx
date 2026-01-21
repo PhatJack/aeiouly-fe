@@ -218,7 +218,7 @@ const ChatSection = ({ sessionId, className }: ChatSectionProps) => {
     <>
       <div
         className={cn(
-          'border-border/50 dark:bg-background flex flex-col rounded-2xl border bg-gray-50 py-4',
+          'border-border/50 dark:bg-background flex min-h-[calc(100dvh-1rem-3.75rem)] flex-col rounded-2xl border bg-gray-50 py-4 sm:h-full sm:min-h-full',
           className
         )}
       >

@@ -45,13 +45,13 @@ function MessageContainer({
   return (
     <ScrollArea
       className={cn(
-        'dark:bg-background relative flex h-full max-h-dvh scroll-mr-1 flex-col space-y-3 overflow-y-auto rounded-xl bg-gray-50 px-4 lg:max-h-full',
+        'dark:bg-background relative flex h-dvh max-h-dvh scroll-mr-1 flex-col space-y-3 overflow-y-auto rounded-xl bg-gray-50 px-4 sm:h-full lg:max-h-full',
         className,
         isDetailPage ? 'pt-12 pb-4' : ''
       )}
     >
       {isDetailPage && (
-        <div className="dark:from-background absolute top-0 right-0 left-0 z-50 flex h-12 bg-gradient-to-b from-gray-50 px-4">
+        <div className="dark:from-background absolute top-0 right-0 left-0 z-40 flex h-12 bg-gradient-to-b from-gray-50 px-4">
           <Button
             variant="ghost"
             size="lg"
