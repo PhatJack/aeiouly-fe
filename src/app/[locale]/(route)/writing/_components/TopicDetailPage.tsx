@@ -36,14 +36,14 @@ const TopicDetailPage = ({ id }: TopicDetailPageProps) => {
   return (
     <div
       ref={contentRef}
-      className="flex max-h-[600px] flex-col gap-4 xl:h-[calc(100vh-5.75rem-1px)] xl:max-h-full"
+      className="flex flex-col gap-4 xl:h-[calc(100vh-5.75rem-1px)] xl:max-h-full"
     >
       <div className="flex min-h-0 flex-1 flex-col gap-4 xl:flex-row">
         {/* Left side - Chat */}
-        <ChatSection sessionId={Number(id)} className="flex-1" />
+        <ChatSection sessionId={Number(id)} className="order-2 flex-1 sm:order-1" />
 
         {/* Right side - Topic Details */}
-        <TopicInfoSection writingSession={writingSession} />
+        <TopicInfoSection writingSession={writingSession} className="order-1 sm:order-2" />
       </div>
       {selection.isSelected && selection.position && (
         <TextSelectionModal selection={selection} tooltipRef={tooltipRef} setOpen={setOpen} />

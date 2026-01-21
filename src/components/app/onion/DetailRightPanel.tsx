@@ -34,8 +34,8 @@ const DetailRightPanel = ({ speakingSession }: DetailRightPanelProps) => {
   }, [speakingSession, setSelectedVoice]);
 
   return (
-    <div className="border-border/50 dark:bg-background flex h-full w-full flex-col rounded-2xl border bg-gray-50">
-      <div className="dark:bg-muted grid grid-cols-3 gap-2 divide-x rounded-t-2xl border-b">
+    <div className="border-border/50 dark:bg-background flex h-full w-full flex-col overflow-hidden rounded-2xl border bg-gray-50">
+      <div className="dark:bg-muted grid grid-cols-2 divide-x divide-y rounded-t-2xl border-b sm:grid-cols-3 sm:gap-2 sm:divide-y-0">
         <div className="flex flex-col space-y-1 px-4 py-2">
           <span className="text-muted-foreground">{t('panel.myCharacter')}:</span>
           <p className="text-success font-medium">{speakingSession?.my_character}</p>

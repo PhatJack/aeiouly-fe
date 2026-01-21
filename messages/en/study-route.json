@@ -20,10 +20,10 @@
 		"lessonDetails": {
 			"genre": "Genre:",
 			"topic": "Topic:",
-			"myCharacter": "My character:",
-			"aiCharacter": "AI character:",
-			"aiGender": "AI gender:",
-			"scenario": "Scenario:"
+			"myCharacter": "My character",
+			"aiCharacter": "AI character",
+			"aiGender": "AI gender",
+			"scenario": "Scenario"
 		},
 		"timeline": {
 			"empty": {

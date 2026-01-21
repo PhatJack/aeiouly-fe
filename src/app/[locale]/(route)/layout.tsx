@@ -42,12 +42,12 @@ export default function RootLayout({
   }, [location]);
 
   return (
-    <div className="flex size-full">
+    <div className="flex size-full flex-col lg:flex-row">
       <Sidebar isExpanded={isExpanded} handleToggleExpand={handleToggleExpand} />
       <main
         id="main-layout"
         className={cn(
-          'bg-background relative h-screen w-full flex-1 transition-[margin] lg:border-l',
+          'bg-background relative w-full flex-1 transition-[margin] lg:h-screen lg:border-l',
           isExpanded ? 'lg:ml-60' : 'lg:ml-[72px]',
           shouldHide && 'lg:ml-0',
           isAdminRoute && 'overflow-hidden'
@@ -57,7 +57,7 @@ export default function RootLayout({
           {location !== ROUTE.SPACE && (
             <Header isExpanded={isExpanded} handleToggleExpand={handleToggleExpand} />
           )}
-          <div id="content-wrapper" className="w-full min-w-0 overflow-hidden p-4">
+          <div id="content-wrapper" className="size-full min-w-0 p-4 sm:overflow-hidden">
             {children}
           </div>
         </ScrollArea>

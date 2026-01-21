@@ -49,7 +49,7 @@ export const SpeakingSessionList = () => {
 
   if (isLoading) {
     return (
-      <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-3">
+      <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
         {Array.from({ length: 6 }).map((_, i) => (
           <Skeleton key={i} className="h-32 w-full" />
         ))}
@@ -72,7 +72,7 @@ export const SpeakingSessionList = () => {
   return (
     <div className="space-y-2">
       <h2 className="text-xl font-bold lg:text-2xl">{t('sessionList.createdSessions')}</h2>
-      <div className="grid gap-3 md:grid-cols-2">
+      <div className="grid gap-4 md:grid-cols-2">
         {data.items.map((item: SpeakingSessionListItemSchema) => {
           const createdAt = new Date(item.created_at).toLocaleString();
           const initials = (name: string) =>

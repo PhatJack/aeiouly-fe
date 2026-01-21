@@ -7,6 +7,7 @@ import TooltipCustom from '@/components/custom/TooltipCustom';
 import { Button } from '@/components/ui/button';
 import { Form, FormControl, FormField, FormItem } from '@/components/ui/form';
 import { Textarea } from '@/components/ui/textarea';
+import { useWindowSize } from '@/hooks/use-window-size';
 import { cn } from '@/lib/utils';
 
 import { ArrowUp, Mic, Square } from 'lucide-react';
@@ -42,6 +43,8 @@ const MessageInput = ({
     },
   });
 
+  const { width } = useWindowSize();
+
   const onSubmit = useCallback(
     (data: MessageFormData) => {
       if (data.message.trim() && !disabled) {
@@ -54,6 +57,7 @@ const MessageInput = ({
 
   // Determine if textarea is multiline (more than 1 line)
   const isMultiline =
+    (width ?? 0) < 640 ||
     (messageForm.watch('message') || '').split('\n').length > 1 ||
     (messageForm.watch('message') || '').length > 92;
 
@@ -87,7 +91,7 @@ const MessageInput = ({
       >
         <div
           className={cn(
-            "grid w-full grid-cols-[auto_1fr_auto] p-2.5 [grid-template-areas:'header_header_header'_'leading_primary_trailing'_'._footer_.']",
+            "grid w-full grid-cols-[auto_1fr_auto] p-2.5 [grid-template-areas:'header_header_header'_'primary_primary_primary'_'leading_footer_trailing'] sm:[grid-template-areas:'header_header_header'_'leading_primary_trailing'_'._footer_.']",
             "group-data-[expand=true]/composer:[grid-template-areas:'header_header_header'_'primary_primary_primary'_'leading_footer_trailing']"
           )}
         >

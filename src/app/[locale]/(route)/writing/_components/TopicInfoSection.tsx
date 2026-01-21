@@ -12,14 +12,16 @@ import BlockquoteCustom from '@/components/custom/BlockquoteCustom';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { WritingSessionContext } from '@/contexts/WritingSessionContext';
 import { WritingSessionResponseSchema } from '@/lib/schema/writing-session.schema';
+import { cn } from '@/lib/utils';
 
 import { useContextSelector } from 'use-context-selector';
 
 interface TopicInfoSectionProps {
   writingSession: WritingSessionResponseSchema;
+  className?: string;
 }
 
-const TopicInfoSection = ({ writingSession }: TopicInfoSectionProps) => {
+const TopicInfoSection = ({ writingSession, className }: TopicInfoSectionProps) => {
   const t = useTranslations('writing');
   const searchParams = useSearchParams();
   const currentSentenceIndex = useContextSelector(
@@ -38,7 +40,12 @@ const TopicInfoSection = ({ writingSession }: TopicInfoSectionProps) => {
       : text;
 
   return (
-    <div className="border-border/50 dark:bg-background relative flex flex-col overflow-hidden rounded-2xl border bg-gray-50 xl:w-1/2">
+    <div
+      className={cn(
+        'border-border/50 dark:bg-background relative flex flex-col overflow-hidden rounded-2xl border bg-gray-50 xl:w-1/2',
+        className
+      )}
+    >
       <div className="flex h-full flex-col items-center justify-between pb-16">
         <ScrollArea className="w-full overflow-y-auto">
           {/* Stats Grid */}

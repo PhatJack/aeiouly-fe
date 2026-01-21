@@ -126,8 +126,8 @@
     },
     "panel": {
       "myCharacter": "Nhân vật của bạn",
-      "aiCharacter": "Nhân vật AI:",
-      "difficulty": "Độ khó:",
+      "aiCharacter": "Nhân vật AI",
+      "difficulty": "Độ khó",
       "scenario": "Tình huống",
       "noScenario": "Chưa có tình huống."
     },
