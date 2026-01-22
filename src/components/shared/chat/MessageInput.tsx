@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback } from 'react';
 import type { RefObject } from 'react';
 import { useForm } from 'react-hook-form';
 
@@ -57,7 +57,7 @@ const MessageInput = ({
 
   // Determine if textarea is multiline (more than 1 line)
   const isMultiline =
-    width < 640 ||
+    (width ?? 0) < 640 ||
     (messageForm.watch('message') || '').split('\n').length > 1 ||
     (messageForm.watch('message') || '').length > 92;
 
