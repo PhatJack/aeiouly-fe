@@ -18,7 +18,7 @@ interface DictionarySearchInputProps {
 const DictionarySearchInput: React.FC<DictionarySearchInputProps> = ({
   value,
   onChange,
-  placeholder = 'Tìm kiếm từ vựng...',
+  placeholder = 'Search vocabulary...',
   debounceMs = 500,
 }) => {
   const [localValue, setLocalValue] = useState(value);

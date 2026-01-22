@@ -1,7 +1,8 @@
 'use client';
 
-import React, { Suspense, use, useEffect, useState } from 'react';
+import React, { use, useState } from 'react';
 
+import { useTranslations } from 'next-intl';
 import { useRouter, useSearchParams } from 'next/navigation';
 
 import AlertCustom from '@/components/custom/AlertCustom';
@@ -25,6 +26,7 @@ const FindVocabularyPage = ({ searchParams }: FindVocabularyPageProps) => {
   const router = useRouter();
   const params = use(searchParams);
   const [selectedWord, setSelectedWord] = useState<DictionaryResponseSchema | null>(null);
+  const t = useTranslations('vocabulary');
 
   const { data, isLoading, isError } = useSearchWordsQuery(
     {
@@ -53,12 +55,12 @@ const FindVocabularyPage = ({ searchParams }: FindVocabularyPageProps) => {
               }
               router.replace(`?${paramsURL.toString()}`, { scroll: false });
             }}
-            placeholder="Nhập từ vựng cần tra cứu..."
+            placeholder={t('find.search.placeholder')}
           />
 
           <AlertCustom
             icon={<Info className="text-primary" />}
-            title="Chọn từ để xem chi tiết"
+            title={t('find.alert.selectWord')}
             variant={'info'}
           />
 
@@ -66,8 +68,8 @@ const FindVocabularyPage = ({ searchParams }: FindVocabularyPageProps) => {
           {!params.q && (
             <EmptyCustom
               icon={<Search className="text-primary" />}
-              title="Bắt đầu tìm kiếm"
-              description="Nhập từ vựng tiếng Anh vào ô tìm kiếm để tra cứu định nghĩa"
+              title={t('find.empty.startSearch.title')}
+              description={t('find.empty.startSearch.description')}
             />
           )}
 
@@ -82,8 +84,8 @@ const FindVocabularyPage = ({ searchParams }: FindVocabularyPageProps) => {
           {params.q && isError && (
             <EmptyCustom
               icon={<BookOpen className="text-muted-foreground" />}
-              title="Không thể tải dữ liệu"
-              description="Đã xảy ra lỗi khi tìm kiếm từ vựng"
+              title={t('find.empty.noData.title')}
+              description={t('find.empty.noData.description')}
             />
           )}
           {params.q && !isLoading && !isError && data && (
@@ -104,8 +106,8 @@ const FindVocabularyPage = ({ searchParams }: FindVocabularyPageProps) => {
               ) : (
                 <EmptyCustom
                   icon={<BookOpen className="text-primary" />}
-                  title="Không tìm thấy kết quả"
-                  description={`Không tìm thấy từ vựng "${params.q}" trong từ điển. Thử tìm kiếm với từ khóa khác.`}
+                  title={t('find.empty.noResults.title')}
+                  description={t('find.empty.noResults.description', { query: params.q })}
                 />
               )}
             </>
@@ -118,8 +120,8 @@ const FindVocabularyPage = ({ searchParams }: FindVocabularyPageProps) => {
           ) : (
             <EmptyCustom
               icon={<BookOpen className="text-muted-foreground" />}
-              title="Chưa chọn từ vựng"
-              description="Chọn một từ vựng từ danh sách tìm kiếm để xem chi tiết định nghĩa"
+              title={t('find.empty.noSelection.title')}
+              description={t('find.empty.noSelection.description')}
             />
           )}
         </div>
