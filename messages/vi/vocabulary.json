@@ -56,6 +56,38 @@
         "remove": "Có lỗi xảy ra khi xóa từ",
         "practice": "Có lỗi xảy ra khi tạo phiên luyện tập"
       }
+    },
+    "find": {
+      "search": {
+        "placeholder": "Nhập từ vựng cần tra cứu...",
+        "placeholderShort": "Tìm kiếm từ vựng..."
+      },
+      "alert": {
+        "selectWord": "Chọn từ để xem chi tiết"
+      },
+      "empty": {
+        "startSearch": {
+          "title": "Bắt đầu tìm kiếm",
+          "description": "Nhập từ vựng tiếng Anh vào ô tìm kiếm để tra cứu định nghĩa"
+        },
+        "noData": {
+          "title": "Không thể tải dữ liệu",
+          "description": "Đã xảy ra lỗi khi tìm kiếm từ vựng"
+        },
+        "noResults": {
+          "title": "Không tìm thấy kết quả",
+          "description": "Không tìm thấy từ vựng \"{query}\" trong từ điển. Thử tìm kiếm với từ khóa khác."
+        },
+        "noSelection": {
+          "title": "Chưa chọn từ vựng",
+          "description": "Chọn một từ vựng từ danh sách tìm kiếm để xem chi tiết định nghĩa"
+        }
+      }
+    },
+    "wordDetail": {
+      "addToVocabulary": "Thêm vào bộ từ vựng",
+      "definition": "Định nghĩa",
+      "wordId": "ID từ"
     }
   }
 }

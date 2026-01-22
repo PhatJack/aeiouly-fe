@@ -3,6 +3,8 @@
 import React, { memo, useEffect, useState } from 'react';
 import ReactMarkdown from 'react-markdown';
 
+import { useTranslations } from 'next-intl';
+
 import PronunciationPlayer from '@/components/app/gym/detail/PronunciationPlayer';
 import VocabularyDialog from '@/components/shared/VocabularyDialog';
 import { Button } from '@/components/ui/button';
@@ -21,6 +23,7 @@ interface DictionaryWordDetailProps {
 }
 
 const DictionaryWordDetail: React.FC<DictionaryWordDetailProps> = ({ word }) => {
+  const t = useTranslations('vocabulary');
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<CambridgeDictionaryResponse | { error: string } | null>(
@@ -67,7 +70,7 @@ const DictionaryWordDetail: React.FC<DictionaryWordDetailProps> = ({ word }) => 
               </CardTitle>
               <CardDescription className="mt-2 flex items-center gap-2 text-sm">
                 <Hash className="h-4 w-4" />
-                Word ID: {word.id}
+                {t('wordDetail.wordId')}: {word.id}
               </CardDescription>
             </div>
           </div>
@@ -90,13 +93,13 @@ const DictionaryWordDetail: React.FC<DictionaryWordDetailProps> = ({ word }) => 
                 )
               )}
               <div className="">
-                <Button onClick={() => setOpen(true)}>Thêm vào bộ từ vựng</Button>
+                <Button onClick={() => setOpen(true)}>{t('wordDetail.addToVocabulary')}</Button>
               </div>
             </div>
             <div>
               <div className="mb-3 flex items-center gap-2">
                 <Languages className="text-primary h-5 w-5" />
-                <h3 className="text-lg font-semibold">Định nghĩa</h3>
+                <h3 className="text-lg font-semibold">{t('wordDetail.definition')}</h3>
               </div>
               <div className="bg-muted/50 dark:bg-background prose prose-sm text-accent-foreground max-w-none space-y-3 rounded-lg p-4 *:mb-0">
                 <ReactMarkdown remarkPlugins={[remarkBreaks]}>

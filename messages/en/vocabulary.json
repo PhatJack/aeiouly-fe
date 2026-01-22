@@ -56,6 +56,38 @@
 				"remove": "An error occurred while removing the word",
 				"practice": "An error occurred while creating the practice session"
 			}
+		},
+		"find": {
+			"search": {
+				"placeholder": "Enter vocabulary to look up...",
+				"placeholderShort": "Search vocabulary..."
+			},
+			"alert": {
+				"selectWord": "Select a word to view details"
+			},
+			"empty": {
+				"startSearch": {
+					"title": "Start searching",
+					"description": "Enter English vocabulary in the search box to look up definitions"
+				},
+				"noData": {
+					"title": "Unable to load data",
+					"description": "An error occurred while searching for vocabulary"
+				},
+				"noResults": {
+					"title": "No results found",
+					"description": "No vocabulary found for \"{query}\" in the dictionary. Try searching with a different keyword."
+				},
+				"noSelection": {
+					"title": "No vocabulary selected",
+					"description": "Select a vocabulary from the search list to view detailed definitions"
+				}
+			}
+		},
+		"wordDetail": {
+			"addToVocabulary": "Add to vocabulary",
+			"definition": "Definition",
+			"wordId": "Word ID"
 		}
 	}
 }

@@ -2,10 +2,14 @@
 
 import { useEffect } from 'react';
 
+import { useTranslations } from 'next-intl';
+
 import { driver } from 'driver.js';
 import 'driver.js/dist/driver.css';
 
 export default function DriverOnboarding() {
+  const t = useTranslations('Onboarding');
+
   useEffect(() => {
     if (typeof window === 'undefined') return;
 
@@ -13,24 +17,23 @@ export default function DriverOnboarding() {
     if (hasSeenTour) return;
 
     const driverObj = driver({
-      nextBtnText: 'Tiếp tục →',
-      prevBtnText: '← Quay lại',
-      doneBtnText: '🎉 Hoàn tất',
+      nextBtnText: t('nextBtnText'),
+      prevBtnText: t('prevBtnText'),
+      doneBtnText: t('doneBtnText'),
       animate: true,
       smoothScroll: true,
       stagePadding: 4,
       stageRadius: 20,
       popoverClass: 'aeiouly-custom',
       onDestroyed: () => {
-        // Lưu lại để tour không chạy lần nữa
+        // Save to prevent tour from running again
         localStorage.setItem('onboarding_done', 'true');
       },
       steps: [
         {
           popover: {
-            title: '👋 Xin chào! Chào mừng đến với Aeiouly',
-            description:
-              'Chào mừng bạn đến với Aeiouly - nền tảng chia sẻ và khám phá tuyệt vời! Hãy cùng mình khám phá nhanh các tính năng để bạn có thể sử dụng hiệu quả nhất nhé. ✨',
+            title: t('steps.welcome.title'),
+            description: t('steps.welcome.description'),
             side: 'over',
             align: 'center',
           },
@@ -38,9 +41,8 @@ export default function DriverOnboarding() {
         {
           element: '#app',
           popover: {
-            title: '🏠 Trang chủ',
-            description:
-              'Điểm khởi đầu của bạn! Xem tổng quan về các hoạt động và khám phá nội dung mới nhất trên Aeiouly.',
+            title: t('steps.home.title'),
+            description: t('steps.home.description'),
             side: 'right',
             align: 'start',
           },
@@ -48,9 +50,8 @@ export default function DriverOnboarding() {
         {
           element: '#study-route',
           popover: {
-            title: '📍 Lộ trình học tập',
-            description:
-              'Tạo và theo dõi lộ trình học tập cá nhân hóa để đạt được mục tiêu học tập của bạn một cách hiệu quả.',
+            title: t('steps.studyRoute.title'),
+            description: t('steps.studyRoute.description'),
             side: 'right',
             align: 'start',
           },
@@ -58,9 +59,8 @@ export default function DriverOnboarding() {
         {
           element: '#self-study-space',
           popover: {
-            title: '🌌 Không gian tự học',
-            description:
-              'Không gian học tập cá nhân của bạn với video nền thư giãn, âm thanh tập trung, bộ đếm thời gian Pomodoro và nhiều công cụ hữu ích khác giúp bạn tối ưu hiệu quả học tập.',
+            title: t('steps.selfStudySpace.title'),
+            description: t('steps.selfStudySpace.description'),
             side: 'right',
             align: 'start',
           },
@@ -68,9 +68,8 @@ export default function DriverOnboarding() {
         {
           element: '#speaking-practice',
           popover: {
-            title: '🎙️ Luyện nói',
-            description:
-              'Môi trường luyện nói trực tuyến với AI giúp bạn cải thiện kỹ năng giao tiếp và tự tin hơn trong các tình huống thực tế, với hơn 100+ tình huống nhập vai.',
+            title: t('steps.speakingPractice.title'),
+            description: t('steps.speakingPractice.description'),
             side: 'right',
             align: 'start',
           },
@@ -78,9 +77,8 @@ export default function DriverOnboarding() {
         {
           element: '#writing-practice',
           popover: {
-            title: '📝 Luyện viết',
-            description:
-              'Nhấn vào đây để luyện tập kỹ năng viết tiếng Anh và cải thiện khả năng diễn đạt ý tưởng của bạn.',
+            title: t('steps.writingPractice.title'),
+            description: t('steps.writingPractice.description'),
             side: 'right',
             align: 'start',
           },
@@ -88,9 +86,8 @@ export default function DriverOnboarding() {
         {
           element: '#listening-practice',
           popover: {
-            title: '🏋️ Luyện nghe',
-            description:
-              'Tham gia luyện nghe, ngữ âm, tra cứu từ điển phát âm, và vô vàn hoạt động thú vị khác để nâng cao kỹ năng tiếng Anh của bạn.',
+            title: t('steps.listeningPractice.title'),
+            description: t('steps.listeningPractice.description'),
             side: 'right',
             align: 'start',
           },
@@ -98,9 +95,8 @@ export default function DriverOnboarding() {
         {
           element: '#reading-practice',
           popover: {
-            title: '📚 Luyện đọc',
-            description:
-              'Khám phá kho bài đọc đa dạng với các chủ đề hấp dẫn, giúp bạn nâng cao kỹ năng đọc hiểu và mở rộng vốn từ vựng một cách hiệu quả.',
+            title: t('steps.readingPractice.title'),
+            description: t('steps.readingPractice.description'),
             side: 'right',
             align: 'start',
           },
@@ -108,9 +104,8 @@ export default function DriverOnboarding() {
         {
           element: '#saved-vocabulary',
           popover: {
-            title: '📰 Từ vựng đã lưu',
-            description:
-              'Xem và ôn tập các từ vựng bạn đã lưu để củng cố kiến thức và cải thiện khả năng ghi nhớ.',
+            title: t('steps.savedVocabulary.title'),
+            description: t('steps.savedVocabulary.description'),
             side: 'left',
             align: 'start',
           },
@@ -118,9 +113,8 @@ export default function DriverOnboarding() {
         {
           element: '#profile',
           popover: {
-            title: '👤 Hồ sơ cá nhân',
-            description:
-              'Quản lý thông tin cá nhân, xem tiến độ học tập và điều chỉnh cài đặt tài khoản của bạn.',
+            title: t('steps.profile.title'),
+            description: t('steps.profile.description'),
             side: 'left',
             align: 'start',
           },
@@ -128,18 +122,16 @@ export default function DriverOnboarding() {
         {
           element: '#settings',
           popover: {
-            title: '⚙️ Cài đặt',
-            description:
-              'Tại đây bạn có thể điều chỉnh các cài đặt cá nhân, bao gồm thông tin tài khoản, thông báo, quyền riêng tư và nhiều tùy chọn khác.',
+            title: t('steps.settings.title'),
+            description: t('steps.settings.description'),
             side: 'left',
             align: 'start',
           },
         },
         {
           popover: {
-            title: '🎉 Tới đây là xong rồi nè',
-            description:
-              'Tuyệt vời!.Giờ hãy bắt đầu khám phá và tạo ra những nội dung tuyệt vời trên Aeiouly nhé! 🚀',
+            title: t('steps.final.title'),
+            description: t('steps.final.description'),
             side: 'over',
             align: 'center',
           },

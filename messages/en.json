@@ -110,5 +110,64 @@
 		"newRecordBadge": "Your new record!",
 		"encouragement": "Keep it up! 💪",
 		"close": "Close"
+	},
+	"Streak": {
+		"learningStreak": "Learning Streak",
+		"consecutiveDays": "consecutive days"
+	},
+	"Onboarding": {
+		"nextBtnText": "Continue →",
+		"prevBtnText": "← Back",
+		"doneBtnText": "🎉 Complete",
+		"steps": {
+			"welcome": {
+				"title": "👋 Hello! Welcome to Aeiouly",
+				"description": "Welcome to Aeiouly - an amazing platform for sharing and discovery! Let's quickly explore the features so you can use them most effectively. ✨"
+			},
+			"home": {
+				"title": "🏠 Home",
+				"description": "Your starting point! View an overview of activities and discover the latest content on Aeiouly."
+			},
+			"studyRoute": {
+				"title": "📍 Study Route",
+				"description": "Create and track personalized learning paths to achieve your learning goals effectively."
+			},
+			"selfStudySpace": {
+				"title": "🌌 Self-Study Space",
+				"description": "Your personal learning space with relaxing background videos, focus sounds, Pomodoro timer, and many other useful tools to optimize your learning efficiency."
+			},
+			"speakingPractice": {
+				"title": "🎙️ Speaking Practice",
+				"description": "Online speaking environment with AI to help you improve communication skills and be more confident in real-life situations, with over 100+ role-playing scenarios."
+			},
+			"writingPractice": {
+				"title": "📝 Writing Practice",
+				"description": "Click here to practice English writing skills and improve your ability to express ideas."
+			},
+			"listeningPractice": {
+				"title": "🏋️ Listening Practice",
+				"description": "Participate in listening practice, phonetics, pronunciation dictionary lookup, and countless other fun activities to improve your English skills."
+			},
+			"readingPractice": {
+				"title": "📚 Reading Practice",
+				"description": "Explore a diverse collection of readings with engaging topics to improve reading comprehension and expand vocabulary effectively."
+			},
+			"savedVocabulary": {
+				"title": "📰 Saved Vocabulary",
+				"description": "View and review the vocabulary you've saved to reinforce knowledge and improve memory."
+			},
+			"profile": {
+				"title": "👤 Personal Profile",
+				"description": "Manage personal information, view learning progress, and adjust your account settings."
+			},
+			"settings": {
+				"title": "⚙️ Settings",
+				"description": "Here you can adjust personal settings, including account information, notifications, privacy, and many other options."
+			},
+			"final": {
+				"title": "🎉 That's all for now",
+				"description": "Excellent! Now start exploring and create amazing content on Aeiouly! 🚀"
+			}
+		}
 	}
 }

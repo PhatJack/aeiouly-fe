@@ -2,6 +2,7 @@
 
 import React, { useMemo } from 'react';
 
+import { useTranslations } from 'next-intl';
 import Image from 'next/image';
 
 import { Popover, PopoverContent } from '@/components/ui/popover';
@@ -13,6 +14,7 @@ import { PopoverTrigger } from '@radix-ui/react-popover';
 import WeekdayProgress from './WeekdayProgress';
 
 const HeaderShortcutStreak = () => {
+  const t = useTranslations();
   const { data: streakHistory, isLoading: isLoadingStreakHistory } =
     useGetWeeklyStreakStatusQuery();
 
@@ -57,9 +59,9 @@ const HeaderShortcutStreak = () => {
       <PopoverContent className="w-fit">
         <div className="space-y-2">
           <div className="text-center">
-            <p className="text-sm font-medium">Chuỗi học tập</p>
+            <p className="text-sm font-medium">{t('Streak.learningStreak')}</p>
             <p className="text-muted-foreground">
-              {streakHistory?.current_streak || 0} ngày liên tiếp
+              {streakHistory?.current_streak || 0} {t('Streak.consecutiveDays')}
             </p>
           </div>
           <WeekdayProgress completedDays={completedDays || []} dayNumbers={dayNumbers || []} />
