@@ -1,6 +1,8 @@
 import { hasLocale } from 'next-intl';
 import { getRequestConfig } from 'next-intl/server';
 
+import { mergeMessages } from '@/utils/i18n-util';
+
 import { routing } from './routing';
 
 export default getRequestConfig(async ({ requestLocale }) => {
@@ -19,22 +21,23 @@ export default getRequestConfig(async ({ requestLocale }) => {
   const paginationMessages = (await import(`../../messages/${locale}/pagination.json`)).default;
   const speakingMessages = (await import(`../../messages/${locale}/speaking.json`)).default;
   const writingMessages = (await import(`../../messages/${locale}/writing.json`)).default;
+  const profileMessages = (await import(`../../messages/${locale}/profile.json`)).default;
 
   return {
     locale,
-    messages: {
-      ...mainMessages,
-      ...studyRouteMessages,
-      ...settingMessages,
-      ...authMessages,
-      ...vocabularyMessages,
-      ...spaceMessages,
-      ...listeningMessages,
-      ...readingMessages,
-      ...paginationMessages,
-      ...speakingMessages,
-      ...writingMessages,
-    },
-    // ...
+    messages: mergeMessages(
+      mainMessages,
+      studyRouteMessages,
+      settingMessages,
+      authMessages,
+      vocabularyMessages,
+      spaceMessages,
+      listeningMessages,
+      readingMessages,
+      paginationMessages,
+      speakingMessages,
+      writingMessages,
+      profileMessages
+    ),
   };
 });

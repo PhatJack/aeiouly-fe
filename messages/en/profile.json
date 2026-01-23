@@ -1,0 +1,35 @@
+{
+  "profile": {
+    "avatar": "Profile picture",
+    "username": "Username",
+    "fullName": "Full Name",
+    "email": "Email",
+    "notUpdated": "Not updated",
+    "edit": "Edit",
+    "updateSuccess": {
+      "fullName": "Full name updated successfully",
+      "email": "Email updated successfully"
+    },
+    "editEmailDialog": {
+      "title": "Update Email",
+      "fieldLabel": "New Email",
+      "placeholder": "Enter new email"
+    },
+    "editFullNameDialog": {
+      "title": "Update Full Name",
+      "fieldLabel": "Full Name",
+      "placeholder": "Enter full name"
+    },
+    "streak": {
+      "loading": "Loading streak progress...",
+      "todayLit": "You've ignited your streak today, {name}! 😍",
+      "todayNotLit": "{name}, you haven't lit your streak today! 😥",
+      "countSuffix": "day",
+      "statsTitle": "Streak and time statistics",
+      "days": "Days",
+      "lessons": "Lessons",
+      "quizzes": "Quizzes",
+      "minutes": "Minutes"
+    }
+  }
+}

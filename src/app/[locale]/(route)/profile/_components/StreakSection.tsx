@@ -2,6 +2,7 @@
 
 import React, { useMemo } from 'react';
 
+import { useTranslations } from 'next-intl';
 import { Bagel_Fat_One } from 'next/font/google';
 import Image from 'next/image';
 
@@ -23,6 +24,7 @@ const bagelFastOne = Bagel_Fat_One({
 
 const StreakSection = () => {
   const user = useAuthStore((state) => state.user);
+  const t = useTranslations('profile');
 
   const { data: streakHistory, isLoading: isLoadingStreakHistory } =
     useGetWeeklyStreakStatusQuery();
@@ -43,7 +45,7 @@ const StreakSection = () => {
   );
 
   if (isLoadingStreakHistory) {
-    return <LoadingWithText text="Đang tải thành tích chuỗi..." />;
+    return <LoadingWithText text={t('streak.loading')} />;
   }
 
   return (
@@ -77,8 +79,8 @@ const StreakSection = () => {
             </h2>
             <p className="text-muted-foreground mt-1 text-sm">
               {streakHistory?.today_has_streak
-                ? `Bạn đã thắp sáng chuỗi hôm nay, ${user?.full_name}! 😍`
-                : `${user?.full_name} ơi, bạn chưa thắp sáng chuỗi hôm nay đấy! 😥`}
+                ? t('streak.todayLit', { name: user?.full_name ?? '' })
+                : t('streak.todayNotLit', { name: user?.full_name ?? '' })}
             </p>
           </div>
 

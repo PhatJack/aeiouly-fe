@@ -2,6 +2,8 @@
 
 import { useState } from 'react';
 
+import { useTranslations } from 'next-intl';
+
 import EditAvatarSetting from '@/components/app/settings/EditAvatarSetting';
 import EditFieldDialog from '@/components/app/settings/EditFieldDialog';
 import { WaveAnimation } from '@/components/shared/WaveAnimation';
@@ -17,6 +19,7 @@ import StreakSection from './StreakSection';
 
 const ProfilePage = () => {
   const user = useAuthStore((state) => state.user);
+  const t = useTranslations('profile');
   const [openEmailDialog, setOpenEmailDialog] = useState(false);
   const [openFullNameDialog, setOpenFullNameDialog] = useState(false);
 
@@ -28,7 +31,7 @@ const ProfilePage = () => {
         { full_name: data.full_name },
         {
           onSuccess: () => {
-            toast.success('Cập nhật tên thành công');
+            toast.success(t('updateSuccess.fullName'));
           },
         }
       );
@@ -39,7 +42,7 @@ const ProfilePage = () => {
         { email: data.email },
         {
           onSuccess: () => {
-            toast.success('Cập nhật email thành công');
+            toast.success(t('updateSuccess.email'));
           },
         }
       );
@@ -78,7 +81,7 @@ const ProfilePage = () => {
               <div className="p-4">
                 <div className="flex items-center justify-between">
                   <div className="flex flex-col gap-4">
-                    <Label className="font-medium text-gray-500">Ảnh đại diện</Label>
+                    <Label className="font-medium text-gray-500">{t('avatar')}</Label>
                     <EditAvatarSetting />
                   </div>
                 </div>
@@ -86,31 +89,31 @@ const ProfilePage = () => {
               {/* Username Section */}
               <div className="p-4">
                 <div>
-                  <Label className="font-medium text-gray-500">Username</Label>
-                  <p className="mt-1 font-medium">{user?.username || 'Chưa cập nhật'}</p>
+                  <Label className="font-medium text-gray-500">{t('username')}</Label>
+                  <p className="mt-1 font-medium">{user?.username || t('notUpdated')}</p>
                 </div>
               </div>
 
               {/* Full Name Section */}
               <div className="flex items-center justify-between p-4">
                 <div>
-                  <Label className="font-medium text-gray-500">Full Name</Label>
-                  <p className="mt-1 font-medium">{user?.full_name || 'Chưa cập nhật'}</p>
+                  <Label className="font-medium text-gray-500">{t('fullName')}</Label>
+                  <p className="mt-1 font-medium">{user?.full_name || t('notUpdated')}</p>
                 </div>
                 <Button variant="outline" onClick={() => setOpenFullNameDialog(true)}>
-                  Sửa
+                  {t('edit')}
                 </Button>
               </div>
 
               {/* Email Section */}
               <div className="flex items-center justify-between p-4">
                 <div>
-                  <Label className="font-medium text-gray-500">Email</Label>
-                  <p className="mt-1 font-medium">{user?.email || 'Chưa cập nhật'}</p>
+                  <Label className="font-medium text-gray-500">{t('email')}</Label>
+                  <p className="mt-1 font-medium">{user?.email || t('notUpdated')}</p>
                 </div>
                 {!(user?.username === '') && (
                   <Button variant="outline" onClick={() => setOpenEmailDialog(true)}>
-                    Sửa
+                    {t('edit')}
                   </Button>
                 )}
               </div>
@@ -136,12 +139,12 @@ const ProfilePage = () => {
       <EditFieldDialog
         open={openEmailDialog}
         onOpenChange={setOpenEmailDialog}
-        title="Cập nhật Email"
-        fieldLabel="Email mới"
+        title={t('editEmailDialog.title')}
+        fieldLabel={t('editEmailDialog.fieldLabel')}
         fieldName="email"
         fieldType="email"
         currentValue={user?.email || ''}
-        placeholder="Nhập email mới"
+        placeholder={t('editEmailDialog.placeholder')}
         onSubmit={handleUpdateInformation}
         validationSchema={userUpdateSchema.pick({ email: true })}
       />
@@ -150,11 +153,11 @@ const ProfilePage = () => {
       <EditFieldDialog
         open={openFullNameDialog}
         onOpenChange={setOpenFullNameDialog}
-        title="Cập nhật Họ và Tên"
-        fieldLabel="Họ và Tên"
+        title={t('editFullNameDialog.title')}
+        fieldLabel={t('editFullNameDialog.fieldLabel')}
         fieldName="full_name"
         currentValue={user?.full_name || ''}
-        placeholder="Nhập họ và tên"
+        placeholder={t('editFullNameDialog.placeholder')}
         onSubmit={handleUpdateInformation}
         validationSchema={userUpdateSchema.pick({ full_name: true })}
       />

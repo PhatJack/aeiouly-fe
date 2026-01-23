@@ -1,0 +1,35 @@
+{
+  "profile": {
+    "avatar": "Ảnh đại diện",
+    "username": "Tên đăng nhập",
+    "fullName": "Họ và Tên",
+    "email": "Email",
+    "notUpdated": "Chưa cập nhật",
+    "edit": "Sửa",
+    "updateSuccess": {
+      "fullName": "Cập nhật tên thành công",
+      "email": "Cập nhật email thành công"
+    },
+    "editEmailDialog": {
+      "title": "Cập nhật Email",
+      "fieldLabel": "Email mới",
+      "placeholder": "Nhập email mới"
+    },
+    "editFullNameDialog": {
+      "title": "Cập nhật Họ và Tên",
+      "fieldLabel": "Họ và Tên",
+      "placeholder": "Nhập họ và tên"
+    },
+    "streak": {
+      "loading": "Đang tải thành tích chuỗi...",
+      "todayLit": "Bạn đã thắp sáng chuỗi hôm nay, {name}! 😍",
+      "todayNotLit": "{name} ơi, bạn chưa thắp sáng chuỗi hôm nay đấy! 😥",
+      "countSuffix": "ngày",
+      "statsTitle": "Thống kê chuỗi và thời gian",
+      "days": "Ngày",
+      "lessons": "Bài học",
+      "quizzes": "Bài kiểm tra",
+      "minutes": "Phút"
+    }
+  }
+}
