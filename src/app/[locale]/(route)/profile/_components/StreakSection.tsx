@@ -22,6 +22,11 @@ const bagelFastOne = Bagel_Fat_One({
   weight: ['400'],
 });
 
+// Streak level thresholds in days
+const STREAK_DAILY_THRESHOLD = 7;
+const STREAK_WEEKLY_THRESHOLD = 30;
+const STREAK_MONTHLY_THRESHOLD = 365;
+
 const StreakSection = () => {
   const user = useAuthStore((state) => state.user);
   const t = useTranslations('profile');
@@ -45,9 +50,9 @@ const StreakSection = () => {
   );
 
   const getStreakLevelKey = (streak: number): string => {
-    if (streak <= 7) return 'streak.levels.daily';
-    if (streak <= 30) return 'streak.levels.weekly';
-    if (streak <= 365) return 'streak.levels.monthly';
+    if (streak <= STREAK_DAILY_THRESHOLD) return 'streak.levels.daily';
+    if (streak <= STREAK_WEEKLY_THRESHOLD) return 'streak.levels.weekly';
+    if (streak <= STREAK_MONTHLY_THRESHOLD) return 'streak.levels.monthly';
     return 'streak.levels.yearly';
   };
 
