@@ -11,7 +11,7 @@ import WeekdayProgress from '@/components/shared/streak/WeekdayProgress';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
 import { useAuthStore } from '@/contexts/AuthContext';
-import { cn, getFireProps, streakToText } from '@/lib/utils';
+import { cn, getFireProps } from '@/lib/utils';
 import { useGetWeeklyStreakStatusQuery } from '@/services/online';
 
 import { Check } from 'lucide-react';
@@ -21,6 +21,23 @@ const bagelFastOne = Bagel_Fat_One({
   subsets: ['latin'],
   weight: ['400'],
 });
+
+// Streak level thresholds in days
+const STREAK_DAILY_THRESHOLD = 7;
+const STREAK_WEEKLY_THRESHOLD = 30;
+const STREAK_MONTHLY_THRESHOLD = 365;
+
+/**
+ * Determines the translation key for streak level based on streak count
+ * @param streak - Number of consecutive days in the streak
+ * @returns Translation key for the streak level
+ */
+const getStreakLevelKey = (streak: number): string => {
+  if (streak <= STREAK_DAILY_THRESHOLD) return 'streak.levels.daily';
+  if (streak <= STREAK_WEEKLY_THRESHOLD) return 'streak.levels.weekly';
+  if (streak <= STREAK_MONTHLY_THRESHOLD) return 'streak.levels.monthly';
+  return 'streak.levels.yearly';
+};
 
 const StreakSection = () => {
   const user = useAuthStore((state) => state.user);
@@ -75,7 +92,7 @@ const StreakSection = () => {
           {/* Title and Subtitle */}
           <div className="mt-2 text-center">
             <h2 className="text-xl font-bold">
-              {streakToText(streakHistory?.current_streak ?? 0)}
+              {t(getStreakLevelKey(streakHistory?.current_streak ?? 0))}
             </h2>
             <p className="text-muted-foreground mt-1 text-sm">
               {streakHistory?.today_has_streak

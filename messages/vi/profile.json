@@ -29,7 +29,13 @@
       "days": "Ngày",
       "lessons": "Bài học",
       "quizzes": "Bài kiểm tra",
-      "minutes": "Phút"
+      "minutes": "Phút",
+      "levels": {
+        "daily": "Ngày liên tục",
+        "weekly": "Tuần bền bỉ",
+        "monthly": "Tháng vững mạnh",
+        "yearly": "Năm kiên trì"
+      }
     }
   }
 }
