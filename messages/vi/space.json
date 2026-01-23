@@ -82,7 +82,8 @@
   },
   "deleteVideo": {
     "confirmTitle": "Xác nhận xóa",
-    "confirmDescription": "Bạn có chắc chắn muốn xóa khỏi danh sách yêu thích? Hành động này không thể hoàn tác.",
+    "confirmDescription": "Bạn có chắc chắn muốn xóa \"{title}\" khỏi danh sách yêu thích? Hành động này không thể hoàn tác.",
+    "fallbackTitle": "video này",
     "cancel": "Hủy",
     "delete": "Xóa"
   },
