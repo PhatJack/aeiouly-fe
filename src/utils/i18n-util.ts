@@ -22,7 +22,7 @@ export function mergeMessages(
     }
   }
 
-  if (conflicts.size > 0) {
+  if (conflicts.size > 0 && process.env.NODE_ENV !== 'production') {
     console.warn(
       `[i18n] Warning: Duplicate keys found in message files: ${Array.from(conflicts).join(', ')}. ` +
         'Later files will overwrite earlier ones. Ensure each message file uses unique top-level namespace keys.'
