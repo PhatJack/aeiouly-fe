@@ -29,7 +29,13 @@
       "days": "Days",
       "lessons": "Lessons",
       "quizzes": "Quizzes",
-      "minutes": "Minutes"
+      "minutes": "Minutes",
+      "levels": {
+        "daily": "Consecutive Days",
+        "weekly": "Persistent Weeks",
+        "monthly": "Strong Months",
+        "yearly": "Persevering Years"
+      }
     }
   }
 }

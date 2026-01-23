@@ -11,7 +11,7 @@ import WeekdayProgress from '@/components/shared/streak/WeekdayProgress';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
 import { useAuthStore } from '@/contexts/AuthContext';
-import { cn, getFireProps, streakToText } from '@/lib/utils';
+import { cn, getFireProps } from '@/lib/utils';
 import { useGetWeeklyStreakStatusQuery } from '@/services/online';
 
 import { Check } from 'lucide-react';
@@ -44,6 +44,13 @@ const StreakSection = () => {
     [streakHistory?.current_streak, streakHistory?.today_has_streak]
   );
 
+  const getStreakLevelKey = (streak: number): string => {
+    if (streak <= 7) return 'streak.levels.daily';
+    if (streak <= 30) return 'streak.levels.weekly';
+    if (streak <= 365) return 'streak.levels.monthly';
+    return 'streak.levels.yearly';
+  };
+
   if (isLoadingStreakHistory) {
     return <LoadingWithText text={t('streak.loading')} />;
   }
@@ -75,7 +82,7 @@ const StreakSection = () => {
           {/* Title and Subtitle */}
           <div className="mt-2 text-center">
             <h2 className="text-xl font-bold">
-              {streakToText(streakHistory?.current_streak ?? 0)}
+              {t(getStreakLevelKey(streakHistory?.current_streak ?? 0))}
             </h2>
             <p className="text-muted-foreground mt-1 text-sm">
               {streakHistory?.today_has_streak
