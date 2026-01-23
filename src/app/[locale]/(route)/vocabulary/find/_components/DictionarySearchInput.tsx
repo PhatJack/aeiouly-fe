@@ -2,6 +2,8 @@
 
 import React, { useEffect, useState } from 'react';
 
+import { useTranslations } from 'next-intl';
+
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { useDebounceValue } from '@/hooks/use-debounce-value';
@@ -18,11 +20,14 @@ interface DictionarySearchInputProps {
 const DictionarySearchInput: React.FC<DictionarySearchInputProps> = ({
   value,
   onChange,
-  placeholder = 'Search vocabulary...',
+  placeholder,
   debounceMs = 500,
 }) => {
+  const t = useTranslations('vocabulary');
   const [localValue, setLocalValue] = useState(value);
   const [debouncedValue] = useDebounceValue(localValue, debounceMs);
+
+  const defaultPlaceholder = placeholder ?? t('find.search.placeholderShort');
 
   useEffect(() => {
     setLocalValue(value);
@@ -44,7 +49,7 @@ const DictionarySearchInput: React.FC<DictionarySearchInputProps> = ({
       <Search className="text-muted-foreground absolute top-1/2 left-3 h-5 w-5 -translate-y-1/2" />
       <Input
         type="text"
-        placeholder={placeholder}
+        placeholder={defaultPlaceholder}
         value={localValue}
         onChange={(e) => setLocalValue(e.target.value)}
         className="h-12 px-10 text-base"
