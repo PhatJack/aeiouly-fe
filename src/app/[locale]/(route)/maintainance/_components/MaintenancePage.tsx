@@ -27,7 +27,7 @@ const MaintenancePage = ({
   statusHref,
   supportEmail,
 }: MaintenancePageProps) => {
-  const t = useTranslations('maintainance');
+  const t = useTranslations('maintenance');
 
   const resolvedTitle = title ?? t('title');
   const resolvedMessage = message ?? t('message');
