@@ -62,7 +62,7 @@ export default function RootLayout({
           </div>
         </ScrollArea>
       </main>
-      {/* <AIChatBox /> */}
+      <AIChatBox />
       {/* <ScrollToTop /> */}
     </div>
   );
