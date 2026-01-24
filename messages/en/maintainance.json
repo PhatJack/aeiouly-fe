@@ -1,0 +1,22 @@
+{
+	"maintainance": {
+		"badge": "Maintenance",
+		"title": "We'll be right back",
+		"message": "We're doing scheduled maintenance to improve your experience. The website is temporarily unavailable.",
+		"serviceUnavailable": "Service Unavailable",
+		"expectedBack": "Expected back:",
+		"whatYouCanDoTitle": "What you can do",
+		"whatYouCanDoSubtitle": "Try again in a few minutes.",
+		"actions": {
+			"refresh": "Refresh this page.",
+			"checkStatus": "Check our status page for updates.",
+			"contactSupport": "Contact support if this persists."
+		},
+		"buttons": {
+			"reload": "Reload",
+			"status": "Status",
+			"contactSupport": "Contact support",
+			"goHome": "Go home"
+		}
+	}
+}

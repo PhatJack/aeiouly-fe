@@ -1,108 +1,110 @@
 {
-  "metadata": {
-    "title": "Không gian tự học",
-    "description": "Môi trường học tập tập trung với nhạc nền, video nền và công cụ Pomodoro. Tối ưu hóa hiệu quả học tiếng Anh với không gian làm việc cá nhân hóa.",
-    "keywords": [
-      "học tập tập trung",
-      "solo study",
-      "pomodoro",
-      "nhạc nền học tập",
-      "video nền",
-      "hiệu quả học"
-    ]
-  },
-  "buttons": {
-    "soundcloudPlayer": "Soundcloud Player",
-    "backgroundIframe": "Video | Ảnh nền",
-    "sound": "Âm thanh nền",
-    "studyStats": "Thống kê học tập"
-  },
-  "pomodoro": {
-    "title": "Hẹn giờ cá nhân",
-    "tooltip": "Tăng cường năng suất với một phiên tập trung, sau đó là thời gian nghỉ. Bật chế độ Vòng lặp (Loop) để tự động lặp lại chu trình.",
-    "focusTime": "Thời gian tập trung (phút)",
-    "breakTime": "Thời gian nghỉ (phút)",
-    "loop": "Vòng lặp",
-    "focusMode": "Focus Time",
-    "breakMode": "Break Time",
-    "start": "Bắt đầu",
-    "resume": "Tiếp tục",
-    "pause": "Tạm dừng",
-    "reset": "Reset thời gian",
-    "pip": {
-      "enter": "Chế độ hình trong hình (PiP)",
-      "exit": "Thoát PiP"
-    }
-  },
-  "sessionGoal": {
-    "title": "Mục tiêu phiên",
-		"input_placeholder": "Nhập mục tiêu...",
-    "tooltip": "Tăng cường tập trung bằng cách đặt mục tiêu nhỏ, rõ ràng cho mỗi buổi làm việc. Thay vì 'hoàn thành dự án', hãy thử 'viết 500 từ' hay 'xem lại 3 trang'. Dùng hẹn giờ 25 phút để duy trì nhịp độ — những bước nhỏ sẽ tạo nên tiến bộ lớn!",
-    "error": "Tạo mục tiêu không thành công. Vui lòng thử lại.",
-    "loading": "Loading..."
-  },
-  "background": {
-    "favoriteHint": "Bạn có thể thêm video yêu thích của mình để dễ dàng truy cập sau này.",
-    "videoUnavailable": "Video không khả dụng. Vui lòng thử video khác.",
-    "loadingFavorites": "Đang tải video yêu thích...",
-    "deleteSuccess": "Video yêu thích đã được xóa thành công!",
-    "youtube": "Youtube:",
-    "dateAdded": "Ngày thêm:"
-  },
-  "soundcloud": {
-    "title": "SoundCloud Player",
-    "new": "MỚI",
-    "tooltip": "Hiện tại chỉ support bài hát chưa hỗ trợ playlist!",
-    "urlPlaceholder": "Nhập URL SoundCloud",
-    "invalidUrl": "Vui lòng nhập URL hợp lệ từ SoundCloud."
-  },
-  "stats": {
-    "loading": "Đang tải thống kê...",
-    "currentStreak": "Chuỗi hiện tại",
-    "longestStreak": "Chuỗi dài nhất",
-    "days": "ngày",
-    "yourLevel": "Cấp độ của bạn",
-    "levels": {
-      "newbie": "Mọt sách",
-      "bronze": "Học viên",
-      "silver": "Học khá",
-      "gold": "Học giỏi",
-      "diamond": "Học bá",
-      "legend": "Học thần"
-    },
-    "milestone": "Còn {remaining} ngày để đạt mốc {milestone} ngày"
-  },
-  "youtube": {
-    "title": "Youtube Video",
-    "placeholder": "Paste the youtube link here",
-    "invalidLink": "Link youtube không hợp lệ"
-  },
-  "videoSound": {
-    "title": "Âm thanh video gốc"
-  },
-  "deleteVideo": {
-    "confirmTitle": "Xác nhận xóa",
-    "confirmDescription": "Bạn có chắc chắn muốn xóa khỏi danh sách yêu thích? Hành động này không thể hoàn tác.",
-    "cancel": "Hủy",
-    "delete": "Xóa"
-  },
-  "addVideo": {
-    "modalTitle": "Thêm bài hát yêu thích",
-    "modalDescription": "Thêm bài hát mới vào danh sách yêu thích của bạn. Nhấn lưu khi hoàn tất.",
-    "urlLabel": "URL Youtube",
-    "urlPlaceholder": "Nhập URL Youtube",
-    "example": "Ví dụ: https://www.youtube.com/watch?v=VIDEO_ID",
-    "emptyUrl": "Vui lòng nhập URL Youtube.",
-    "invalidUrl": "URL Youtube không hợp lệ.",
-    "invalidUrlLong": "URL Youtube không hợp lệ. Vui lòng cung cấp URL video Youtube hợp lệ.",
-    "success": "Đã thêm bài hát yêu thích thành công!",
-    "error": "Không thể thêm bài hát yêu thích. Vui lòng thử lại.",
-    "saving": "Đang lưu...",
-    "saveSong": "Lưu bài hát",
-    "playModalTitle": "Phát bài hát",
-    "playModalDescription": "Bạn có muốn phát bài hát này ngay bây giờ không?",
-    "playLater": "Để sau",
-    "playNow": "Phát ngay",
-    "playingSuccess": "Đang phát bài hát yêu thích của bạn!"
-  }
+	"space": {
+		"metadata": {
+			"title": "Không gian tự học",
+			"description": "Môi trường học tập tập trung với nhạc nền, video nền và công cụ Pomodoro. Tối ưu hóa hiệu quả học tiếng Anh với không gian làm việc cá nhân hóa.",
+			"keywords": [
+				"học tập tập trung",
+				"solo study",
+				"pomodoro",
+				"nhạc nền học tập",
+				"video nền",
+				"hiệu quả học"
+			]
+		},
+		"buttons": {
+			"soundcloudPlayer": "Soundcloud Player",
+			"backgroundIframe": "Video | Ảnh nền",
+			"sound": "Âm thanh nền",
+			"studyStats": "Thống kê học tập"
+		},
+		"pomodoro": {
+			"title": "Hẹn giờ cá nhân",
+			"tooltip": "Tăng cường năng suất với một phiên tập trung, sau đó là thời gian nghỉ. Bật chế độ Vòng lặp (Loop) để tự động lặp lại chu trình.",
+			"focusTime": "Thời gian tập trung (phút)",
+			"breakTime": "Thời gian nghỉ (phút)",
+			"loop": "Vòng lặp",
+			"focusMode": "Focus Time",
+			"breakMode": "Break Time",
+			"start": "Bắt đầu",
+			"resume": "Tiếp tục",
+			"pause": "Tạm dừng",
+			"reset": "Reset thời gian",
+			"pip": {
+				"enter": "Chế độ hình trong hình (PiP)",
+				"exit": "Thoát PiP"
+			}
+		},
+		"sessionGoal": {
+			"title": "Mục tiêu phiên",
+			"input_placeholder": "Nhập mục tiêu...",
+			"tooltip": "Tăng cường tập trung bằng cách đặt mục tiêu nhỏ, rõ ràng cho mỗi buổi làm việc. Thay vì 'hoàn thành dự án', hãy thử 'viết 500 từ' hay 'xem lại 3 trang'. Dùng hẹn giờ 25 phút để duy trì nhịp độ — những bước nhỏ sẽ tạo nên tiến bộ lớn!",
+			"error": "Tạo mục tiêu không thành công. Vui lòng thử lại.",
+			"loading": "Loading..."
+		},
+		"background": {
+			"favoriteHint": "Bạn có thể thêm video yêu thích của mình để dễ dàng truy cập sau này.",
+			"videoUnavailable": "Video không khả dụng. Vui lòng thử video khác.",
+			"loadingFavorites": "Đang tải video yêu thích...",
+			"deleteSuccess": "Video yêu thích đã được xóa thành công!",
+			"youtube": "Youtube:",
+			"dateAdded": "Ngày thêm:"
+		},
+		"soundcloud": {
+			"title": "SoundCloud Player",
+			"new": "MỚI",
+			"tooltip": "Hiện tại chỉ support bài hát chưa hỗ trợ playlist!",
+			"urlPlaceholder": "Nhập URL SoundCloud",
+			"invalidUrl": "Vui lòng nhập URL hợp lệ từ SoundCloud."
+		},
+		"stats": {
+			"loading": "Đang tải thống kê...",
+			"currentStreak": "Chuỗi hiện tại",
+			"longestStreak": "Chuỗi dài nhất",
+			"days": "ngày",
+			"yourLevel": "Cấp độ của bạn",
+			"levels": {
+				"newbie": "Mọt sách",
+				"bronze": "Học viên",
+				"silver": "Học khá",
+				"gold": "Học giỏi",
+				"diamond": "Học bá",
+				"legend": "Học thần"
+			},
+			"milestone": "Còn {remaining} ngày để đạt mốc {milestone} ngày"
+		},
+		"youtube": {
+			"title": "Youtube Video",
+			"placeholder": "Paste the youtube link here",
+			"invalidLink": "Link youtube không hợp lệ"
+		},
+		"videoSound": {
+			"title": "Âm thanh video gốc"
+		},
+		"deleteVideo": {
+			"confirmTitle": "Xác nhận xóa",
+			"confirmDescription": "Bạn có chắc chắn muốn xóa khỏi danh sách yêu thích? Hành động này không thể hoàn tác.",
+			"cancel": "Hủy",
+			"delete": "Xóa"
+		},
+		"addVideo": {
+			"modalTitle": "Thêm bài hát yêu thích",
+			"modalDescription": "Thêm bài hát mới vào danh sách yêu thích của bạn. Nhấn lưu khi hoàn tất.",
+			"urlLabel": "URL Youtube",
+			"urlPlaceholder": "Nhập URL Youtube",
+			"example": "Ví dụ: https://www.youtube.com/watch?v=VIDEO_ID",
+			"emptyUrl": "Vui lòng nhập URL Youtube.",
+			"invalidUrl": "URL Youtube không hợp lệ.",
+			"invalidUrlLong": "URL Youtube không hợp lệ. Vui lòng cung cấp URL video Youtube hợp lệ.",
+			"success": "Đã thêm bài hát yêu thích thành công!",
+			"error": "Không thể thêm bài hát yêu thích. Vui lòng thử lại.",
+			"saving": "Đang lưu...",
+			"saveSong": "Lưu bài hát",
+			"playModalTitle": "Phát bài hát",
+			"playModalDescription": "Bạn có muốn phát bài hát này ngay bây giờ không?",
+			"playLater": "Để sau",
+			"playNow": "Phát ngay",
+			"playingSuccess": "Đang phát bài hát yêu thích của bạn!"
+		}
+	}
 }

@@ -1,0 +1,22 @@
+{
+	"maintainance": {
+		"badge": "Bảo trì",
+		"title": "Chúng tôi sẽ sớm quay lại",
+		"message": "Chúng tôi đang bảo trì theo lịch để cải thiện trải nghiệm của bạn. Website hiện tạm thời không khả dụng.",
+		"serviceUnavailable": "Dịch vụ tạm ngưng",
+		"expectedBack": "Dự kiến hoạt động lại:",
+		"whatYouCanDoTitle": "Bạn có thể làm gì",
+		"whatYouCanDoSubtitle": "Vui lòng thử lại sau vài phút.",
+		"actions": {
+			"refresh": "Tải lại trang này.",
+			"checkStatus": "Xem trang trạng thái để cập nhật mới nhất.",
+			"contactSupport": "Liên hệ hỗ trợ nếu tình trạng vẫn tiếp diễn."
+		},
+		"buttons": {
+			"reload": "Tải lại",
+			"status": "Trạng thái",
+			"contactSupport": "Liên hệ hỗ trợ",
+			"goHome": "Về trang chủ"
+		}
+	}
+}
