@@ -20,6 +20,8 @@
       "fieldLabel": "Full Name",
       "placeholder": "Enter full name"
     },
+    "cancel": "Cancel",
+    "save": "Save",
     "streak": {
       "loading": "Loading streak progress...",
       "todayLit": "You've ignited your streak today, {name}! 😍",

@@ -20,6 +20,8 @@
       "fieldLabel": "Họ và Tên",
       "placeholder": "Nhập họ và tên"
     },
+    "cancel": "Hủy",
+    "save": "Lưu",
     "streak": {
       "loading": "Đang tải thành tích chuỗi...",
       "todayLit": "Bạn đã thắp sáng chuỗi hôm nay, {name}! 😍",

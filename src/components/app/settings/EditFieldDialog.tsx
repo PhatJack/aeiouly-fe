@@ -2,6 +2,8 @@
 
 import { useForm } from 'react-hook-form';
 
+import { useTranslations } from 'next-intl';
+
 import { Button } from '@/components/ui/button';
 import {
   Dialog,
@@ -44,6 +46,7 @@ const EditFieldDialog = ({
   onSubmit,
   validationSchema,
 }: EditFieldDialogProps) => {
+  const t = useTranslations('profile');
   const form = useForm<UserUpdateSchema>({
     defaultValues: {
       [fieldName]: currentValue,
@@ -86,10 +89,10 @@ const EditFieldDialog = ({
 
         <div className="flex justify-end gap-2">
           <Button type="button" variant="outline" onClick={handleCancel}>
-            Hủy
+            {t('cancel')}
           </Button>
           <Button type="submit" form={`form-edit-${fieldName}`}>
-            Lưu
+            {t('save')}
           </Button>
         </div>
       </DialogContent>
