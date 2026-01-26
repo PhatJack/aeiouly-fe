@@ -81,7 +81,10 @@ const LeaderboardPage = () => {
                       <Flame className="mr-1 h-3 w-3" />
                       {topThree[1].current_streak} {t('days')}
                     </Badge>
-                    <div className="flex h-32 w-full flex-col items-center justify-center rounded-t-lg border-2 border-gray-500 bg-gradient-to-b from-gray-100 via-gray-300 to-gray-500">
+                    <div
+                      className="flex h-32 w-full flex-col items-center justify-center rounded-t-lg border-2 border-gray-500 bg-gradient-to-b from-gray-100 via-gray-300 to-gray-500"
+                      aria-label={t('runnerUp')}
+                    >
                       <span className="text-3xl font-bold text-white sm:text-4xl lg:text-6xl">
                         2
                       </span>
@@ -105,7 +108,10 @@ const LeaderboardPage = () => {
                       <Flame className="mr-1 h-3 w-3" />
                       {topThree[0].current_streak} {t('days')}
                     </Badge>
-                    <div className="flex h-48 w-full flex-col items-center justify-center rounded-t-lg border-4 border-yellow-500 bg-gradient-to-b from-amber-200 via-yellow-400 to-amber-600">
+                    <div
+                      className="flex h-48 w-full flex-col items-center justify-center rounded-t-lg border-4 border-yellow-500 bg-gradient-to-b from-amber-200 via-yellow-400 to-amber-600"
+                      aria-label={t('champion')}
+                    >
                       <span className="text-4xl font-bold text-white sm:text-6xl lg:text-8xl">
                         1
                       </span>
@@ -131,7 +137,10 @@ const LeaderboardPage = () => {
                       <Flame className="mr-1 h-3 w-3" />
                       {topThree[2].current_streak} {t('days')}
                     </Badge>
-                    <div className="flex h-24 w-full flex-col items-center justify-center rounded-t-lg border-2 border-amber-700 bg-gradient-to-b from-amber-200 via-orange-400 to-amber-600">
+                    <div
+                      className="flex h-24 w-full flex-col items-center justify-center rounded-t-lg border-2 border-amber-700 bg-gradient-to-b from-amber-200 via-orange-400 to-amber-600"
+                      aria-label={t('thirdPlace')}
+                    >
                       <span className="text-3xl font-bold text-white sm:text-4xl lg:text-6xl">
                         3
                       </span>
