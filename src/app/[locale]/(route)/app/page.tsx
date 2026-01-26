@@ -13,7 +13,6 @@ const Page = () => {
         <div className="container mx-auto max-w-2xl flex-1">
           <PostsFeed />
         </div>
-        <Leaderboard />
       </div>
     </>
   );

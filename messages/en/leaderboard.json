@@ -1,0 +1,27 @@
+{
+  "leaderboard": {
+    "title": "Leaderboard",
+    "subtitle": "Top Streakers of the Week",
+    "description": "Compete with learners worldwide and track your progress on the leaderboard",
+    "loading": "Loading leaderboard...",
+    "error": "Failed to load leaderboard",
+    "errorDescription": "Unable to fetch leaderboard data. Please try again later.",
+    "noData": "No leaderboard data available yet",
+    "days": "days",
+    "day": "day",
+    "highest": "Best",
+    "currentStreak": "Current Streak",
+    "longestStreak": "Longest Streak",
+    "rank": "Rank",
+    "user": "User",
+    "streak": "Streak",
+    "champion": "Champion",
+    "runnerUp": "Runner-up",
+    "thirdPlace": "Third Place",
+    "topPerformer": "Top Performer",
+    "onFire": "On Fire!",
+    "keepItUp": "Keep it up!",
+    "greatStreak": "Great streak!",
+    "goodStart": "Good start!"
+  }
+}

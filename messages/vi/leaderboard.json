@@ -1,0 +1,27 @@
+{
+  "leaderboard": {
+    "title": "Bảng Xếp Hạng",
+    "subtitle": "Top Streaker Trong Tuần",
+    "description": "Cạnh tranh với người học trên toàn thế giới và theo dõi tiến độ của bạn",
+    "loading": "Đang tải bảng xếp hạng...",
+    "error": "Không thể tải bảng xếp hạng",
+    "errorDescription": "Không thể lấy dữ liệu bảng xếp hạng. Vui lòng thử lại sau.",
+    "noData": "Chưa có dữ liệu bảng xếp hạng",
+    "days": "ngày",
+    "day": "ngày",
+    "highest": "Cao nhất",
+    "currentStreak": "Chuỗi Hiện Tại",
+    "longestStreak": "Chuỗi Dài Nhất",
+    "rank": "Hạng",
+    "user": "Người dùng",
+    "streak": "Chuỗi",
+    "champion": "Vô địch",
+    "runnerUp": "Á quân",
+    "thirdPlace": "Hạng Ba",
+    "topPerformer": "Xuất sắc nhất",
+    "onFire": "Bùng cháy!",
+    "keepItUp": "Cố lên!",
+    "greatStreak": "Chuỗi tuyệt vời!",
+    "goodStart": "Khởi đầu tốt!"
+  }
+}
