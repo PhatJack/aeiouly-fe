@@ -118,6 +118,7 @@ const Sidebar = ({ isExpanded, handleToggleExpand }: SidebarProps) => {
         title: t('leaderboard'),
         icon: Trophy,
         href: ROUTE.LEADERBOARD,
+        id: 'leaderboard',
         role: 'user',
       },
       {
