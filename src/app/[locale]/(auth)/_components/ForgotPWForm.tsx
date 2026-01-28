@@ -42,8 +42,8 @@ const ForgotPWForm = () => {
 
   const onSubmit = (data: RequestPasswordResetSchema) => {
     requestPWMutate.mutate(data, {
-      onSuccess: () => {
-        toast.success(t('api.auth.PASSWORD_RESET_REQUEST_SUCCESS'));
+      onSuccess: (response) => {
+        toast.success(t(`api.auth.${response.code}`));
       },
       onError: (error) => {
         toast.error(

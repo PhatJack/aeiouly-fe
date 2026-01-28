@@ -2,6 +2,8 @@
 
 import { useMemo } from 'react';
 
+import { useTranslations } from 'next-intl';
+
 import { Label } from '@/components/ui/label';
 import { Separator } from '@/components/ui/separator';
 import { cn } from '@/lib/utils';
@@ -183,6 +185,7 @@ function FieldError({
 }: React.ComponentProps<'div'> & {
   errors?: Array<{ message?: string } | undefined>;
 }) {
+  const t = useTranslations('error');
   const content = useMemo(() => {
     if (children) {
       return children;
@@ -200,7 +203,9 @@ function FieldError({
 
     return (
       <ul className="ml-4 flex list-disc flex-col gap-1">
-        {uniqueErrors.map((error, index) => error?.message && <li key={index}>{error.message}</li>)}
+        {uniqueErrors.map(
+          (error, index) => error?.message && <li key={index}>{t(error.message)}</li>
+        )}
       </ul>
     );
   }, [children, errors]);
@@ -216,7 +221,7 @@ function FieldError({
       className={cn('text-destructive text-sm font-normal', className)}
       {...props}
     >
-      {content}
+      {t(content as string)}
     </div>
   );
 }

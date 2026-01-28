@@ -1,0 +1,33 @@
+{
+	"error": {
+		"auth": {
+			"email": {
+				"invalid": "Invalid email address"
+			},
+			"username": {
+				"min": "Username must be at least 3 characters",
+				"required": "Username is required"
+			},
+			"fullName": {
+				"min": "Full name must be at least 6 characters"
+			},
+			"password": {
+				"required": "Password is required",
+				"minLength": "At least 8 characters",
+				"requireNumber": "At least 1 number",
+				"requireLowercase": "At least 1 lowercase letter",
+				"requireUppercase": "At least 1 uppercase letter"
+			},
+			"newPassword": {
+				"required": "New password is required",
+				"minLength": "At least 8 characters",
+				"requireNumber": "At least 1 number",
+				"requireLowercase": "At least 1 lowercase letter",
+				"requireUppercase": "At least 1 uppercase letter"
+			},
+			"currentPassword": {
+				"required": "Current password is required"
+			}
+		}
+	}
+}

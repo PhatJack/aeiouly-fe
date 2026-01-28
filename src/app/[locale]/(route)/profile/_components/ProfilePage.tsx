@@ -30,8 +30,8 @@ const ProfilePage = () => {
       updateMeMutation.mutate(
         { full_name: data.full_name },
         {
-          onSuccess: () => {
-            toast.success(t('updateSuccess.fullName'));
+          onSuccess: (response) => {
+            toast.success(t(`api.auth.${response.code}`) || t('updateSuccess.fullName'));
           },
         }
       );
@@ -41,8 +41,8 @@ const ProfilePage = () => {
       updateMeMutation.mutate(
         { email: data.email },
         {
-          onSuccess: () => {
-            toast.success(t('updateSuccess.email'));
+          onSuccess: (response) => {
+            toast.success(t(`api.auth.${response.code}`) || t('updateSuccess.email'));
           },
         }
       );

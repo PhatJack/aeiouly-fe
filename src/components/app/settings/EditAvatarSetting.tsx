@@ -19,6 +19,7 @@ import { AVATAR_VIBRANT, AVATAR_ZODIAC } from '../../../../public/avatars';
 
 const EditAvatarSetting = () => {
   const user = useAuthStore((state) => state.user);
+  const setUser = useAuthStore((state) => state.setUser);
 
   const userImageMutation = useUpdateUserImageMutation();
 
@@ -34,7 +35,12 @@ const EditAvatarSetting = () => {
         }),
         {
           loading: 'Đang cập nhật ảnh đại diện...',
-          success: 'Cập nhật ảnh đại diện thành công!',
+          success: (response) => {
+            setUser(response.data);
+            return response?.code
+              ? `Cập nhật ảnh đại diện thành công!`
+              : 'Cập nhật ảnh đại diện thành công!';
+          },
           error: (e: any) => e?.detail || 'Cập nhật ảnh đại diện thất bại!',
         }
       );
@@ -64,7 +70,12 @@ const EditAvatarSetting = () => {
         }),
         {
           loading: 'Đang cập nhật ảnh đại diện...',
-          success: 'Cập nhật ảnh đại diện thành công!',
+          success: (response) => {
+            setUser(response.data);
+            return response?.code
+              ? 'Cập nhật ảnh đại diện thành công!'
+              : 'Cập nhật ảnh đại diện thành công!';
+          },
           error: (e: any) => e?.detail || 'Cập nhật ảnh đại diện thất bại!',
         }
       );

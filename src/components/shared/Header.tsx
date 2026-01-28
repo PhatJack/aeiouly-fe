@@ -42,6 +42,7 @@ const Header = ({ isExpanded, handleToggleExpand }: HeaderProps) => {
   const user = useAuthStore((state) => state.user);
   const logoutMutation = useLogoutMutation();
   const t = useTranslations('Header');
+  const tAuth = useTranslations('auth');
 
   const shouldHide = useMemo(() => {
     return (
@@ -53,8 +54,8 @@ const Header = ({ isExpanded, handleToggleExpand }: HeaderProps) => {
   }, [pathname]);
   const handleLogout = async () => {
     try {
-      await logoutMutation.mutateAsync();
-      toast.success(t('logoutSuccess'));
+      const response = await logoutMutation.mutateAsync();
+      toast.success(tAuth(`api.auth.${response.code}`) || tAuth('logoutSuccess'));
       disconnect?.();
       router.push(ROUTE.AUTH.LOGIN);
       router.refresh();
