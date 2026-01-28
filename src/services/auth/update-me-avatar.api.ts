@@ -1,11 +1,18 @@
 import { getQueryClient } from '@/app/get-query-client';
 import { apiClient } from '@/lib/client';
+import { createBaseResponseSchema } from '@/lib/schema/base-response';
 import { ErrorResponseSchema } from '@/lib/schema/error';
-import { UserCreateImageSchema, UserResponseSchema } from '@/lib/schema/user.schema';
+import { UserCreateImageSchema, userResponseSchema } from '@/lib/schema/user.schema';
 import { useMutation } from '@tanstack/react-query';
 
+import z from 'zod';
+
+const updateUserAvatarResponseSchema = createBaseResponseSchema(userResponseSchema);
+
+type UpdateUserAvatarResponseSchema = z.infer<typeof updateUserAvatarResponseSchema>;
+
 export async function updateUserImageApi(body: UserCreateImageSchema) {
-  const response = await apiClient.post<UserResponseSchema, UserCreateImageSchema>(
+  const response = await apiClient.post<UpdateUserAvatarResponseSchema, UserCreateImageSchema>(
     `/auth/me/avatar`,
     body,
     {
@@ -19,14 +26,15 @@ export async function updateUserImageApi(body: UserCreateImageSchema) {
 
 export const useUpdateUserImageMutation = () => {
   const queryClient = getQueryClient();
-  return useMutation<UserResponseSchema, ErrorResponseSchema, { body: UserCreateImageSchema }>({
+  return useMutation<
+    UpdateUserAvatarResponseSchema,
+    ErrorResponseSchema,
+    { body: UserCreateImageSchema }
+  >({
     mutationKey: ['updateUserImage'],
     meta: {
       ignoreGlobal: true,
     },
     mutationFn: ({ body }) => updateUserImageApi(body),
-    onSuccess: (data) => {
-      queryClient.setQueryData(['me'], data);
-    },
   });
 };

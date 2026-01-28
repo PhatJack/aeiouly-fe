@@ -43,8 +43,8 @@ const SettingPage = () => {
 
   const onSubmit = (data: ChangePasswordSchema) => {
     changePassword(data, {
-      onSuccess: () => {
-        toast.success(t('passwordChangedSuccess'));
+      onSuccess: (response) => {
+        toast.success(t(`api.auth.${response.code}`) || t('passwordChangedSuccess'));
         form.reset();
       },
       onError: (error: any) => {

@@ -50,8 +50,8 @@ const RegisterForm = () => {
 
   const onSubmit = (data: RegisterBodySchema) => {
     registerMutate.mutate(data, {
-      onSuccess: () => {
-        toast.success(t(`api.auth.REGISTER_SUCCESSFULLY`));
+      onSuccess: (response) => {
+        toast.success(t(`api.auth.${response.code}`));
         router.push(ROUTE.AUTH.LOGIN);
       },
       onError: (error) => {
@@ -132,16 +132,10 @@ const RegisterForm = () => {
                     type="button"
                     tabIndex={-1}
                     onClick={() => setIsShowPassword((prev) => !prev)}
-                    className="text-muted-foreground absolute top-[14%] right-4 -translate-y-1/2"
+                    className="text-muted-foreground absolute top-1/2 right-4 -translate-y-1/2"
                   >
                     {isShowPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
                   </button>
-
-                  <PasswordStrengthMeter
-                    passwordFieldName="password"
-                    control={registerForm.control}
-                    className="pt-4"
-                  />
                 </div>
               </FormControl>
               <FormMessage />

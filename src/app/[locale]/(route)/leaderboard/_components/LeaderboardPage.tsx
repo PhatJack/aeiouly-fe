@@ -158,7 +158,7 @@ const LeaderboardPage = () => {
 
                 return (
                   <Card key={item.user.id}>
-                    <CardContent className="p-4">
+                    <CardContent className="px-4">
                       <div className="flex items-center gap-3">
                         {/* Rank */}
                         <div className="bg-muted flex size-10 flex-shrink-0 items-center justify-center rounded-full text-base font-bold">

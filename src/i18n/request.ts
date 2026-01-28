@@ -24,6 +24,7 @@ export default getRequestConfig(async ({ requestLocale }) => {
   const profileMessages = (await import(`../../messages/${locale}/profile.json`)).default;
   const maintenanceMessages = (await import(`../../messages/${locale}/maintenance.json`)).default;
   const leaderboardMessages = (await import(`../../messages/${locale}/leaderboard.json`)).default;
+  const errorMessages = (await import(`../../messages/${locale}/error.json`)).default;
 
   return {
     locale,
@@ -41,7 +42,8 @@ export default getRequestConfig(async ({ requestLocale }) => {
       writingMessages,
       profileMessages,
       maintenanceMessages,
-      leaderboardMessages
+      leaderboardMessages,
+      errorMessages
     ),
   };
 });

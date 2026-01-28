@@ -25,7 +25,7 @@ export const AuthProvider = ({ children }: AuthStoreProviderProps) => {
 
   useEffect(() => {
     if (data && storeRef.current) {
-      storeRef.current.getState().setUser(data);
+      storeRef.current.getState().setUser(data.data);
     }
   }, [data]);
 

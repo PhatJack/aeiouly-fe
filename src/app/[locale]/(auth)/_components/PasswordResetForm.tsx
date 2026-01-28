@@ -45,8 +45,8 @@ const PasswordResetForm = () => {
 
   const onSubmit = (data: ConfirmPasswordResetSchema) => {
     confirmPWResetMutate.mutate(data, {
-      onSuccess: () => {
-        toast.success(t('api.auth.PASSWORD_RESET_SUCCESS'));
+      onSuccess: (response) => {
+        toast.success(t(`api.auth.${response.code}`));
         router.push(ROUTE.AUTH.LOGIN);
       },
       onError: (error) => {

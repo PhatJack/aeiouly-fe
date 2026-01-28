@@ -1,0 +1,33 @@
+{
+	"error": {
+		"auth": {
+			"email": {
+				"invalid": "Email không hợp lệ"
+			},
+			"username": {
+				"min": "Tên đăng nhập phải có ít nhất 3 ký tự",
+				"required": "Tên đăng nhập là bắt buộc"
+			},
+			"fullName": {
+				"min": "Tên đầy đủ phải có ít nhất 6 ký tự"
+			},
+			"password": {
+				"required": "Mật khẩu là bắt buộc",
+				"minLength": "Ít nhất 8 ký tự",
+				"requireNumber": "Ít nhất 1 số",
+				"requireLowercase": "Ít nhất 1 chữ cái thường",
+				"requireUppercase": "Ít nhất 1 chữ cái hoa"
+			},
+			"newPassword": {
+				"required": "Mật khẩu mới là bắt buộc",
+				"minLength": "Ít nhất 8 ký tự",
+				"requireNumber": "Ít nhất 1 số",
+				"requireLowercase": "Ít nhất 1 chữ cái thường",
+				"requireUppercase": "Ít nhất 1 chữ cái hoa"
+			},
+			"currentPassword": {
+				"required": "Mật khẩu hiện tại là bắt buộc"
+			}
+		}
+	}
+}
