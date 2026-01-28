@@ -198,7 +198,7 @@ function FieldError({
     const uniqueErrors = [...new Map(errors.map((error) => [error?.message, error])).values()];
 
     if (uniqueErrors?.length == 1) {
-      return uniqueErrors[0]?.message;
+      return t(uniqueErrors[0]?.message || '');
     }
 
     return (
@@ -208,7 +208,7 @@ function FieldError({
         )}
       </ul>
     );
-  }, [children, errors]);
+  }, [children, errors, t]);
 
   if (!content) {
     return null;
@@ -221,7 +221,7 @@ function FieldError({
       className={cn('text-destructive text-sm font-normal', className)}
       {...props}
     >
-      {t(content as string)}
+      {content}
     </div>
   );
 }
