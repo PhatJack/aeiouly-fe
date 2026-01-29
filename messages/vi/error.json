@@ -28,6 +28,12 @@
 			"currentPassword": {
 				"required": "Mật khẩu hiện tại là bắt buộc"
 			}
+		},
+		"avatar": {
+			"fileSizeExceeded": "Kích thước ảnh không được vượt quá 5MB",
+			"invalidFormat": "Định dạng ảnh không hợp lệ. Vui lòng chọn ảnh PNG, JPG, JPEG hoặc WEBP.",
+			"loadFailed": "Không thể tải ảnh đại diện. Vui lòng thử lại.",
+			"updateFailed": "Cập nhật ảnh đại diện thất bại!"
 		}
 	}
 }
