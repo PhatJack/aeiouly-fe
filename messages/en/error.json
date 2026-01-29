@@ -28,6 +28,12 @@
 			"currentPassword": {
 				"required": "Current password is required"
 			}
+		},
+		"avatar": {
+			"fileSizeExceeded": "Image size must not exceed 5MB",
+			"invalidFormat": "Invalid image format. Please select PNG, JPG, JPEG or WEBP.",
+			"loadFailed": "Unable to load avatar. Please try again.",
+			"updateFailed": "Failed to update avatar!"
 		}
 	}
 }

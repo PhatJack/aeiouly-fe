@@ -3,6 +3,7 @@
 import React from 'react';
 
 import { useTranslations } from 'next-intl';
+import Image from 'next/image';
 
 import LoadingWithText from '@/components/LoadingWithText';
 import AvatarCustom from '@/components/custom/AvatarCustom';
@@ -58,14 +59,14 @@ const LeaderboardPage = () => {
         </div>
 
         {data && data.leaderboard.length > 0 ? (
-          <div className="space-y-4">
+          <div>
             {/* Podium - Top 3 */}
             <div className="space-y-4">
               <h2 className="text-center text-lg font-semibold">{t('topPerformer')}</h2>
-              <div className="flex items-end justify-center gap-4">
+              <div className="flex items-end justify-center">
                 {/* Second Place */}
                 {topThree[1] && (
-                  <div className="flex w-28 flex-col items-center sm:w-48 lg:w-60">
+                  <div className="flex w-full flex-col items-center">
                     <AvatarCustom
                       className="mb-2 size-16 border-4 border-gray-400"
                       url={topThree[1].user.avatar_url}
@@ -82,7 +83,7 @@ const LeaderboardPage = () => {
                       {topThree[1].current_streak} {t('days')}
                     </Badge>
                     <div
-                      className="flex h-32 w-full flex-col items-center justify-center rounded-t-lg border-2 border-gray-500 bg-gradient-to-b from-gray-100 via-gray-300 to-gray-500"
+                      className="flex h-32 w-full flex-col items-center justify-center bg-gradient-to-b from-gray-100 via-gray-300 to-gray-500 shadow-lg"
                       aria-label={t('runnerUp')}
                     >
                       <span className="text-3xl font-bold text-white sm:text-4xl lg:text-6xl">
@@ -94,8 +95,14 @@ const LeaderboardPage = () => {
 
                 {/* First Place */}
                 {topThree[0] && (
-                  <div className="flex w-28 flex-col items-center sm:w-48 lg:w-60">
-                    <Crown className="mb-2 h-6 w-6 text-yellow-500" />
+                  <div className="flex w-full flex-col items-center">
+                    <Image
+                      src={'/leaderboard/crown.gif'}
+                      alt="Crown icon"
+                      width={48}
+                      height={48}
+                      sizes="100vw"
+                    />
                     <AvatarCustom
                       className="mb-2 size-20 border-4 border-yellow-500"
                       url={topThree[0].user.avatar_url}
@@ -109,7 +116,7 @@ const LeaderboardPage = () => {
                       {topThree[0].current_streak} {t('days')}
                     </Badge>
                     <div
-                      className="flex h-48 w-full flex-col items-center justify-center rounded-t-lg border-4 border-yellow-500 bg-gradient-to-b from-amber-200 via-yellow-400 to-amber-600"
+                      className="flex h-48 w-full flex-col items-center justify-center bg-gradient-to-b from-amber-200 via-yellow-400 to-amber-600 shadow-lg shadow-amber-300"
                       aria-label={t('champion')}
                     >
                       <span className="text-4xl font-bold text-white sm:text-6xl lg:text-8xl">
@@ -121,7 +128,7 @@ const LeaderboardPage = () => {
 
                 {/* Third Place */}
                 {topThree[2] && (
-                  <div className="flex w-28 flex-col items-center sm:w-48 lg:w-60">
+                  <div className="flex w-full flex-col items-center">
                     <AvatarCustom
                       className="mb-2 size-16 border-4 border-amber-700"
                       url={topThree[2].user.avatar_url}
@@ -138,7 +145,7 @@ const LeaderboardPage = () => {
                       {topThree[2].current_streak} {t('days')}
                     </Badge>
                     <div
-                      className="flex h-24 w-full flex-col items-center justify-center rounded-t-lg border-2 border-amber-700 bg-gradient-to-b from-amber-200 via-orange-400 to-amber-600"
+                      className="flex h-24 w-full flex-col items-center justify-center bg-gradient-to-b from-amber-200 via-orange-400 to-amber-600"
                       aria-label={t('thirdPlace')}
                     >
                       <span className="text-3xl font-bold text-white sm:text-4xl lg:text-6xl">
@@ -151,23 +158,29 @@ const LeaderboardPage = () => {
             </div>
 
             {/* Rest of the leaderboard */}
-            <div className="space-y-4">
+            <div>
               {others.map((item, index) => {
                 const rank = index + 4;
                 const streakMessage = getStreakMessage(item.current_streak);
 
                 return (
-                  <Card key={item.user.id}>
+                  <Card key={item.user.id} className="rounded-none">
                     <CardContent className="px-4">
                       <div className="flex items-center gap-3">
                         {/* Rank */}
-                        <div className="bg-muted flex size-10 flex-shrink-0 items-center justify-center rounded-full text-base font-bold">
-                          {rank}
+                        <div className="relative flex size-12 items-center justify-center rounded-full p-1 pt-4 font-bold">
+                          <Image
+                            src={`/leaderboard/rank${rank}.png`}
+                            alt={t('rank', { rank })}
+                            width={48}
+                            height={48}
+                            sizes="100vw"
+                          />
                         </div>
 
                         {/* Avatar */}
                         <AvatarCustom
-                          className="size-10 flex-shrink-0 border-2"
+                          className="size-12 flex-shrink-0"
                           url={item.user.avatar_url}
                           fallback={item.user.username?.charAt(0).toUpperCase()}
                         />
@@ -199,7 +212,7 @@ const LeaderboardPage = () => {
                           <div className="text-muted-foreground flex items-center gap-1 text-xs">
                             <TrendingUp className="h-3 w-3" />
                             <span>
-                              {t('highest')} {item.longest_streak}
+                              {t('highest')}: {item.longest_streak}
                             </span>
                           </div>
                         </div>

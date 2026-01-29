@@ -1,6 +1,12 @@
 {
   "profile": {
     "avatar": "Ảnh đại diện",
+    "avatarUpdate": {
+      "updating": "Đang cập nhật ảnh đại diện...",
+      "updateSuccess": "Cập nhật ảnh đại diện thành công!",
+      "selectAvatar": "Chọn ảnh đại diện",
+      "selectZodiacAvatar": "Chọn ảnh đại diện cung hoàng đạo"
+    },
     "username": "Tên đăng nhập",
     "fullName": "Họ và Tên",
     "email": "Email",

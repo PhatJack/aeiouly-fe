@@ -1,6 +1,12 @@
 {
   "profile": {
     "avatar": "Profile picture",
+    "avatarUpdate": {
+      "updating": "Updating profile picture...",
+      "updateSuccess": "Profile picture updated successfully!",
+      "selectAvatar": "Select avatar",
+      "selectZodiacAvatar": "Select zodiac avatar"
+    },
     "username": "Username",
     "fullName": "Full Name",
     "email": "Email",

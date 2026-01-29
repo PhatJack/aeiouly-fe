@@ -2,7 +2,7 @@ import React from 'react';
 
 const Loading = () => {
   return (
-    <div className="text-white fixed inset-0 z-50 flex items-center justify-center bg-black/40">
+    <div className="fixed inset-0 z-200 flex items-center justify-center bg-black/40 text-white backdrop-blur-sm">
       <span className="size-20">
         <svg
           version="1.1"
