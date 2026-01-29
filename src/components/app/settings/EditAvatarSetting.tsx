@@ -2,6 +2,7 @@
 
 import React, { memo } from 'react';
 
+import { useTranslations } from 'next-intl';
 import Image from 'next/image';
 
 import AvatarCustom from '@/components/custom/AvatarCustom';
@@ -18,6 +19,9 @@ import { toast } from 'sonner';
 import { AVATAR_VIBRANT, AVATAR_ZODIAC } from '../../../../public/avatars';
 
 const EditAvatarSetting = () => {
+  const t = useTranslations('profile.avatarUpdate');
+  const tError = useTranslations('error.avatar');
+
   const user = useAuthStore((state) => state.user);
   const setUser = useAuthStore((state) => state.setUser);
 
@@ -34,18 +38,16 @@ const EditAvatarSetting = () => {
           },
         }),
         {
-          loading: 'Đang cập nhật ảnh đại diện...',
+          loading: t('updating'),
           success: (response) => {
             setUser(response.data);
-            return response?.code
-              ? `Cập nhật ảnh đại diện thành công!`
-              : 'Cập nhật ảnh đại diện thành công!';
+            return t('updateSuccess');
           },
-          error: (e: any) => e?.detail || 'Cập nhật ảnh đại diện thất bại!',
+          error: (e: any) => e?.detail || tError('updateFailed'),
         }
       );
     } catch (error) {
-      toast.error('Không thể tải ảnh đại diện. Vui lòng thử lại.');
+      toast.error(tError('loadFailed'));
     }
   };
 
@@ -53,11 +55,11 @@ const EditAvatarSetting = () => {
     const file = event.target.files?.[0];
 
     if (file && file.size > MAX_FILE_SIZE) {
-      toast.error('Kích thước ảnh không được vượt quá 5MB');
+      toast.error(tError('fileSizeExceeded'));
       return;
     }
     if (file && ACCEPTED_IMAGE_TYPES.indexOf(file.type) === -1) {
-      toast.error('Định dạng ảnh không hợp lệ. Vui lòng chọn ảnh PNG, JPG, JPEG hoặc WEBP.');
+      toast.error(tError('invalidFormat'));
       return;
     }
 
@@ -69,14 +71,12 @@ const EditAvatarSetting = () => {
           },
         }),
         {
-          loading: 'Đang cập nhật ảnh đại diện...',
+          loading: t('updating'),
           success: (response) => {
             setUser(response.data);
-            return response?.code
-              ? 'Cập nhật ảnh đại diện thành công!'
-              : 'Cập nhật ảnh đại diện thành công!';
+            return t('updateSuccess');
           },
-          error: (e: any) => e?.detail || 'Cập nhật ảnh đại diện thất bại!',
+          error: (e: any) => e?.detail || tError('updateFailed'),
         }
       );
     }
@@ -97,7 +97,7 @@ const EditAvatarSetting = () => {
             variant={'outline'}
             onClick={() => handleAvatarClick(avatar.src, index)}
             disabled={userImageMutation.isPending}
-            title={`Chọn ảnh đại diện ${index + 1}`}
+            title={`${t('selectAvatar')} ${index + 1}`}
             className="hover:border-primary dark:hover:border-primary relative size-12 overflow-hidden rounded-full border border-transparent px-0 transition-all disabled:opacity-50"
           >
             <Image
@@ -118,7 +118,7 @@ const EditAvatarSetting = () => {
             variant={'outline'}
             onClick={() => handleAvatarClick(avatar.src, index)}
             disabled={userImageMutation.isPending}
-            title={`Chọn ảnh đại diện zodiac ${index + 1}`}
+            title={`${t('selectZodiacAvatar')} ${index + 1}`}
             className="hover:border-primary dark:hover:border-primary relative size-12 overflow-hidden rounded-full border border-transparent px-0 transition-all disabled:opacity-50"
           >
             <Image
