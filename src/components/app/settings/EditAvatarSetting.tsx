@@ -41,7 +41,7 @@ const EditAvatarSetting = () => {
           loading: t('updating'),
           success: (response) => {
             setUser(response.data);
-            return response?.code ? t('updateSuccess') : t('updateSuccess');
+            return t('updateSuccess');
           },
           error: (e: any) => e?.detail || tError('updateFailed'),
         }
@@ -74,7 +74,7 @@ const EditAvatarSetting = () => {
           loading: t('updating'),
           success: (response) => {
             setUser(response.data);
-            return response?.code ? t('updateSuccess') : t('updateSuccess');
+            return t('updateSuccess');
           },
           error: (e: any) => e?.detail || tError('updateFailed'),
         }
