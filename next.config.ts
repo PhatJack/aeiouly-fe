@@ -9,6 +9,10 @@ const withNextIntl = createNextIntlPlugin();
 const nextConfig: NextConfig = {
   /* config options here */
   devIndicators: false,
+  // Prevent console logs in production
+  compiler: {
+    removeConsole: process.env.NODE_ENV === 'production',
+  },
   images: {
     qualities: [75, 85, 95, 100],
     remotePatterns: [
