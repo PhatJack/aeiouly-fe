@@ -71,11 +71,7 @@
     "readingPractice": "Luyện đọc",
     "savedVocabulary": "Từ vựng đã lưu",
     "profile": "Hồ sơ",
-    "userManagement": "Quản lý người dùng",
-    "postManagement": "Quản lý bài viết",
-    "listeningSessionManagement": "Quản lý phiên nghe",
-    "soloSpaceManagement": "Quản lý không gian solo",
-		"leaderboard": "Bảng xếp hạng",
+    "leaderboard": "Bảng xếp hạng",
     "settings": "Cài đặt"
   },
   "Header": {
