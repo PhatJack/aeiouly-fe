@@ -123,7 +123,7 @@ export default function Home() {
   const translatedBenefits: string[] = t.raw('benefits.list');
 
   return (
-    <div className="min-h-screen w-full overflow-hidden bg-white dark:bg-[#121212]">
+    <main className="min-h-screen w-full overflow-hidden bg-white dark:bg-[#121212]">
       <div className="container mx-auto space-y-16 px-4 py-10 sm:px-0 sm:py-16">
         <section className="relative overflow-hidden">
           <div className="grid items-center gap-12 lg:grid-cols-2">
@@ -668,6 +668,6 @@ export default function Home() {
           </div>
         </section>
       </div>
-    </div>
+    </main>
   );
 }
