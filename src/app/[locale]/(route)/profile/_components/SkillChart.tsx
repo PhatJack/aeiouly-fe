@@ -1,5 +1,7 @@
 'use client';
 
+import { useTranslations } from 'next-intl';
+
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import {
   type ChartConfig,
@@ -28,10 +30,10 @@ const chartConfig = {
 } satisfies ChartConfig;
 
 const SKILLS = [
-  { key: 'listening', label: 'Listening', icon: Headphones },
-  { key: 'speaking', label: 'Speaking', icon: Mic },
-  { key: 'reading', label: 'Reading', icon: BookOpen },
-  { key: 'writing', label: 'Writing', icon: PenLine },
+  { key: 'listening', icon: Headphones },
+  { key: 'speaking', icon: Mic },
+  { key: 'reading', icon: BookOpen },
+  { key: 'writing', icon: PenLine },
 ] as const;
 
 export default function SkillChart({
@@ -44,6 +46,8 @@ export default function SkillChart({
 }: {
   scores?: EnglishSkillScores;
 }) {
+  const t = useTranslations('profile');
+
   const normalized = {
     listening: clampPercent(scores.listening),
     speaking: clampPercent(scores.speaking),
@@ -52,7 +56,7 @@ export default function SkillChart({
   } satisfies EnglishSkillScores;
 
   const chartData = SKILLS.map((s) => ({
-    skill: s.label,
+    skill: t(`skillChart.skills.${s.key}`),
     score: normalized[s.key],
   }));
 
@@ -63,9 +67,9 @@ export default function SkillChart({
   return (
     <Card className="overflow-hidden shadow-none">
       <CardHeader className="pb-3">
-        <CardTitle className="text-base">English skills</CardTitle>
+        <CardTitle className="text-base">{t('skillChart.title')}</CardTitle>
         <CardDescription className="flex items-center justify-between">
-          <span>Overall proficiency snapshot</span>
+          <span>{t('skillChart.description')}</span>
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-4">

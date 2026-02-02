@@ -44,6 +44,16 @@
         "monthly": "Strong Months",
         "yearly": "Persevering Years"
       }
+    },
+    "skillChart": {
+      "title": "English skills",
+      "description": "Overall proficiency snapshot",
+      "skills": {
+        "listening": "Listening",
+        "speaking": "Speaking",
+        "reading": "Reading",
+        "writing": "Writing"
+      }
     }
   }
 }

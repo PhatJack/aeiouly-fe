@@ -44,6 +44,16 @@
         "monthly": "Tháng vững mạnh",
         "yearly": "Năm kiên trì"
       }
+    },
+    "skillChart": {
+      "title": "Kỹ năng tiếng Anh",
+      "description": "Tổng quan trình độ",
+      "skills": {
+        "listening": "Nghe",
+        "speaking": "Nói",
+        "reading": "Đọc",
+        "writing": "Viết"
+      }
     }
   }
 }
