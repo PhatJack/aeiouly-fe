@@ -13,7 +13,7 @@ const WeekdayProgress = ({ completedDays, dayNumbers }: WeekdayProgressProps) =>
   const weekDays = ['M', 'T', 'W', 'T', 'F', 'S', 'S'];
 
   return (
-    <div className="flex gap-2">
+    <div className="relative z-50 flex gap-2">
       {weekDays.map((day, index) => (
         <div key={index} className="flex flex-col items-center gap-2">
           <span className="text-muted-foreground text-xs font-medium">{day}</span>
