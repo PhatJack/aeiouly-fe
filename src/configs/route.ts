@@ -16,6 +16,7 @@ export const ROUTE = {
     USER_MANAGEMENT: '/admin/users',
     POST_MANAGEMENT: '/admin/posts',
     LISTENING_SESSION_MANAGEMENT: '/admin/listening-tests',
+    BADGE_MANAGEMENT: '/admin/badges',
     SOLO_SPACE_MANAGEMENT: {
       INDEX: '/admin/spaces',
       SOUNDS: {

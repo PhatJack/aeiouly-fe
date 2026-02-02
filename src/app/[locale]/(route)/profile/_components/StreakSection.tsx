@@ -7,14 +7,12 @@ import { Bagel_Fat_One } from 'next/font/google';
 import Image from 'next/image';
 
 import LoadingWithText from '@/components/LoadingWithText';
+import { WaveAnimation } from '@/components/shared/WaveAnimation';
 import WeekdayProgress from '@/components/shared/streak/WeekdayProgress';
-import { Card, CardContent, CardHeader } from '@/components/ui/card';
-import { Label } from '@/components/ui/label';
+import { Card, CardContent } from '@/components/ui/card';
 import { useAuthStore } from '@/contexts/AuthContext';
 import { cn, getFireProps } from '@/lib/utils';
 import { useGetWeeklyStreakStatusQuery } from '@/services/online';
-
-import { Check } from 'lucide-react';
 
 const bagelFastOne = Bagel_Fat_One({
   variable: '--font-bagel-fat-one',
@@ -68,7 +66,7 @@ const StreakSection = () => {
   return (
     <div className="flex w-full flex-col gap-4">
       {/* Streak Display Card */}
-      <Card className="shadow-none">
+      <Card className="relative overflow-hidden shadow-none">
         <CardContent className="flex flex-col items-center justify-center gap-4">
           <div className="relative mb-5">
             {/* Original Fire Icon Container */}
@@ -100,9 +98,9 @@ const StreakSection = () => {
                 : t('streak.todayNotLit', { name: user?.full_name ?? '' })}
             </p>
           </div>
-
           {/* Week Days Progress */}
           <WeekdayProgress completedDays={completedDays || []} dayNumbers={dayNumbers || []} />
+          <WaveAnimation color="#24d0a3" className="h-full max-h-12" speed={10} />
         </CardContent>
       </Card>
 
