@@ -56,10 +56,6 @@ export default function SkillChart({
     score: normalized[s.key],
   }));
 
-  const average = Math.round(
-    (normalized.listening + normalized.speaking + normalized.reading + normalized.writing) / 4
-  );
-
   return (
     <Card className="overflow-hidden shadow-none">
       <CardHeader className="pb-3">
