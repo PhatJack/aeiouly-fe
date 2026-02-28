@@ -27,19 +27,19 @@ export async function middleware(request: NextRequest) {
   const isAdminRoute = adminRoutes.some((route: any) => path.startsWith(route));
 
   // Handle authentication and admin route checks
-  if (accessToken && refreshToken) {
-    const user: any = jwtDecode(accessToken);
-    const isAdmin = user?.username === 'admin';
-    if (isAdminRoute && !isAdmin) {
-      return NextResponse.redirect(new URL(ROUTE.APP, request.url));
-    }
-  }
+  // if (accessToken && refreshToken) {
+  //   const user: any = jwtDecode(accessToken);
+  //   const isAdmin = user?.username === 'admin';
+  //   if (isAdminRoute && !isAdmin) {
+  //     return NextResponse.redirect(new URL(ROUTE.APP, request.url));
+  //   }
+  // }
 
-  if (request.url.includes(ROUTE.AUTH.LOGIN)) {
-    if (accessToken && refreshToken) {
-      return NextResponse.redirect(new URL(ROUTE.APP, request.url));
-    }
-  }
+  // if (request.url.includes(ROUTE.AUTH.LOGIN)) {
+  //   if (accessToken && refreshToken) {
+  //     return NextResponse.redirect(new URL(ROUTE.APP, request.url));
+  //   }
+  // }
 
   // Apply the next-intl middleware for locale handling
   return intlMiddleware(request);
