@@ -6,7 +6,6 @@ import { useTranslations } from 'next-intl';
 
 import EditAvatarSetting from '@/components/app/settings/EditAvatarSetting';
 import EditFieldDialog from '@/components/app/settings/EditFieldDialog';
-import { WaveAnimation } from '@/components/shared/WaveAnimation';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { useAuthStore } from '@/contexts/AuthContext';
@@ -15,6 +14,8 @@ import { useUpdateMeMutation } from '@/services/auth/update-me.api';
 
 import { toast } from 'sonner';
 
+import BadgesSection from './BadgesSection';
+import SkillChart from './SkillChart';
 import StreakSection from './StreakSection';
 
 const ProfilePage = () => {
@@ -54,6 +55,7 @@ const ProfilePage = () => {
     <div className="mx-auto grid w-full gap-4 xl:grid-cols-12">
       <div className="w-full space-y-4 xl:col-span-4">
         <StreakSection />
+        <SkillChart />
         {/* <div className="relative min-h-44 w-full overflow-hidden rounded-xl border p-4 font-semibold">
           <p className="text-lg">
             Tôi <span className="text-primary">sắp nói được tiếng anh</span> vì đã mở miệng được
@@ -120,6 +122,7 @@ const ProfilePage = () => {
             </div>
           </div>
         </div>
+        <BadgesSection />
 
         {/* {user?.role === 'user' ? (
           <div className="space-y-4 divide-y">
